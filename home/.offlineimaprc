@@ -1,0 +1,28 @@
+[general]
+# NOTE: cronjob calls the quiet UI with -u
+ui = ttyui
+accounts = GMail
+
+[Account GMail]
+localrepository = Gmail-Local
+remoterepository = Gmail-Remote
+
+[Repository Gmail-Local]
+type = Maildir
+localfolders = ~/.mail/matteo-matteolandi.net
+
+[Repository Gmail-Remote]
+type = Gmail 
+remoteuser = landimatte@gmail.com
+remotepass = PASSWORD
+realdelete = no
+
+# line breaks added for readability
+nametrans = lambda folder: re.sub('.*Spam$', 'spam', 
+    re.sub('.*Drafts$', 'drafts', 
+    re.sub('.*Sent Mail$', 'sent', 
+    re.sub('.*Starred$', 'flagged', 
+    re.sub('.*Trash$', 'trash', 
+    re.sub('.*All Mail$', 'archive', folder))))))
+
+# vim: ft=cfg tw=0
