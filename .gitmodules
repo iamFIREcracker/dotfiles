@@ -43,3 +43,6 @@
 [submodule "home/.vim/bundle/YankRing.vim"]
 	path = home/.vim/bundle/YankRing.vim
 	url = git://github.com/vim-scripts/YankRing.vim.git
+[submodule "home/.vim/bundle/vim-togglemouse"]
+	path = home/.vim/bundle/vim-togglemouse
+	url = git://github.com/nvie/vim-togglemouse.git
