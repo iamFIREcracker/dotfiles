@@ -1,0 +1,133 @@
+TitleFont "-adobe-helvetica-bold-r-normal--*-100-*-*-*-*-*-*"
+ResizeFont "-adobe-helvetica-bold-r-normal--*-100-*-*-*-*-*-*"
+MenuFont "-adobe-helvetica-bold-r-normal--*-100-*-*-*-*-*-*"
+IconFont "-adobe-helvetica-bold-r-normal--*-100-*-*-*-*-*-*"
+IconManagerFont "-adobe-helvetica-bold-r-normal--*-100-*-*-*"
+
+Color
+{
+    BorderColor "slategrey"
+    DefaultBackground "rgb:2/a/9"
+    DefaultForeground "gray85"
+    TitleBackground "rgb:2/a/9"
+    TitleForeground "gray85"
+    MenuBackground "rgb:2/a/9"
+    MenuForeground "gray85"
+    MenuBorderColor "slategrey"
+    MenuTitleBackground "gray70"
+    MenuTitleForeground "rgb:2/a/9"
+    IconBackground "rgb:2/a/9"
+    IconForeground "gray85"
+    IconBorderColor "gray85"
+    IconManagerBackground "rgb:2/a/9"
+    IconManagerForeground "gray85"
+}
+
+
+# don't grab the server when popping up menus
+NoGrabServer
+
+# enable fast repainting.
+NoBackingStore
+
+
+# Number of pixels for menu border
+MenuBorderWidth 1
+
+
+# Pseudo-random location instead of user dragging.
+RandomPlacement
+
+# Restore window state of previous session.
+RestartPreviousState
+
+# Number of pixels for window frames.
+BorderWidth 1
+
+# List of windows that should not have a titlebar.
+NoTitle {
+    "XClock"
+    "Google-chrome"
+}
+
+# Titlebars has the minimimum width as possible.
+#SqueezeTitle
+
+
+# Move the window instead of just an outline.
+OpaqueMove
+
+# Number of pixels the pointer must move before f.move starts to kick in.
+MoveDelta 3
+
+# Enable resizing without the need to cross window edges.
+AutoRelativeResize
+
+# Alt / Ctrl+Alt window focus
+"Tab" = M : all : f.warpring "next"
+"Tab" = S M : all : f.warpring "prev"
+"j" = M : all : f.warpring "next"
+"k" = M : all : f.warpring "prev"
+
+# Maximize windows.
+"m" = M : window : f.fullzoom
+
+# Close windows.
+"F4" = M : window : f.delete
+
+# List of windows along which the f.warpring function cycles.
+WindowRing {
+  "XTerm" "Google-chrome" "Vim" "Vlc" "Pomodoro"
+}
+
+# Warp into window when they are deiconified.
+WarpCursor 
+# Deiconify any iconified windows
+WarpUnmapped 
+
+
+# Define some useful functions for motion-based actions.
+Function "move-or-lower" { f.move f.deltastop f.lower }
+Function "move-or-raise" { f.move f.deltastop f.raise }
+Function "move-or-iconify" { f.move f.deltastop f.iconify }
+
+# Set some useful bindings.  Sort of uwm-ish, sort of simple-button-ish
+Button1 = : root : f.menu "defops"
+
+Button1 = m : window|icon : f.function "move-or-lower"
+Button2 = m : window|icon : f.iconify
+Button3 = m : window|icon : f.function "move-or-raise"
+
+Button1 = : title : f.function "move-or-raise"
+Button2 = : title : f.raiselower
+
+Button1 = : icon : f.function "move-or-iconify"
+Button2 = : icon : f.iconify
+
+Button1 = : iconmgr : f.iconify
+Button2 = : iconmgr : f.iconify
+
+
+# And a menus with the usual things
+menu "defops"
+{
+        "Twm" f.title
+        "Maximize" f.fullzoom
+        "" f.nop
+        "Show Iconmgr" f.showiconmgr
+        "Hide Iconmgr" f.hideiconmgr
+        "" f.nop
+        "XTerm" f.exec "exec xterm &"
+        "Web-browser" f.exec "exec google-chrome &"
+        "Editor" f.exec "exec gvim &"
+        "Player" f.exec "exec vlc &"
+        "Pomodoro" f.exec "exec python ~/workspace/pomodoro/src/pomodoro.py &"
+        "EasyTag" f.exec "exec easytag &"
+        "Run" f.exec "exec gmrun &"
+        "" f.nop
+        "Kill" f.destroy
+        "Delete" f.delete
+        "" f.nop
+        "Restart" f.restart
+        "Exit" f.quit
+}
