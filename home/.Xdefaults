@@ -1,0 +1,91 @@
+!!!!!!!!!!!!
+!COLORS
+!black
+*color0:    #000000
+*color8:    #000000
+
+!red
+*color1:    #E52222
+*color9:    #E52222
+
+!green
+*color2:    #A6E32D
+*color10:   #A6E32D
+
+!yellow
+*color3:    #FD951E
+*color11:   #FD951E
+
+!blue
+*color4:    #C48DFF
+*color12:   #C48DFF
+
+!magenta
+*color5:    #FA2573
+*color13:   #FA2573
+
+!cyan
+*color6:    #67D9F0
+*color14:   #67D9F0
+
+!grey
+*color7:    #F2F2F2
+*color15:   #F2F2F2
+
+*cursorColor: #67D9F0
+
+Xft.dpi:            96
+Xft.hinting:        1
+Xft.hintstyle:      hintfull
+Xft.antialias:      1
+Xft.rgba:           rgb
+
+
+!!!!!!!!!!!!
+!CURSOR
+Xcursor*theme:      Vanilla-DMZ
+
+!!!!!!!!!!!!
+!XTERM
+XTerm*termName: xterm-256color
+XTerm*scrollBar: true
+XTerm*rightScrollBar: true
+XTerm*background: #000000
+XTerm*foreground: #F2F2F2
+XTerm*faceName: Monospace
+!XTerm*faceName: Monospace:style=Bold
+XTerm*faceSize: 9
+!XTerm*font: -*-*-medium-r-semicondensed-*-13-*-*-*-*-*-iso10646-*
+!XTerm*boldFont: -*-*-medium-r-semicondensed-*-13-*-*-*-*-*-iso10646-*
+XTerm*boldMode:    false
+XTerm*bellIsUrgent: true
+XTerm*internalBorder: 4
+! how to handle C, S, A, M when used as modifiers.
+XTerm*VT100.modifyCursorKeys: 0
+! enable control/alt shortcuts.
+XTerm*metaSendsEscape: true
+! copy selection on the CLIPBOARD either.
+XTerm*VT100.translations: #override \
+        <Btn1Up>: select-end(PRIMARY, CLIPBOARD, CUT_BUFFER0)
+
+
+!!!!!!!!!!!!!
+!URXVT
+URxvt*background:             #000000
+URxvt*foreground:             #F2F2F2
+URxvt*internalBorder:         4
+URxvt*scrollBar:              true
+URxvt*scrollBar_right:         true
+URxvt*scrollTtyOutput:        true
+URxvt*scrollstyle:            plain
+URxvt*perl-ext:               default,matcher
+URxvt*urlLauncher:            firefox
+URxvt*underlineURLs:          true
+URxvt*cursorUnderline:        false
+URxvt*cursorBlink:            false
+URxvt.mouseWheelScrollPage:   True
+URxvt*urgentOnBell:           True
+URxvt.font:                   xft:Ubuntu Mono:size=10:autohint=true
+URxvt.italicFont:             xft:Ubuntu Mono:sise=10:italic:autohint=true
+URxvt*transparent:            true
+URxvt*shading:                7

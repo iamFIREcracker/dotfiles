@@ -1,0 +1,22 @@
+[ui]
+strict = true
+username = Matteo Landi <matteo@matteolandi.net>
+#commitsubrepos = false
+
+[pager]
+pager = LESS='FSRXKQ' less
+
+[alias]
+di = diff
+show = log --color=always -pr
+
+[extensions]
+color =
+pager =
+prompt = ~/workspace/hg-prompt/prompt.py
+record = 
+hgext.graphlog =
+
+[alias]
+di = diff
+p = push

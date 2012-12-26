@@ -1,0 +1,15 @@
+[helpers]
+##diff-cmd = /home/matteo/bin/diffwrap.sh
+
+[tunnels]
+ssh = $SVN_SSH ssh -o ControlMaster=no -q
+
+[miscellany]
+enable-auto-props = yes
+
+[auto-props]
+* = svn:eol-style=native
+*.c = svn:keywords=Id
+*.h = svn:keywords=Id
+*.py = svn:keywords=Id Revision
+*.txt = svn:keywords=Author Date Id Revision

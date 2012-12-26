@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<gconf>
+	<entry name="custom_command" mtime="1327141040" type="string">
+		<stringvalue>bash</stringvalue>
+	</entry>
+	<entry name="use_custom_command" mtime="1327141040" type="bool" value="true"/>
+	<entry name="scroll_on_output" mtime="1327141040" type="bool" value="true"/>
+	<entry name="scrollback_lines" mtime="1327141040" type="int" value="1024"/>
+	<entry name="use_custom_default_size" mtime="1320084600" type="bool" value="false"/>
+	<entry name="allow_bold" mtime="1319911339" type="bool" value="true"/>
+	<entry name="background_darkness" mtime="1327141040" type="float" value="1"/>
+	<entry name="background_type" mtime="1319128350" type="string">
+		<stringvalue>solid</stringvalue>
+	</entry>
+	<entry name="silent_bell" mtime="1327141040" type="bool" value="true"/>
+	<entry name="default_show_menubar" mtime="1327141040" type="bool" value="false"/>
+	<entry name="cursor_shape" mtime="1318594279" type="string">
+		<stringvalue>block</stringvalue>
+	</entry>
+	<entry name="use_theme_colors" mtime="1327141040" type="bool" value="false"/>
+	<entry name="palette" mtime="1327141040" type="string">
+		<stringvalue>#000000000000:#E5E522212221:#A6A6E3E22D2D:#FCFC95951E1D:#C4C48D8DFFFF:#FAF925257373:#6767D9D8F0EF:#F2F1F2F1F2F1:#000000000000:#E5E522212221:#A6A6E3E22D2D:#FCFC95951E1D:#C4C48D8DFFFF:#FAF925257373:#6767D9D8F0EF:#F2F1F2F1F2F1</stringvalue>
+	</entry>
+	<entry name="alternate_screen_scroll" mtime="1327141040" type="bool" value="true"/>
+	<entry name="background_color" mtime="1327141040" type="string">
+		<stringvalue>#000000000000</stringvalue>
+	</entry>
+	<entry name="visible_name" mtime="1327141040" type="string">
+		<stringvalue>Custom</stringvalue>
+	</entry>
+	<entry name="bold_color" mtime="1327141040" type="string">
+		<stringvalue>#000000000000</stringvalue>
+	</entry>
+	<entry name="foreground_color" mtime="1327141040" type="string">
+		<stringvalue>#FFFFFFFFFFFF</stringvalue>
+	</entry>
+</gconf>

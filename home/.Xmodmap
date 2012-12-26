@@ -1,0 +1,61 @@
+!remove shift = Shift_R
+!remove lock = Caps_Lock
+!remove mod5 = Mode_switch
+
+!add control = Caps_Lock
+!add mod3 = Mode_switch
+
+!keysym Shift_R = Mode_switch
+
+
+!keycode  10 = 1 VoidSymbol exclam exclam
+!keycode  11 = 2 VoidSymbol at at
+!keycode  12 = 3 VoidSymbol numbersign numbersign
+!keycode  13 = 4 VoidSymbol dollar dollar
+!keycode  14 = 5 VoidSymbol percent percent
+!keycode  15 = 6 asciicircum VoidSymbol asciicircum
+!keycode  16 = 7 ampersand VoidSymbol ampersand
+!keycode  17 = 8 asterisk VoidSymbol asterisk
+!keycode  18 = 9 parenleft VoidSymbol parenleft
+!keycode  19 = 0 parenright VoidSymbol parenright
+!keycode  20 = minus underscore VoidSymbol underscore
+!keycode  21 = equal plus VoidSymbol plus
+keycode  22 = BackSpace Insert
+
+!keycode  24 = q VoidSymbol Q Q
+!keycode  25 = w VoidSymbol W W
+!keycode  26 = e VoidSymbol E E
+!keycode  27 = r VoidSymbol R R
+!keycode  28 = t VoidSymbol T T
+!keycode  29 = y Y VoidSymbol Y
+!keycode  30 = u U VoidSymbol U
+!keycode  31 = i I VoidSymbol I
+!keycode  32 = o O VoidSymbol O
+!keycode  33 = p P VoidSymbol P
+!keycode  34 = bracketleft braceleft VoidSymbol braceleft
+!keycode  35 = bracketright braceright VoidSymbol braceright
+
+!keycode  38 = a VoidSymbol A A
+!keycode  39 = s VoidSymbol S S
+!keycode  40 = d VoidSymbol D D
+!keycode  41 = f VoidSymbol F F
+!keycode  42 = g VoidSymbol G G
+!keycode  43 = h H VoidSymbol H
+!keycode  44 = j J VoidSymbol J
+!keycode  45 = k K VoidSymbol K
+!keycode  46 = l L VoidSymbol L
+!keycode  47 = semicolon colon VoidSymbol colon
+!keycode  48 = apostrophe quotedbl VoidSymbol quotedbl
+!keycode  49 = grave VoidSymbol asciitilde asciitilde
+!keycode  51 = backslash bar VoidSymbol bar
+
+!keycode  52 = z VoidSymbol Z Z
+!keycode  53 = x VoidSymbol X X
+!keycode  54 = c VoidSymbol C C
+!keycode  55 = v VoidSymbol V V
+!keycode  56 = b VoidSymbol B B
+!keycode  57 = n N VoidSymbol N
+!keycode  58 = m M VoidSymbol M
+!keycode  59 = comma less VoidSymbol less
+!keycode  60 = period greater VoidSymbol greater
+!keycode  61 = slash question VoidSymbol question
