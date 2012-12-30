@@ -1,7 +1,5 @@
-
-<!-- saved from url=(0070)https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css"></style></head><body style="zoom: 100%;"><pre style="word-wrap: break-word; white-space: pre-wrap;">" pathogen.vim - path option manipulation
-" Maintainer:   Tim Pope &lt;http://tpo.pe/&gt;
+" pathogen.vim - path option manipulation
+" Maintainer:   Tim Pope <http://tpo.pe/>
 " Version:      2.0
 
 " Install in ~/.vim/autoload (or ~\vimfiles\autoload).
@@ -13,7 +11,7 @@
 " The API is documented inline below.  For maximum ease of reading,
 " :set foldmethod=marker
 
-if exists("g:loaded_pathogen") || &amp;cp
+if exists("g:loaded_pathogen") || &cp
   finish
 endif
 let g:loaded_pathogen = 1
@@ -35,13 +33,13 @@ endfunction " }}}1
 " Split a path into a list.
 function! pathogen#split(path) abort " {{{1
   if type(a:path) == type([]) | return a:path | endif
-  let split = split(a:path,'\\\@&lt;!\%(\\\\\)*\zs,')
+  let split = split(a:path,'\\\@<!\%(\\\\\)*\zs,')
   return map(split,'substitute(v:val,''\\\([\\,]\)'',''\1'',"g")')
 endfunction " }}}1
 
 " Convert a list to a path.
 function! pathogen#join(...) abort " {{{1
-  if type(a:1) == type(1) &amp;&amp; a:1
+  if type(a:1) == type(1) && a:1
     let i = 1
     let space = ' '
   else
@@ -49,12 +47,12 @@ function! pathogen#join(...) abort " {{{1
     let space = ''
   endif
   let path = ""
-  while i &lt; a:0
+  while i < a:0
     if type(a:000[i]) == type([])
       let list = a:000[i]
       let j = 0
-      while j &lt; len(list)
-        let escaped = substitute(list[j],'[,'.space.']\|\\[\,'.space.']\@=','\\&amp;','g')
+      while j < len(list)
+        let escaped = substitute(list[j],'[,'.space.']\|\\[\,'.space.']\@=','\\&','g')
         let path .= ',' . escaped
         let j += 1
       endwhile
@@ -75,8 +73,8 @@ endfunction " }}}1
 function! pathogen#uniq(list) abort " {{{1
   let i = 0
   let seen = {}
-  while i &lt; len(a:list)
-    if (a:list[i] ==# '' &amp;&amp; exists('empty')) || has_key(seen,a:list[i])
+  while i < len(a:list)
+    if (a:list[i] ==# '' && exists('empty')) || has_key(seen,a:list[i])
       call remove(a:list,i)
     elseif a:list[i] ==# ''
       let i += 1
@@ -91,7 +89,7 @@ endfunction " }}}1
 
 " \ on Windows unless shellslash is set, / everywhere else.
 function! pathogen#separator() abort " {{{1
-  return !exists("+shellslash") || &amp;shellslash ? '/' : '\'
+  return !exists("+shellslash") || &shellslash ? '/' : '\'
 endfunction " }}}1
 
 " Convenience wrapper around glob() which returns a list.
@@ -131,11 +129,11 @@ function! pathogen#runtime_prepend_subdirectories(path) " {{{1
   let sep    = pathogen#separator()
   let before = filter(pathogen#glob_directories(a:path.sep."*"), '!pathogen#is_disabled(v:val)')
   let after  = filter(pathogen#glob_directories(a:path.sep."*".sep."after"), '!pathogen#is_disabled(v:val[0:-7])')
-  let rtp = pathogen#split(&amp;rtp)
+  let rtp = pathogen#split(&rtp)
   let path = expand(a:path)
   call filter(rtp,'v:val[0:strlen(path)-1] !=# path')
-  let &amp;rtp = pathogen#join(pathogen#uniq(before + rtp + after))
-  return &amp;rtp
+  let &rtp = pathogen#join(pathogen#uniq(before + rtp + after))
+  return &rtp
 endfunction " }}}1
 
 " For each directory in rtp, check for a subdirectory named dir.  If it
@@ -150,14 +148,14 @@ function! pathogen#runtime_append_all_bundles(...) " {{{1
   endif
   let s:done_bundles .= name . "\n"
   let list = []
-  for dir in pathogen#split(&amp;rtp)
-    if dir =~# '\&lt;after$'
+  for dir in pathogen#split(&rtp)
+    if dir =~# '\<after$'
       let list +=  filter(pathogen#glob_directories(substitute(dir,'after$',name,'').sep.'*[^~]'.sep.'after'), '!pathogen#is_disabled(v:val[0:-7])') + [dir]
     else
       let list +=  [dir] + filter(pathogen#glob_directories(dir.sep.name.sep.'*[^~]'), '!pathogen#is_disabled(v:val)')
     endif
   endfor
-  let &amp;rtp = pathogen#join(pathogen#uniq(list))
+  let &rtp = pathogen#join(pathogen#uniq(list))
   return 1
 endfunction
 
@@ -167,8 +165,8 @@ let s:done_bundles = ''
 " Invoke :helptags on all non-$VIM doc directories in runtimepath.
 function! pathogen#helptags() " {{{1
   let sep = pathogen#separator()
-  for dir in pathogen#split(&amp;rtp)
-    if (dir.sep)[0 : strlen($VIMRUNTIME)] !=# $VIMRUNTIME.sep &amp;&amp; filewritable(dir.sep.'doc') == 2 &amp;&amp; !empty(filter(split(glob(dir.sep.'doc'.sep.'*'),"\n&gt;"),'!isdirectory(v:val)')) &amp;&amp; (!filereadable(dir.sep.'doc'.sep.'tags') || filewritable(dir.sep.'doc'.sep.'tags'))
+  for dir in pathogen#split(&rtp)
+    if (dir.sep)[0 : strlen($VIMRUNTIME)] !=# $VIMRUNTIME.sep && filewritable(dir.sep.'doc') == 2 && !empty(filter(split(glob(dir.sep.'doc'.sep.'*'),"\n>"),'!isdirectory(v:val)')) && (!filereadable(dir.sep.'doc'.sep.'tags') || filewritable(dir.sep.'doc'.sep.'tags'))
       helptags `=dir.'/doc'`
     endif
   endfor
@@ -178,7 +176,7 @@ command! -bar Helptags :call pathogen#helptags()
 
 " Like findfile(), but hardcoded to use the runtimepath.
 function! pathogen#runtime_findfile(file,count) "{{{1
-  let rtp = pathogen#join(1,pathogen#split(&amp;rtp))
+  let rtp = pathogen#join(1,pathogen#split(&rtp))
   let file = findfile(a:file,rtp,a:count)
   if file ==# ''
     return ''
@@ -194,7 +192,7 @@ function! pathogen#fnameescape(string) " {{{1
   elseif a:string ==# '-'
     return '\-'
   else
-    return substitute(escape(a:string," \t\n*?[{`$\\%#'\"|!&lt;"),'^[+&gt;]','\\&amp;','')
+    return substitute(escape(a:string," \t\n*?[{`$\\%#'\"|!<"),'^[+>]','\\&','')
   endif
 endfunction " }}}1
 
@@ -203,7 +201,7 @@ if exists(':Vedit')
 endif
 
 function! s:find(count,cmd,file,lcd) " {{{1
-  let rtp = pathogen#join(1,pathogen#split(&amp;runtimepath))
+  let rtp = pathogen#join(1,pathogen#split(&runtimepath))
   let file = pathogen#runtime_findfile(a:file,a:count)
   if file ==# ''
     return "echoerr 'E345: Can''t find file \"".a:file."\" in runtimepath'"
@@ -225,14 +223,14 @@ function! s:Findcomplete(A,L,P) " {{{1
         \'i': 'indent',
         \'p': 'plugin',
         \'s': 'syntax'}
-  if a:A =~# '^\w[\\/]' &amp;&amp; has_key(cheats,a:A[0])
+  if a:A =~# '^\w[\\/]' && has_key(cheats,a:A[0])
     let request = cheats[a:A[0]].a:A[1:-1]
   else
     let request = a:A
   endif
   let pattern = substitute(request,'/\|\'.sep,'*'.sep,'g').'*'
   let found = {}
-  for path in pathogen#split(&amp;runtimepath)
+  for path in pathogen#split(&runtimepath)
     let path = expand(path, ':p')
     let matches = split(glob(path.sep.pattern),"\n")
     call map(matches,'isdirectory(v:val) ? v:val.sep : v:val')
@@ -244,14 +242,13 @@ function! s:Findcomplete(A,L,P) " {{{1
   return sort(keys(found))
 endfunction " }}}1
 
-command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Ve       :execute s:find(&lt;count&gt;,'edit&lt;bang&gt;',&lt;q-args&gt;,0)
-command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vedit    :execute s:find(&lt;count&gt;,'edit&lt;bang&gt;',&lt;q-args&gt;,0)
-command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vopen    :execute s:find(&lt;count&gt;,'edit&lt;bang&gt;',&lt;q-args&gt;,1)
-command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vsplit   :execute s:find(&lt;count&gt;,'split',&lt;q-args&gt;,&lt;bang&gt;1)
-command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vvsplit  :execute s:find(&lt;count&gt;,'vsplit',&lt;q-args&gt;,&lt;bang&gt;1)
-command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vtabedit :execute s:find(&lt;count&gt;,'tabedit',&lt;q-args&gt;,&lt;bang&gt;1)
-command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vpedit   :execute s:find(&lt;count&gt;,'pedit',&lt;q-args&gt;,&lt;bang&gt;1)
-command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vread    :execute s:find(&lt;count&gt;,'read',&lt;q-args&gt;,&lt;bang&gt;1)
+command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Ve       :execute s:find(<count>,'edit<bang>',<q-args>,0)
+command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vedit    :execute s:find(<count>,'edit<bang>',<q-args>,0)
+command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vopen    :execute s:find(<count>,'edit<bang>',<q-args>,1)
+command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vsplit   :execute s:find(<count>,'split',<q-args>,<bang>1)
+command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vvsplit  :execute s:find(<count>,'vsplit',<q-args>,<bang>1)
+command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vtabedit :execute s:find(<count>,'tabedit',<q-args>,<bang>1)
+command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vpedit   :execute s:find(<count>,'pedit',<q-args>,<bang>1)
+command! -bar -bang -range=1 -nargs=1 -complete=customlist,s:Findcomplete Vread    :execute s:find(<count>,'read',<q-args>,<bang>1)
 
 " vim:set et sw=2:
-</pre></body></html>
