@@ -452,13 +452,6 @@ augroup ft_java
 
     au FileType java setlocal foldmethod=marker
     au FileType java setlocal foldmarker={,}
-    au FileType java let g:SuperTabDefaultCompletionType = "<c-x><c-u>"
-
-    " Eclim plugin
-    au FileType java nnoremap <leader>ji :JavaImport<cr>:w<cr>
-    au FileType java nnoremap <leader>jd :JavaDocSearch -x declarations<cr>
-    au FileType java nnoremap <leader>jc :JavaCorrect<cr>
-    au FileType java nnoremap <cr> :JavaSearchContext<cr>
 augroup END
 
 " }}}
@@ -529,21 +522,12 @@ augroup END
 augroup ft_python
     au!
 
-    " au FileType python setlocal omnifunc=pythoncomplete#Complete
     au FileType python setlocal define=^\s*\\(def\\\\|class\\)
-    au FileType python compiler nose
     au FileType man nnoremap <buffer> <cr> :q<cr>
 
     " Jesus tapdancing Christ, built-in Python syntax, you couldn't let me
     " override this in a normal way, could you?
     au FileType python if exists("python_space_error_highlight") | unlet python_space_error_highlight | endif
-
-    " Jesus, Python.  Five characters of punctuation for a damn string?
-    au FileType python inoremap <buffer> <d-'> _(u'')<left><left>
-    au FileType python let g:SuperTabDefaultCompletionType = "<c-x><c-u>"
-
-    au FileType python setlocal foldmethod=indent
-    au FileType python setlocal foldnestmax=2
 augroup END
 
 " }}}
@@ -881,9 +865,9 @@ au Syntax * RainbowParenthesesLoadBraces
 " }}}
 " Supertab {{{
 
-let g:SuperTabDefaultCompletionType = "<c-x><c-n>"
-let g:SuperTabLongestEnhanced = 1
+let g:SuperTabDefaultCompletionType = 'context'
 let g:SuperTabLongestHighlight = 1
+let g:SuperTabLongestEnhanced = 1
 let g:SuperTabCrMapping = 0
 let g:SuperTabClosePreviewOnPopupClose = 1
 
