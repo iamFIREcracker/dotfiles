@@ -15,8 +15,10 @@ color =
 pager =
 prompt = ~/workspace/hg-prompt/prompt.py
 record = 
+hgshelve = ~/workspace/hgshelve/hgshelve.py
 hgext.graphlog =
 
 [alias]
 di = diff
 p = push
+stq = st -q
