@@ -285,6 +285,11 @@ function gimmeurjson() {
     local method=$2
     local data="$3"
 
+    [ $# -lt 2 ] && {
+        echo gimmeurjson URL METHOD
+        return
+    }
+
     curll ${url} "${method}" "${data}" | jsonpp
 }
 
@@ -346,6 +351,24 @@ pip() {
     else echo "Not currently in a venv -- use pip-sys to work system-wide."
     fi
 }
+
+
+# Fast sudo alias + redoer of the last command
+# taken from: 
+# http://alias.sh/do-sudo-command-or-do-sudo-last-typed-command-if-no-argument-given?destination=node/235
+sd() {
+    if [ $# == 0 ]; then
+        sudo $(history -p '!!')
+    else
+        sudo "$@"
+    fi
+}
+
+# BCVI stuff
+alias bcvi='${HOME}/workspace/bcvi/bin/bcvi'
+alias ssh="bcvi --wrap-ssh --"
+alias vi="bcvi"
+
 
 # Print some fancy stuff!
 if ! shopt -q login_shell; then
