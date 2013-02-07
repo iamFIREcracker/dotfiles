@@ -731,7 +731,7 @@ function! UpdateCTagsAndCScope() " {{{
         "cs reset
     "endtry
 endfunction " }}}
-nnoremap <localleader><cr> :call UpdateCTagsAndCScope()<cr>
+nnoremap <leader><cr> :call UpdateCTagsAndCScope()<cr>
 
 " Open tags and files under cursor in a *vertical* split
 nnoremap <silent> <c-w><c-]> :exec("vertical stag " . expand("<cword>"))<cr>
@@ -750,7 +750,7 @@ let g:AutoClosePairs_del = "`"
 
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_map = '<localleader>\'
+let g:ctrlp_map = '<localleader>,'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_split_window = 0
