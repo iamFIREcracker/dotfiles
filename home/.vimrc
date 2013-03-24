@@ -716,10 +716,10 @@ inoremap <c-f> <c-x><c-f>
 
 function! UpdateCTagsAndCScope() " {{{
     !/usr/bin/find . 
-        \ -type d -name 'venv' -prune
-        \ -o -name '*.py'
+        \ -name '*.py'
         \ -o -name '*.java'
         \ -o -name '*.c'
+        \ -o -name '*.js'
         \ -o -name '*.h'
         \ > cscope.files
     !/usr/bin/ctags-exuberant -L cscope.files
@@ -750,7 +750,7 @@ let g:AutoClosePairs_del = "`"
 
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_map = '<localleader>,'
+let g:ctrlp_map = '<leader>,'
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_split_window = 0
@@ -788,18 +788,7 @@ nnoremap <leader>. :CtrlPTag<cr>
 " }}}
 " Easymotion {{{
 
-let g:EasyMotion_do_mapping = 0
-
-nnoremap <silent> <Leader>f      :call EasyMotion#F(0, 0)<CR>
-onoremap <silent> <Leader>f      :call EasyMotion#F(0, 0)<CR>
-vnoremap <silent> <Leader>f :<C-U>call EasyMotion#F(1, 0)<CR>
-
-nnoremap <silent> <Leader>F      :call EasyMotion#F(0, 1)<CR>
-onoremap <silent> <Leader>F      :call EasyMotion#F(0, 1)<CR>
-vnoremap <silent> <Leader>F :<C-U>call EasyMotion#F(1, 1)<CR>
-
-onoremap <silent> <Leader>t      :call EasyMotion#T(0, 0)<CR>
-onoremap <silent> <Leader>T      :call EasyMotion#T(0, 1)<CR>
+let g:EasyMotion_leader_key = '<leader>'
 
 " }}}
 " Gundo {{{
@@ -922,11 +911,6 @@ let g:SuperTabLongestHighlight = 1
 let g:SuperTabLongestEnhanced = 1
 let g:SuperTabCrMapping = 0
 let g:SuperTabClosePreviewOnPopupClose = 1
-
-" }}}
-" Tasklist {{{
-
-let g:tlWindowPosition=1
 
 " }}}
 " YankRing {{{
