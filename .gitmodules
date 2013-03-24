@@ -64,8 +64,8 @@
 [submodule "home/.vim/bundle/vim-easymotion"]
 	path = home/.vim/bundle/vim-easymotion
 	url = git://github.com/Lokaltog/vim-easymotion.git
-[submodule "home/.vim/bundle/closetag"]
-	path = home/.vim/bundle/closetag
+[submodule "home/.vim/bundle/closetag.vim"]
+	path = home/.vim/bundle/closetag.vim
     url = git://github.com/docunext/closetag.vim.git
 [submodule "home/.vim/bundle/vim-pathogen"]
 	path = home/.vim/bundle/vim-pathogen
