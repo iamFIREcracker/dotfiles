@@ -4,8 +4,8 @@
 # contained inside positional arguments or for everything stored inside the WM
 # clipboard.
 #
-# Depends on xclip and xdg-open
+# Depends on xclip and gnome-dictionary
 
-[ $# != 0 ] && data="$@" || data=$(xclip -o)
+[ $# != 0 ] && DATA="$@" || DATA=$(xclip -o)
 
-gnome-dictionary "${data}"
+gnome-dictionary "$DATA"
