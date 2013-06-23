@@ -55,9 +55,6 @@
 [submodule "home/.vim/bundle/vim-scala"]
 	path = home/.vim/bundle/vim-scala
 	url = git://github.com/derekwyatt/vim-scala.git
-[submodule "home/.vim/bundle/python-mode"]
-	path = home/.vim/bundle/python-mode
-	url = git://github.com/klen/python-mode.git
 [submodule "home/.vim/bundle/jk-jumps"]
 	path = home/.vim/bundle/jk-jumps
 	url = git://github.com/teranex/jk-jumps.vim.git
