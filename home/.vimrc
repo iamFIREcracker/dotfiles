@@ -1,10 +1,11 @@
 " Preamble -----------------------------------------------------------------{{{
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 
-set nocompatible
+filetype off
 execute pathogen#infect()
 execute pathogen#helptags()
-"filetype plugin indent on
+filetype plugin indent on
+set nocompatible
 
 " }}}
 " Basic options ------------------------------------------------------------{{{
@@ -713,26 +714,9 @@ inoremap <c-f> <c-x><c-f>
 " }}}
 
 " }}}
-" CTags CScope ------------------------------------------------------------ {{{
+" CTags ------------------------------------------------------------------- {{{
 
-function! UpdateCTagsAndCScope() " {{{
-    !/usr/bin/find . 
-        \ -name '*.py'
-        \ -o -name '*.java'
-        \ -o -name '*.c'
-        \ -o -name '*.js'
-        \ -o -name '*.h'
-        \ > cscope.files
-    !/usr/bin/ctags-exuberant -L cscope.files
-    !/usr/bin/cscope -bk
-
-    "try
-        "cs add cscope.out
-    "catch /E568: duplicate cscope/
-        "cs reset
-    "endtry
-endfunction " }}}
-nnoremap <leader><cr> :call UpdateCTagsAndCScope()<cr>
+nnoremap <leader><cr> :silent !myctags<cr>:redraw!<cr>
 
 " Open tags and files under cursor in a *vertical* split
 nnoremap <silent> <c-w><c-]> :exec("vertical stag " . expand("<cword>"))<cr>
@@ -828,28 +812,21 @@ let NERDTreeWinSize = 80
 "let g:Powerline_symbols = 'fancy'
 
 " }}}
-" Python Mode {{{
+" Python-Mode {{{
 
 let g:pymode_doc = 1
 let g:pymode_doc_key = 'M'
 let g:pydoc = 'pydoc'
-
 let g:pymode_syntax = 1
 let g:pymode_syntax_all = 0
 let g:pymode_syntax_builtin_objs = 1
 let g:pymode_syntax_print_as_function = 0
 let g:pymode_syntax_space_errors = 0
-
 let g:pymode_run = 0
-
 let g:pymode_lint = 0
-
 let g:pymode_breakpoint = 0
-
 let g:pymode_utils_whitespaces = 0
-
-let g:pymode_virtualenv = 0
-
+let g:pymode_virtualenv = 1
 let g:pymode_folding = 0
 
 let g:pymode_options_indent = 0
