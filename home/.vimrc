@@ -102,7 +102,7 @@ set wildignore+=*.orig                           " Merge resolution files
 
 " Clojure/Leiningen
 set wildignore+=classes
-set wildignore+=lib
+"set wildignore+=lib
 
 " }}}
 " Line Return {{{
@@ -529,6 +529,8 @@ augroup ft_python
     " Jesus tapdancing Christ, built-in Python syntax, you couldn't let me
     " override this in a normal way, could you?
     au FileType python if exists("python_space_error_highlight") | unlet python_space_error_highlight | endif
+
+    au FileType python nnoremap <buffer> <leader>S :RopeRename<cr>
 augroup END
 
 " }}}
@@ -559,6 +561,15 @@ augroup ft_rest
     au Filetype rst nnoremap <buffer> <localleader>2 yypVr-
     au Filetype rst nnoremap <buffer> <localleader>3 yypVr~
     au Filetype rst nnoremap <buffer> <localleader>4 yypVr`
+augroup END
+
+" }}}
+" Scala {{{
+
+augroup ft_scala
+    au!
+
+    au FileType scala setlocal tabstop=2 shiftwidth=2 softtabstop=2
 augroup END
 
 " }}}
@@ -824,7 +835,8 @@ let g:pymode_syntax_print_as_function = 0
 let g:pymode_syntax_space_errors = 0
 let g:pymode_run = 0
 let g:pymode_lint = 0
-let g:pymode_breakpoint = 0
+let g:pymode_breakpoint = 1
+let g:pymode_breakpoint_key = '<localleader>b'
 let g:pymode_utils_whitespaces = 0
 let g:pymode_virtualenv = 1
 let g:pymode_folding = 0
