@@ -696,6 +696,10 @@ nnoremap <leader>! :w !sudo tee %
 "Don't clobber the unnamed register when pasting over text in visual mode.
 vnoremap p pgvy
 
+" Ack!!!
+nnoremap <leader>a :Ack 
+nnoremap <leader>A :Ack <c-r>=expand("<cword>")<cr>
+
 " Block Colors {{{
 
 let g:blockcolor_state = 0
