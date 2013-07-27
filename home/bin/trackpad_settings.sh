@@ -34,3 +34,8 @@ if [ xinput list 'Apple Magic Mouse' &> /dev/null ]; then
     xinput set-prop 'Apple Magic Mouse' 'Device Accel Velocity Scaling' 1
     xset m 1 1
 fi
+
+# Trackpoint
+if xinput list 'TPPS/2 IBM TrackPoint' &> /dev/null; then
+    xset m 4 0
+fi
