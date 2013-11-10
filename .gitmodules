@@ -73,3 +73,12 @@
 [submodule "home/.vim/bundle/vim-dispatch"]
 	path = home/.vim/bundle/vim-dispatch
 	url = https://github.com/tpope/vim-dispatch.git
+[submodule "home/.vim/bundle/vim-scaladoc"]
+	path = home/.vim/bundle/vim-scaladoc
+	url = https://github.com/sjl/vim-scaladoc.git
+[submodule "home/.vim/bundle/vim-scala"]
+	path = home/.vim/bundle/vim-scala
+	url = https://github.com/sjl/vim-scala.git
+[submodule "home/.vim/bundle/vim-maven-plugin"]
+	path = home/.vim/bundle/vim-maven-plugin
+	url = https://github.com/sjl/vim-maven-plugin.git
