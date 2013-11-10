@@ -52,9 +52,6 @@
 [submodule "home/.vim/bundle/vim-supertab"]
 	path = home/.vim/bundle/vim-supertab
 	url = git://github.com/tsaleh/vim-supertab.git
-[submodule "home/.vim/bundle/vim-scala"]
-	path = home/.vim/bundle/vim-scala
-	url = git://github.com/derekwyatt/vim-scala.git
 [submodule "home/.vim/bundle/jk-jumps"]
 	path = home/.vim/bundle/jk-jumps
 	url = git://github.com/teranex/jk-jumps.vim.git
