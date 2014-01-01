@@ -76,3 +76,6 @@
 [submodule "home/.vim/bundle/vim-autocomplpop"]
 	path = home/.vim/bundle/vim-autocomplpop
 	url = https://github.com/othree/vim-autocomplpop.git
+[submodule "home/.vim/bundle/L9"]
+	path = home/.vim/bundle/L9
+	url = https://github.com/vim-scripts/L9.git
