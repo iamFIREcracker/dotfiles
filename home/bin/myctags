@@ -8,7 +8,7 @@ export LC_COLLATE=C
 
 mv tags tags1
 
-#find -name '*.js' | grep -Ev '(.min.js|jquery[-.].*.js|third-party|fixtures|rosetta|soundcloud|.json$|sample.dfxp|swfobject|flowplayer)' | xargs jsctags -f tags2
+find -name '*.js' | grep -Ev '(.min.js|jquery[-.].*.js|third-party|fixtures|rosetta|soundcloud|.json$|sample.dfxp|swfobject|flowplayer)' | xargs jsctags -f tags2
 
 
 echo '!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/' > tags
