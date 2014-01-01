@@ -61,6 +61,7 @@ git clone git@github.com:iamFIREcracker/productivity.git ~/workspace/productivit
 git clone git@github.com:iamFIREcracker/onchange.git ~/workspace/onchange
 svn co svn+ssh://svn@code.matteolandi.net/hacks/svn-tools ~/workspace/svn-tools
 hg clone ssh://hg@bitbucket.org/sjl/hg-prompt ~/workspace/hg-prompt
+hg clone ssh://hg@bitbucket.org/tksoh/hgshelve ~/workspace/hgshelve
 
 # Mutt
 sudo apt-get install mutt-patched msmtp offlineimap urlview
