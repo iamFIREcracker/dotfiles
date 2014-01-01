@@ -49,9 +49,6 @@
 [submodule "home/.vim/bundle/vim-repeat"]
 	path = home/.vim/bundle/vim-repeat
 	url = git://github.com/tpope/vim-repeat.git
-[submodule "home/.vim/bundle/vim-supertab"]
-	path = home/.vim/bundle/vim-supertab
-	url = git://github.com/tsaleh/vim-supertab.git
 [submodule "home/.vim/bundle/vim-scala"]
 	path = home/.vim/bundle/vim-scala
 	url = git://github.com/derekwyatt/vim-scala.git
