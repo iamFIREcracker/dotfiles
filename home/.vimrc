@@ -125,7 +125,7 @@ set shiftwidth=4
 set softtabstop=4
 set expandtab
 set nowrap
-set textwidth=80
+set textwidth=79
 set formatoptions=qrn1
 set colorcolumn=+1
 
@@ -471,6 +471,68 @@ augroup ft_javascript
 augroup END
 
 " }}}
+" SQL {{{
+
+augroup ft_sql
+au!
+
+    au FileType sql setlocal foldmethod=marker
+    au FileType sql setlocal foldmarker={{{,}}}
+augroup END
+
+" }}}
+" ReStructuredText {{{
+
+augroup ft_rest
+    au!
+
+    au Filetype rst nnoremap <buffer> <localleader>1 yypVr=
+    au Filetype rst nnoremap <buffer> <localleader>2 yypVr-
+    au Filetype rst nnoremap <buffer> <localleader>3 yypVr~
+    au Filetype rst nnoremap <buffer> <localleader>4 yypVr`
+augroup END
+
+" }}}
+" Scala {{{
+
+augroup ft_scala
+    au!
+
+    au FileType scala setlocal tabstop=2 shiftwidth=2 softtabstop=2
+augroup END
+
+" }}}
+" Vagrant {{{
+
+augroup ft_vagrant
+    au!
+    au BufRead,BufNewFile Vagrantfile set ft=ruby
+augroup END
+
+" }}}
+" Vim {{{
+
+augroup ft_vim
+    au!
+
+    au FileType vim setlocal foldmethod=marker
+    au FileType help setlocal textwidth=78
+    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+augroup END
+
+" }}}
+
+" }}}
+" Quick editing ----------------------------------------------------------- {{{
+
+nnoremap <leader>ev <C-w>v<C-w>j:e $MYVIMRC<cr>
+nnoremap <leader>eh <C-w>v<C-w>j:e ~/.hgrc<cr>
+nnoremap <leader>em <C-w>v<C-w>j:e ~/.muttrc<cr>
+nnoremap <leader>eb <C-w>v<C-w>j:e ~/.bashrc<cr>
+
+" }}}
+" Convenience mappings ---------------------------------------------------- {{{
+
 " Mail {{{
 
 augroup ft_mail
@@ -896,6 +958,16 @@ au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
+
+" }}}
+" SnipMate {{{
+
+imap <C-J> <Plug>snipMateTrigger
+imap <Tab> <Plug>snipMateNextOrTrigger
+smap <Tab> <Plug>snipMateNextOrTrigger
+imap <S-Tab> <Plug>snipMateBack
+smap <S-Tab> <Plug>snipMateBack
+imap <C-R><C-J> <Plug>snipMateShow
 
 " }}}
 " Supertab {{{
