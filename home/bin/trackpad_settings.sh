@@ -1,6 +1,6 @@
 # Apple Magic Trackpad
-
-if [ xinput list 'Apple Magic Trackpad' &> /dev/null ]; then
+xinput list 'Apple Wireless Trackpad' &> /dev/null 
+if [ $? -eq 0 ]; then
     # Enable tapping
     synclient TapButton1=1 TapButton2=3 TapButton3=2
 
@@ -19,16 +19,17 @@ if [ xinput list 'Apple Magic Trackpad' &> /dev/null ]; then
     synclient ResolutionDetect=1
 
     # Natural scrolling
-    #synclient VertScrollDelta=-157
-    #synclient HorizScrollDelta=-250
+    synclient VertScrollDelta=-157
+    synclient HorizScrollDelta=-250
     id=`xinput list | grep 'Apple Wireless Trackpad' | sed 's/.*id=\([0-9]*\).*/\1/'`
     xinput set-prop $id "Synaptics Scrolling Distance" -157 -250
 
-    xset m 4 1
+    xset m 1 1
 fi
 
 # Apple Magic Mouse
-if [ xinput list 'Apple Magic Mouse' &> /dev/null ]; then 
+xinput list 'Apple Magic Mouse' &> /dev/null 
+if [ $? -eq 0 ]; then 
     xinput set-prop 'Apple Magic Mouse' 'Device Accel Constant Deceleration' 1
     xinput set-prop 'Apple Magic Mouse' 'Device Accel Adaptive Deceleration' 1
     xinput set-prop 'Apple Magic Mouse' 'Device Accel Velocity Scaling' 1

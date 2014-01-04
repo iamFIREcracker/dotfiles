@@ -40,6 +40,9 @@ export PAGER
 LESS="-FSRXKQ"
 export LESS
 
+# Scala Build tool
+PATH="$PATH:$HOME/opt/sbt/bin"
+
 # PYTHONPATH
 PYTHONPATH="$PYTHONPATH:$HOME/lib/python"
 export PYTHONPATH
@@ -206,6 +209,7 @@ function cdiff
 
 # gvim shortcut
 alias gv="gvim ."
+alias tv="vim `mktemp`"
 
 function m {
     bc -l <<EOF
@@ -274,6 +278,11 @@ function curll() {
     local url=$1
     local method=${2:-GET}
     local data="$3"
+    [ $# -lt 2 ] && {
+        echo gimmeurjson URL METHOD
+        return
+    }
+
 
     [ ${method} = "GET" ] && url="${url}?${data}"
 
@@ -371,6 +380,6 @@ alias vi="bcvi"
 
 
 # Print some fancy stuff!
-if ! shopt -q login_shell; then
-    fortune | cowsay -n | lolcat -f
-fi
+#if ! shopt -q login_shell; then
+    #fortune | cowsay -n | lolcat -f
+#fi
