@@ -35,3 +35,8 @@ if [ $? -eq 0 ]; then
     xinput set-prop 'Apple Magic Mouse' 'Device Accel Velocity Scaling' 1
     xset m 1 1
 fi
+
+xinput list 'TPPS/2 IBM TrackPoint' &> /dev/null
+if [ $? -eq 0 ] ; then
+    xset m 4 0
+fi

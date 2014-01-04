@@ -49,9 +49,6 @@
 [submodule "home/.vim/bundle/vim-repeat"]
 	path = home/.vim/bundle/vim-repeat
 	url = git://github.com/tpope/vim-repeat.git
-[submodule "home/.vim/bundle/vim-scala"]
-	path = home/.vim/bundle/vim-scala
-	url = git://github.com/derekwyatt/vim-scala.git
 [submodule "home/.vim/bundle/jk-jumps"]
 	path = home/.vim/bundle/jk-jumps
 	url = git://github.com/teranex/jk-jumps.vim.git
@@ -91,3 +88,15 @@
 [submodule "home/.vim/bundle/vim-jinja"]
 	path = home/.vim/bundle/vim-jinja
 	url = https://github.com/mitsuhiko/vim-jinja.git
+[submodule "home/.vim/bundle/vim-dispatch"]
+	path = home/.vim/bundle/vim-dispatch
+	url = https://github.com/tpope/vim-dispatch.git
+[submodule "home/.vim/bundle/vim-scaladoc"]
+	path = home/.vim/bundle/vim-scaladoc
+	url = https://github.com/sjl/vim-scaladoc.git
+[submodule "home/.vim/bundle/vim-scala"]
+	path = home/.vim/bundle/vim-scala
+	url = https://github.com/sjl/vim-scala.git
+[submodule "home/.vim/bundle/vim-maven-plugin"]
+	path = home/.vim/bundle/vim-maven-plugin
+	url = https://github.com/sjl/vim-maven-plugin.git

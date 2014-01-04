@@ -630,8 +630,16 @@ augroup END
 
 augroup ft_scala
     au!
-
-    au FileType scala setlocal tabstop=2 shiftwidth=2 softtabstop=2
+    au Filetype scala setlocal foldmethod=marker foldmarker={,}
+    au Filetype scala setlocal textwidth=100
+    au Filetype scala compiler maven
+    au Filetype scala let b:dispatch = 'mvn -B package install'
+    au Filetype scala nnoremap <buffer> <localleader>s mz:%!sort-scala-imports<cr>`z
+    au Filetype scala nnoremap <buffer> M :call scaladoc#Search(expand("<cword>"))<cr>
+    au Filetype scala vnoremap <buffer> M "ry:call scaladoc#Search(@r)<cr>
+    au Filetype scala nmap <buffer> <localleader>( ysiwbi
+    au Filetype scala nmap <buffer> <localleader>[ ysiwri
+    ")]
 augroup END
 
 " }}}
@@ -747,10 +755,6 @@ inoremap jj <esc>
 " Vimgrep shortcut
 nnoremap <leader>g :vimgrep / */**<left><left><left><left><left>
 nnoremap <leader>G :vimgrep /<c-r>=expand("<cword>")<cr> */**
-
-" Shortcut to write :make on the command line
-nmap <leader>b :make<CR>
-nmap <leader>m :make
 
 " Forgot to `sudo vim ...` ?
 nnoremap <leader>! :w !sudo tee %
@@ -989,7 +993,18 @@ endfunction
 
 
 " }}}
+" Dispatch {{{
 
+nnoremap <leader>d :Dispatch<cr>
+nnoremap <leader>m :Dispatch<cr>
+
+" }}}
+" Maven {{{
+
+let g:maven_disable_mappings = 1
+
+" }}}
+"
 " }}}
 " Text objects ------------------------------------------------------------ {{{
 
