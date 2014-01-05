@@ -1,0 +1,13 @@
+" Search engine {{{
+
+bmark -title="bunny1 query" -keyword="bu" www.bunny1.org/?___=%s 
+set defsearch=bu
+
+"}}}
+" Passkeys {{{
+
+set passkeys+='facebook.com':<CR>
+set passkeys+='www.google.com/search':jk
+set passkeys+='mail.google.com':c/kjnp<Return>uemxs+-!raflvIU[]zNqy?<CR>,gi,gs,gt,gd,ga,gc,gb,gk,gl
+
+"}}}
