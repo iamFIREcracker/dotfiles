@@ -493,6 +493,17 @@ augroup ft_rest
 augroup END
 
 " }}}
+" Pentadactylrc {{{
+
+augroup ft_pentadactylrc
+    au!
+
+    au BufNewFile,BufRead *.pentadactylrc setlocal filetype=pentadactylrc
+    au FileType pentadactylrc setlocal foldmethod=marker
+    au FileType pentadactylrc setlocal foldmarker={{{,}}}
+augroup END
+
+" }}}
 " Scala {{{
 
 augroup ft_scala
