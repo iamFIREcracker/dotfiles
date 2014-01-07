@@ -730,6 +730,7 @@ noremap ` '
 " Better Completion
 set completeopt=longest,menuone,preview
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+inoremap <expr> <Tab> pumvisible() ? "<C-Y>" : "<Tab>"
 
 " Unfuck my screen
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
@@ -970,8 +971,8 @@ au Syntax * RainbowParenthesesLoadBraces
 " SnipMate {{{
 
 imap <C-J> <Plug>snipMateTrigger
-imap <Tab> <Plug>snipMateNextOrTrigger
-smap <Tab> <Plug>snipMateNextOrTrigger
+imap <C-J> <Plug>snipMateNextOrTrigger
+smap <C-J> <Plug>snipMateNextOrTrigger
 imap <S-Tab> <Plug>snipMateBack
 smap <S-Tab> <Plug>snipMateBack
 imap <C-R><C-J> <Plug>snipMateShow
