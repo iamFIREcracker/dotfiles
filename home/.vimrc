@@ -493,12 +493,11 @@ augroup ft_rest
 augroup END
 
 " }}}
-" Pentadactylrc {{{
+" Pentadacty {{{
 
-augroup ft_pentadactylrc
+augroup ft_pentadactyl
     au!
 
-    au BufNewFile,BufRead *.pentadactylrc setlocal filetype=pentadactylrc
     au FileType pentadactylrc setlocal foldmethod=marker
     au FileType pentadactylrc setlocal foldmarker={{{,}}}
 augroup END
