@@ -768,6 +768,9 @@ vnoremap p pgvy
 nnoremap <leader>a :Ack 
 nnoremap <leader>A :Ack <c-r>=expand("<cword>")<cr>
 
+" Automatically reformat while pasting
+nnoremap p pV`]=
+
 " Block Colors {{{
 
 let g:blockcolor_state = 0
