@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 export LC_COLLATE=C
 
 /usr/bin/ctags-exuberant --exclude=build --exclude=dist --recurse . ~/.virtualenvs/$(cat .venv)/lib && sed -i.bak -E -e '/^[^    ]+      [^      ]+.py   .+v$/d' tags
