@@ -106,6 +106,3 @@
 [submodule "home/.vim/bundle/vim-nodejs-complete"]
 	path = home/.vim/bundle/vim-nodejs-complete
 	url = https://github.com/myhere/vim-nodejs-complete.git
-[submodule "home/.vim/bundle/vim-zenmode"]
-	path = home/.vim/bundle/vim-zenmode
-	url = https://github.com/mmai/vim-zenmode.git
