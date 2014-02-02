@@ -1,6 +1,7 @@
 [ui]
 strict = true
 username = Matteo Landi <matteo@matteolandi.net>
+ignore = ~/.hgignore
 #commitsubrepos = false
 
 [pager]

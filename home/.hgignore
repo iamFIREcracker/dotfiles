@@ -1,0 +1,5 @@
+syntax: glob
+
+.ropeproject/*
+tags.bak
+tags1
