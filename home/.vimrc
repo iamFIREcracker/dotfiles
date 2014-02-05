@@ -1101,6 +1101,7 @@ if has('gui_running')
     set go-=L
     set go-=r
     set go-=R
+    set go-=m
 
     highlight SpellBad term=underline gui=undercurl guisp=Orange
 
