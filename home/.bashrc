@@ -40,9 +40,6 @@ export PAGER
 LESS="-FSRXKQ"
 export LESS
 
-# Scala Build tool
-PATH="$PATH:$HOME/opt/sbt/bin"
-
 # PYTHONPATH
 PYTHONPATH="$PYTHONPATH:$HOME/lib/python"
 export PYTHONPATH
@@ -52,9 +49,15 @@ export VIRTUAL_ENV_DISABLE_PROMPT='1'
 
 # Scala Build Tool
 PATH="$PATH:$HOME/opt/sbt/bin"
+export PATH
 
 # Scala
 PATH="$PATH:/home/matteo/opt/scala-2.10.2/bin"
+export PATH
+
+# NPM
+PATH="$PATH:/home/matteo/npm/bin"
+export PATH
 
 # Productivity settings
 # > cat ~/.bash_history | frequency | sort -nr | head
