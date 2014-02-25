@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 #
 # This is an example of using HGEDITOR to create of diff to review the
 # changes while commiting.
@@ -13,7 +13,7 @@ case "${EDITOR}" in
         EDITOR="$EDITOR -nw"
         ;;
     gvim|vim)
-        EDITOR="$EDITOR -f -p"
+        EDITOR="$EDITOR -f -O"
         ;;
 esac
 
