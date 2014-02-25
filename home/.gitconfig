@@ -28,3 +28,4 @@ email = matteo@matteolandi.net
     st = status -s
     ci = commit -v
     p = push
+    di = diff
