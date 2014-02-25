@@ -112,7 +112,13 @@ alias P='. ~/workspace/productivity/productivity.sh'
 HGEDITOR="~/bin/hgeditor"
 export HGEDITOR
 
-export SVN_EDITOR="~/workspace/svn-tools/svneditor"
+# git-editor
+GIT_EDITOR="~/bin/giteditor"
+export GIT_EDITOR
+
+# svn-editor
+SVN_EDITOR="~/workspace/svn-tools/svneditor"
+export SVN_EDITOR
 
 # CVS wrappers
 alias s='bash "${HOME}/workspace/svn-tools/s.sh"'
