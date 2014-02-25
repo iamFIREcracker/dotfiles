@@ -23,4 +23,8 @@ email = matteo@matteolandi.net
   changed = green
   untracked = cyan
 [push]
-	default = simple
+    default = current
+[alias]
+    st = status -s
+    ci = commit -v
+    p = push
