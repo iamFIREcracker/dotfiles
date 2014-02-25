@@ -821,7 +821,7 @@ let g:AutoClosePairs_del = "`"
 
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_map = '<leader>,'
+let g:ctrlp_map = '¬' " <C-,> does not work :-(
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_split_window = 0
@@ -854,7 +854,8 @@ let my_ctrlp_git_command = "" .
 
 let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command, my_ctrlp_user_command]
 
-nnoremap <leader>. :CtrlPTag<cr>
+" <C-.> does not work :-(
+nnoremap ® :CtrlPTag<cr>
 
 " }}}
 " Easymotion {{{
