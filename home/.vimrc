@@ -771,6 +771,9 @@ nnoremap <leader>A :Ack <c-r>=expand("<cword>")<cr>
 " Automatically reformat while pasting
 nnoremap p pV`]=
 
+" Move to next line after 'reindent' operation -- IntelliJ style
+nnoremap == ==j
+
 " Block Colors {{{
 
 let g:blockcolor_state = 0
