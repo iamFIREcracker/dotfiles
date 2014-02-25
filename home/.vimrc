@@ -751,9 +751,6 @@ inoremap <silent> <f4> :TlistToggle<cr>
 nnoremap <c-w>qq :q<cr>
 nnoremap <c-w>qa :qa<cr>
 
-" Quicker escaping.
-inoremap jj <esc>
-
 " Vimgrep shortcut
 nnoremap <leader>g :vimgrep / */**<left><left><left><left><left>
 nnoremap <leader>G :vimgrep /<c-r>=expand("<cword>")<cr> */**
@@ -1139,6 +1136,9 @@ inoremap <backspace> <nop>
 "nnoremap s<CR> <esc>:echo "Use S!"<cr>
 " Train to use <c-e> to move at the end of a line
 inoremap <esc>A <esc>:echo "Use <c-e>!"<cr>
+" Use Ctrl!
+inoremap jj <esc>:echo "Use Ctrl!"<cr>i
+
 
 " }}}
 " Pulse ------------------------------------------------------------------- {{{
