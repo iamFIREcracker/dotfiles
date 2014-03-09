@@ -70,12 +70,6 @@
 [submodule "home/.vim/bundle/vim-autocomplpop"]
 	path = home/.vim/bundle/vim-autocomplpop
 	url = https://github.com/othree/vim-autocomplpop.git
-[submodule "home/.vim/bundle/L9"]
-	path = home/.vim/bundle/L9
-	url = https://github.com/vim-scripts/L9.git
-[submodule "home/.vim/bundle/tlib_vim"]
-	path = home/.vim/bundle/tlib_vim
-	url = https://github.com/tomtom/tlib_vim.git
 [submodule "home/.vim/bundle/vim-addon-mw-utils"]
 	path = home/.vim/bundle/vim-addon-mw-utils
 	url = https://github.com/MarcWeber/vim-addon-mw-utils.git
