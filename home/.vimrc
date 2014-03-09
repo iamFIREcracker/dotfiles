@@ -1010,7 +1010,7 @@ nnoremap <leader>m :Dispatch<cr>
 let g:maven_disable_mappings = 1
 
 " }}}
-"
+
 " }}}
 " Text objects ------------------------------------------------------------ {{{
 
