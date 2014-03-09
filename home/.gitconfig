@@ -29,3 +29,5 @@ email = matteo@matteolandi.net
     ci = commit -v
     p = push
     di = diff
+[core]
+	excludesfile = /home/matteo/.gitignore_global
