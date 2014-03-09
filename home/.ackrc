@@ -1,2 +1,4 @@
+--ignore-file=match:tags.*
+--ignore-file=match:.*log
 --ignore-dir=build
 --ignore-dir=Resources
