@@ -16,7 +16,7 @@ case "${EDITOR}" in
         EDITOR="$EDITOR -nw"
         ;;
     gvim|vim)
-        EDITOR="$EDITOR -f -O"
+        EDITOR="$EDITOR -f -p "
         ;;
 esac
 
