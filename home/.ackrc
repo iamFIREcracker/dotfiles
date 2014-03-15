@@ -2,3 +2,4 @@
 --ignore-file=match:.*log
 --ignore-dir=build
 --ignore-dir=Resources
+--ignore-dir=.ropeproject
