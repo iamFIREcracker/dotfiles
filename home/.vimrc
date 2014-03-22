@@ -292,8 +292,8 @@ set foldlevelstart=0
 nnoremap <c-cr> zvzt
 
 " Space to toggle folds.
-nnoremap <Space> za
-vnoremap <Space> za
+nnoremap <cr> za
+vnoremap <cr> za
 
 " Use ,z to "focus" the current fold.
 nnoremap <leader>z zMzvzz
