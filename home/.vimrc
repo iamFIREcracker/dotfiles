@@ -683,9 +683,9 @@ nnoremap <C-u> gUiw
 inoremap <C-u> <esc>gUiwea
 
 " Substitute the character under the cursor
-nnoremap <leader>s yl:%s/<C-R>0//c<left><left>
+nnoremap <leader>s yl:%Subvert/<C-R>0//c<left><left>
 " Substitute the word under the cursor
-nnoremap <leader>S :%s/<c-r>=expand("<cword>")<cr>//c<left><left>
+nnoremap <leader>S :%Subvert/<c-r>=expand("<cword>")<cr>//c<left><left>
 
 " Emacs bindings in command line mode
 cnoremap <c-a> <home>
