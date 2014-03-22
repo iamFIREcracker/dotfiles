@@ -191,7 +191,7 @@ set sidescrolloff=10
 
 set virtualedit+=block
 
-noremap <leader><space> :noh<cr>:call clearmatches()<cr>
+noremap <silent><space> :noh<cr>:call clearmatches()<cr>
 
 runtime macros/matchit.vim
 map <tab> %
