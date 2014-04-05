@@ -292,8 +292,8 @@ set foldlevelstart=0
 nnoremap <c-cr> zvzt
 
 " Space to toggle folds.
-nnoremap <cr> za
-vnoremap <cr> za
+"nnoremap <cr> za
+"vnoremap <cr> za
 
 " Use ,z to "focus" the current fold.
 nnoremap <leader>z zMzvzz
@@ -733,9 +733,6 @@ inoremap <expr> <Tab> pumvisible() ? "<C-Y>" : "<Tab>"
 " Unfuck my screen
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 
-" Toggle paste
-set pastetoggle=<F8>
-
 " Quickreturn
 inoremap <c-cr> <esc>A<cr>
 inoremap <s-cr> <esc>A:<cr>
@@ -764,9 +761,6 @@ vnoremap p pgvy
 " Ack!!!
 nnoremap <leader>a :Ack 
 nnoremap <leader>A :Ack <c-r>=expand("<cword>")<cr>
-
-" Automatically reformat while pasting
-nnoremap p pV`]=
 
 " Move to next line after 'reindent' operation -- IntelliJ style
 nnoremap == ==j

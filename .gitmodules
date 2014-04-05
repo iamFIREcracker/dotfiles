@@ -112,3 +112,9 @@
 [submodule "home/.vim/bundle/vim-abolish"]
 	path = home/.vim/bundle/vim-abolish
 	url = https://github.com/tpope/vim-abolish.git
+[submodule "home/.vim/bundle/HiCursorWords"]
+	path = home/.vim/bundle/HiCursorWords
+	url = https://github.com/ihacklog/HiCursorWords.git
+[submodule "home/.vim/bundle/vim-pasta"]
+	path = home/.vim/bundle/vim-pasta
+	url = https://github.com/sickill/vim-pasta.git
