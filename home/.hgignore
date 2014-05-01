@@ -4,3 +4,5 @@ syntax: glob
 tags.bak
 tags1
 *log
+venv
+.idea
