@@ -5,3 +5,5 @@ tags.bak
 tags1
 *log
 *.mo
+venv
+.idea
