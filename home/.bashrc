@@ -431,6 +431,19 @@ alias mvn-arch-gen-scala="mvn archetype:generate \
       -DremoteRepositories=http://scala-tools.org/repo-releases"
 
 
+# Android
+export ANDROIDSDK="${HOME}"/opt/android-sdk
+alias android="${ANDROIDSDK}"/tools/android
+
+adb() {
+    sudo "${ANDROIDSDK}"/platform-tools/adb "$@"
+}
+
+emulator() {
+    "${ANDROIDSDK}"/tools/emulator -avd $1 -gpu on -scale 0.6 -qemu -m 512 -enable-kvm &
+}
+
+
 # Print some fancy stuff!
 #if ! shopt -q login_shell; then
     #fortune | cowsay -n | lolcat -f
