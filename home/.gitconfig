@@ -27,7 +27,10 @@ email = matteo@matteolandi.net
 [alias]
     st = status -s
     ci = commit -v
+    pu = pull
     p = push
     di = diff
+    in = !git fetch && git log --pretty=oneline --abbrev-commit --graph ..@{u}
+    spu = !git submodule foreach git pull
 [core]
 	excludesfile = /home/matteo/.gitignore_global
