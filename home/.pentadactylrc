@@ -1,3 +1,5 @@
+set hlfind
+
 " Search engine {{{
 
 bmark -title="bunny1 query" -keyword="bu" b1.matteolandi.net/?___=%s 
