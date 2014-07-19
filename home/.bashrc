@@ -137,7 +137,7 @@ svn_ps1() {
 }
 
 hg_ps1() {
-    h prompt "{on ${PINK}{branch}${D}}{ at ${ORANGE}{bookmark}${D}}${GREEN}{status}${D}" 2> /dev/null
+    h prompt "{on ${PINK}{branch}${D}}${GREEN}{status}${D}" 2> /dev/null
 }
 
 rcs_ps1() {
@@ -440,7 +440,9 @@ adb() {
 }
 
 emulator() {
+    set -x
     "${ANDROIDSDK}"/tools/emulator -avd $1 -gpu on -scale 0.6 -qemu -m 512 -enable-kvm &
+    set +x
 }
 
 
