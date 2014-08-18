@@ -10,9 +10,6 @@
 [submodule "home/.vim/bundle/nerdcommenter"]
 	path = home/.vim/bundle/nerdcommenter
 	url = git://github.com/scrooloose/nerdcommenter.git
-[submodule "home/.vim/bundle/nerdtree"]
-	path = home/.vim/bundle/nerdtree
-	url = git://github.com/scrooloose/nerdtree.git
 [submodule "home/.vim/bundle/nose.vim"]
 	path = home/.vim/bundle/nose.vim
 	url = git://github.com/vim-scripts/nose.vim.git
@@ -118,3 +115,6 @@
 [submodule "home/.vim/bundle/vim-pasta"]
 	path = home/.vim/bundle/vim-pasta
 	url = https://github.com/sickill/vim-pasta.git
+[submodule "home/.vim/bundle/vim-vinegar"]
+	path = home/.vim/bundle/vim-vinegar
+	url = https://github.com/tpope/vim-vinegar.git
