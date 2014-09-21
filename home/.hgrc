@@ -14,9 +14,9 @@ show = log --color=always -pr
 [extensions]
 color =
 pager =
-prompt = ~/workspace/hg-prompt/prompt.py
+prompt = ~/opt/hg-prompt/prompt.py
 record = 
-hgshelve = ~/workspace/hgshelve/hgshelve.py
+shelve =
 hgext.graphlog =
 
 [alias]
