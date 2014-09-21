@@ -121,3 +121,6 @@
 [submodule "home/opt/hg-prompt"]
 	path = home/opt/hg-prompt
 	url = https://github.com/trynity/hg-prompt.git
+[submodule "home/opt/bcvi"]
+	path = home/opt/bcvi
+	url = https://github.com/grantm/bcvi.git
