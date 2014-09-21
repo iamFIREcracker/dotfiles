@@ -118,3 +118,6 @@
 [submodule "home/.vim/bundle/vim-vinegar"]
 	path = home/.vim/bundle/vim-vinegar
 	url = https://github.com/tpope/vim-vinegar.git
+[submodule "home/opt/hg-prompt"]
+	path = home/opt/hg-prompt
+	url = https://github.com/trynity/hg-prompt.git
