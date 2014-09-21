@@ -124,3 +124,6 @@
 [submodule "home/opt/bcvi"]
 	path = home/opt/bcvi
 	url = https://github.com/grantm/bcvi.git
+[submodule "home/workspace/productivity"]
+	path = home/workspace/productivity
+	url = git@github.com:iamFIREcracker/productivity.git
