@@ -24,10 +24,6 @@ else
 fi
 alias l='tree -aC -L 1 -pughD'
 
-# More colors
-[ $(uname) = 'Linux' ] && TERM=gnome-256color || TERM=rxvt-256color
-export TERM
-
 # Editor
 EDITOR="vim"
 export EDITOR
@@ -46,14 +42,6 @@ export PYTHONPATH
 
 # Better virtualenv
 export VIRTUAL_ENV_DISABLE_PROMPT='1'
-
-# Scala Build Tool
-PATH="$PATH:$HOME/opt/sbt/bin"
-export PATH
-
-# Scala
-PATH="$PATH:/home/matteo/opt/scala-2.10.2/bin"
-export PATH
 
 # NPM
 PATH="$PATH:/home/matteo/npm/bin"
@@ -250,53 +238,16 @@ function cdiff
     diff "$@" | pygmentize -l diff
 }
 
-# gvim shortcut
-alias gv="gvim ."
-alias tv="vim `mktemp`"
-
-function m {
-    bc -l <<EOF
-define r(x, n) {
-return(x/2^n)
-}
-define l(x, n) {
-return(x*2^n)
-}
-$@
-EOF
-}
-
 # change default modifier for dvtm
 alias dvtm="dvtm -m "
-
-# onchange shortcut
-alias oc="bash ~/workspace/onchange/onchange.sh"
-
-# Handy random function
-alias rand='cat /dev/urandom | LC_ALL=C tr -dc _A-Z-a-z-0-9 | head -c '
 
 function psg() {
     ps auxww | grep $* | grep -v grep | collapse | cuts -f 2,11-
 }
 
 
-# Beeeeeeeeeeep!
-alias bp="echo -en '\a'"
-
 # dd: go faster!!!!
 alias ddd="dd bs=512K"
-
-
-# Screenshot
-alias wshot='import '
-alias sshot='import -window root '
-
-# include external libraries
-alias p="bash ~/lib/bash/picobsd.sh"
-alias n="bash ~/lib/bash/netmap.sh"
-[ -f ~/lib/bash/pinganalysis.sh ] && source ~/lib/bash/pinganalysis.sh
-
-alias say=espeak
 
 alias jsonpp='python -mjson.tool | pygmentize -l javascript'
 alias xmlpp='xmllint --format - | pygmentize -l xml'
@@ -304,11 +255,6 @@ alias htmlpp='pygmentize -l html'
 
 
 alias mutt='cd ~/Desktop; mutt'
-
-# ip
-alias iip='ifconfig | grep "inet " | grep -v 127.0.0.1 | collapse | cuts -f 3 | cut -d":" -f 2'
-alias eip='curl -s checkip.dyndns.org | grep -Eo "[0-9\.]+"'
-alias ip='echo "`eip` (`iip`)"'
 
 
 # logfilter
@@ -361,20 +307,6 @@ function hurl() {
     curll ${url} "${method}" "${data}" | htmlpp
 }
 
-function xinject() {
-    local appclass=$1
-    local key=$2
-    local active=$(xdotool getactivewindow)
-    local options
-
-    # Firefox does not listen to external events if not focused
-    [[ ${appclass} =~ 'firefox' ]] && options='windowactivate --sync'
-    xdotool search --class "${appclass}" ${options} key --clearmodifiers ${key}
-
-    # We need to switch the focus back the the original window
-    [[ ${appclass} =~ 'firefox' ]] && xdotool windowactivate ${active}
-}
-
 # Virtualenv `workon` wrapper which looks for `.venv` file containing the name
 # of the virtual environment
 function wo() {
@@ -415,20 +347,14 @@ sd() {
         sudo "$@"
     fi
 }
+sudo() {
+    echo "Use \`sd' instead!"
+}
 
 # BCVI stuff
-alias bcvi='${HOME}/workspace/bcvi/bin/bcvi'
+alias bcvi='${HOME}/opt/bcvi/bin/bcvi'
 alias ssh="bcvi --wrap-ssh --"
 alias vi="bcvi"
-
-
-# Scala w/ Maven
-alias mvn-arch-gen-scala="mvn archetype:generate \
-      -DarchetypeGroupId=org.scala-tools.archetypes \
-      -DarchetypeGroupId=net.alchim31.maven \
-      -DarchetypeArtifactId=scala-archetype-simple  \
-      -DarchetypeVersion=1.5 \
-      -DremoteRepositories=http://scala-tools.org/repo-releases"
 
 
 # Android
