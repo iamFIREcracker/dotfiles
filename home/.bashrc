@@ -340,11 +340,12 @@ pip() {
 # Fast sudo alias + redoer of the last command
 # taken from: 
 # http://alias.sh/do-sudo-command-or-do-sudo-last-typed-command-if-no-argument-given?destination=node/235
+SUDO=`which sudo`
 sd() {
     if [ $# == 0 ]; then
-        sudo $(history -p '!!')
+        ${SUDO} $(history -p '!!')
     else
-        sudo "$@"
+        ${SUDO} "$@"
     fi
 }
 sudo() {
