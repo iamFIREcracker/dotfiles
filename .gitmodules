@@ -127,3 +127,6 @@
 [submodule "home/workspace/productivity"]
 	path = home/workspace/productivity
 	url = git@github.com:iamFIREcracker/productivity.git
+[submodule "home/.vim/bundle/titanium-vim"]
+	path = home/.vim/bundle/titanium-vim
+	url = https://github.com/pekepeke/titanium-vim.git

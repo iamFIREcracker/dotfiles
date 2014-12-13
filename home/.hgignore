@@ -1,5 +1,6 @@
 syntax: glob
 
+*egg-info*
 .ropeproject/*
 tags.bak
 tags1
@@ -7,3 +8,4 @@ tags1
 *.mo
 venv
 .idea
+*.pyc

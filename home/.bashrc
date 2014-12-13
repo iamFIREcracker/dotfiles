@@ -24,6 +24,10 @@ else
 fi
 alias l='tree -aC -L 1 -pughD'
 
+# Term
+TERM=xterm-256color
+export TERM
+
 # Editor
 EDITOR="vim"
 export EDITOR
@@ -44,7 +48,7 @@ export PYTHONPATH
 export VIRTUAL_ENV_DISABLE_PROMPT='1'
 
 # NPM
-PATH="$PATH:/home/matteo/npm/bin"
+PATH="$PATH:${HOME}/npm/bin"
 export PATH
 
 # Productivity settings
@@ -350,6 +354,7 @@ sd() {
 }
 sudo() {
     echo "Use \`sd' instead!"
+    sd "$@"
 }
 
 # BCVI stuff

@@ -1,12 +1,24 @@
 #!/bin/bash
 
-export LC_COLLATE=C
+set -e
+set -x
 
-/usr/bin/ctags-exuberant --exclude=build --exclude=dist --recurse . ~/.virtualenvs/$(cat .venv)/lib && sed -i.bak -E -e '/^[^    ]+      [^      ]+.py   .+v$/d' tags
+if [ -e /usr/local/bin/ctags ]; then
+    CTAGS=/usr/local/bin/ctags 
+else
+    export LC_COLLATE=C
+
+    CTAGS=`which ctags`
+fi
+FIND=`which find`
+
+rm -f tags
+
+${CTAGS} --exclude=build --exclude=dist -R . && sed -i.bak -E -e '/^[^    ]+      [^      ]+.py   .+v$/d' tags
 
 mv tags tags1
 
-find -name '*.js' | grep -Ev '(.min.js|jquery[-.].*.js|.json$|^./build|^./Resources)' | xargs jsctags -f tags2
+${FIND} . -iname '*.js' | grep -Ev '(.min.js|jquery[-.].*.js|.json$|^./build|^./Resources|^./venv)' | xargs jsctags -f tags2
 
 
 echo '!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/' > tags

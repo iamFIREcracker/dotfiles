@@ -157,16 +157,6 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 " Go for a magenta cursor.
 hi Cursor guifg=black guibg=magenta
 
-" Php
-hi link phpVarSelector Normal
-hi link phpIdentifier Normal
-hi link phpMemberSelector Normal
-hi link phpType Function
-hi link phpDefine Statement
-" public, protected..
-hi link phpStorageClass StorageClass
-hi link phpStructure Statement
-
 " }}}
 
 " }}}
@@ -201,8 +191,8 @@ nnoremap D d$
 
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
-nnoremap n nzzzv:call PulseCursorLine()<cr>
-nnoremap N Nzzzv:call PulseCursorLine()<cr>
+nnoremap n nzvzz:call PulseCursorLine()<cr>
+nnoremap N Nzvzz:call PulseCursorLine()<cr>
 
 " Same when jumping around
 nnoremap g; g;zz
@@ -241,7 +231,6 @@ noremap <leader>y "*y
 
 " Paste OS clipboard without messing up indent.
 noremap <leader>p :set paste<CR>"*p<CR>:set nopaste<CR>
-noremap <leader>P :set paste<CR>"*P<CR>:set nopaste<CR>
 
 " Error navigation {{{
 "
@@ -252,12 +241,14 @@ noremap <leader>P :set paste<CR>"*P<CR>:set nopaste<CR>
 " Previous  |     M-k                M-Up      |
 "            ----------------------------------
 "
-nnoremap <m-j> :lnext<cr>zvzz
-nnoremap <m-k> :lprevious<cr>zvzz
-inoremap <m-j> <esc>:lnext<cr>zvzz
-inoremap <m-k> <esc>:lprevious<cr>zvzz
-nnoremap <m-Down> :cnext<cr>zvzz
-nnoremap <m-Up> :cprevious<cr>zvzz
+nnoremap ∆ :lnext<cr>zvzz
+nnoremap ˚ :lprevious<cr>zvzz
+inoremap ∆ <esc>:lnext<cr>zvzz
+inoremap ˚ <esc>:lprevious<cr>zvzz
+"nnoremap ˆ :cnext<cr>zvzz
+"nnoremap µ :cprevious<cr>zvzz
+"inoremap ˆ <esc>:cnext<cr>zvzz
+"inoremap µ <esc>:cprevious<cr>zvzz
 
 " }}}
 " Directional Keys {{{
@@ -276,7 +267,6 @@ noremap <leader>v <C-w>v
 " }}}
 " Highlight word {{{
 
-nnoremap <silent> <leader>hh :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
 nnoremap <silent> <leader>h1 :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
 nnoremap <silent> <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
 nnoremap <silent> <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
@@ -288,33 +278,12 @@ nnoremap <silent> <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'
 
 set foldlevelstart=0
 
-" Make the current location sane.
-nnoremap <c-cr> zvzt
-
 " Space to toggle folds.
-"nnoremap <cr> za
-"vnoremap <cr> za
+nnoremap <space> za
+vnoremap <space> za
 
 " Use ,z to "focus" the current fold.
 nnoremap <leader>z zMzvzz
-
-" Customize how folded text is displayed.
-function! MyFoldText() " {{{
-    let line = getline(v:foldstart)
-
-    let nucolwidth = &fdc + &number * &numberwidth
-    let windowwidth = winwidth(0) - nucolwidth - 3
-    let foldedlinecount = v:foldend - v:foldstart
-
-    " expand tabs into spaces
-    let onetab = strpart('          ', 0, &tabstop)
-    let line = substitute(line, '\t', onetab, 'g')
-
-    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
-endfunction " }}}
-set foldtext=MyFoldText()
 
 " Fix automatic unfolding while entering insert mode
 " http://stackoverflow.com/questions/4630892/vim-folds-open-up-when-giving-an-unmatched-opening-brace-parenthesis
@@ -325,8 +294,8 @@ autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:las
 " Destroy infuriating keys ------------------------------------------------ {{{
 
 " Fuck you, help key.
-noremap  <F1> :set invfullscreen<CR>
-inoremap <F1> <ESC>:set invfullscreen<CR>a
+noremap  <F1> <nop>
+inoremap <F1> <nop>
 
 " Fuck you too, manual key.
 nnoremap K <nop>
@@ -406,10 +375,9 @@ augroup ft_css
     "         ...
     "     }
     au BufNewFile,BufRead *.less,*.css nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
-
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au BufNewFile,BufRead *.less,*.css inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
+    au BufNewFile,BufRead *.less,*.css inoremap <buffer> {<cr> {<cr><space><space><space><space>.<cr><esc>kA<bs>
 augroup END
 
 " }}}
@@ -429,9 +397,6 @@ augroup ft_html
     au BufNewFile,BufRead *.html setlocal filetype=htmldjango
     au FileType html,jinja,htmldjango setlocal foldmethod=manual
 
-    " Use <localleader>f to fold the current tag.
-    au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>f Vatzf
-
     " Use Shift-Return to turn this:
     "     <tag>|</tag>
     "
@@ -440,19 +405,6 @@ augroup ft_html
     "         |
     "     </tag>
     au FileType html,jinja,htmldjango nnoremap <buffer> <s-cr> vit<esc>a<cr><esc>vito<esc>i<cr><esc>
-
-    " Indent tag
-    au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>= Vat=
-augroup END
-
-" }}}
-" Java {{{
-
-augroup ft_java
-    au!
-
-    au FileType java setlocal foldmethod=marker
-    au FileType java setlocal foldmarker={,}
 augroup END
 
 " }}}
@@ -466,29 +418,17 @@ augroup ft_javascript
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au Filetype javascript inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
+    au Filetype javascript inoremap <buffer> {<cr> {<cr><space><space><space><space>.<cr><esc>kA<bs>
 augroup END
 
 " }}}
 " SQL {{{
 
 augroup ft_sql
-au!
+    au!
 
     au FileType sql setlocal foldmethod=marker
     au FileType sql setlocal foldmarker={{{,}}}
-augroup END
-
-" }}}
-" ReStructuredText {{{
-
-augroup ft_rest
-    au!
-
-    au Filetype rst nnoremap <buffer> <localleader>1 yypVr=
-    au Filetype rst nnoremap <buffer> <localleader>2 yypVr-
-    au Filetype rst nnoremap <buffer> <localleader>3 yypVr~
-    au Filetype rst nnoremap <buffer> <localleader>4 yypVr`
 augroup END
 
 " }}}
@@ -499,15 +439,6 @@ augroup ft_pentadactyl
 
     au FileType pentadactylrc setlocal foldmethod=marker
     au FileType pentadactylrc setlocal foldmarker={{{,}}}
-augroup END
-
-" }}}
-" Scala {{{
-
-augroup ft_scala
-    au!
-
-    au FileType scala setlocal tabstop=2 shiftwidth=2 softtabstop=2
 augroup END
 
 " }}}
@@ -592,8 +523,6 @@ augroup ft_python
     " Jesus tapdancing Christ, built-in Python syntax, you couldn't let me
     " override this in a normal way, could you?
     au FileType python if exists("python_space_error_highlight") | unlet python_space_error_highlight | endif
-
-    au FileType python nnoremap <buffer> <leader>S :RopeRename<cr>
 augroup END
 
 " }}}
@@ -602,16 +531,6 @@ augroup END
 augroup ft_quickfix
     au!
     au Filetype qf setlocal colorcolumn=0 nolist nocursorline nowrap
-augroup END
-
-" }}}
-" SQL {{{
-
-augroup ft_sql
-    au!
-
-    au FileType sql setlocal foldmethod=marker
-    au FileType sql setlocal foldmarker={{{,}}}
 augroup END
 
 " }}}
@@ -627,10 +546,43 @@ augroup ft_rest
 augroup END
 
 " }}}
-" Scala {{{
+" Java {{{
 
+augroup ft_java
+    au!
+
+    au FileType java setlocal tabstop=4 shiftwidth=4 softtabstop=4
+    au FileType java setlocal foldmethod=marker foldmarker={,}
+    au Filetype java setlocal textwidth=120
+    au Filetype java compiler maven
+    au Filetype java let b:dispatch = 'mvn -B package install'
+augroup END
+
+" }}}
+" Scala {{{
 augroup ft_scala
     au!
+
+    function! DispatchMavenTest()
+        let view = winsaveview()
+        let zreg = @z
+
+        " Move to the top of the file
+        normal! gg
+
+        " Find the spec name
+        call search('\vclass (.*Spec)')
+        normal! w"zyiw
+
+        let spec = @z
+
+        execute "Dispatch mvn -q -B test -Dtest=" . spec
+
+        let @z = zreg
+        call winrestview(view)
+    endfunction
+
+    au FileType scala setlocal tabstop=2 shiftwidth=2 softtabstop=2
     au Filetype scala setlocal foldmethod=marker foldmarker={,}
     au Filetype scala setlocal textwidth=100
     au Filetype scala compiler maven
@@ -638,6 +590,7 @@ augroup ft_scala
     au Filetype scala nnoremap <buffer> <localleader>s mz:%!sort-scala-imports<cr>`z
     au Filetype scala nnoremap <buffer> M :call scaladoc#Search(expand("<cword>"))<cr>
     au Filetype scala vnoremap <buffer> M "ry:call scaladoc#Search(@r)<cr>
+    au Filetype scala nnoremap <buffer> <localleader>t :call DispatchMavenTest()<cr>
     au Filetype scala nmap <buffer> <localleader>( ysiwbi
     au Filetype scala nmap <buffer> <localleader>[ ysiwri
     ")]
@@ -675,6 +628,9 @@ nnoremap <leader>eb <C-w>v<C-w>j:e ~/.bashrc<cr>
 " }}}
 " Convenience mappings ---------------------------------------------------- {{{
 
+" Go to previous buffer
+nnoremap <leader>b :b#<CR>
+
 " Clean trailing whitespace
 nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<cr>
 
@@ -688,27 +644,32 @@ nnoremap <leader>s yl:%Subvert/<C-R>0//c<left><left>
 nnoremap <leader>S :%Subvert/<c-r>=expand("<cword>")<cr>//c<left><left>
 
 " Emacs bindings in command line mode
-cnoremap <c-a> <home>
-cnoremap <c-e> <end>
+cnoremap <C-a> <home>
+cnoremap <C-e> <end>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-d> <Delete>
+cnoremap <M-b> <S-Left>
+cnoremap <M-f> <S-Right>
+cnoremap <M-d> <S-right><Delete>
+cnoremap <Esc>b <S-Left>
+cnoremap <Esc>f <S-Right>
+cnoremap <Esc>d <S-right><Delete>
+cnoremap <C-g> <C-c>
 
 " Add some bash editing shortcuts
 inoremap <C-K> <ESC>lC
 inoremap <C-D> <ESC>lxi
 
-" Diffoff
-nnoremap <leader>D :diffoff!<cr>
 " Skip automatically to next difference
 nnoremap do do]c
 nnoremap dp dp]c
-
-" Yankring
-nnoremap <silent> <F6> :YRShow<cr>
 
 " Formatting, TextMate-style
 nnoremap Q gqip
 vnoremap Q gq
 
-" Easier linewise reselection
+" Select pasted stuff
 nnoremap <leader>V V`]
 
 " Keep the cursor in place while joining lines
@@ -740,10 +701,6 @@ inoremap <s-cr> <esc>A:<cr>
 " Toggle [I]nvisible Characters
 nnoremap <leader>I :set list!<cr>
 
-" Taglist
-nnoremap <silent> <f4> :TlistToggle<cr>
-inoremap <silent> <f4> :TlistToggle<cr>
-
 " Window close (all) shortcuts
 nnoremap <c-w>qq :q<cr>
 nnoremap <c-w>qa :qa<cr>
@@ -759,7 +716,7 @@ nnoremap <leader>! :w !sudo tee %
 vnoremap p pgvy
 
 " Ack!!!
-nnoremap <leader>a :Ack 
+nnoremap <leader>a :Ack
 nnoremap <leader>A :Ack <c-r>=expand("<cword>")<cr>
 
 " Move to next line after 'reindent' operation -- IntelliJ style
@@ -806,16 +763,16 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
 
-" Autoclose {{{                                                                 
-                                                                                
-let g:AutoClosePairs_del = "`"                                                                         
-                                                                                
-" }}}    
+" Autoclose {{{
+
+let g:AutoClosePairs_del = "`"
+
+" }}}
 " Ctrl-P {{{
 
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_map = '¬' " <C-,> does not work :-(
+let g:ctrlp_map = '≤' " <C-,> does not work :-(
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_split_window = 0
@@ -849,7 +806,7 @@ let my_ctrlp_git_command = "" .
 let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command, my_ctrlp_user_command]
 
 " <C-.> does not work :-(
-nnoremap ® :CtrlPTag<cr>
+nnoremap ≥ :CtrlPTag<cr>
 
 " }}}
 " Easymotion {{{
@@ -871,23 +828,6 @@ let g:gundo_preview_statusline = "Gundo Preview"
 let g:jk_jumps_minimum_lines = 2
 
 " }}}
-" NERD Tree {{{
-
-noremap  <F2> :NERDTreeToggle<cr>
-inoremap <F2> <esc>:NERDTreeToggle<cr>
-
-au Filetype nerdtree setlocal nolist
-
-let NERDTreeHighlightCursorline=1
-let NERDTreeIgnore = ['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index', 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json', '.*\.o$', 'db.db', 'tags.bak']
-
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDTreeQuitOnOpen = 1
-
-let NERDTreeWinSize = 80
-
-" }}}
 " Powerline {{{
 
 "let g:Powerline_symbols = 'fancy'
@@ -895,43 +835,19 @@ let NERDTreeWinSize = 80
 " }}}
 " Python-Mode {{{
 
-let g:pymode_doc = 1
-let g:pymode_doc_key = 'M'
-let g:pydoc = 'pydoc'
-let g:pymode_syntax = 1
-let g:pymode_syntax_all = 0
-let g:pymode_syntax_builtin_objs = 1
-let g:pymode_syntax_print_as_function = 0
-let g:pymode_syntax_space_errors = 0
 let g:pymode_run = 0
+
 let g:pymode_lint = 0
+
 let g:pymode_breakpoint = 1
 let g:pymode_breakpoint_key = '<localleader>b'
-let g:pymode_utils_whitespaces = 0
+
 let g:pymode_virtualenv = 1
+
 let g:pymode_folding = 0
 
-let g:pymode_options_indent = 0
-let g:pymode_options_fold = 0
-let g:pymode_options_other = 0
-let g:pymode_options = 0
-
-let g:pymode_rope = 1
-let g:pymode_rope_global_prefix = "<localleader>R"
-let g:pymode_rope_local_prefix = "<localleader>r"
-let g:pymode_rope_auto_project = 1
-let g:pymode_rope_enable_autoimport = 0
-let g:pymode_rope_autoimport_generate = 1
-let g:pymode_rope_autoimport_underlineds = 0
-let g:pymode_rope_codeassist_maxfixes = 10
-let g:pymode_rope_sorted_completions = 1
-let g:pymode_rope_extended_complete = 1
-let g:pymode_rope_autoimport_modules = ["os", "shutil", "datetime"]
-let g:pymode_rope_confirm_saving = 1
-let g:pymode_rope_vim_completion = 1
-let g:pymode_rope_guess_project = 1
-let g:pymode_rope_goto_def_newwin = 0
-let g:pymode_rope_always_show_complete_menu = 0
+let g:pymode_syntax_all = 0
+let g:pymode_syntax_builtin_objs = 1
 
 " }}}
 " Rainbox Parentheses {{{
