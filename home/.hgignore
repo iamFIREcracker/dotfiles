@@ -9,3 +9,6 @@ tags1
 venv
 .idea
 *.pyc
+build
+tags
+dist
