@@ -27,6 +27,7 @@ email = matteo@matteolandi.net
 [alias]
     st = status -s
     ci = commit -v
+    cm = commit -v -m
     pu = pull
     p = push
     di = diff
