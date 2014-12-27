@@ -23,3 +23,4 @@ hgext.graphlog =
 di = diff
 p = push
 stq = st -q
+cm = ci -m
