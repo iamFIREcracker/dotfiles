@@ -718,7 +718,7 @@ nnoremap <leader>! :w !sudo tee %
 vnoremap p pgvy
 
 " Ack!!!
-nnoremap <leader>a :Ack
+nnoremap <leader>a :Ack 
 nnoremap <leader>A :Ack <c-r>=expand("<cword>")<cr>
 
 " Move to next line after 'reindent' operation -- IntelliJ style
