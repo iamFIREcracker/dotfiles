@@ -25,7 +25,7 @@ fi
 alias l='tree -aC -L 1 -pughD'
 
 # Term
-TERM=xterm-256color
+TERM=screen-256color
 export TERM
 
 # Editor
