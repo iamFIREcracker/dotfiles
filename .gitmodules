@@ -130,3 +130,6 @@
 [submodule "home/.vim/bundle/titanium-vim"]
 	path = home/.vim/bundle/titanium-vim
 	url = https://github.com/pekepeke/titanium-vim.git
+[submodule "home/.vim/bundle/vitality.vim"]
+	path = home/.vim/bundle/vitality.vim
+	url = https://github.com/sjl/vitality.vim.git
