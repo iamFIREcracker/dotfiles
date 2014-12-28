@@ -88,9 +88,6 @@
 [submodule "home/.vim/bundle/vim-scala"]
 	path = home/.vim/bundle/vim-scala
 	url = https://github.com/sjl/vim-scala.git
-[submodule "home/.vim/bundle/vim-maven-plugin"]
-	path = home/.vim/bundle/vim-maven-plugin
-	url = https://github.com/sjl/vim-maven-plugin.git
 [submodule "home/.vim/bundle/vim-pentadactyl"]
 	path = home/.vim/bundle/vim-pentadactyl
 	url = https://github.com/dogrover/vim-pentadactyl.git
