@@ -4,7 +4,7 @@ alias hyper ctrl;shift
 
 alias full      move screenOriginX;screenOriginY               screenSizeX;screenSizeY
 bind k:${hyper} ${full}
-alias big move screenOriginX+screenSizeX/8;screenOriginY 3*screenSizeX/4;screenSizeY
+alias big move screenOriginX+screenSizeX/8;screenOriginY+screenSizeY/10 3*screenSizeX/4;8*screenSizeY/10
 bind j:${hyper} ${big}
 
 alias halfleft  move screenOriginX;screenOriginY               screenSizeX/2;screenSizeY
