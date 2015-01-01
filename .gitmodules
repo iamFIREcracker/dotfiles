@@ -28,9 +28,6 @@
 [submodule "home/.vim/bundle/taglist.vim"]
 	path = home/.vim/bundle/taglist.vim
 	url = git://github.com/vim-scripts/taglist.vim.git
-[submodule "home/.vim/bundle/vim-autoclose"]
-	path = home/.vim/bundle/vim-autoclose
-	url = git://github.com/Townk/vim-autoclose.git
 [submodule "home/.vim/bundle/vim-powerline"]
 	path = home/.vim/bundle/vim-powerline
 	url = git://github.com/Lokaltog/vim-powerline.git
