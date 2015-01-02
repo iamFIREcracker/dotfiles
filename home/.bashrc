@@ -314,20 +314,18 @@ function hurl() {
 # Virtualenv `workon` wrapper which looks for `.venv` file containing the name
 # of the virtual environment
 function wo() {
-    [ -n "$1" ] && workon "$1" || {
-        local wd=`pwd`
+    local wd=`pwd`
 
-        while [ $wd != '/' ]; do
-            local venvfile=$wd/.venv
+    while [ $wd != '/' ]; do
+        local venvdir=$wd/venv
 
-            if [ ! -e $venvfile ]; then
-                wd=`dirname $wd`
-            else
-                workon `cat $venvfile`
-                return
-            fi
-        done
-    }
+        if [ ! -e $venvdir ]; then
+            wd=`dirname $wd`
+        else
+            . ${venvdir}/bin/activate
+            return
+        fi
+    done
 }
 
 # Make pip operation safe!
