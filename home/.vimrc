@@ -457,10 +457,6 @@ augroup ft_vim
 augroup END
 
 " }}}
-
-" }}}
-" Convenience mappings ---------------------------------------------------- {{{
-
 " Mail {{{
 
 augroup ft_mail
