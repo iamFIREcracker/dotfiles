@@ -377,6 +377,10 @@ emulator() {
     set +x
 }
 
+ti() {
+    `which ti` --no-color "$@"
+}
+
 
 # Print some fancy stuff!
 #if ! shopt -q login_shell; then
