@@ -20,7 +20,8 @@ shelve =
 hgext.graphlog =
 
 [alias]
-di = diff
+d = diff -p --color=auto
 p = push
 stq = st -q
 cm = ci -m
+cmm = commit -m 'Merge.'
