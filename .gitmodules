@@ -127,3 +127,6 @@
 [submodule "home/.vim/bundle/vitality.vim"]
 	path = home/.vim/bundle/vitality.vim
 	url = https://github.com/sjl/vitality.vim.git
+[submodule "home/.vim/bundle/AnsiEsc.vim"]
+	path = home/.vim/bundle/AnsiEsc.vim
+	url = https://github.com/sjl/AnsiEsc.vim.git
