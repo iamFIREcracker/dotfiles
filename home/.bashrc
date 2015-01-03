@@ -265,7 +265,7 @@ alias mutt='cd ~/Desktop; mutt'
 alias l='LFEDITOR="gvim FILE +ROW" logfilter -f 6'
 
 # ack
-alias a='ack-grep '
+function a() { ack; }
 
 function curll() {
     local url=$1
@@ -311,8 +311,7 @@ function hurl() {
     curll ${url} "${method}" "${data}" | htmlpp
 }
 
-# Virtualenv `workon` wrapper which looks for `.venv` file containing the name
-# of the virtual environment
+# Virtualenv shortcuts
 function wo() {
     local wd=`pwd`
 
@@ -327,6 +326,7 @@ function wo() {
         fi
     done
 }
+function de() { deactivate; }
 
 # Make pip operation safe!
 alias pip-sys="`which pip`"
