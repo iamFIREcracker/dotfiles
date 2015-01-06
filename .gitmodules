@@ -130,3 +130,9 @@
 [submodule "home/.vim/bundle/AnsiEsc.vim"]
 	path = home/.vim/bundle/AnsiEsc.vim
 	url = https://github.com/sjl/AnsiEsc.vim.git
+[submodule "home/.vim/bundle/timl"]
+	path = home/.vim/bundle/timl
+	url = https://github.com/tpope/timl.git
+[submodule "home/.vim/bundle/tslime2.vim"]
+	path = home/.vim/bundle/tslime2.vim
+	url = https://github.com/sjl/tslime2.vim.git
