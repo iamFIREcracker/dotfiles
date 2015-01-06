@@ -6,7 +6,7 @@ tags.bak
 tags1
 *log
 *.mo
-venv
+venv*
 .idea
 *.pyc
 build

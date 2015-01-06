@@ -27,7 +27,7 @@ email = matteo@matteolandi.net
 [alias]
     st = status -s
     ci = commit -v
-    cm = commit -v -m
+    cm = commit -v -a -m
     cp = commit -v -p
     pu = pull
     pus = !git submodule foreach git pull
