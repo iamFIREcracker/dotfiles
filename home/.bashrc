@@ -265,7 +265,7 @@ alias mutt='cd ~/Desktop; mutt'
 alias l='LFEDITOR="gvim FILE +ROW" logfilter -f 6'
 
 # ack
-function a() { ack; }
+function a() { ack "$@"; }
 
 function curll() {
     local url=$1
@@ -316,12 +316,12 @@ function wo() {
     local wd=`pwd`
 
     while [ $wd != '/' ]; do
-        local venvdir=$wd/venv
+        local venvactivate=$(find . | grep '/bin/activate$')
 
-        if [ ! -e $venvdir ]; then
+        if [ ! -e $venvactivate ]; then
             wd=`dirname $wd`
         else
-            . ${venvdir}/bin/activate
+            . ${venvactivate}
             return
         fi
     done
@@ -375,9 +375,13 @@ emulator() {
     set +x
 }
 
-ti() {
-    `which ti` --no-color "$@"
-}
+# Titanium
+ti() { reattach-to-user-namespace `which ti` --no-color "$@"; }
+tiba() { ti build --platform android "$@"; }
+tibad() { ti build --platform android "$@" --target device; }
+tibi() { ti build --platform ios "$@"; }
+tibid() { tibi --target device; }
+tibi5() { tibi -C 5F34093E-5CE8-42D4-AB33-173869EFFD03 "$@"; }
 
 
 # Print some fancy stuff!
