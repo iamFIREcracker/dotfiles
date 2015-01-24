@@ -12,10 +12,11 @@ record =
 shelve =
 
 [alias]
+cm = ci -m
+cmm = commit -m 'Merge.'
 d = diff -p --color=auto
 dl = !"$HG" diff -p --color=never $@ | vim -R -c 'set ft=diff' -
+i = id --debug -i
 p = push
 pu = pull -u
 stq = st -q
-cm = ci -m
-cmm = commit -m 'Merge.'
