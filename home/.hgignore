@@ -12,3 +12,5 @@ venv*
 build
 tags
 dist
+.vagrant*
+*.orig
