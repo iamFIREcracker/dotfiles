@@ -18,5 +18,7 @@ d = diff -p --color=auto
 dl = !"$HG" diff -p --color=never $@ | vim -R -c 'set ft=diff' -
 i = id --debug -i
 p = push
+pp = !"$HG" update production; "$HG" merge develop; "$HG" cmm; "$HG" p; "$HG" update develop
 pu = pull -u
 stq = st -q
+ignore = !echo $@ >> .hgignore
