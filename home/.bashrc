@@ -381,6 +381,16 @@ tibid() { tibi --target device; }
 tibi5() { tibi -C 5F34093E-5CE8-42D4-AB33-173869EFFD03 "$@"; }
 
 
+# Runapp
+ra() {
+    kill `cat .bgrun.pid`; bgrun "python run_app.py"
+    watchmedo shell-command \
+        --recursive \
+        --wait \
+        --patterns='*.py;*.html;*.js' \
+        --command='echo "${watch_src_path}"; bash -c "kill `cat .bgrun.pid`; bgrun \"python run_app.py\""'
+}
+
 # Print some fancy stuff!
 #if ! shopt -q login_shell; then
     #fortune | cowsay -n | lolcat -f
