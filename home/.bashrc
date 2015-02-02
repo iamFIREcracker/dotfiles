@@ -72,9 +72,6 @@ function productivity_update() {
         # update directory count
         ~/workspace/productivity/productivity.sh update "${current}"
         export PRODUCTIVITY_LASTDIR="${current}"
-
-        # display the content of the new dir
-        ls -tAl | head -7 > ~/.postprompt
     fi
 
     # we need to update .lastdir because another shell could have modified it
@@ -142,7 +139,6 @@ venv_ps1() {
 }
 
 rcs_promp() {
-    [ -f ~/.postprompt ] && cat ~/.postprompt && rm ~/.postprompt
     s prompt 2> /dev/null && echo 'ʂ' && return
     h prompt 2> /dev/null && echo '☿' && return
     echo '$'
@@ -265,7 +261,7 @@ alias mutt='cd ~/Desktop; mutt'
 alias l='LFEDITOR="gvim FILE +ROW" logfilter -f 6'
 
 # ack
-function a() { ack; }
+function a() { ack "$@"; }
 
 function curll() {
     local url=$1
@@ -316,12 +312,12 @@ function wo() {
     local wd=`pwd`
 
     while [ $wd != '/' ]; do
-        local venvdir=$wd/venv
+        local venvactivate=$(find . | grep '/bin/activate$')
 
-        if [ ! -e $venvdir ]; then
+        if [ ! -e $venvactivate ]; then
             wd=`dirname $wd`
         else
-            . ${venvdir}/bin/activate
+            . ${venvactivate}
             return
         fi
     done
@@ -366,7 +362,7 @@ export ANDROIDSDK="${HOME}"/opt/android-sdk
 alias android="${ANDROIDSDK}"/tools/android
 
 adb() {
-    sudo "${ANDROIDSDK}"/platform-tools/adb "$@"
+    "${ANDROIDSDK}"/platform-tools/adb "$@"
 }
 
 emulator() {
@@ -375,10 +371,25 @@ emulator() {
     set +x
 }
 
-ti() {
-    `which ti` --no-color "$@"
-}
+# Titanium
+ti() { reattach-to-user-namespace `which ti` --no-color "$@"; }
+tiba() { ti build --platform android "$@"; }
+tibad() { ti build --platform android "$@" --target device; }
+tiba5() { ti build --platform android "$@" --device-id nexus5; }
+tibi() { ti build --platform ios "$@"; }
+tibid() { tibi --target device; }
+tibi5() { tibi -C 5F34093E-5CE8-42D4-AB33-173869EFFD03 "$@"; }
 
+
+# Runapp
+ra() {
+    kill `cat .bgrun.pid`; bgrun "python run_app.py"
+    watchmedo shell-command \
+        --recursive \
+        --wait \
+        --patterns='*.py;*.html;*.js' \
+        --command='echo "${watch_src_path}"; bash -c "kill `cat .bgrun.pid`; bgrun \"python run_app.py\""'
+}
 
 # Print some fancy stuff!
 #if ! shopt -q login_shell; then

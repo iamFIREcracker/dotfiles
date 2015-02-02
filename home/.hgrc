@@ -4,24 +4,21 @@ username = Matteo Landi <matteo@matteolandi.net>
 ignore = ~/.hgignore
 #commitsubrepos = false
 
-[pager]
-pager = LESS='FSRXKQ' less
-
-[alias]
-di = diff
-show = log --color=always -pr
-
 [extensions]
 color =
 pager =
 prompt = ~/opt/hg-prompt/prompt.py
 record = 
 shelve =
-hgext.graphlog =
 
 [alias]
-d = diff -p --color=auto
-p = push
-stq = st -q
 cm = ci -m
 cmm = commit -m 'Merge.'
+d = diff -p --color=auto
+dl = !"$HG" diff -p --color=never $@ | vim -R -c 'set ft=diff' -
+i = id --debug -i
+p = push
+pp = !"$HG" update production; "$HG" merge develop; "$HG" cmm; "$HG" p; "$HG" update develop
+pu = pull -u
+stq = st -q
+ignore = !echo $@ >> .hgignore

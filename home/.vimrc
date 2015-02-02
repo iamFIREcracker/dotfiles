@@ -515,6 +515,9 @@ augroup ft_python
     " Jesus tapdancing Christ, built-in Python syntax, you couldn't let me
     " override this in a normal way, could you?
     au FileType python if exists("python_space_error_highlight") | unlet python_space_error_highlight | endif
+
+    " Send to tmux with localleader e
+    au FileType python nnoremap <buffer> <silent> <localleader>e :let python_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(python_tslime_view)<cr>
 augroup END
 
 " }}}
@@ -714,6 +717,14 @@ nnoremap <leader>A :Ack <c-r>=expand("<cword>")<cr>
 " Move to next line after 'reindent' operation -- IntelliJ style
 nnoremap == ==j
 
+" Select (charwise) the contents of the current line, excluding indentation.
+" " Great for pasting Python lines into REPLs.
+nnoremap vv ^vg_
+
+" TSlime2 general
+nnoremap <silent> <localleader>E :ConnectToTmux<cr>
+vnoremap <silent> <localleader>e :SendSelectionToTmux<cr>
+
 " Block Colors {{{
 
 let g:blockcolor_state = 0
@@ -889,6 +900,11 @@ let g:SuperTabLongestHighlight = 1
 let g:SuperTabLongestEnhanced = 1
 let g:SuperTabCrMapping = 0
 let g:SuperTabClosePreviewOnPopupClose = 1
+
+" }}}
+" tslime2 {{{
+
+let g:tslime2_ensure_trailing_newlines = 1
 
 " }}}
 " YankRing {{{

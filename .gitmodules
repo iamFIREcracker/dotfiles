@@ -114,7 +114,7 @@
 	url = https://github.com/tpope/vim-vinegar.git
 [submodule "home/opt/hg-prompt"]
 	path = home/opt/hg-prompt
-	url = https://github.com/trynity/hg-prompt.git
+	url = https://github.com/qqshfox/hg-prompt.git
 [submodule "home/opt/bcvi"]
 	path = home/opt/bcvi
 	url = https://github.com/grantm/bcvi.git
@@ -130,3 +130,12 @@
 [submodule "home/.vim/bundle/AnsiEsc.vim"]
 	path = home/.vim/bundle/AnsiEsc.vim
 	url = https://github.com/sjl/AnsiEsc.vim.git
+[submodule "home/.vim/bundle/timl"]
+	path = home/.vim/bundle/timl
+	url = https://github.com/tpope/timl.git
+[submodule "home/.vim/bundle/tslime2.vim"]
+	path = home/.vim/bundle/tslime2.vim
+	url = https://github.com/sjl/tslime2.vim.git
+[submodule "home/.vim/bundle/Dockerfile.vim"]
+	path = home/.vim/bundle/Dockerfile.vim
+	url = https://github.com/ekalinin/Dockerfile.vim
