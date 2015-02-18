@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+test -t 0 && cat /dev/clipboard || cat >/dev/clipboard
