@@ -1,3 +1,19 @@
 #!/usr/bin/env bash
 
-test -t 0 && cat /dev/clipboard || cat >/dev/clipboard
+function paste() {
+    if [ -f /dev/clipboard ]; then
+        cat /dev/clipboard
+    else
+        pbpaste
+    fi
+}
+
+function copy() {
+    if [ -f /dev/clipboard ]; then
+        cat >/dev/clipboard
+    else
+        pbcopy
+    fi
+}
+
+test -t 0 && paste || copy
