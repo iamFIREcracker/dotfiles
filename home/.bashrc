@@ -381,6 +381,7 @@ adb() {
 ti() { reattach-to-user-namespace `which ti` --no-color "$@"; }
 tiba() { ti build --platform android "$@"; }
 tibad() { ti build --platform android "$@" --target device; }
+tiba4() { ti build --platform android "$@" --device-id nexus4; }
 tiba5() { ti build --platform android "$@" --device-id nexus5; }
 tibi() { ti build --platform ios "$@"; }
 tibid() { tibi --target device; }
