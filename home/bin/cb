@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function paste() {
-    if [ -f /dev/clipboard ]; then
+    if [ -e /dev/clipboard ]; then
         cat /dev/clipboard
     else
         pbpaste
@@ -9,7 +9,7 @@ function paste() {
 }
 
 function copy() {
-    if [ -f /dev/clipboard ]; then
+    if [ -e /dev/clipboard ]; then
         cat >/dev/clipboard
     else
         pbcopy
