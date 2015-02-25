@@ -362,13 +362,19 @@ export ANDROIDSDK="${HOME}"/opt/android-sdk
 alias android="${ANDROIDSDK}"/tools/android
 
 adb() {
-    "${ANDROIDSDK}"/platform-tools/adb "$@"
-}
-
-emulator() {
-    set -x
-    "${ANDROIDSDK}"/tools/emulator -avd $1 -gpu on -scale 0.6 -qemu -m 512 -enable-kvm &
-    set +x
+    local ADB="${ANDROIDSDK}"/platform-tools/adb
+    case $1 in
+        ls)
+            ${ADB} devices -l
+            ;;
+        sc)
+            local dest=${2:-screenshot.png}
+            ${ADB} shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > ${dest}
+            ;;
+        *)
+            ${ADB} "$@"
+            ;;
+    esac
 }
 
 # Titanium
