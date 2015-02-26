@@ -378,7 +378,7 @@ adb() {
 }
 
 # Titanium
-ti() { reattach-to-user-namespace `which ti` --no-color "$@"; }
+ti() { myreattach-to-user-namespace `which ti` --no-color "$@"; }
 tiba() { ti build --platform android "$@"; }
 tibad() { ti build --platform android "$@" --target device; }
 tiba4() { ti build --platform android "$@" --device-id nexus4; }
