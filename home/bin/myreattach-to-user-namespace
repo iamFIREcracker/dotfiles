@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+reattach=`which reattach-to-user-namespace`
+
+${reattach} "$@"
