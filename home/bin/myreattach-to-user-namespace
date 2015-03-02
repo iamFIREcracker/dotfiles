@@ -2,4 +2,11 @@
 
 reattach=`which reattach-to-user-namespace`
 
-${reattach} "$@"
+if [ -n "${reattach}" ]; then
+    ${reattach} "$@"
+else
+    if [ "-l" == "$1" ]; then
+        shift # skip
+    fi
+    "$@"
+fi
