@@ -139,6 +139,9 @@
 [submodule "home/.vim/bundle/Dockerfile.vim"]
 	path = home/.vim/bundle/Dockerfile.vim
 	url = https://github.com/ekalinin/Dockerfile.vim
+[submodule "home/.vim/bundle/vim-rails"]
+	path = home/.vim/bundle/vim-rails
+	url = https://github.com/tpope/vim-rails.git
 [submodule "home/.vim/bundle/typescript-vim"]
 	path = home/.vim/bundle/typescript-vim
 	url = https://github.com/leafgarland/typescript-vim.git
