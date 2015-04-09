@@ -120,9 +120,15 @@ hg_ps1() {
     h prompt "{on ${PINK}{branch}${D}}${GREEN}{status}${D}" 2> /dev/null
 }
 
+rcs_not_skipped() {
+    test ! -e ~/.skipRcs
+    return $?
+}
+
 rcs_ps1() {
-    s prompt 2> /dev/null && svn_ps1 && return
-    h prompt 2> /dev/null && hg_ps1 && return
+    rcs_not_skipped && s prompt 2> /dev/null && svn_ps1 && return
+    rcs_not_skipped && h prompt 2> /dev/null && hg_ps1 && return
+    echo $SKIP_RCS
 }
 
 venv_ps1() {
@@ -130,8 +136,8 @@ venv_ps1() {
 }
 
 rcs_promp() {
-    s prompt 2> /dev/null && echo 'ʂ' && return
-    h prompt 2> /dev/null && echo '☿' && return
+    rcs_not_skipped && s prompt 2> /dev/null && echo 'ʂ' && return
+    rcs_not_skipped && h prompt 2> /dev/null && echo '☿' && return
     echo '$'
 }
 
