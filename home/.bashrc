@@ -51,12 +51,6 @@ export VIRTUAL_ENV_DISABLE_PROMPT='1'
 PATH="$PATH:${HOME}/npm/bin"
 export PATH
 
-# Productivity settings
-# > cat ~/.bash_history | frequency | sort -nr | head
-alias frequency='sort | uniq -c | sort -gr'
-# > cat .bash_history | sfrequency | sort -nr | head
-alias sfrequency='awk "{print \$1}" | frequency'
-
 # move automatically inside last used directory
 if ! shopt -q login_shell && [ -f ~/.lastdir ]; then
     cd "`cat ~/.lastdir`"
@@ -78,7 +72,6 @@ function productivity_update() {
     # but we are the most recent process active
     echo "${current}" > ~/.lastdir
 }
-
 export PROMPT_COMMAND='productivity_update'
 export PRODUCTIVITY_LASTDIR="`pwd`"
 alias c='. ~/workspace/productivity/productivity.sh prompt frequently'
@@ -94,8 +87,6 @@ function _productivity
 }
 
 complete -F _productivity c
-alias P='. ~/workspace/productivity/productivity.sh'
-
 
 # hg-editor
 HGEDITOR="~/bin/hgeditor"
@@ -157,12 +148,6 @@ export PS1='\n${PINK}\u${D} at ${ORANGE}\h${D} in ${GREEN}\w${D} $(rcs_ps1) $(ve
 # Reload bashrc
 alias rldmyfuckinbashrc='source ~/.bashrc'
 
-# text editing aliases
-alias collapse="sed -e 's/  */ /g'"
-alias cuts="cut -d' '"
-# Count unique lines
-alias count='sort | uniq -c | sort -n'
-
 
 # Bash completion
 for bashcomp in /etc/bash_completion /usr/local/etc/bash_completion; do
@@ -183,34 +168,6 @@ function _ssh_hosts
 # Complete ssh hosts
 complete -F _ssh_hosts ssh
 
-# Maven completion
-_m2_make_goals()
-{
-  plugin=$1
-  mojos=$2
-  for mojo in $mojos
-  do
-    export goals="$goals $plugin:$mojo"
-  done
-}
-
-_m2_complete()
-{
-  local cur goals
-
-  COMPREPLY=()
-  cur=${COMP_WORDS[COMP_CWORD]}
-  goals='clean compile test install package deploy site'
-  goals=$goals _m2_make_goals "eclipse" "eclipse"
-  goals=$goals _m2_make_goals "idea" "idea"
-  goals=$goals _m2_make_goals "assembly" "assembly"
-  goals=$goals _m2_make_goals "plexus" "app bundle-application bundle-runtime descriptor runtime service"
-  cur=`echo $cur | sed 's/\\\\//g'`
-  COMPREPLY=($(compgen -W "${goals}" ${cur} | sed 's/\\\\//g') )
-}
-
-complete -F _m2_complete -o filenames mvn
-
 
 alias pypi='bash "${HOME}/workspace/hacks/pypi-deploy/pypi-deploy.sh"'
 
@@ -220,8 +177,6 @@ alias cdd='cd -'
 
 # Most used grep combo
 alias grep='grep --color=auto'
-alias grepp='grep --recursive --line-number --with-filename --binary-files=without-match --exclude-dir=.svn'
-alias greppi='grepp --ignore-case'
 
 # cd aliases
 alias ..="cd .."
@@ -230,16 +185,6 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
-# pygmentize
-alias hi="pygmentize"
-
-function cdiff
-{
-    diff "$@" | pygmentize -l diff
-}
-
-# change default modifier for dvtm
-alias dvtm="dvtm -m "
 
 function psg() {
     ps auxww | grep $* | grep -v grep | collapse | cuts -f 2,11-
@@ -249,16 +194,10 @@ function psg() {
 # dd: go faster!!!!
 alias ddd="dd bs=512K"
 
-alias jsonpp='python -mjson.tool | pygmentize -l javascript'
-alias xmlpp='xmllint --format - | pygmentize -l xml'
-alias htmlpp='pygmentize -l html'
-
 
 alias mutt='cd ~/Desktop; mutt'
 
 
-# logfilter
-alias l='LFEDITOR="gvim FILE +ROW" logfilter -f 6'
 
 # ack
 function a() { ack "$@"; }
