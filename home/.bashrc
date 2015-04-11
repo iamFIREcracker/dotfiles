@@ -279,6 +279,10 @@ pip() {
     fi
 }
 
+pipf() {
+    pip freeze > requirements.txt
+}
+
 
 # Fast sudo alias + redoer of the last command
 # taken from: 
@@ -334,6 +338,11 @@ tibi4() { tibi -C 6901DD16-9C51-49BF-9A54-FF7088506377 "$@"; }
 tibi5() { tibi -C 48B8AE98-32EE-4EA2-B933-2CF443ADEDB1 "$@"; }
 tibi6() { tibi -C 1791BB08-34A2-493F-9A12-2D5A35FDF4C4 "$@"; }
 
+# Redis
+
+rs() {
+    redis-cli "$@"
+}
 
 # Runapp
 ra() {
