@@ -541,6 +541,14 @@ augroup ft_rest
 augroup END
 
 " }}}
+" Ruby {{{
+
+augroup ft_ruby
+    " Send to tmux with localleader e
+    au FileType ruby nnoremap <buffer> <silent> <localleader>e :let ruby_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(ruby_tslime_view)<cr>
+augroup END
+
+" }}}
 " Java {{{
 
 augroup ft_java
