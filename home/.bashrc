@@ -330,7 +330,9 @@ tiba4() { ti build --platform android "$@" --device-id nexus4; }
 tiba5() { ti build --platform android "$@" --device-id nexus5; }
 tibi() { ti build --platform ios "$@"; }
 tibid() { tibi --target device; }
-tibi5() { tibi -C 5F34093E-5CE8-42D4-AB33-173869EFFD03 "$@"; }
+tibi4() { tibi -C 6901DD16-9C51-49BF-9A54-FF7088506377 "$@"; }
+tibi5() { tibi -C 48B8AE98-32EE-4EA2-B933-2CF443ADEDB1 "$@"; }
+tibi6() { tibi -C 1791BB08-34A2-493F-9A12-2D5A35FDF4C4 "$@"; }
 
 
 # Runapp
