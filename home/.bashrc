@@ -43,6 +43,8 @@ export LESS
 # PYTHONPATH
 PYTHONPATH="$PYTHONPATH:$HOME/lib/python"
 export PYTHONPATH
+PYTHONSTARTUP="$HOME/.pythonrc.py"
+export PYTHONSTARTUP
 
 # Better virtualenv
 export VIRTUAL_ENV_DISABLE_PROMPT='1'
