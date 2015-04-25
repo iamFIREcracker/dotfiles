@@ -433,8 +433,8 @@ augroup END
 augroup ft_pentadactyl
     au!
 
-    au FileType pentadactylrc setlocal foldmethod=marker
-    au FileType pentadactylrc setlocal foldmarker={{{,}}}
+    au FileType pentadactyl setlocal foldmethod=marker
+    au FileType pentadactyl setlocal foldmarker={{{,}}}
 augroup END
 
 " }}}
