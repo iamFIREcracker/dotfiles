@@ -28,6 +28,7 @@ email = matteo@matteolandi.net
     st = status -s
     ci = commit -v
     cm = commit -v -m
+    cp = commit -v -p
     l   = log -18 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
     pu = pull
     pus = !git submodule foreach git pull
