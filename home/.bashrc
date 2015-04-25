@@ -347,8 +347,11 @@ rs() {
 }
 
 # Runapp
+rk() {
+    kill `cat .bgrun.pid`
+}
 ra() {
-    kill `cat .bgrun.pid`; bgrun "python run_app.py"
+    rk; bgrun "python run_app.py"
     watchmedo shell-command \
         --recursive \
         --wait \
