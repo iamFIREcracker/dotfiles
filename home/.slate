@@ -20,10 +20,12 @@ bind o:${hyper} ${bigright}
 
 alias halftop move screenOriginX;screenOriginY screenSizeX;screenSizeY/2
 bind i:${hyper} ${halftop}
-alias big move screenOriginX+screenSizeX/8;screenOriginY 3*screenSizeX/4;screenSizeY
-bind u:${hyper} ${big}
-
 alias halfbottom move screenOriginX;screenOriginY+screenSizeY/2 screenSizeX;screenSizeY/2
 bind m:${hyper} ${halfbottom}
+
+alias normal move screenOriginX+screenSizeX/8;screenOriginY 3*screenSizeX/4;screenSizeY
+bind u:${hyper} ${normal}
+alias narrow move screenOriginX+screenSizeX/6;screenOriginY 2*screenSizeX/3;screenSizeY
+bind n:${hyper} ${narrow}
 
 bind delete:${hyper} relaunch
