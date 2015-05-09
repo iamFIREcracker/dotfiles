@@ -148,3 +148,6 @@
 [submodule "home/.vim/bundle/vim-maven-plugin"]
 	path = home/.vim/bundle/vim-maven-plugin
 	url = https://github.com/sjl/vim-maven-plugin.git
+[submodule "home/.vim/bundle/delimitMate"]
+	path = home/.vim/bundle/delimitMate
+	url = https://github.com/Raimondi/delimitMate.git
