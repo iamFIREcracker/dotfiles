@@ -783,7 +783,6 @@ let g:AutoClosePairs_del = "`"
 
 let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_map = '≤' " <C-,> does not work :-(
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window_reversed = 1
 let g:ctrlp_split_window = 0
@@ -791,11 +790,10 @@ let g:ctrlp_max_height = 20
 let g:ctrlp_extensions = ['tag']
 
 let g:ctrlp_prompt_mappings = {
-\ 'PrtSelectMove("j")':   ['<c-j>', '<down>', '<s-tab>'],
-\ 'PrtSelectMove("k")':   ['<c-k>', '<up>', '<tab>'],
+\ 'PrtSelectMove("j")':   ['<c-j>'],
+\ 'PrtSelectMove("k")':   ['<c-k>'],
 \ 'PrtHistory(-1)':       ['<c-n>'],
-\ 'PrtHistory(1)':        ['<c-p>'],
-\ 'ToggleFocus()':        ['<c-tab>'],
+\ 'PrtHistory(1)':        ['<c-p>']
 \ }
 
 let ctrlp_filter_greps = "".
@@ -816,8 +814,7 @@ let my_ctrlp_git_command = "" .
 
 let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command, my_ctrlp_user_command]
 
-" <C-.> does not work :-(
-nnoremap ≥ :CtrlPTag<cr>
+nnoremap <C-P> :CtrlP<cr>
 
 " }}}
 " Easymotion {{{
@@ -916,6 +913,9 @@ let g:tslime2_ensure_trailing_newlines = 1
 
 " }}}
 " YankRing {{{
+
+let g:yankring_replace_n_pkey = ''
+let g:yankring_replace_p_pkey = ''
 
 function! YRRunAfterMaps()
     nnoremap Y :<C-U>YRYankCount 'y$'<CR>
