@@ -774,11 +774,6 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
 
-" Autoclose {{{
-
-let g:AutoClosePairs_del = "`"
-
-" }}}
 " Ctrl-P {{{
 
 let g:ctrlp_dont_split = 'NERD_tree_2'
@@ -815,6 +810,11 @@ let my_ctrlp_git_command = "" .
 let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command, my_ctrlp_user_command]
 
 nnoremap <C-P> :CtrlP<cr>
+
+" }}}
+" DelimitMate {{{
+
+let delimitMate_expand_cr = 1
 
 " }}}
 " Easymotion {{{
