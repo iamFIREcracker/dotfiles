@@ -3,6 +3,7 @@
 set -e
 set -x
 
+LC_ALL=C
 if [ -e /usr/local/bin/ctags ]; then
     CTAGS=/usr/local/bin/ctags 
 else
@@ -14,11 +15,29 @@ FIND=`which find`
 
 rm -f tags
 
-${CTAGS} --exclude=build --exclude=dist -R . && sed -i.bak -E -e '/^[^    ]+      [^      ]+.py   .+v$/d' tags
 
-mv tags tags1
+# Java
+if [ -f pom.xml ]; then
+    ${CTAGS} --language-force=java -R .
 
-${FIND} . -iname '*.js' | grep -Ev '(.min.js|jquery[-.].*.js|.json$|^./build|^./Resources|^./venv)' | xargs jsctags -f tags2
+    mv tags tags1
+fi
+
+
+# Python
+if [ -f requirements.txt ]; then
+    ${CTAGS} --exclude=build --exclude=dist -R . && sed -i.bak -E -e '/^[^    ]+      [^      ]+.py   .+v$/d'
+
+    mv tags tags1
+fi
+
+# Appcelerator
+if [ -f tiapp.xml ]; then
+
+    ${FIND} . -iname '*.js' | grep -Ev '(.min.js|jquery[-.].*.js|.json$|^./build|^./Resources)' | xargs jsctags -f tags
+
+    mv tags tags1
+fi
 
 
 echo '!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/' > tags
