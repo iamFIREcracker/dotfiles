@@ -1061,7 +1061,7 @@ inoremap <backspace> <nop>
 "nnoremap a<CR> <esc>:echo "Use S!"<cr>
 "nnoremap s<CR> <esc>:echo "Use S!"<cr>
 " Train to use <c-e> to move at the end of a line
-inoremap <esc>A <esc>:echo "Use <c-e>!"<cr>
+" inoremap <esc>A <esc>:echo "Use <c-e>!"<cr>
 " Use Ctrl!
 inoremap jj <esc>:echo "Use Ctrl!"<cr>i
 
