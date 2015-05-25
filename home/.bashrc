@@ -352,7 +352,7 @@ rs() {
 }
 
 # Runapp
-rk() {
+ka() {
     kill `cat .bgrun.pid`
 }
 ra() {
@@ -363,6 +363,7 @@ ra() {
         --patterns='*.py;*.html;*.js' \
         --command='echo "${watch_src_path}"; bash -c "kill `cat .bgrun.pid`; bgrun \"python run_app.py\""'
 }
+
 
 # Print some fancy stuff!
 #if ! shopt -q login_shell; then
