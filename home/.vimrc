@@ -509,8 +509,11 @@ augroup END
 augroup ft_python
     au!
 
+    let b:tslime_ensure_trailing_newlines = 2
+
+    au FileType python setlocal foldmethod=indent
+    au FileType python setlocal foldnestmax=1
     au FileType python setlocal define=^\s*\\(def\\\\|class\\)
-    au FileType man nnoremap <buffer> <cr> :q<cr>
 
     " Jesus tapdancing Christ, built-in Python syntax, you couldn't let me
     " override this in a normal way, could you?
@@ -518,6 +521,9 @@ augroup ft_python
 
     " Send to tmux with localleader e
     au FileType python nnoremap <buffer> <silent> <localleader>e :let python_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(python_tslime_view)<cr>
+
+    " c-cr to append colon and move to the next line
+    au FileType python inoremap <buffer> <c-cr> <esc>A:<cr>
 augroup END
 
 " }}}
@@ -698,8 +704,7 @@ inoremap <expr> <Tab> pumvisible() ? "<C-Y>" : "<Tab>"
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 
 " Quickreturn
-inoremap <c-cr> <esc>A<cr>
-inoremap <s-cr> <esc>A:<cr>
+inoremap <s-cr> <esc>A<cr>
 
 " Toggle [I]nvisible Characters
 nnoremap <leader>I :set list!<cr>
@@ -732,6 +737,9 @@ nnoremap vv ^vg_
 " TSlime2 general
 nnoremap <silent> <localleader>E :ConnectToTmux<cr>
 vnoremap <silent> <localleader>e :SendSelectionToTmux<cr>
+
+" Syntastic errors
+nnoremap <silent> <leader>r :Errors<cr>
 
 " Block Colors {{{
 
@@ -814,7 +822,7 @@ nnoremap <C-P> :CtrlP<cr>
 " }}}
 " DelimitMate {{{
 
-let delimitMate_expand_cr = 1
+let delimitMate_expand_cr = 0
 
 " }}}
 " Easymotion {{{
@@ -907,9 +915,16 @@ let g:SuperTabCrMapping = 0
 let g:SuperTabClosePreviewOnPopupClose = 1
 
 " }}}
+
+" Syntastic {{{
+
+let g:syntastic_javascript_checkers = ['jslint']
+
+" }}}
+
 " tslime2 {{{
 
-let g:tslime2_ensure_trailing_newlines = 1
+let g:tslime_ensure_trailing_newlines = 1
 
 " }}}
 " YankRing {{{
