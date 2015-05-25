@@ -329,16 +329,21 @@ adb() {
 }
 
 # Titanium
-ti() { myreattach-to-user-namespace `which ti` --no-color "$@"; }
+ti() { myreattach-to-user-namespace appc ti --no-color "$@"; }
 tiba() { ti build --platform android "$@"; }
 tibad() { ti build --platform android "$@" --target device; }
 tiba4() { ti build --platform android "$@" --device-id nexus4; }
 tiba5() { ti build --platform android "$@" --device-id nexus5; }
 tibi() { ti build --platform ios "$@"; }
 tibid() { tibi --target device; }
-tibi4() { tibi -C 6901DD16-9C51-49BF-9A54-FF7088506377 "$@"; }
-tibi5() { tibi -C 48B8AE98-32EE-4EA2-B933-2CF443ADEDB1 "$@"; }
-tibi6() { tibi -C 1791BB08-34A2-493F-9A12-2D5A35FDF4C4 "$@"; }
+tibi4s() { tibi -C F7202D07-07D0-45FD-8CFB-AD55AEAAFC46 "$@"; }
+tibi5s() { tibi -C DCBA4A28-5782-45E3-8968-937EA07A1766 "$@"; }
+tibi6() { tibi -C DC956DB4-BBC3-4EF0-B788-96A3C5B0A220 "$@"; }
+ticl() { ti clean; rm -rf build Resources; }
+tilog() {
+    local package=$(xpath tiapp.xml '//ti:app/id/text()')
+    adb logcat | grep `adb shell ps | grep $package | cut -c10-15`
+}
 
 # Redis
 
