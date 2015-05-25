@@ -230,21 +230,17 @@ noremap <leader>p :set paste<CR>"*p<CR>:set nopaste<CR>
 
 " Error navigation {{{
 "
-"             Location List     QuickFix Window
-"            (e.g. Syntastic)     (e.g. Ack)
-"            ----------------------------------
-" Next      |     M-j               M-Down     |
-" Previous  |     M-k                M-Up      |
-"            ----------------------------------
+"                Location List
+"            (e.g. Syntastic, Ack)
+"            ---------------------
+" Next      |     M-Down          |
+" Previous  |     M-Up            |
+"            ---------------------
 "
 nnoremap ∆ :lnext<cr>zvzz
 nnoremap ˚ :lprevious<cr>zvzz
 inoremap ∆ <esc>:lnext<cr>zvzz
 inoremap ˚ <esc>:lprevious<cr>zvzz
-"nnoremap ˆ :cnext<cr>zvzz
-"nnoremap µ :cprevious<cr>zvzz
-"inoremap ˆ <esc>:cnext<cr>zvzz
-"inoremap µ <esc>:cprevious<cr>zvzz
 
 " }}}
 " Directional Keys {{{
@@ -719,8 +715,8 @@ nnoremap <leader>! :w !sudo tee %
 vnoremap p pgvy
 
 " Ack!!!
-nnoremap <leader>a :Ack 
-nnoremap <leader>A :Ack <c-r>=expand("<cword>")<cr>
+nnoremap <leader>a :LAck 
+nnoremap <leader>A :LAck <c-r>=expand("<cword>")<cr>
 
 " Move to next line after 'reindent' operation -- IntelliJ style
 nnoremap == ==j
