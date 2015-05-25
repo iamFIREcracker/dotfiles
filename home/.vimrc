@@ -421,6 +421,10 @@ augroup ft_sql
 
     au FileType sql setlocal foldmethod=marker
     au FileType sql setlocal foldmarker={{{,}}}
+    "
+    " Send to tmux with localleader e
+    au FileType sql nnoremap <buffer> <silent> <localleader>e :let sql_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(sql_tslime_view)<cr>
+
 augroup END
 
 " }}}
