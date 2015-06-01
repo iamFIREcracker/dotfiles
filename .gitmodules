@@ -147,7 +147,7 @@
 	url = https://github.com/leafgarland/typescript-vim.git
 [submodule "home/.vim/bundle/omnisharp-vim"]
 	path = home/.vim/bundle/omnisharp-vim
-    url = https://github.com/OmniSharp/omnisharp-vim.git
+	url = https://github.com/OmniSharp/omnisharp-vim.git
 [submodule "home/.vim/bundle/vim-maven-plugin"]
 	path = home/.vim/bundle/vim-maven-plugin
 	url = https://github.com/sjl/vim-maven-plugin.git
