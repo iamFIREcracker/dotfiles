@@ -39,4 +39,4 @@ email = matteo@matteolandi.net
     unshelve = stash pop
     record = commit -v -p
 [core]
-	excludesfile = /home/matteo/.gitignore_global
+	excludesfile = ~/.gitignore_global
