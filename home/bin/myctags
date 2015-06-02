@@ -16,9 +16,17 @@ FIND=`which find`
 rm -f tags
 
 
-# Java
+# Java/Maven
 if [ -f pom.xml ]; then
-    ${CTAGS} --language-force=java -R .
+    #unzip $JAVA_HOME/src.zip -d .dependenciesSources
+
+    mvn dependency:unpack-dependencies \
+        -Dmdep.failOnMissingClassifierArtifact=false \
+        -Dclassifier=sources \
+        -DincludeScope=test \
+        -DoutputDirectory=.dependenciesSources
+
+    ${CTAGS} --language-force=java --exclude=*.jar -R .
 
     mv tags tags1
 fi
