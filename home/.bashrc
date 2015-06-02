@@ -53,6 +53,14 @@ export VIRTUAL_ENV_DISABLE_PROMPT='1'
 PATH="$PATH:${HOME}/npm/bin"
 export PATH
 
+# JAVA_HOME
+if [ -z "$JAVA_HOME" ]; then
+    if [ -f /usr/libexec/java_home ]; then
+        JAVA_HOME=$(/usr/libexec/java_home)
+        export JAVA_HOME
+    fi
+fi
+
 # move automatically inside last used directory
 if ! shopt -q login_shell && [ -f ~/.lastdir ]; then
     cd "`cat ~/.lastdir`"
@@ -369,3 +377,5 @@ ra() {
 #if ! shopt -q login_shell; then
     #fortune | cowsay -n | lolcat -f
 #fi
+
+set -o vi
