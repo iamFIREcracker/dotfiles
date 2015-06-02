@@ -11,3 +11,8 @@ tags.bak
 # Intellij
 ##########
 .idea/
+
+# Maven
+#######
+
+target/
