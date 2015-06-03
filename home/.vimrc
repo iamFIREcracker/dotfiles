@@ -647,6 +647,8 @@ nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<cr>
 nnoremap <C-u> gUiw
 inoremap <C-u> <esc>gUiwea
 
+" Substitute on the selection
+vnoremap <leader>s :Subvert//c<left><left>
 " Substitute the character under the cursor
 nnoremap <leader>s yl:%Subvert/<C-R>0//c<left><left>
 " Substitute the word under the cursor
