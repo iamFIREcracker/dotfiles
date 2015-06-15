@@ -353,8 +353,14 @@ tilog() {
     adb logcat | grep `adb shell ps | grep $package | cut -c10-15`
 }
 
-# Redis
+# Emulators
+ea4() { ${ANDROIDSDK}/tools/emulator -avd nexus4 -scale 0.40 & }
+ea5() { ${ANDROIDSDK}/tools/emulator -avd nexus5 -scale 0.29 & }
+ei4s() { open -a "iOS Simulator" --args -CurrentDeviceUDID F7202D07-07D0-45FD-8CFB-AD55AEAAFC46; }
+ei5s() { open -a "iOS Simulator" --args -CurrentDeviceUDID DCBA4A28-5782-45E3-8968-937EA07A1766; }
+ei6() { open -a "iOS Simulator" --args -CurrentDeviceUDID DC956DB4-BBC3-4EF0-B788-96A3C5B0A220; }
 
+# Redis
 rs() {
     redis-cli "$@"
 }
