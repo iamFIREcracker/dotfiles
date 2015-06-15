@@ -40,7 +40,13 @@ set matchtime=3
 set showbreak=↪
 set splitbelow
 set splitright
+
+" iTerm2 is currently slow as balls at rendering the nice unicode lines, so for
+" " now I'll just use ASCII pipes.  They're ugly but at least I won't want to kill
+" " myself when trying to move around a file.
 set fillchars=diff:⣿,vert:│
+set fillchars=diff:⣿,vert:\|
+
 set ttimeout
 set notimeout
 set nottimeout
@@ -226,7 +232,8 @@ nnoremap VaB vaBV
 noremap <leader>y "*y
 
 " Paste OS clipboard without messing up indent.
-noremap <leader>p :set paste<CR>"*p<CR>:set nopaste<CR>
+noremap <leader>p :set paste<CR>"+p<CR>:set nopaste<CR>
+
 
 " Error navigation {{{
 "
@@ -405,12 +412,12 @@ augroup END
 augroup ft_javascript
     au!
 
-    au FileType javascript setlocal foldmethod=marker
-    au FileType javascript setlocal foldmarker={,}
+    au FileType javascript setlocal foldmethod=syntax
+    au FileType javascript setlocal foldnestmax=1
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au Filetype javascript inoremap <buffer> {<cr> {<cr><space><space><space><space>.<cr><esc>kA<bs>
+    "au Filetype javascript inoremap <buffer> {<cr> {<cr><space><space><space><space>.<cr>}<esc>kA<bs>
 augroup END
 
 " }}}
@@ -633,6 +640,7 @@ nnoremap <leader>ev <C-w>v<C-w>j:e $MYVIMRC<cr>
 nnoremap <leader>eh <C-w>v<C-w>j:e ~/.hgrc<cr>
 nnoremap <leader>em <C-w>v<C-w>j:e ~/.muttrc<cr>
 nnoremap <leader>eb <C-w>v<C-w>j:e ~/.bashrc<cr>
+nnoremap <leader>eg <C-w>v<C-w>j:e ~/.gitconfig<cr>
 
 " }}}
 " Convenience mappings ---------------------------------------------------- {{{
@@ -727,7 +735,7 @@ vnoremap p pgvy
 
 " Ack!!!
 nnoremap <leader>a :LAck 
-nnoremap <leader>A :LAck <c-r>=expand("<cword>")<cr>
+nnoremap <leader>A :LAck <c-r>=expand("<cword>")<cr><cr>
 
 " Move to next line after 'reindent' operation -- IntelliJ style
 nnoremap == ==j
@@ -1037,7 +1045,7 @@ nnoremap <F7> :call SynStack()<CR>
 " Environments (GUI/Console) ---------------------------------------------- {{{
 
 if has('gui_running')
-    set guifont=Monospace\ 9
+    "set guifont=Monospace\ 9
 
     " Remove all the UI cruft
     set go-=T
@@ -1048,9 +1056,6 @@ if has('gui_running')
     set go-=m
 
     highlight SpellBad term=underline gui=undercurl guisp=Orange
-
-    " Use a line-drawing char for pretty vertical splits.
-    set fillchars+=vert:│
 
     " Different cursors for different modes.
     set guicursor=n-v-c:block-Cursor-blinkon0
