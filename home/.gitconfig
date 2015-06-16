@@ -38,6 +38,6 @@ email = matteo@matteolandi.net
     in = !git fetch && git log --pretty=oneline --abbrev-commit --graph ..@{u}
     shelve = stash save --include-untracked
     unshelve = stash pop
-    record = commit -v -p
+    record = commit -v -p $@
 [core]
 	excludesfile = ~/.gitignore_global
