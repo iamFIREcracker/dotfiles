@@ -297,7 +297,7 @@ pipf() {
 # Fast sudo alias + redoer of the last command
 # taken from: 
 # http://alias.sh/do-sudo-command-or-do-sudo-last-typed-command-if-no-argument-given?destination=node/235
-SUDO=`which sudo`
+SUDO=`which sudo 2> /dev/null`
 sd() {
     if [ $# == 0 ]; then
         ${SUDO} $(history -p '!!')
