@@ -384,4 +384,7 @@ ra() {
     #fortune | cowsay -n | lolcat -f
 #fi
 
+bind -m vi-command '"H":beginning-of-line'
+bind -m vi-command '"L":end-of-line'
+
 set -o vi
