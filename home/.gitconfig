@@ -31,6 +31,7 @@ email = matteo@matteolandi.net
     cp = commit -v -a -p
     l  = log -18 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
     ll = log -36 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
+    lll = log -72 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
     pu = pull
     pus = !git submodule foreach git pull
     p = push
