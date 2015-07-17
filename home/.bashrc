@@ -336,6 +336,9 @@ adb() {
     esac
 }
 
+# iOS emulator id
+_iei() { xcrun simctl list devices | grep -v unavailable | grep 'iPhone 5s' | awk '{print $3}' | tr -d \(\); }
+
 # Titanium
 ti() { myreattach-to-user-namespace appc ti --no-color "$@"; }
 tiba() { ti build --platform android "$@"; }
@@ -344,9 +347,9 @@ tiba4() { ti build --platform android "$@" --device-id nexus4; }
 tiba5() { ti build --platform android "$@" --device-id nexus5; }
 tibi() { ti build --platform ios "$@"; }
 tibid() { tibi --target device; }
-tibi4s() { tibi -C F7202D07-07D0-45FD-8CFB-AD55AEAAFC46 "$@"; }
-tibi5s() { tibi -C DCBA4A28-5782-45E3-8968-937EA07A1766 "$@"; }
-tibi6() { tibi -C DC956DB4-BBC3-4EF0-B788-96A3C5B0A220 "$@"; }
+tibi4s() { tibi -C $(_iei 'iPhone 4s') "$@"; }
+tibi5s() { tibi -C $(_iei 'iPhone 5s') "$@"; }
+tibi6() { tibi -C $(_iei 'iPhone 6') "$@"; }
 ticl() { ti clean; rm -rf build Resources; }
 tilog() {
     local package=$(xpath tiapp.xml '//ti:app/id/text()')
@@ -356,9 +359,9 @@ tilog() {
 # Emulators
 ea4() { ${ANDROIDSDK}/tools/emulator -avd nexus4 -scale 0.40 & }
 ea5() { ${ANDROIDSDK}/tools/emulator -avd nexus5 -scale 0.29 & }
-ei4s() { open -a "iOS Simulator" --args -CurrentDeviceUDID F7202D07-07D0-45FD-8CFB-AD55AEAAFC46; }
-ei5s() { open -a "iOS Simulator" --args -CurrentDeviceUDID DCBA4A28-5782-45E3-8968-937EA07A1766; }
-ei6() { open -a "iOS Simulator" --args -CurrentDeviceUDID DC956DB4-BBC3-4EF0-B788-96A3C5B0A220; }
+ei4s() { open -a "iOS Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 4s'); }
+ei5s() { open -a "iOS Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 5s'); }
+ei6() { open -a "iOS Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 6'); }
 
 # Redis
 rs() {
