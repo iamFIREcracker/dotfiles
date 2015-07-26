@@ -41,7 +41,7 @@ LESS="-FSRXKQ"
 export LESS
 
 # PYTHONPATH
-PYTHONPATH="$PYTHONPATH:$HOME/lib/python"
+PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
 export PYTHONPATH
 PYTHONSTARTUP="$HOME/.pythonrc.py"
 export PYTHONSTARTUP
@@ -50,7 +50,7 @@ export PYTHONSTARTUP
 export VIRTUAL_ENV_DISABLE_PROMPT='1'
 
 # NPM
-PATH="$PATH:${HOME}/npm/bin"
+PATH="${HOME}/npm/bin:$PATH"
 export PATH
 
 # JAVA_HOME
