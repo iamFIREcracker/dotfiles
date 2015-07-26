@@ -340,7 +340,7 @@ adb() {
 _iei() { xcrun simctl list devices | grep -v unavailable | grep 'iPhone 5s' | awk '{print $3}' | tr -d \(\); }
 
 # Titanium
-ti() { myreattach-to-user-namespace appc ti --no-color "$@"; }
+ti() { myreattach-to-user-namespace appc ti --no-color --shadow "$@"; }
 tiba() { ti build --platform android "$@"; }
 tibad() { ti build --platform android "$@" --target device; }
 tiba4() { ti build --platform android "$@" --device-id nexus4; }
