@@ -527,8 +527,10 @@ augroup ft_python
     " Send to tmux with localleader e
     au FileType python nnoremap <buffer> <silent> <localleader>e :let python_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(python_tslime_view)<cr>
 
-    " c-cr to append colon and move to the next line
-    au FileType python inoremap <buffer> <c-cr> <esc>A:<cr>
+    au FileType python RainbowParenthesesActivate
+    au syntax python RainbowParenthesesLoadRound
+    au syntax python RainbowParenthesesLoadSquare
+    au syntax python RainbowParenthesesLoadBrace
 augroup END
 
 " }}}
@@ -872,36 +874,6 @@ let g:pymode_folding = 0
 
 let g:pymode_syntax_all = 0
 let g:pymode_syntax_builtin_objs = 1
-
-" }}}
-" Rainbox Parentheses {{{
-
-nnoremap <leader>R :RainbowParenthesesToggle<cr>
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['black',       'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
-let g:rbpt_max = 16
-let g:rbpt_loadcmd_toggle = 0
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-
 
 " }}}
 " SnipMate {{{
