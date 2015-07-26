@@ -265,4 +265,3 @@ export PROMPT_COMMAND='prompt_command'
 export PS1='\n${PINK}\u${D} at ${ORANGE}\h${D} in ${GREEN}\w${D} $(rcs_ps1) $(venv_ps1)\n$(prompt) '
 
 # }}}
-
