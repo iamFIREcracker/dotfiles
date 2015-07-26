@@ -518,8 +518,6 @@ augroup ft_python
 
     let b:tslime_ensure_trailing_newlines = 2
 
-    au FileType python setlocal foldmethod=indent
-    au FileType python setlocal foldnestmax=1
     au FileType python setlocal define=^\s*\\(def\\\\|class\\)
 
     " Jesus tapdancing Christ, built-in Python syntax, you couldn't let me
