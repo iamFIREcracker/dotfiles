@@ -381,6 +381,11 @@ ra() {
         --command='echo "${watch_src_path}"; bash -c "kill `cat .bgrun.pid`; bgrun \"python run_app.py\""'
 }
 
+# ZOMG!
+alias :q=exit
+alias :qa=exit
+
+
 
 # Print some fancy stuff!
 #if ! shopt -q login_shell; then
