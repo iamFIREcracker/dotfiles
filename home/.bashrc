@@ -61,43 +61,6 @@ if [ -z "$JAVA_HOME" ]; then
     fi
 fi
 
-# move automatically inside last used directory
-if ! shopt -q login_shell && [ -f ~/.lastdir ]; then
-    cd "`cat ~/.lastdir`"
-fi
-
-# prompt_command callback: update directory counter, save the current directory
-# and (optionally) list last edited files.
-function productivity_update() {
-    local current
-
-    current="`pwd`"
-    if [ "${current}" != "${PRODUCTIVITY_LASTDIR}" ]; then
-        # update directory count
-        ~/workspace/productivity/productivity.sh update "${current}"
-        export PRODUCTIVITY_LASTDIR="${current}"
-    fi
-
-    # we need to update .lastdir because another shell could have modified it
-    # but we are the most recent process active
-    echo "${current}" > ~/.lastdir
-}
-export PROMPT_COMMAND='productivity_update'
-export PRODUCTIVITY_LASTDIR="`pwd`"
-alias c='. ~/workspace/productivity/productivity.sh prompt frequently'
-
-function _productivity
-{
-    local cur opts
-    COMPREPLY=()
-    cur="${COMP_WORDS[COMP_CWORD]}"
-    opts=$(bash ~/workspace/productivity/productivity.sh list frequently | sed 's/[0-9: \-]*//' | xargs -n1 basename )
-
-    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-}
-
-complete -F _productivity c
-
 # hg-editor
 HGEDITOR="~/bin/hgeditor"
 export HGEDITOR
@@ -106,39 +69,36 @@ export HGEDITOR
 GIT_EDITOR="~/bin/giteditor"
 export GIT_EDITOR
 
-# svn-editor
-SVN_EDITOR="~/workspace/svn-tools/svneditor"
-export SVN_EDITOR
-
 # CVS wrappers
-alias s='bash "${HOME}/workspace/svn-tools/s.sh"'
 alias h='hg'
 alias g='git'
 
-# Bash shell
+# Prompt {{{
+
 D=$'\e[37;40m'
 PINK=$'\e[35;40m'
 GREEN=$'\e[32;40m'
 ORANGE=$'\e[33;40m'
 CYAN=$'\e[36;40m'
+RED=$'\e[31;40m'
 
-svn_ps1() {
-    s prompt "on ${PINK}{branch}${D}${GREEN}{status}${D}" 2> /dev/null
+git_ps1() {
+    if git root >/dev/null 2>&1; then
+        local branch=$(git currentbranch)
+        local status=$(git_prompt_status)
+        echo "on ${PINK}${branch}${D}${GREEN}${status}${D}"
+    fi
 }
 
 hg_ps1() {
-    h prompt "{on ${PINK}{branch}${D}}${GREEN}{status}${D}" 2> /dev/null
-}
-
-rcs_not_skipped() {
-    test ! -e ~/.skipRcs
-    return $?
+    if hg prompt >/dev/null 2>&1; then
+        hg prompt "{on ${PINK}{branch}${D}}${GREEN}{status}${D}"
+    fi
 }
 
 rcs_ps1() {
-    rcs_not_skipped && s prompt 2> /dev/null && svn_ps1 && return
-    rcs_not_skipped && h prompt 2> /dev/null && hg_ps1 && return
-    echo $SKIP_RCS
+    hg_ps1
+    git_ps1
 }
 
 venv_ps1() {
@@ -146,121 +106,31 @@ venv_ps1() {
 }
 
 rcs_promp() {
-    rcs_not_skipped && s prompt 2> /dev/null && echo 'ʂ' && return
-    rcs_not_skipped && h prompt 2> /dev/null && echo '☿' && return
     echo '$'
 }
 
-# Inspired by: https://gist.github.com/3083586
-PROMPT_COMMAND='EXITVAL=$?; '$PROMPT_COMMAND
-get_exitval() {
-    if [[ $EXITVAL != 0 ]]; then
-        echo -n "$EXITVAL "
+prompt() {
+    if [[ $EXITVAL == 0 ]]; then
+        echo -n "$"
+    else
+        echo -n "${RED}$EXITVAL \$${D}"
     fi
 }
 
-export PS1='\n${PINK}\u${D} at ${ORANGE}\h${D} in ${GREEN}\w${D} $(rcs_ps1) $(venv_ps1)\n$(get_exitval)$(rcs_promp) '
+# Inspired by: https://gist.github.com/3083586
+prompt_command() {
+    EXITVAL=$?; 
 
-# Reload bashrc
-alias rldmyfuckinbashrc='source ~/.bashrc'
-
-
-# Bash completion
-for bashcomp in /etc/bash_completion /usr/local/etc/bash_completion; do
-    [ -f ${bashcomp} ] && source ${bashcomp} && break
-done
-
-# Ssh hosts completion
-function _ssh_hosts
-{
-    local cur opts
-    COMPREPLY=()
-    cur="${COMP_WORDS[COMP_CWORD]}"
-    opts=$(history | sed -e 's/  */ /g' | grep ' \+[0-9]\+ *ssh' | sed 's/ [0-9]* ssh //')
-
-    COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    z --add `pwd`
 }
+export PROMPT_COMMAND='prompt_command'
+export PS1='\n${PINK}\u${D} at ${ORANGE}\h${D} in ${GREEN}\w${D} $(rcs_ps1) $(venv_ps1)\n$(prompt) '
 
-# Complete ssh hosts
-complete -F _ssh_hosts ssh
-
-
-alias pypi='bash "${HOME}/workspace/hacks/pypi-deploy/pypi-deploy.sh"'
-
-
-# go back!
-alias cdd='cd -'
-
-# Most used grep combo
-alias grep='grep --color=auto'
-
-# cd aliases
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ......="cd ../../../../.."
-
-
-function psg() {
-    ps auxww | grep $* | grep -v grep | collapse | cuts -f 2,11-
-}
-
-
-# dd: go faster!!!!
-alias ddd="dd bs=512K"
-
-
-alias mutt='cd ~/Desktop; mutt'
-
+# }}}
 
 
 # ack
 function a() { ack "$@"; }
-
-function curll() {
-    local url=$1
-    local method=${2:-GET}
-    local data="$3"
-    [ $# -lt 2 ] && {
-        echo gimmeurjson URL METHOD
-        return
-    }
-
-
-    [ ${method} = "GET" ] && url="${url}?${data}"
-
-    curl -s "${url}" -X "${method}" -d "${data}"
-}
-
-function gimmeurjson() {
-    local url=$1
-    local method=$2
-    local data="$3"
-
-    [ $# -lt 2 ] && {
-        echo gimmeurjson URL METHOD
-        return
-    }
-
-    curll ${url} "${method}" "${data}" | jsonpp
-}
-
-function gimmeurxml() {
-    local url=$1
-    local method=$2
-    local data="$3"
-
-    curll ${url} "${method}" "${data}" | xmlpp
-}
-
-function hurl() {
-    local url=$1
-    local method=$2
-    local data="$3"
-
-    curll ${url} "${method}" "${data}" | htmlpp
-}
 
 # Virtualenv shortcuts
 function wo() {
@@ -281,39 +151,20 @@ function de() { deactivate; }
 
 # Make pip operation safe!
 alias pip-sys="`which pip`"
-
 pip() {
     if [ -n "$VIRTUAL_ENV" ]
     then `which pip` "$@"
     else echo "Not currently in a venv -- use pip-sys to work system-wide."
     fi
 }
-
 pipf() {
     pip freeze > requirements.txt
 }
 
 
-# Fast sudo alias + redoer of the last command
-# taken from: 
-# http://alias.sh/do-sudo-command-or-do-sudo-last-typed-command-if-no-argument-given?destination=node/235
-SUDO=`which sudo 2> /dev/null`
-sd() {
-    if [ $# == 0 ]; then
-        ${SUDO} $(history -p '!!')
-    else
-        ${SUDO} "$@"
-    fi
-}
-sudo() {
-    echo "Use \`sd' instead!"
-    sd "$@"
-}
-
 # BCVI stuff
 alias bcvi='${HOME}/opt/bcvi/bin/bcvi'
 alias ssh="bcvi --wrap-ssh --"
-alias vi="bcvi"
 
 
 # Android
@@ -363,11 +214,6 @@ ei4s() { open -a "iOS Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 4s'); 
 ei5s() { open -a "iOS Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 5s'); }
 ei6() { open -a "iOS Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 6'); }
 
-# Redis
-rs() {
-    redis-cli "$@"
-}
-
 # Runapp
 ka() {
     kill `cat .bgrun.pid`
@@ -381,22 +227,36 @@ ra() {
         --command='echo "${watch_src_path}"; bash -c "kill `cat .bgrun.pid`; bgrun \"python run_app.py\""'
 }
 
+# Useful functions {{{
+
+eb() { vim ~/.bashrc; }
+eg() { vim ~/.gitconfig; }
+eh() { vim ~/.hgrc; }
+ep() { vim ~/.pentadactylrc; }
+es() { vim ~/.slate; }
+ev() { vim ~/.vimrc; }
+
+function ..() {     cd ..; }
+function ...() {    cd ../..; }
+function ....() {   cd ../../..; }
+function .....() {   cd ../../../..; }
+
 edit-pasteboard() {
     cb | vipe | cb
 }
 
-# ZOMG!
+function rldmyfuckinbashrc() { . ~/.bashrc; }
+
+# }}}
+# Vim {{{
+
+# I give up
 alias :q=exit
 alias :qa=exit
-
-
-
-# Print some fancy stuff!
-#if ! shopt -q login_shell; then
-    #fortune | cowsay -n | lolcat -f
-#fi
 
 bind -m vi-command '"H":beginning-of-line'
 bind -m vi-command '"L":end-of-line'
 
 set -o vi
+
+# }}}
