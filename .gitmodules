@@ -157,3 +157,6 @@
 [submodule "home/opt/dactyl"]
 	path = home/opt/dactyl
 	url = https://github.com/5digits/dactyl.git
+[submodule "home/opt/z-fish"]
+	path = home/opt/z-fish
+	url = https://github.com/sjl/z-fish.git
