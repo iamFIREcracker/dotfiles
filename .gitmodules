@@ -118,9 +118,6 @@
 [submodule "home/opt/bcvi"]
 	path = home/opt/bcvi
 	url = https://github.com/grantm/bcvi.git
-[submodule "home/workspace/productivity"]
-	path = home/workspace/productivity
-	url = https://github.com/iamFIREcracker/productivity.git
 [submodule "home/.vim/bundle/titanium-vim"]
 	path = home/.vim/bundle/titanium-vim
 	url = https://github.com/pekepeke/titanium-vim.git
