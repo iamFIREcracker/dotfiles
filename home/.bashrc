@@ -1,8 +1,4 @@
-# don't put duplicate lines in the history. See bash(1) for more options
-export HISTCONTROL=erasedups
-
-# size of history
-export HISTSIZE=10000
+# Bash {{{
 
 # merge / append histories
 shopt -s histappend
@@ -11,68 +7,210 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# enable colors ..
-colors=`which dircolors`
-if [ -n "${colors}" ]; then
-    eval "`dircolors -b`"
-    alias ls='ls --color=auto'
-else
-    # .. on FreeBSD ..
-    #LSCOLORS="ExGxFxdxCxDxDxhbadExEx"
-    #export LSCOLORS
-    alias ls='TERM=xterm-16color ls -G'
-fi
-alias l='tree -aC -L 1 -pughD'
+# }}}
+# Vim mode {{{
 
-# Term
-TERM=screen-256color
-export TERM
+# I give up
+alias :q=exit
+alias :qa=exit
 
-# Editor
-EDITOR="vim"
-export EDITOR
+bind -m vi-command '"H":beginning-of-line'
+bind -m vi-command '"L":end-of-line'
 
-# Pager
-PAGER="/usr/bin/less"
-export PAGER
+set -o vi
 
-# Less default options
-LESS="-FSRXKQ"
-export LESS
+# }}}
+# Environment variables {{{
 
-# PYTHONPATH
-PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
-export PYTHONPATH
-PYTHONSTARTUP="$HOME/.pythonrc.py"
-export PYTHONSTARTUP
+export HISTCONTROL=erasedups
+export HISTSIZE=10000
+export TERM=screen-256color
+export EDITOR="vim"
+export PAGER="/usr/bin/less"
+export PATH="${HOME}/npm/bin:$PATH"
+export HGEDITOR="~/bin/hgeditor"
+export GIT_EDITOR="~/bin/giteditor"
 
-# Better virtualenv
-export VIRTUAL_ENV_DISABLE_PROMPT='1'
+# Java et al. {{{
 
-# NPM
-PATH="${HOME}/npm/bin:$PATH"
-export PATH
-
-# JAVA_HOME
 if [ -z "$JAVA_HOME" ]; then
     if [ -f /usr/libexec/java_home ]; then
-        JAVA_HOME=$(/usr/libexec/java_home)
-        export JAVA_HOME
+        export JAVA_HOME=$(/usr/libexec/java_home)
     fi
 fi
+export MAVEN_OPTS="-Xmx512M -XX:MaxPermSize=512M"
+export _JAVA_OPTIONS="-Djava.awt.headless=true"
 
-# hg-editor
-HGEDITOR="~/bin/hgeditor"
-export HGEDITOR
+headed_java() {
+    echo "Chaning _JAVA_OPTIONS"
+    echo "from: $_JAVA_OPTIONS"
+    export _JAVA_OPTIONS=""
+    echo "  to: $_JAVA_OPTIONS"
+}
+headless_java() {
+    echo "Chaning _JAVA_OPTIONS"
+    echo "from: $_JAVA_OPTIONS"
+    export _JAVA_OPTIONS="-Djava.awt.headless=true"
+    echo "  to: $_JAVA_OPTIONS"
+}
 
-# git-editor
-GIT_EDITOR="~/bin/giteditor"
-export GIT_EDITOR
+# }}}
+# Python {{{
 
-# CVS wrappers
-alias h='hg'
-alias g='git'
+export PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
+export PYTHONSTARTUP="$HOME/.pythonrc.py"
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
+# }}}
+# }}}
+# Useful functions {{{
+
+eb() { vim ~/.bashrc; }
+ef() { vim ~/.config/fish/config.fish; }
+eg() { vim ~/.gitconfig; }
+eh() { vim ~/.hgrc; }
+ep() { vim ~/.pentadactylrc; }
+es() { vim ~/.slate; }
+ev() { vim ~/.vimrc; }
+
+function ..() {     cd ..; }
+function ...() {    cd ../..; }
+function ....() {   cd ../../..; }
+function .....() {   cd ../../../..; }
+
+
+
+function a() { ack "$@"; }
+function bcvi() { ${HOME}/opt/bcvi/bin/bcvi "$@"; }
+function collapse() { sed -e 's/  */ /g'; }
+function cuts() { cut -d' ' "$@"; }
+function de() { deactivate; }
+function edit-pasteboard() { cb | vipe | cb; }
+function g() { git "$@"; }
+function h() { hg "$@"; }
+function hl() { grep -E --color=always --line-buffered "$1|\$"; }
+function j() { z "$@"; }
+function l() { l1 "$@"; }
+function l1() { tree --dirsfirst -ChFL 1 "$@"; }
+function l2() { tree --dirsfirst -ChFL 2 "$@"; }
+function l3() { tree --dirsfirst -ChFL 3 "$@"; }
+function l4() { tree --dirsfirst -ChFL 4 "$@"; }
+function l5() { tree --dirsfirst -ChFL 5 "$@"; }
+function l6() { tree --dirsfirst -ChFL 6 "$@"; }
+function ll() { ll1 "$@"; }
+function ll1() { tree --dirsfirst -ChFupDaL 1 "$@"; }
+function ll2() { tree --dirsfirst -ChFupDaL 2 "$@"; }
+function ll3() { tree --dirsfirst -ChFupDaL 3 "$@"; }
+function ll4() { tree --dirsfirst -ChFupDaL 4 "$@"; }
+function ll5() { tree --dirsfirst -ChFupDaL 5 "$@"; }
+function ll6() { tree --dirsfirst -ChFupDaL 6 "$@"; }
+function md() { mkdir -p "$@"; }
+function o() { open "$@"; }
+function oo() { open .; }
+function pip() {
+    if [ -n "$VIRTUAL_ENV" ]; then
+        `which pip` "$@"
+    else
+        echo "Not currently in a venv -- use pip-sys to work system-wide."
+    fi
+}
+function pipf() { pip freeze > requirements.txt; }
+function pip-sys() { $(which pip) "$@"; }
+function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collapse | cuts -f 2,11-; }
+function rldmyfuckinbashrc() { . ~/.bashrc; }
+function serve-this() { python -m SimpleHTTPServer; }
+function ssh() { bcvi --wrap-ssh --; }
+function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
+function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
+function wo() {
+    local wd=`pwd`
+
+    while [ $wd != '/' ]; do
+        local venvactivate=$(find . | grep '/bin/activate$')
+
+        if [ ! -e $venvactivate ]; then
+            wd=`dirname $wd`
+        else
+            . ${venvactivate}
+            return
+        fi
+    done
+}
+function wpk() {
+    kill `cat .bgrun.pid`
+}
+function wpr() {
+    wpk; bgrun "python run_app.py"
+    watchmedo shell-command \
+        --recursive \
+        --wait \
+        --patterns='*.py;*.html;*.js' \
+        --command='echo "${watch_src_path}"; bash -c "kill `cat .bgrun.pid`; bgrun \"python run_app.py\""'
+}
+
+# }}}
+# Mobile dev {{{
+
+ANDROIDSDK="${HOME}"/opt/android-sdk
+
+android() { "${ANDROIDSDK}"/tools/android; }
+
+adb() {
+    local ADB="${ANDROIDSDK}"/platform-tools/adb
+    case $1 in
+        ls)
+            ${ADB} devices -l
+            ;;
+        sc)
+            local dest=${2:-screenshot.png}
+            ${ADB} shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > ${dest}
+            ;;
+        *)
+            ${ADB} "$@"
+            ;;
+    esac
+}
+
+# iOS emulator id
+_iei() { xcrun simctl list devices | grep -v unavailable | grep 'iPhone 5s' | awk '{print $3}' | tr -d \(\); }
+
+
+# Emulators
+ea4() { ${ANDROIDSDK}/tools/emulator -avd nexus4 -scale 0.40 & }
+ea5() { ${ANDROIDSDK}/tools/emulator -avd nexus5 -scale 0.29 & }
+ei4s() { open -a "iOS Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 4s'); }
+ei5s() { open -a "iOS Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 5s'); }
+ei6() { open -a "iOS Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 6'); }
+
+# Titanium {{{
+
+ti() { myreattach-to-user-namespace appc ti --no-color --shadow "$@"; }
+
+tiba() { ti build --platform android "$@"; }
+tibad() { ti build --platform android "$@" --target device; }
+tiba4() { ti build --platform android "$@" --device-id nexus4; }
+tiba5() { ti build --platform android "$@" --device-id nexus5; }
+
+tibi() { ti build --platform ios "$@"; }
+tibid() { tibi --target device; }
+tibi4s() { tibi -C $(_iei 'iPhone 4s') "$@"; }
+tibi5s() { tibi -C $(_iei 'iPhone 5s') "$@"; }
+tibi6() { tibi -C $(_iei 'iPhone 6') "$@"; }
+
+ticl() { ti clean; rm -rf build Resources; }
+
+tilog() {
+    local package=$(xpath tiapp.xml '//ti:app/id/text()')
+    adb logcat | grep `adb shell ps | grep $package | cut -c10-15`
+}
+
+# }}}
+# }}}
+# Z {{{
+
+. ~/opt/z/z.sh
+
+# }}}
 # Prompt {{{
 
 D=$'\e[37;40m'
@@ -128,135 +266,3 @@ export PS1='\n${PINK}\u${D} at ${ORANGE}\h${D} in ${GREEN}\w${D} $(rcs_ps1) $(ve
 
 # }}}
 
-
-# ack
-function a() { ack "$@"; }
-
-# Virtualenv shortcuts
-function wo() {
-    local wd=`pwd`
-
-    while [ $wd != '/' ]; do
-        local venvactivate=$(find . | grep '/bin/activate$')
-
-        if [ ! -e $venvactivate ]; then
-            wd=`dirname $wd`
-        else
-            . ${venvactivate}
-            return
-        fi
-    done
-}
-function de() { deactivate; }
-
-# Make pip operation safe!
-alias pip-sys="`which pip`"
-pip() {
-    if [ -n "$VIRTUAL_ENV" ]
-    then `which pip` "$@"
-    else echo "Not currently in a venv -- use pip-sys to work system-wide."
-    fi
-}
-pipf() {
-    pip freeze > requirements.txt
-}
-
-
-# BCVI stuff
-alias bcvi='${HOME}/opt/bcvi/bin/bcvi'
-alias ssh="bcvi --wrap-ssh --"
-
-
-# Android
-export ANDROIDSDK="${HOME}"/opt/android-sdk
-alias android="${ANDROIDSDK}"/tools/android
-
-adb() {
-    local ADB="${ANDROIDSDK}"/platform-tools/adb
-    case $1 in
-        ls)
-            ${ADB} devices -l
-            ;;
-        sc)
-            local dest=${2:-screenshot.png}
-            ${ADB} shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > ${dest}
-            ;;
-        *)
-            ${ADB} "$@"
-            ;;
-    esac
-}
-
-# iOS emulator id
-_iei() { xcrun simctl list devices | grep -v unavailable | grep 'iPhone 5s' | awk '{print $3}' | tr -d \(\); }
-
-# Titanium
-ti() { myreattach-to-user-namespace appc ti --no-color --shadow "$@"; }
-tiba() { ti build --platform android "$@"; }
-tibad() { ti build --platform android "$@" --target device; }
-tiba4() { ti build --platform android "$@" --device-id nexus4; }
-tiba5() { ti build --platform android "$@" --device-id nexus5; }
-tibi() { ti build --platform ios "$@"; }
-tibid() { tibi --target device; }
-tibi4s() { tibi -C $(_iei 'iPhone 4s') "$@"; }
-tibi5s() { tibi -C $(_iei 'iPhone 5s') "$@"; }
-tibi6() { tibi -C $(_iei 'iPhone 6') "$@"; }
-ticl() { ti clean; rm -rf build Resources; }
-tilog() {
-    local package=$(xpath tiapp.xml '//ti:app/id/text()')
-    adb logcat | grep `adb shell ps | grep $package | cut -c10-15`
-}
-
-# Emulators
-ea4() { ${ANDROIDSDK}/tools/emulator -avd nexus4 -scale 0.40 & }
-ea5() { ${ANDROIDSDK}/tools/emulator -avd nexus5 -scale 0.29 & }
-ei4s() { open -a "iOS Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 4s'); }
-ei5s() { open -a "iOS Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 5s'); }
-ei6() { open -a "iOS Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 6'); }
-
-# Runapp
-ka() {
-    kill `cat .bgrun.pid`
-}
-ra() {
-    rk; bgrun "python run_app.py"
-    watchmedo shell-command \
-        --recursive \
-        --wait \
-        --patterns='*.py;*.html;*.js' \
-        --command='echo "${watch_src_path}"; bash -c "kill `cat .bgrun.pid`; bgrun \"python run_app.py\""'
-}
-
-# Useful functions {{{
-
-eb() { vim ~/.bashrc; }
-eg() { vim ~/.gitconfig; }
-eh() { vim ~/.hgrc; }
-ep() { vim ~/.pentadactylrc; }
-es() { vim ~/.slate; }
-ev() { vim ~/.vimrc; }
-
-function ..() {     cd ..; }
-function ...() {    cd ../..; }
-function ....() {   cd ../../..; }
-function .....() {   cd ../../../..; }
-
-edit-pasteboard() {
-    cb | vipe | cb
-}
-
-function rldmyfuckinbashrc() { . ~/.bashrc; }
-
-# }}}
-# Vim {{{
-
-# I give up
-alias :q=exit
-alias :qa=exit
-
-bind -m vi-command '"H":beginning-of-line'
-bind -m vi-command '"L":end-of-line'
-
-set -o vi
-
-# }}}
