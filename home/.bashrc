@@ -381,6 +381,10 @@ ra() {
         --command='echo "${watch_src_path}"; bash -c "kill `cat .bgrun.pid`; bgrun \"python run_app.py\""'
 }
 
+edit-pasteboard() {
+    cb | vipe | cb
+}
+
 # ZOMG!
 alias :q=exit
 alias :qa=exit
