@@ -35,6 +35,8 @@ email = matteo@matteolandi.net
     pu = pull
     pus = !git submodule foreach git pull
     p = push
+    root = rev-parse --show-toplevel
+    currentbranch = rev-parse --abbrev-ref HEAD
     dl = !git diff -w $@ | vim -R -c 'set ft=diff' -
     in = !git fetch && git log --pretty=oneline --abbrev-commit --graph ..@{u}
     shelve = stash save --include-untracked
