@@ -88,6 +88,7 @@ function de() { deactivate; }
 function edit-pasteboard() { cb | vipe | cb; }
 function g() { git "$@"; }
 function h() { hg "$@"; }
+function headn() { head -n "$@"; }
 function hl() { grep -E --color=always --line-buffered "$1|\$"; }
 function j() { z "$@"; }
 function l() { l1 "$@"; }
@@ -104,9 +105,12 @@ function ll3() { tree --dirsfirst -ChFupDaL 3 "$@"; }
 function ll4() { tree --dirsfirst -ChFupDaL 4 "$@"; }
 function ll5() { tree --dirsfirst -ChFupDaL 5 "$@"; }
 function ll6() { tree --dirsfirst -ChFupDaL 6 "$@"; }
+function m() { mvn --batch-mode "$@"; }
 function md() { mkdir -p "$@"; }
+function median() { percentile 50; }
 function o() { open "$@"; }
 function oo() { open .; }
+function percentile() { awk "{ a[i++]=\$0; } END { print a[int(i*$1/100)]; }"; }
 function pip() {
     if [ -n "$VIRTUAL_ENV" ]; then
         `which pip` "$@"
@@ -122,6 +126,7 @@ function serve-this() { python -m SimpleHTTPServer; }
 function ssh() { bcvi --wrap-ssh --; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
+function vw() { vim -R -; }
 function wo() {
     local wd=`pwd`
 
