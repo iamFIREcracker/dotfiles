@@ -613,6 +613,15 @@ augroup ft_scala
 augroup END
 
 " }}}
+" Sh {{{
+
+augroup ft_sh
+    au!
+
+    au FileType sh setlocal foldmethod=marker
+augroup END
+
+" }}}
 " Vagrant {{{
 
 augroup ft_vagrant
