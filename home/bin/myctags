@@ -41,8 +41,14 @@ fi
 
 # Appcelerator
 if [ -f tiapp.xml ]; then
+    ${FIND} . -iname '*.js' | grep -Ev '(.min.js|jquery[-.].*.js|.json$|^./build|^./Resources)' | xargs jsctags -f tags > tags
 
-    ${FIND} . -iname '*.js' | grep -Ev '(.min.js|jquery[-.].*.js|.json$|^./build|^./Resources)' | xargs jsctags -f tags
+    mv tags tags1
+fi
+
+# Node
+if [ -f package.json ]; then
+    ${FIND} . -iname '*.js' | grep -Ev '(.min.js|jquery[-.].*.js|.json$)' | xargs jsctags -f tags > tags
 
     mv tags tags1
 fi
