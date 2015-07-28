@@ -7,6 +7,10 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+if [ -f /usr/local/etc/bash_completion ]; then
+    . /usr/local/etc/bash_completion
+fi
+
 # }}}
 # Vim mode {{{
 
@@ -62,6 +66,11 @@ export PYTHONSTARTUP="$HOME/.pythonrc.py"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # }}}
+# }}}
+# Z {{{
+
+. ~/opt/z/z.sh
+
 # }}}
 # Useful functions {{{
 
@@ -210,11 +219,6 @@ tilog() {
 }
 
 # }}}
-# }}}
-# Z {{{
-
-. ~/opt/z/z.sh
-
 # }}}
 # Prompt {{{
 
