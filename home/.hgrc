@@ -7,7 +7,6 @@ ignore = ~/.hgignore
 [extensions]
 color =
 pager =
-prompt = ~/opt/hg-prompt/prompt.py
 record = 
 shelve =
 
