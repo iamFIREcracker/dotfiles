@@ -71,7 +71,7 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 # }}}
 # Z {{{
 
-. ~/opt/z/z.sh
+. ${HOME}/opt/z/z.sh
 
 # }}}
 # Useful functions {{{
@@ -135,6 +135,7 @@ function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collaps
 function rldmyfuckinbashrc() { . ~/.bashrc; }
 function serve-this() { python -m SimpleHTTPServer; }
 function ssh() { bcvi --wrap-ssh --; }
+function tf() { tail -f "$@"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
 function vw() { vim -R -; }
