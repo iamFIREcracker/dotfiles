@@ -143,6 +143,13 @@ function tac() {
     ${tac} "$@"
 }
 function tf() { tail -f "$@"; }
+function tail_from() {
+    tail -n 0 -f $2 > /tmp/tail_from.$$ &
+    tac $2 | sed "/$1/q" | tac | sed '/^$/d'
+    tail -c +1 -f /tmp/tail_from.$$
+    kill %%
+    rm /tmp/tail_from.$$
+}
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
 function vw() { vim -R -; }
