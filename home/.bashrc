@@ -7,7 +7,9 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-if [ -f /usr/local/etc/bash_completion ]; then
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+elif [ -f /usr/local/etc/bash_completion ]; then
     . /usr/local/etc/bash_completion
 fi
 
@@ -238,8 +240,10 @@ git_ps1() {
 }
 
 hg_ps1() {
-    if hg prompt >/dev/null 2>&1; then
-        hg prompt "{on ${PINK}{branch}${D}}${GREEN}{status}${D}"
+    if hg st >/dev/null 2>&1; then
+        local branch=$(hg branch)
+        local status=$(hg_prompt_status)
+        echo "on ${PINK}${branch}${D}${GREEN}${status}${D}"
     fi
 }
 
