@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+INDEX=$(hg status 2> /dev/null)
+STATUS=""
+
+
+if $(echo "$INDEX" | grep '^? ' &> /dev/null); then
+    STATUS="?$STATUS"
+fi
+
+if $(echo "$INDEX" | grep '^[AMR!] ' &> /dev/null); then
+    STATUS="!$STATUS"
+fi
+
+echo -n $STATUS
