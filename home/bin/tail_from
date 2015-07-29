@@ -8,9 +8,16 @@ if [ -z "${TAC}" ]; then
     fi
 fi
 
+# Be a good citizen!
 trap 'kill -TERM $PID; rm /tmp/tail_from.$$' TERM INT
 
+# `tail -f` the file, and buffer updates into a separate file.
 tail -n 0 -f $2 > /tmp/tail_from.$$ &
 PID=$!
+
+# Read the file backwards until the first pattern occurrence of the search
+# string is found, and then reverse the text stream again and print it on stdout
 ${TAC} $2 | sed "/$1/q" | ${TAC}
+
+# `tail -f` the file used as a buffer for updates
 tail -c +1 -f /tmp/tail_from.$$
