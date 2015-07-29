@@ -157,3 +157,6 @@
 [submodule "home/.vim/bundle/YouCompleteMe"]
 	path = home/.vim/bundle/YouCompleteMe
 	url = https://github.com/Valloric/YouCompleteMe.git
+[submodule "home/opt/hhighlighter"]
+	path = home/opt/hhighlighter
+	url = https://github.com/paoloantinori/hhighlighter.git
