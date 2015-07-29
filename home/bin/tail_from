@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 
+TAC=$(which tac 2>/dev/null)
+if [ -z "${TAC}" ]; then
+    TAC=$(which gtac 2>/dev/null)
+    if [ -z "${TAC}" ]; then
+        echo 'Please install tac/gtac'
+    fi
+fi
+
 trap 'kill -TERM $PID; rm /tmp/tail_from.$$' TERM INT
 
 tail -n 0 -f $2 > /tmp/tail_from.$$ &
 PID=$!
-gtac $2 | sed "/$1/q" | gtac
+${TAC} $2 | sed "/$1/q" | ${TAC}
 tail -c +1 -f /tmp/tail_from.$$
