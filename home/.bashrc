@@ -145,7 +145,7 @@ function tac() {
 function tf() { tail -f "$@"; }
 function tail_from() {
     tail -n 0 -f $2 > /tmp/tail_from.$$ &
-    tac $2 | sed "/$1/q" | tac | sed '/^$/d'
+    tac $2 | sed "/$1/q" | tac
     tail -c +1 -f /tmp/tail_from.$$
     kill %%
     rm /tmp/tail_from.$$
@@ -179,7 +179,6 @@ function wpr() {
         --command='echo "${watch_src_path}"; bash -c "kill `cat .bgrun.pid`; bgrun \"python run_app.py\""'
 }
 
-# }}}
 # Mobile dev {{{
 
 ANDROIDSDK="${HOME}"/opt/android-sdk
@@ -235,6 +234,7 @@ tilog() {
     adb logcat | grep `adb shell ps | grep $package | cut -c10-15`
 }
 
+# }}}
 # }}}
 # }}}
 # Function completion {{{
