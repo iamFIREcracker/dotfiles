@@ -33,7 +33,6 @@ email = matteo@matteolandi.net
     ll = log -36 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
     lll = log -72 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
     pu = pull
-    pus = !git submodule foreach git pull
     p = push
     root = rev-parse --show-toplevel
     currentbranch = rev-parse --abbrev-ref HEAD
@@ -42,5 +41,7 @@ email = matteo@matteolandi.net
     shelve = stash save --include-untracked
     unshelve = stash pop
     record = commit -v -p $@
+    su = submodule update --init --recursive
+    spu = submodule foreach git pull
 [core]
 	excludesfile = ~/.gitignore_global
