@@ -27,12 +27,12 @@ email = matteo@matteolandi.net
 [alias]
     st = status -s
     ci = commit -v
-    cm = commit -v -a -m
-    cp = commit -v -a -p
+    cm = commit -v -m
+    cmm = commit -v -a -m 'Merge'
     l  = log -18 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
     ll = log -36 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
     lll = log -72 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
-    pu = pull
+    pu = !git pull && git submodule update --init --recursive
     p = push
     root = rev-parse --show-toplevel
     currentbranch = rev-parse --abbrev-ref HEAD
@@ -41,7 +41,6 @@ email = matteo@matteolandi.net
     shelve = stash save --include-untracked
     unshelve = stash pop
     record = commit -v -p $@
-    su = submodule update --init --recursive
-    spu = submodule foreach git pull
+    spu = submodule foreach 'git pull origin master || git pull origin origin'
 [core]
 	excludesfile = ~/.gitignore_global
