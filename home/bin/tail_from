@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+trap 'kill -TERM $PID; rm /tmp/tail_from.$$' TERM INT
+
+tail -n 0 -f $2 > /tmp/tail_from.$$ &
+PID=$!
+gtac $2 | sed "/$1/q" | gtac
+tail -c +1 -f /tmp/tail_from.$$
