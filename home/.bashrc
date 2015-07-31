@@ -84,10 +84,10 @@ ep() { vim ~/.pentadactylrc; }
 es() { vim ~/.slate; }
 ev() { vim ~/.vimrc; }
 
-function ..() {     cd ..; }
-function ...() {    cd ../..; }
-function ....() {   cd ../../..; }
-function .....() {   cd ../../../..; }
+function ..() {     cd ../"$@"; }
+function ...() {    cd ../../"$@"; }
+function ....() {   cd ../../../"$@"; }
+function .....() {   cd ../../../../"$@"; }
 
 
 
