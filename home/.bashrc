@@ -100,7 +100,13 @@ function edit-pasteboard() { cb | vipe | cb; }
 function g() { git "$@"; }
 function h() { hg "$@"; }
 function hn() { head -n "$@"; }
-function hl() { grep -E --color=always --line-buffered "$1|\$"; }
+function hl() { hl1 "$@"; }
+function hl1() { GREP_COLOR="1;31" grep -E --color=always --line-buffered "$1|\$"; }
+function hl2() { GREP_COLOR="1;32" grep -E --color=always --line-buffered "$1|\$"; }
+function hl3() { GREP_COLOR="1;33" grep -E --color=always --line-buffered "$1|\$"; }
+function hl4() { GREP_COLOR="1;34" grep -E --color=always --line-buffered "$1|\$"; }
+function hl5() { GREP_COLOR="1;35" grep -E --color=always --line-buffered "$1|\$"; }
+function hl6() { GREP_COLOR="1;36" grep -E --color=always --line-buffered "$1|\$"; }
 function j() { z "$@"; }
 function l() { l1 "$@"; }
 function l1() { tree --dirsfirst -ChFL 1 "$@"; }
