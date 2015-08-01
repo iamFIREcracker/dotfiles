@@ -100,7 +100,23 @@ function edit-pasteboard() { cb | vipe | cb; }
 function g() { git "$@"; }
 function h() { hg "$@"; }
 function hn() { head -n "$@"; }
-function hl() { hl1 "$@"; }
+function hl() {
+    if [ $# == 1 ]; then
+        hl1 $1
+    elif [ $# == 2 ]; then
+        hl1 $1 | hl2 $2
+    elif [ $# == 3 ]; then
+        hl1 $1 | hl2 $2 | hl3 $3
+    elif [ $# == 4 ]; then
+        hl1 $1 | hl2 $2 | hl3 $3 | hl4 $4
+    elif [ $# == 5 ]; then
+        hl1 $1 | hl2 $2 | hl3 $3 | hl4 $4 | hl5 $5
+    elif [ $# == 6 ]; then
+        hl1 $1 | hl2 $2 | hl3 $3 | hl4 $4 | hl5 $5 | hl6 $6
+    elif [ $# -gt 6 ]; then
+        hl1 $1 | hl2 $2 | hl3 $3 | hl4 $4 | hl5 $5 | hl6 $6 | hl "${@:7}"
+    fi
+}
 function hl1() { GREP_COLOR="1;31" grep -E --color=always --line-buffered "$1|\$"; }
 function hl2() { GREP_COLOR="1;32" grep -E --color=always --line-buffered "$1|\$"; }
 function hl3() { GREP_COLOR="1;33" grep -E --color=always --line-buffered "$1|\$"; }
