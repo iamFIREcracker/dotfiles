@@ -138,6 +138,7 @@ function ll3() { tree --dirsfirst -ChFupDaL 3 "$@"; }
 function ll4() { tree --dirsfirst -ChFupDaL 4 "$@"; }
 function ll5() { tree --dirsfirst -ChFupDaL 5 "$@"; }
 function ll6() { tree --dirsfirst -ChFupDaL 6 "$@"; }
+function ls() { fortune; }
 function m() { mvn --batch-mode "$@"; }
 function md() { mkdir -p "$@"; }
 function median() { percentile 50; }
@@ -154,7 +155,7 @@ function pip() {
 function pipf() { pip freeze > requirements.txt; }
 function pip-sys() { $(which pip) "$@"; }
 function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collapse | cuts -f 2,11-; }
-function rldmyfuckinbashrc() { . ~/.bashrc; }
+function sb() { . ~/.bashrc; }
 function serve-this() { python -m SimpleHTTPServer; }
 function ssh() { bcvi --wrap-ssh --; }
 function tf() { tail -f "$@"; }
