@@ -177,6 +177,30 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 " }}}
 
 " }}}
+" Abbreviations ----------------------------------------------------------- {{{
+
+function! EatChar(pat)
+    let c = nr2char(getchar(0))
+    return (c =~ a:pat) ? '' : c
+endfunction
+
+function! MakeSpacelessIabbrev(from, to)
+    execute "iabbrev <silent> ".a:from." ".a:to."<C-R>=EatChar('\\s')<CR>"
+endfunction
+function! MakeSpacelessBufferIabbrev(from, to)
+    echom "iabbrev <silent> <buffer> ".a:from." ".a:to."<C-R>=EatChar('\\s')<CR>"
+    execute "iabbrev <silent> <buffer> ".a:from." ".a:to."<C-R>=EatChar('\\s')<CR>"
+endfunction
+
+call MakeSpacelessIabbrev('ml/',  'http://matteolandi.net/')
+call MakeSpacelessIabbrev('bb/',  'http://bitbucket.org/')
+call MakeSpacelessIabbrev('bbm/', 'http://bitbucket.org/iamFIREcracker/')
+call MakeSpacelessIabbrev('gh/',  'http://github.com/')
+call MakeSpacelessIabbrev('ghm/', 'http://github.com/iamFIREcracker/')
+
+iabbrev ml@ matteo@matteolandi.net
+
+" }}}
 " Searching and movement -------------------------------------------------- {{{
 
 " Use sane regexes.
@@ -451,6 +475,16 @@ augroup ft_javascript
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
     "au Filetype javascript inoremap <buffer> {<cr> {<cr><space><space><space><space>.<cr>}<esc>kA<bs>
+
+    au FileType javascript call MakeSpacelessBufferIabbrev('fn', 'function ')
+    au FileType javascript call MakeSpacelessBufferIabbrev('function', 'NOPENOPENOPE')
+
+    au FileType javascript call MakeSpacelessBufferIabbrev('rt', 'return ;<left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('return', 'NOPENOPENOPE')
+
+    au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('console', 'NOPENOPENOPE')
+
 augroup END
 
 " }}}
