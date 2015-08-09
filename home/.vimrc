@@ -596,8 +596,6 @@ augroup ft_scala
     au Filetype scala nnoremap <buffer> M :call scaladoc#Search(expand("<cword>"))<cr>
     au Filetype scala vnoremap <buffer> M "ry:call scaladoc#Search(@r)<cr>
     au Filetype scala nnoremap <buffer> <localleader>t :call DispatchMavenTest()<cr>
-    au Filetype scala nmap <buffer> <localleader>( ysiwbi
-    au Filetype scala nmap <buffer> <localleader>[ ysiwri
     ")]
 augroup END
 
@@ -899,16 +897,6 @@ let g:pymode_folding = 0
 
 let g:pymode_syntax_all = 0
 let g:pymode_syntax_builtin_objs = 1
-
-" }}}
-" SnipMate {{{
-
-imap <C-J> <Plug>snipMateTrigger
-imap <C-J> <Plug>snipMateNextOrTrigger
-smap <C-J> <Plug>snipMateNextOrTrigger
-imap <S-Tab> <Plug>snipMateBack
-smap <S-Tab> <Plug>snipMateBack
-imap <C-R><C-J> <Plug>snipMateShow
 
 " }}}
 " Supertab {{{
