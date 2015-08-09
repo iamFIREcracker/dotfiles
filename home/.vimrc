@@ -482,7 +482,8 @@ augroup ft_javascript
     " positioned inside of them AND the following code doesn't get unfolded.
     au Filetype javascript inoremap <buffer> {<cr> {}<left><cr><cr><up><space><space><space><space><esc>zoa
 
-    au FileType javascript call MakeSpacelessBufferIabbrev('fn', 'function ')
+    au FileType javascript call MakeSpacelessBufferIabbrev('fn',  'function ')
+    au FileType javascript call MakeSpacelessBufferIabbrev('afn', 'function(')
     au FileType javascript call MakeSpacelessBufferIabbrev('function', 'NOPENOPENOPE')
 
     au FileType javascript call MakeSpacelessBufferIabbrev('rt', 'return ;<left>')
