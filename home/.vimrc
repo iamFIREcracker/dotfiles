@@ -1,4 +1,4 @@
-" Preamble -----------------------------------------------------------------{{{
+" Preamble ---------------------------------------------------------------- {{{
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 
 filetype off
@@ -8,7 +8,7 @@ filetype plugin indent on
 set nocompatible
 
 " }}}
-" Basic options ------------------------------------------------------------{{{
+" Basic options ----------------------------------------------------------- {{{
 set encoding=utf-8
 set modelines=0
 set mouse=a
@@ -1043,7 +1043,7 @@ else
 endif
 
 " }}}
-" Training -----------------------------------------------------------------{{{
+" Training ---------------------------------------------------------------- {{{
 
 nnoremap <up> <nop>
 nnoremap <down> <nop>
