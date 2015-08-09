@@ -18,16 +18,10 @@ set showcmd
 set hidden
 set visualbell
 set cursorline
-autocmd WinLeave * setlocal nocursorline
-autocmd WinEnter * setlocal cursorline
 set ttyfast
 set ruler
 set backspace=indent,eol,start
 set relativenumber
-autocmd WinLeave * setlocal norelativenumber
-autocmd WinEnter * setlocal relativenumber
-autocmd InsertEnter * setlocal norelativenumber
-autocmd InsertLeave * setlocal relativenumber
 set laststatus=2
 set history=1000
 set undofile
@@ -61,17 +55,38 @@ set dictionary=/usr/share/dict/words
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
 
-" Save when losing focus
-au FocusLost * :wa
+" Save when losing focus {{{
 
-" Resize splits when the window is resized
-au VimResized * :wincmd =
+augroup auto_save
+    au!
 
+    au FocusLost * :wa
+augroup END
+
+" }}}
+" Resize splits when the window is resized {{{
+
+augroup auto_win_resize
+    au!
+    au VimResized * :wincmd =
+augroup END
+
+" }}}
+" Disable cursorline when losing focus {{{
+
+augroup cursorline
+    au!
+    au WinLeave * setlocal nocursorline
+    au WinEnter * setlocal cursorline
+augroup END
+
+" }}}
 " cpoptions+=J, dammit {{{
 
 " Something occasionally removes this.  If I manage to find it I'm going to
 " comment out the line and replace all its characters with 'FUCK'.
 augroup twospace
+    au!
     au BufRead * :set cpoptions+=J
 augroup END
 
@@ -284,11 +299,16 @@ vnoremap <space> za
 " Use ,z to "focus" the current fold.
 nnoremap <leader>z zMzvzz
 
+" Automatic unfolding {{{
 " Fix automatic unfolding while entering insert mode
 " http://stackoverflow.com/questions/4630892/vim-folds-open-up-when-giving-an-unmatched-opening-brace-parenthesis
-autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
-autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
+augroup unfolding
+    au!
+    au InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
+    au InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
+augroup END
 
+" }}}
 " }}}
 " Destroy infuriating keys ------------------------------------------------ {{{
 
@@ -407,6 +427,19 @@ augroup ft_html
 augroup END
 
 " }}}
+" Java {{{
+
+augroup ft_java
+    au!
+
+    au FileType java setlocal tabstop=4 shiftwidth=4 softtabstop=4
+    au FileType java setlocal foldmethod=marker foldmarker={,}
+    au Filetype java setlocal textwidth=120
+    au Filetype java compiler maven
+    au Filetype java let b:dispatch = 'mvn -B package install'
+augroup END
+
+" }}}
 " Javascript {{{
 
 augroup ft_javascript
@@ -418,49 +451,6 @@ augroup ft_javascript
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
     "au Filetype javascript inoremap <buffer> {<cr> {<cr><space><space><space><space>.<cr>}<esc>kA<bs>
-augroup END
-
-" }}}
-" SQL {{{
-
-augroup ft_sql
-    au!
-
-    au FileType sql setlocal foldmethod=marker
-    au FileType sql setlocal foldmarker={{{,}}}
-    "
-    " Send to tmux with localleader e
-    au FileType sql nnoremap <buffer> <silent> <localleader>e :let sql_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(sql_tslime_view)<cr>
-
-augroup END
-
-" }}}
-" Pentadacty {{{
-
-augroup ft_pentadactyl
-    au!
-
-    au FileType pentadactyl setlocal foldmethod=marker
-    au FileType pentadactyl setlocal foldmarker={{{,}}}
-augroup END
-
-" }}}
-" Vagrant {{{
-
-augroup ft_vagrant
-    au!
-    au BufRead,BufNewFile Vagrantfile set ft=ruby
-augroup END
-
-" }}}
-" Vim {{{
-
-augroup ft_vim
-    au!
-
-    au FileType vim setlocal foldmethod=marker
-    au FileType help setlocal textwidth=78
-    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
 augroup END
 
 " }}}
@@ -488,6 +478,16 @@ augroup ft_markdown
     au Filetype markdown nnoremap <buffer> <localleader>3 yypVr+
     au Filetype markdown nnoremap <buffer> <localleader>4 yypVr*
 
+augroup END
+
+" }}}
+" Pentadacty {{{
+
+augroup ft_pentadactyl
+    au!
+
+    au FileType pentadactyl setlocal foldmethod=marker
+    au FileType pentadactyl setlocal foldmarker={{{,}}}
 augroup END
 
 " }}}
@@ -557,21 +557,10 @@ augroup END
 " Ruby {{{
 
 augroup ft_ruby
-    " Send to tmux with localleader e
-    au FileType ruby nnoremap <buffer> <silent> <localleader>e :let ruby_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(ruby_tslime_view)<cr>
-augroup END
-
-" }}}
-" Java {{{
-
-augroup ft_java
     au!
 
-    au FileType java setlocal tabstop=4 shiftwidth=4 softtabstop=4
-    au FileType java setlocal foldmethod=marker foldmarker={,}
-    au Filetype java setlocal textwidth=120
-    au Filetype java compiler maven
-    au Filetype java let b:dispatch = 'mvn -B package install'
+    " Send to tmux with localleader e
+    au FileType ruby nnoremap <buffer> <silent> <localleader>e :let ruby_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(ruby_tslime_view)<cr>
 augroup END
 
 " }}}
@@ -610,6 +599,20 @@ augroup ft_scala
     au Filetype scala nmap <buffer> <localleader>( ysiwbi
     au Filetype scala nmap <buffer> <localleader>[ ysiwri
     ")]
+augroup END
+
+" }}}
+" SQL {{{
+
+augroup ft_sql
+    au!
+
+    au FileType sql setlocal foldmethod=marker
+    au FileType sql setlocal foldmarker={{{,}}}
+    "
+    " Send to tmux with localleader e
+    au FileType sql nnoremap <buffer> <silent> <localleader>e :let sql_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(sql_tslime_view)<cr>
+
 augroup END
 
 " }}}
@@ -715,8 +718,11 @@ noremap ` '
 
 " Better Completion
 set completeopt=longest,menuone,preview
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 inoremap <expr> <Tab> pumvisible() ? "<C-Y>" : "<Tab>"
+augroup close_completion_menu
+    au!
+    au InsertLeave * if pumvisible() == 0|pclose|endif
+augroup END
 
 " Unfuck my screen
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
@@ -1112,7 +1118,3 @@ function! PulseCursorLine()
 	execute current_window . 'wincmd w'
 endfunction
 " }}}
-
-autocmd BufRead /*svneditor* se norelativenumber
-autocmd BufRead /*hgeditor* se norelativenumber
-autocmd BufRead *.muttrc se filetype=muttrc
