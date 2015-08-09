@@ -687,6 +687,11 @@ nnoremap <leader>eg <C-w>v<C-w>j:e ~/.gitconfig<cr>
 nnoremap <leader>ev <C-w>v<C-w>j:e $MYVIMRC<cr>
 
 " }}}
+" Quick reload ------------------------------------------------------------ {{{
+
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" }}}
 " Convenience mappings ---------------------------------------------------- {{{
 
 " Go to previous buffer
@@ -699,12 +704,10 @@ nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<cr>
 nnoremap <C-u> gUiw
 inoremap <C-u> <esc>gUiwea
 
-" Substitute on the selection
-vnoremap <leader>s :Subvert//c<left><left>
-" Substitute the character under the cursor
-nnoremap <leader>s yl:%Subvert/<C-R>0//c<left><left>
 " Substitute the word under the cursor
 nnoremap <leader>S :%Subvert/<c-r>=expand("<cword>")<cr>//c<left><left>
+" Substitute on the selection
+vnoremap <leader>S :Subvert//c<left><left>
 
 " Emacs bindings in command line mode
 cnoremap <C-a> <home>
