@@ -849,6 +849,12 @@ nnoremap <C-P> :CtrlP<cr>
 let delimitMate_expand_cr = 0
 
 " }}}
+" Dispatch {{{
+
+nnoremap <leader>d :Dispatch<cr>
+nnoremap <leader>m :Dispatch<cr>
+
+" }}}
 " Easymotion {{{
 
 let g:EasyMotion_leader_key = '<leader>'
@@ -866,6 +872,11 @@ let g:gundo_preview_statusline = "Gundo Preview"
 " JK-Jumps {{{
 "
 let g:jk_jumps_minimum_lines = 2
+
+" }}}
+" Maven {{{
+
+let g:maven_disable_mappings = 1
 
 " }}}
 " Powerline {{{
@@ -902,20 +913,23 @@ imap <C-R><C-J> <Plug>snipMateShow
 " }}}
 " Supertab {{{
 
-let g:SuperTabDefaultCompletionType = 'context'
+let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabLongestHighlight = 1
-let g:SuperTabLongestEnhanced = 1
-let g:SuperTabCrMapping = 0
-let g:SuperTabClosePreviewOnPopupClose = 1
+let g:SuperTabCrMapping = 1
 
 " }}}
-
 " Syntastic {{{
 
+let g:syntastic_java_checker = 'javac'
 let g:syntastic_javascript_checkers = ['jslint']
+let g:syntastic_mode_map = {
+            \ "mode": "active",
+            \ "active_filetypes": [],
+            \ "passive_filetypes": ['java', 'html', 'rst']
+            \ }
+nnoremap <leader>C :SyntasticCheck<cr>
 
 " }}}
-
 " tslime2 {{{
 
 let g:tslime_ensure_trailing_newlines = 1
@@ -923,26 +937,17 @@ let g:tslime_ensure_trailing_newlines = 1
 " }}}
 " YankRing {{{
 
-let g:yankring_replace_n_pkey = ''
-let g:yankring_replace_p_pkey = ''
-
 function! YRRunAfterMaps()
+    " Make Y yank to end of line.
     nnoremap Y :<C-U>YRYankCount 'y$'<CR>
+
+    " Fix L and H in operator-pending mode, so yH and such works.
     omap <expr> L YRMapsExpression("", "$")
     omap <expr> H YRMapsExpression("", "^")
+
+    " Don't clobber the yank register when pasting over text in visual mode.
+    vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr>
 endfunction
-
-
-" }}}
-" Dispatch {{{
-
-nnoremap <leader>d :Dispatch<cr>
-nnoremap <leader>m :Dispatch<cr>
-
-" }}}
-" Maven {{{
-
-let g:maven_disable_mappings = 1
 
 " }}}
 
@@ -1045,7 +1050,8 @@ if has('gui_running')
     set guicursor=n-v-c:block-Cursor-blinkon0
     set guicursor+=i-c:ver20-Cursor
 else
-    " Console Vim
+    " Mouse support
+    set mouse=a
 endif
 
 " }}}
