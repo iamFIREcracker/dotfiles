@@ -157,3 +157,6 @@
 [submodule "home/opt/hhighlighter"]
 	path = home/opt/hhighlighter
 	url = https://github.com/paoloantinori/hhighlighter.git
+[submodule "home/.vim/bundle/vim-jade"]
+	path = home/.vim/bundle/vim-jade
+	url = https://github.com/digitaltoad/vim-jade.git
