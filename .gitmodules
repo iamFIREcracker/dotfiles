@@ -136,3 +136,9 @@
 [submodule "home/.vim/bundle/vim-jade"]
 	path = home/.vim/bundle/vim-jade
 	url = https://github.com/digitaltoad/vim-jade.git
+[submodule "home/.vim/bundle/vim-airline"]
+	path = home/.vim/bundle/vim-airline
+	url = https://github.com/bling/vim-airline.git
+[submodule "home/opt/fonts"]
+	path = home/opt/fonts
+	url = https://github.com/powerline/fonts.git
