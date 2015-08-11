@@ -457,6 +457,15 @@ augroup ft_html
 augroup END
 
 " }}}
+" Jade {{{
+
+augroup ft_jade
+    au!
+
+    au FileType jade setlocal tabstop=2 shiftwidth=2 softtabstop=2
+augroup END
+
+" }}}
 " Java {{{
 
 augroup ft_java
