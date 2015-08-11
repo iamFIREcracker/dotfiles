@@ -863,6 +863,12 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
 
+" Airline {{{
+
+let g:airline_theme='dark'
+let g:airline_powerline_fonts = 1
+
+" }}}
 " Ctrl-P {{{
 
 let g:ctrlp_dont_split = 'NERD_tree_2'
@@ -934,11 +940,6 @@ let g:jk_jumps_minimum_lines = 2
 " Maven {{{
 
 let g:maven_disable_mappings = 1
-
-" }}}
-" Powerline {{{
-
-"let g:Powerline_symbols = 'fancy'
 
 " }}}
 " Python-Mode {{{
