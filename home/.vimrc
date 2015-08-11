@@ -985,6 +985,8 @@ let g:tslime_ensure_trailing_newlines = 1
 " }}}
 " YankRing {{{
 
+let g:yankring_replace_n_pkey = ''
+
 function! YRRunAfterMaps()
     " Make Y yank to end of line.
     nnoremap Y :<C-U>YRYankCount 'y$'<CR>
