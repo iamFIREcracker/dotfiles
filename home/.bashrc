@@ -98,6 +98,7 @@ function cuts() { cut -d' ' "$@"; }
 function de() { deactivate; }
 function edit-pasteboard() { cb | vipe | cb; }
 function g() { git "$@"; }
+function gc() { $(which grep) --color=always --line-buffered "$@"; }
 function h() { hg "$@"; }
 function hn() { head -n "$@"; }
 function hl() {
