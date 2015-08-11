@@ -142,3 +142,6 @@
 [submodule "home/opt/fonts"]
 	path = home/opt/fonts
 	url = https://github.com/powerline/fonts.git
+[submodule "home/.vim/bundle/vim-fugitive"]
+	path = home/.vim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
