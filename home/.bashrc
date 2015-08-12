@@ -74,12 +74,17 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 . ${HOME}/opt/z/z.sh
 
 # }}}
+# Extra {{{
+
+. ~/lib/bash/ion.sh
+
+# }}}
 # Useful functions {{{
 
 eb() { vim ~/.bashrc; }
-ef() { vim ~/.config/fish/config.fish; }
 eg() { vim ~/.gitconfig; }
 eh() { vim ~/.hgrc; }
+em() { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX); }
 ep() { vim ~/.pentadactylrc; }
 es() { vim ~/.slate; }
 ev() { vim ~/.vimrc; }
@@ -98,7 +103,8 @@ function cuts() { cut -d' ' "$@"; }
 function de() { deactivate; }
 function edit-pasteboard() { cb | vipe | cb; }
 function g() { git "$@"; }
-function gc() { $(which grep) --color=always --line-buffered "$@"; }
+function grep() { $(which grep) --line-buffered "$@"; }
+function gc() { grep --color=always "$@"; }
 function h() { hg "$@"; }
 function hn() { head -n "$@"; }
 function hl() {
@@ -118,12 +124,12 @@ function hl() {
         hl1 $1 | hl2 $2 | hl3 $3 | hl4 $4 | hl5 $5 | hl6 $6 | hl "${@:7}"
     fi
 }
-function hl1() { GREP_COLOR="1;31" grep -E --color=always --line-buffered "$1|\$"; }
-function hl2() { GREP_COLOR="1;32" grep -E --color=always --line-buffered "$1|\$"; }
-function hl3() { GREP_COLOR="1;33" grep -E --color=always --line-buffered "$1|\$"; }
-function hl4() { GREP_COLOR="1;34" grep -E --color=always --line-buffered "$1|\$"; }
-function hl5() { GREP_COLOR="1;35" grep -E --color=always --line-buffered "$1|\$"; }
-function hl6() { GREP_COLOR="1;36" grep -E --color=always --line-buffered "$1|\$"; }
+function hl1() { GREP_COLOR="1;31" grep -E --color=always "$1|\$"; }
+function hl2() { GREP_COLOR="1;32" grep -E --color=always "$1|\$"; }
+function hl3() { GREP_COLOR="1;33" grep -E --color=always "$1|\$"; }
+function hl4() { GREP_COLOR="1;34" grep -E --color=always "$1|\$"; }
+function hl5() { GREP_COLOR="1;35" grep -E --color=always "$1|\$"; }
+function hl6() { GREP_COLOR="1;36" grep -E --color=always "$1|\$"; }
 function j() { z "$@"; }
 function l() { l1 "$@"; }
 function l1() { tree --dirsfirst -ChFL 1 "$@"; }
