@@ -457,6 +457,15 @@ augroup ft_html
 augroup END
 
 " }}}
+" Gitcommit {{{
+
+augroup ft_gitcommit
+    au!
+
+    au BufNewFile,BufRead *giteditor*/msg setlocal filetype=gitcommit
+augroup END
+
+" }}}
 " Jade {{{
 
 augroup ft_jade
