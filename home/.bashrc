@@ -76,7 +76,7 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 # }}}
 # Extra {{{
 
-. ~/lib/bash/ion.sh
+[ -f ~/lib/bash/ion.sh ] && . ~/lib/bash/ion.sh
 
 # }}}
 # Useful functions {{{
@@ -104,24 +104,40 @@ function de() { deactivate; }
 function edit-pasteboard() { cb | vipe | cb; }
 function g() { git "$@"; }
 function grep() { $(which grep) --line-buffered "$@"; }
-function gc() { grep --color=always "$@"; }
+function gc() {
+    if [ $# == 1 ]; then
+        grep -E "$1" | hl "$@"
+    elif [ $# == 2 ]; then
+        grep -E "$1|$2" | hl "$@"
+    elif [ $# == 3 ]; then
+        grep -E "$1|$2|$3" | hl "$@"
+    elif [ $# == 4 ]; then
+        grep -E "$1|$2|$3|$4" | hl "$@"
+    elif [ $# == 5 ]; then
+        grep -E "$1|$2|$3|$4|$5" | hl "$@"
+    elif [ $# == 6 ]; then
+        grep -E "$1|$2|$3|$4|$5|$6" | hl "$@"
+    else
+        echo Too many arguments
+    fi
+}
 function h() { hg "$@"; }
 function hn() { head -n "$@"; }
 function hl() {
     if [ $# == 1 ]; then
-        hl1 $1
+        hl1 "$1"
     elif [ $# == 2 ]; then
-        hl1 $1 | hl2 $2
+        hl1 "$1" | hl2 "$2"
     elif [ $# == 3 ]; then
-        hl1 $1 | hl2 $2 | hl3 $3
+        hl1 "$1" | hl2 "$2" | hl3 "$3"
     elif [ $# == 4 ]; then
-        hl1 $1 | hl2 $2 | hl3 $3 | hl4 $4
+        hl1 "$1" | hl2 "$2" | hl3 "$3" | hl4 "$4"
     elif [ $# == 5 ]; then
-        hl1 $1 | hl2 $2 | hl3 $3 | hl4 $4 | hl5 $5
+        hl1 "$1" | hl2 "$2" | hl3 "$3" | hl4 "$4" | hl5 "$5"
     elif [ $# == 6 ]; then
-        hl1 $1 | hl2 $2 | hl3 $3 | hl4 $4 | hl5 $5 | hl6 $6
+        hl1 "$1" | hl2 "$2" | hl3 "$3" | hl4 "$4" | hl5 "$5" | hl6 "$6"
     elif [ $# -gt 6 ]; then
-        hl1 $1 | hl2 $2 | hl3 $3 | hl4 $4 | hl5 $5 | hl6 $6 | hl "${@:7}"
+        hl1 "$1" | hl2 "$2" | hl3 "$3" | hl4 "$4" | hl5 "$5" | hl6 "$6" | hl "${@:7}"
     fi
 }
 function hl1() { GREP_COLOR="1;31" grep -E --color=always "$1|\$"; }
