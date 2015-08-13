@@ -43,4 +43,9 @@ email = matteo@matteolandi.net
     record = commit -v -p $@
     spu = submodule foreach 'git pull origin master || git pull origin origin'
 [core]
-	excludesfile = ~/.gitignore_global
+    excludesfile = ~/.gitignore_global
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[mergetool]
+	prompt = false
