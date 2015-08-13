@@ -1,5 +1,5 @@
-BoldAsFont=no
-FontHeight=9
+BoldAsFont=yes
+FontHeight=8
 Term=xterm-256color
 ForegroundColour=242,242,242
 BackgroundColour=0,0,0
@@ -21,3 +21,7 @@ BoldCyan=103,217,240
 White=242,242,242
 BoldWhite=242,242,242
 CursorType=block
+Font=DejaVu Sans Mono for Powerline
+AllowBlinking=yes
+BoldAsColour=yes
+FontSmoothing=full
