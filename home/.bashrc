@@ -181,6 +181,7 @@ function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collaps
 function sb() { . ~/.bashrc; }
 function serve-this() { python -m SimpleHTTPServer; }
 function ssh() { bcvi --wrap-ssh --; }
+function sum() { awk '{s+=$1}END{print s}'; }
 function tf() { tail -f "$@"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
