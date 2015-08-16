@@ -7,7 +7,7 @@ import subprocess
 # Matches `12` from: ` 12) UserManager create Should ...`
 ERROR_PATTERN = re.compile(r'\s*([0-9]+)\) .*')
 # Matches `AssertionError: 1 == 2` in: ` AssertionError: 1 == 2`
-MESSAGE_PATTERN = re.compile(r'\s*(AssertionError: .*)')
+MESSAGE_PATTERN = re.compile(r'\s*(.*Error: .*)')
 # Matches `test/users.js:24:20` in:
 # ` at Context.<anonymous> (test/users.js:24:20)`
 FILE_LINE_COLUMN_PATTERN = re.compile(r'\s*at .* \(([^:]*:[0-9]*:[0-9]*)\)')
