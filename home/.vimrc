@@ -55,6 +55,69 @@ set dictionary=/usr/share/dict/words
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
 
+" Wildmenu completion {{{
+
+set wildmenu
+set wildmode=list:longest
+
+set wildignore+=.hg,.git,.svn                    " Version control
+set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.spl                            " compiled spelling word lists
+set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=*.DS_Store                       " OSX bullshit
+
+set wildignore+=*.pyc                            " Python byte code
+
+set wildignore+=*.orig                           " Merge resolution files
+
+" Clojure/Leiningen
+set wildignore+=classes
+"set wildignore+=lib
+
+" }}}
+" Tabs, spaces, wrapping {{{
+
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+set nowrap
+set textwidth=79
+set formatoptions=qrn1
+set colorcolumn=+1
+
+" }}}
+" Backups {{{
+
+set undodir=~/.vim/tmp/undo//     " undo files
+set backupdir=~/.vim/tmp/backup// " backups
+set directory=~/.vim/tmp/swap//   " swap files
+set backup                        " enable backups
+set noswapfile                    " It's 2012, Vim.
+
+" }}}
+" Leader {{{
+
+let mapleader = ","
+let maplocalleader = "\\"
+
+" }}}
+" Color scheme {{{
+
+syntax on
+set background=dark
+let g:molokai_original = 1
+let g:rehash256 = 1
+colorscheme molokai
+
+" Highlight VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
+" }}}
+" Auttogroups {{{
+
 " Save when losing focus {{{
 
 augroup auto_save
@@ -101,28 +164,6 @@ augroup trailing
 augroup END
 
 " }}}
-" Wildmenu completion {{{
-
-set wildmenu
-set wildmode=list:longest
-
-set wildignore+=.hg,.git,.svn                    " Version control
-set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
-set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
-set wildignore+=*.spl                            " compiled spelling word lists
-set wildignore+=*.sw?                            " Vim swap files
-set wildignore+=*.DS_Store                       " OSX bullshit
-
-set wildignore+=*.pyc                            " Python byte code
-
-set wildignore+=*.orig                           " Merge resolution files
-
-" Clojure/Leiningen
-set wildignore+=classes
-"set wildignore+=lib
-
-" }}}
 " Line Return {{{
 
 " Make sure Vim returns to the same line when you reopen a file.
@@ -136,43 +177,6 @@ augroup line_return
 augroup END
 
 " }}}
-" Tabs, spaces, wrapping {{{
-
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-set nowrap
-set textwidth=79
-set formatoptions=qrn1
-set colorcolumn=+1
-
-" }}}
-" Backups {{{
-
-set undodir=~/.vim/tmp/undo//     " undo files
-set backupdir=~/.vim/tmp/backup// " backups
-set directory=~/.vim/tmp/swap//   " swap files
-set backup                        " enable backups
-set noswapfile                    " It's 2012, Vim.
-
-" }}}
-" Leader {{{
-
-let mapleader = ","
-let maplocalleader = "\\"
-
-" }}}
-" Color scheme {{{
-
-syntax on
-set background=dark
-let g:molokai_original = 1
-let g:rehash256 = 1
-colorscheme molokai
-
-" Highlight VCS conflict markers
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " }}}
 
@@ -275,17 +279,18 @@ noremap <leader>p :set paste<CR>"+p<CR>:set nopaste<CR>
 
 " Error navigation {{{
 "
-"                Location List
-"            (e.g. Syntastic, Ack)
-"            ---------------------
-" Next      |     M-Down          |
-" Previous  |     M-Up            |
-"            ---------------------
+"                Location List         Quickfix
+"            (e.g. Syntastic, Ack) (Make, Dispatch)
+"            --------------------------------------
+" Previous  |     M-k            |        M-h      |
+" Next      |     M-j            |        M-l      |
+"            --------------------------------------
 "
-nnoremap ∆ :lnext<cr>zvzz
+
 nnoremap ˚ :lprevious<cr>zvzz
-inoremap ∆ <esc>:lnext<cr>zvzz
-inoremap ˚ <esc>:lprevious<cr>zvzz
+nnoremap ∆ :lnext<cr>zvzz
+nnoremap ˙ :cprev<cr>zvzz
+nnoremap ¬ :cnext<cr>zvzz
 
 " }}}
 " Directional Keys {{{
@@ -495,13 +500,20 @@ augroup ft_javascript
 
     au FileType javascript setlocal foldmethod=syntax
     au FileType javascript setlocal foldnestmax=1
+    " Deeper nesting for test files so that we can fold 'describe' or 'it' sections
+    au BufNewFile,BufRead test/*.js setlocal foldnestmax=5
+
+    au Filetype javascript nnoremap <buffer> <leader>d :call RunAllSpecs()<cr>
+    au Filetype javascript nnoremap <buffer> <localleader>t :call RunNearestSpec()<cr>
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au Filetype javascript inoremap <buffer> {<cr> {}<left><cr><cr><up><space><space><space><space><esc>zoa
+    au FileType javascript inoremap <buffer> {<cr> {}<left><cr><cr><up><space><space><space><space><esc>zoa
+
+    " Abbreviations {{{
 
     au FileType javascript call MakeSpacelessBufferIabbrev('fn',  'function ')
-    au FileType javascript call MakeSpacelessBufferIabbrev('afn', 'function(')
+    au FileType javascript call MakeSpacelessBufferIabbrev('afn', 'function() {}<left><cr><up><end><left><left><left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('function', 'NOPENOPENOPE')
 
     au FileType javascript call MakeSpacelessBufferIabbrev('rt', 'return ;<left>')
@@ -510,6 +522,43 @@ augroup ft_javascript
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('console', 'NOPENOPENOPE')
 
+    au FileType javascript call MakeSpacelessBufferIabbrev('sc',  '$scope.')
+    au FileType javascript call MakeSpacelessBufferIabbrev('alt',  'alert();<left><left>')
+
+    au FileType javascript call MakeSpacelessBufferIabbrev('aeq',  'assert.equal();<left><left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('aok',  'assert.ok();<left><left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('mcbf',  ''.
+                \ 'before(function() {});'.
+                \ '<left><left><left>'.
+                \ '<cr>'.
+                \ '<up><end>'.
+                \ '<cr>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('mcit',  ''.
+                \ 'it('''', function() {<cr>'.
+                \ '// Given<cr>'.
+                \ 'When<cr>'.
+                \ 'Then'.
+                \ '<down><end>);'.
+                \ '<up><up><up><up><end>'.
+                \ '<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('mcdes',  ''.
+                \ 'describe('''', function() {});'.
+                \ '<left><left><left>'.
+                \ '<cr>'.
+                \ '<up><end>'.
+                \ '<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>')
+    " }}}
+augroup END
+
+" }}}
+" JSON {{{
+
+augroup ft_json
+    au!
+
+    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+    " positioned inside of them AND the following code doesn't get unfolded.
+    au FileType json inoremap <buffer> {<cr> {}<left><cr><cr><up><space><space><space><space><esc>zoa
 augroup END
 
 " }}}
@@ -716,6 +765,15 @@ augroup ft_xml
 augroup END
 
 " }}}
+" YAML {{{
+
+augroup ft_yaml
+    au!
+
+    au FileType yaml setlocal ts=2 sw=2 sts=2
+augroup END
+
+" }}}
 
 " }}}
 " Quick editing ----------------------------------------------------------- {{{
@@ -802,8 +860,9 @@ augroup END
 " Unfuck my screen
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 
-" Quickreturn
-inoremap <s-cr> <esc>A<cr>
+" Quickreturn -- on my terminal, C-CR generates ✠
+inoremap ✠ <esc>A<cr>
+
 
 " Toggle [I]nvisible Characters
 nnoremap <leader>I :set list!<cr>
@@ -909,7 +968,7 @@ let ctrlp_filter_greps = "".
     \ "jar|class|swp|swo|log|so|o|pyc|jpe?g|png|gif|mo|po" .
     \ ")$' | " .
     \ "egrep -v '^(\\./)?(" .
-    \ "deploy/|lib/|classes/|libs/|deploy/vendor/|.git/|.hg/|.svn/|.*migrations/" .
+    \ "deploy/|classes/|libs/|deploy/vendor/|.git/|.hg/|.svn/|.*migrations/" .
     \ ")'"
 
 let my_ctrlp_user_command = "" .
@@ -1021,6 +1080,14 @@ nnoremap <leader>C :SyntasticCheck<cr>
 " tslime2 {{{
 
 let g:tslime_ensure_trailing_newlines = 1
+
+" }}}
+" Vim-Mocha {{{
+
+let g:mocha_js_command = 
+            \ 'Dispatch -compiler=mocha-wrapper ' .
+            \ fnameescape(globpath(&runtimepath, 'compiler/mocha-wrapper.py')) .
+            \ ' --recursive --no-colors {spec}'
 
 " }}}
 " YankRing {{{
