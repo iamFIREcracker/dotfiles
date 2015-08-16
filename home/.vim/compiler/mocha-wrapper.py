@@ -56,6 +56,6 @@ def process(output):
 
 
 if __name__ == '__main__':
-    cmd = 'mocha %s || :' % ' '.join(sys.argv[1:])
+    cmd = 'mocha %s || :' % ' '.join('"%s"' % a for a in sys.argv[1:])
     output = subprocess.check_output(cmd, shell=True)
     process(output)
