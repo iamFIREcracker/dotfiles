@@ -40,9 +40,6 @@
 [submodule "home/.vim/bundle/jk-jumps"]
 	path = home/.vim/bundle/jk-jumps
 	url = https://github.com/teranex/jk-jumps.vim.git
-[submodule "home/.vim/bundle/vim-easymotion"]
-	path = home/.vim/bundle/vim-easymotion
-	url = https://github.com/Lokaltog/vim-easymotion.git
 [submodule "home/.vim/bundle/closetag.vim"]
 	path = home/.vim/bundle/closetag.vim
 	url = https://github.com/docunext/closetag.vim.git
