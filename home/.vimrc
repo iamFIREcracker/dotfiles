@@ -791,8 +791,8 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 " }}}
 " Convenience mappings ---------------------------------------------------- {{{
 
-" Go to previous buffer
-nnoremap <leader>b :b#<CR>
+" Break undo on <CR>
+nnoremap <CR> <C-G>u<CR>
 
 " Clean trailing whitespace
 nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<cr>
