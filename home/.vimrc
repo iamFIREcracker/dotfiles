@@ -519,6 +519,11 @@ augroup ft_javascript
     au FileType javascript call MakeSpacelessBufferIabbrev('rt', 'return ;<left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('return', 'NOPENOPENOPE')
 
+    au FileType javascript call MakeSpacelessBufferIabbrev('db', 'debug(''''<left>')
+
+    au FileType javascript call MakeSpacelessBufferIabbrev('rq', 'require('''');<left><left><left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('require', 'NOPENOPENOPE')
+
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('console', 'NOPENOPENOPE')
 
