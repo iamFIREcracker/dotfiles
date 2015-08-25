@@ -87,6 +87,7 @@ eh() { vim ~/.hgrc; }
 em() { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX); }
 ep() { vim ~/.pentadactylrc; }
 es() { vim ~/.slate; }
+et() { vim ~/.tmux.conf; }
 ev() { vim ~/.vimrc; }
 
 function ..() {     cd ../"$@"; }
