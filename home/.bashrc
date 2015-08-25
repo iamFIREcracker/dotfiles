@@ -182,13 +182,12 @@ function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collaps
 function sb() { . ~/.bashrc; }
 function serve-this() { python -m SimpleHTTPServer; }
 function ssh() {
-    ssh -t "$@" \
+    $(which ssh) -t "$@" \
         "echo '$(cat ~/opt/z/z.sh ~/.bashrc | base64 -i)' | base64 --decode > /tmp/.bashrc_temp; "\
         "bash --rcfile /tmp/.bashrc_temp"
 }
 function sum() { awk '{s+=$1}END{print s}'; }
 function tf() { tail -f "$@"; }
-title() { echo -ne '\e]0;$1\a'; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
 function vw() { vim -R -; }
