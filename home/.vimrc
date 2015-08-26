@@ -245,8 +245,8 @@ nnoremap gd gdzz
 nnoremap gD gDzz
 
 " Don't move on * and #
-nnoremap * *<C-o>zz
-nnoremap # #<C-o>zz
+nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(stay_star_view)<cr>
+nnoremap <silent> # :let stay_star_view = winsaveview()<cr>#:call winrestview(stay_star_view)<cr>
 
 " Window resizing
 nnoremap <c-left> 5<c-w>>
@@ -276,7 +276,19 @@ noremap <leader>y "*y
 " Paste OS clipboard without messing up indent.
 noremap <leader>p :set paste<CR>"+p<CR>:set nopaste<CR>
 
+" Visual Mode */# from Scrooloose {{{
 
+function! s:VSetSearch()
+  let temp = @@
+  norm! gvy
+  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
+  let @@ = temp
+endfunction
+
+vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
+vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
+
+" }}}
 " Error navigation {{{
 "
 "                Location List         Quickfix
@@ -518,6 +530,11 @@ augroup ft_javascript
 
     au FileType javascript call MakeSpacelessBufferIabbrev('rt', 'return ;<left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('return', 'NOPENOPENOPE')
+
+    au FileType javascript call MakeSpacelessBufferIabbrev('db', 'debug(''''<left>')
+
+    au FileType javascript call MakeSpacelessBufferIabbrev('rq', 'require('''');<left><left><left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('require', 'NOPENOPENOPE')
 
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('console', 'NOPENOPENOPE')
