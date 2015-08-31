@@ -436,7 +436,7 @@ augroup ft_css
     au BufNewFile,BufRead *.less,*.css nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au BufNewFile,BufRead *.less,*.css inoremap <buffer> {<cr> {}<left><cr><cr><up><space><space><space><space><esc>zoa
+    au BufNewFile,BufRead *.less,*.css inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><space><space><esc>zoa
 
 augroup END
 
@@ -520,7 +520,7 @@ augroup ft_javascript
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au FileType javascript inoremap <buffer> {<cr> {}<left><cr><cr><up><space><space><space><space><esc>zoa
+    au FileType javascript inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><space><space><esc>zoa
 
     " Abbreviations {{{
 
@@ -575,7 +575,7 @@ augroup ft_json
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au FileType json inoremap <buffer> {<cr> {}<left><cr><cr><up><space><space><space><space><esc>zoa
+    au FileType json inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><space><space><esc>zoa
 augroup END
 
 " }}}
