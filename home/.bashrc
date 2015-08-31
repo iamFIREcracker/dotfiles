@@ -90,10 +90,10 @@ es() { vim ~/.slate; }
 et() { vim ~/.tmux.conf; }
 ev() { vim ~/.vimrc; }
 
-function ..() {     cd ../"$@"; }
-function ...() {    cd ../../"$@"; }
-function ....() {   cd ../../../"$@"; }
-function .....() {   cd ../../../../"$@"; }
+function ..() {    cd ../"$@"; }
+function ...() {   cd ../../"$@"; }
+function ....() {  cd ../../../"$@"; }
+function .....() { cd ../../../../"$@"; }
 
 
 
@@ -104,6 +104,7 @@ function collapse() { sed -e 's/  */ /g'; }
 function cuts() { cut -d' ' "$@"; }
 function de() { deactivate; }
 function edit-pasteboard() { cb | vipe | cb; }
+function from() { tac "$1" | sed "/$2/q" | tac; }
 function g() { git "$@"; }
 function grep() { $(which grep) --line-buffered "$@"; }
 function gc() {
@@ -188,6 +189,17 @@ function ssh() {
         "bash --rcfile /tmp/.bashrc_temp"
 }
 function sum() { awk '{s+=$1}END{print s}'; }
+function tac() {
+    local _tac
+
+    if hash gtac 2>/dev/null; then
+        _tac=gtac
+    else
+        _tac=tac
+    fi
+    ${_tac} "$@"
+}
+function to() { sed "/$1/q"; }
 function tf() { tail -f "$@"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
