@@ -229,6 +229,23 @@ function wpr() {
         --patterns='*.py;*.html;*.js' \
         --command='echo "${watch_src_path}"; bash -c "kill `cat .bgrun.pid`; bgrun \"python run_app.py\""'
 }
+function x() {
+    if [ $# == 1 ]; then
+        grep -v -E "$1"
+    elif [ $# == 2 ]; then
+        grep -v -E "$1|$2"
+    elif [ $# == 3 ]; then
+        grep -v -E "$1|$2|$3"
+    elif [ $# == 4 ]; then
+        grep -v -E "$1|$2|$3|$4"
+    elif [ $# == 5 ]; then
+        grep -v -E "$1|$2|$3|$4|$5"
+    elif [ $# == 6 ]; then
+        grep -v -E "$1|$2|$3|$4|$5|$6"
+    else
+        echo Too many arguments
+    fi
+}
 
 # Mobile dev {{{
 
