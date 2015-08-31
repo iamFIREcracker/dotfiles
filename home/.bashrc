@@ -173,7 +173,7 @@ function oo() { open .; }
 function percentile() { awk "{ a[i++]=\$0; } END { print a[int(i*$1/100)]; }"; }
 function pip() {
     if [ -n "$VIRTUAL_ENV" ]; then
-        `which pip` "$@"
+        $(which pip) "$@"
     else
         echo "Not currently in a venv -- use pip-sys to work system-wide."
     fi
