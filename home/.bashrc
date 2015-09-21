@@ -97,6 +97,23 @@ function .....() { cd ../../../../"$@"; }
 
 
 
+function -() {
+    if [ $# == 1 ]; then
+        grep -v -E "$1" | hl "$@"
+    elif [ $# == 2 ]; then
+        grep -v -E "$1|$2" | hl "$@"
+    elif [ $# == 3 ]; then
+        grep -v -E "$1|$2|$3" | hl "$@"
+    elif [ $# == 4 ]; then
+        grep -v -E "$1|$2|$3|$4" | hl "$@"
+    elif [ $# == 5 ]; then
+        grep -v -E "$1|$2|$3|$4|$5" | hl "$@"
+    elif [ $# == 6 ]; then
+        grep -v -E "$1|$2|$3|$4|$5|$6" | hl "$@"
+    elif [ $# -gt 6 ]; then
+        grep -v -E "$1|$2|$3|$4|$5|$6" | - "${@:7}"
+    fi
+}
 function a() { ack "$@"; }
 function bcvi() { ${HOME}/opt/bcvi/bin/bcvi "$@"; }
 function bssh() { bcvi --wrap-ssh -- "$@"; }
@@ -121,11 +138,12 @@ function gc() {
     elif [ $# == 6 ]; then
         grep -E "$1|$2|$3|$4|$5|$6" | hl "$@"
     else
-        echo Too many arguments
+        exit Too many arguments
     fi
 }
 function h() { hg "$@"; }
 function hn() { head -n "$@"; }
+function hn1() { hn 1; }
 function hl() {
     if [ $# == 1 ]; then
         hl1 "$1"
@@ -180,11 +198,13 @@ function pip() {
 }
 function pipf() { pip freeze > requirements.txt; }
 function pip-sys() { $(which pip) "$@"; }
+function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n; }
 function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collapse | cuts -f 2,11-; }
 function sb() { . ~/.bashrc; }
 function serve-this() { python -m SimpleHTTPServer; }
 function ssh() {
-    $(which ssh) -t "$@" \
+    $(which ssh) -t "$1" \
+        "$2; "\
         "echo '$(cat ~/opt/z/z.sh ~/.bashrc | base64 -i)' | base64 --decode > /tmp/.bashrc_temp; "\
         "bash --rcfile /tmp/.bashrc_temp"
 }
