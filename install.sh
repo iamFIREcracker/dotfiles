@@ -51,7 +51,7 @@ do_process()
     local sources="$2"
     local force="$3"
 
-    for path in `find -L ${sources} ! -path '*.svn*' ! -name '*.un~'`; do
+    for path in `find -X -L ${sources} ! -path '*.svn*' ! -name '*.un~'`; do
         if [ ${path} == ${sources} ]; then
             continue
         fi
