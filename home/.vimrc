@@ -511,7 +511,7 @@ augroup ft_javascript
     au!
 
     au FileType javascript setlocal foldmethod=syntax
-    au FileType javascript setlocal foldnestmax=1
+    au FileType javascript setlocal foldnestmax=5
     " Deeper nesting for test files so that we can fold 'describe' or 'it' sections
     au BufNewFile,BufRead test/*.js setlocal foldnestmax=5
 
@@ -541,6 +541,8 @@ augroup ft_javascript
 
     au FileType javascript call MakeSpacelessBufferIabbrev('sc',  '$scope.')
     au FileType javascript call MakeSpacelessBufferIabbrev('alt',  'alert();<left><left>')
+
+    au FileType javascript call MakeSpacelessBufferIabbrev('proto',  '.prototype.<home>')
 
     au FileType javascript call MakeSpacelessBufferIabbrev('aeq',  'assert.equal();<left><left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('aok',  'assert.ok();<left><left>')
@@ -809,7 +811,7 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 " Convenience mappings ---------------------------------------------------- {{{
 
 " Break undo on <CR>
-nnoremap <CR> <C-G>u<CR>
+inoremap <CR> <C-G>u<CR>
 
 " Clean trailing whitespace
 nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<cr>
