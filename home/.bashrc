@@ -7,12 +7,6 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-elif [ -f /usr/local/etc/bash_completion ]; then
-    . /usr/local/etc/bash_completion
-fi
-
 # }}}
 # Vim mode {{{
 
@@ -69,14 +63,25 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # }}}
 # }}}
-# Z {{{
-
-[ -f ${HOME}/opt/z/z.sh ] && . ${HOME}/opt/z/z.sh
-
-# }}}
 # Extra {{{
 
-[ -f ~/lib/bash/ion.sh ] && . ~/lib/bash/ion.sh
+if [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
+elif [ -f /usr/local/etc/bash_completion ]; then
+    source /usr/local/etc/bash_completion
+fi
+
+export LOADED_SCRIPTS=''
+
+load_if_present() {
+    if [ -f "$1" ]; then
+        LOADED_SCRIPTS="$LOADED_SCRIPTS $1"
+        source "$1"
+    fi
+}
+
+load_if_present ${HOME}/opt/z/z.sh
+load_if_present ${HOME}/lib/bash/ion.sh
 
 # }}}
 # Useful functions {{{
@@ -112,14 +117,27 @@ function -() {
         grep -v -E "$1|$2|$3|$4|$5|$6" | hl "$@"
     elif [ $# -gt 6 ]; then
         grep -v -E "$1|$2|$3|$4|$5|$6" | - "${@:7}"
+    else
+        exit Too many arguments
     fi
 }
 function a() { ack "$@"; }
+function banner() { figlet -f ogre -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
 function bcvi() { ${HOME}/opt/bcvi/bin/bcvi "$@"; }
 function bssh() { bcvi --wrap-ssh -- "$@"; }
 function collapse() { sed -e 's/  */ /g'; }
 function cuts() { cut -d' ' "$@"; }
 function de() { deactivate; }
+function uniqdiff() {
+    local file_all=/tmp/uniqdiff_all.$$
+    local file_unique=/tmp/uniqdiff_unique.$$
+    trap "kill -TERM $PID; rm ${file_all} ${file_unique}" TERM INT
+    cat | tee \
+        >(sort -n -k "${1-1}" > ${file_all}) \
+        >(sort -n -k "${1-1}" -u > ${file_unique})
+    echo vimdiff ${file_all} ${file_unique}
+    #rm "${file_all} ${file_unique}"
+}
 function edit-pasteboard() { cb | vipe | cb; }
 function from() { tac "$1" | sed "/$2/q" | tac; }
 function g() { git "$@"; }
@@ -205,7 +223,7 @@ function serve-this() { python -m SimpleHTTPServer; }
 function ssh() {
     $(which ssh) -t "$1" \
         "$2; "\
-        "echo '$(cat ~/opt/z/z.sh ~/.bashrc | base64 -i)' | base64 --decode > /tmp/.bashrc_temp; "\
+        "echo '$(cat ${LOADED_SCRIPTS} ~/.bashrc | base64 -i)' | base64 --decode > /tmp/.bashrc_temp; "\
         "bash --rcfile /tmp/.bashrc_temp"
 }
 function sum() { awk '{s+=$1}END{print s}'; }
@@ -251,19 +269,19 @@ function wpr() {
 }
 function x() {
     if [ $# == 1 ]; then
-        grep -v -E "$1"
+        grep -o -E "$1"
     elif [ $# == 2 ]; then
-        grep -v -E "$1|$2"
+        grep -o -E "$1|$2"
     elif [ $# == 3 ]; then
-        grep -v -E "$1|$2|$3"
+        grep -o -E "$1|$2|$3"
     elif [ $# == 4 ]; then
-        grep -v -E "$1|$2|$3|$4"
+        grep -o -E "$1|$2|$3|$4"
     elif [ $# == 5 ]; then
-        grep -v -E "$1|$2|$3|$4|$5"
+        grep -o -E "$1|$2|$3|$4|$5"
     elif [ $# == 6 ]; then
-        grep -v -E "$1|$2|$3|$4|$5|$6"
+        grep -o -E "$1|$2|$3|$4|$5|$6"
     else
-        echo Too many arguments
+        exit Too many arguments
     fi
 }
 
