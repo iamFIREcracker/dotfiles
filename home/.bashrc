@@ -82,18 +82,20 @@ load_if_present() {
 
 load_if_present ${HOME}/opt/z/z.sh
 load_if_present ${HOME}/lib/bash/ion.sh
+load_if_present ${HOME}/lib/bash/mobile.sh
 
 # }}}
 # Useful functions {{{
 
-eb() { vim ~/.bashrc; }
-eg() { vim ~/.gitconfig; }
-eh() { vim ~/.hgrc; }
-em() { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX); }
-ep() { vim ~/.pentadactylrc; }
-es() { vim ~/.slate; }
-et() { vim ~/.tmux.conf; }
-ev() { vim ~/.vimrc; }
+eb()  { vim ~/.bashrc; }
+eb1() { vim ~/Dropbox/b1_custom.py; }
+eg()  { vim ~/.gitconfig; }
+eh()  { vim ~/.hgrc; }
+em()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX); }
+ep()  { vim ~/.pentadactylrc; }
+es()  { vim ~/.slate; }
+et()  { vim ~/.tmux.conf; }
+ev()  { vim ~/.vimrc; }
 
 function ..() {    cd ../"$@"; }
 function ...() {   cd ../../"$@"; }
