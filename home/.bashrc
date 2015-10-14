@@ -28,6 +28,7 @@ export TERM=screen-256color
 export EDITOR="vim"
 export PAGER="/usr/bin/less"
 export PATH="${HOME}/npm/bin:$PATH"
+export PATH="${HOME}/opt/PathPicker:$PATH"
 export HGEDITOR="~/bin/hgeditor"
 export GIT_EDITOR="~/bin/giteditor"
 
@@ -131,14 +132,11 @@ function collapse() { sed -e 's/  */ /g'; }
 function cuts() { cut -d' ' "$@"; }
 function de() { deactivate; }
 function uniqdiff() {
-    local file_all=/tmp/uniqdiff_all.$$
-    local file_unique=/tmp/uniqdiff_unique.$$
-    trap "kill -TERM $PID; rm ${file_all} ${file_unique}" TERM INT
-    cat | tee \
-        >(sort -n -k "${1-1}" > ${file_all}) \
-        >(sort -n -k "${1-1}" -u > ${file_unique})
-    echo vimdiff ${file_all} ${file_unique}
-    #rm "${file_all} ${file_unique}"
+    local input=/tmp/uniqdiff_all.$$
+    trap "kill -TERM $PID; rm '${input}'" TERM INT
+    cat > ${input}
+    </dev/tty vimdiff <(cat ${input}) <(cat ${input} | uniq)
+    rm "${input}"
 }
 function edit-pasteboard() { cb | vipe | cb; }
 function from() { tac "$1" | sed "/$2/q" | tac; }
