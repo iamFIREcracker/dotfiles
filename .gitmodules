@@ -145,3 +145,6 @@
 [submodule "home/.vim/bundle/vim-mocha"]
 	path = home/.vim/bundle/vim-mocha
 	url = https://github.com/geekjuice/vim-mocha
+[submodule "home/opt/PathPicker"]
+	path = home/opt/PathPicker
+	url = https://github.com/facebook/PathPicker.git
