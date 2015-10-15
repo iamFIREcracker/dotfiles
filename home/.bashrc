@@ -72,18 +72,21 @@ elif [ -f /usr/local/etc/bash_completion ]; then
     source /usr/local/etc/bash_completion
 fi
 
-export LOADED_SCRIPTS=''
+if [ -f ${HOME}/lib/bash/mobile.sh ]; then
+    source ${HOME}/lib/bash/mobile.sh
+fi
+
+export LOADED_SCRIPTS=$HOME/.bashrc
 
 load_if_present() {
     if [ -f "$1" ]; then
-        LOADED_SCRIPTS="$LOADED_SCRIPTS $1"
+        LOADED_SCRIPTS="$1:$LOADED_SCRIPTS"
         source "$1"
     fi
 }
 
 load_if_present ${HOME}/opt/z/z.sh
-load_if_present ${HOME}/lib/bash/ion.sh
-load_if_present ${HOME}/lib/bash/mobile.sh
+load_if_present /cygdrive/c/Users/mlandi/Google\ Drive/personal/ion.sh
 
 # }}}
 # Useful functions {{{
