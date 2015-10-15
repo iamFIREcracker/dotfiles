@@ -221,10 +221,20 @@ function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collaps
 function sb() { . ~/.bashrc; }
 function serve-this() { python -m SimpleHTTPServer; }
 function ssh() {
-    $(which ssh) -t "$1" \
-        "$2; "\
-        "echo '$(cat ${LOADED_SCRIPTS} ~/.bashrc | base64 -i)' | base64 --decode > /tmp/.bashrc_temp; "\
-        "bash --rcfile /tmp/.bashrc_temp"
+    local oldifs host customcmd uberscript cmd
+
+    oldifs=$IFS
+    host="$1"
+    customcmd="$2"
+    IFS=:
+    set -- $LOADED_SCRIPTS
+    uberscript=$(cat "$@" | base64 -i)
+    IFS=$oldifs
+
+    cmd="${cmd} $customcmd;"
+    cmd="${cmd} echo '$uberscript' | base64 --decode > /tmp/.bashrc_temp;"
+    cmd="${cmd} bash --rcfile /tmp/.bashrc_temp"
+    $(which ssh) -t "$host" "$cmd"
 }
 function sum() { awk '{s+=$1}END{print s}'; }
 function tac() {
