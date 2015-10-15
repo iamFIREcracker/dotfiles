@@ -228,7 +228,7 @@ function ssh() {
 
     oldifs=$IFS
     host="$1"
-    customcmd="$2"
+    customcmd="${2:-true}"
     IFS=:
     set -- $LOADED_SCRIPTS
     uberscript=$(cat "$@" | base64 -i)
@@ -237,7 +237,7 @@ function ssh() {
     cmd="${cmd} $customcmd;"
     cmd="${cmd} echo '$uberscript' | base64 --decode > /tmp/.bashrc_temp;"
     cmd="${cmd} bash --rcfile /tmp/.bashrc_temp"
-    $(which ssh) -t "$host" "$cmd"
+    $(which ssh) -t $host "$cmd"
 }
 function sum() { awk '{s+=$1}END{print s}'; }
 function tac() {
