@@ -77,7 +77,7 @@ if [ -f ${HOME}/lib/bash/mobile.sh ]; then
     source ${HOME}/lib/bash/mobile.sh
 fi
 
-export LOADED_SCRIPTS=$HOME/.bashrc
+export LOADED_SCRIPTS=${BASH_SOURCE}
 
 load_if_present() {
     if [ -f "$1" ]; then
