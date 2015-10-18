@@ -29,6 +29,12 @@ ei4s() { open -a "Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 4s'); }
 ei5s() { open -a "Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 5s'); }
 ei6() { open -a "Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 6'); }
 
+ticonz() {
+    ticons -t icons
+    ticons -t splashes app/assets/iphone/Default@2x.png
+    ticons -t assets
+}
+
 # Titanium {{{
 
 ti() { myreattach-to-user-namespace appc ti --no-color "$@"; }
