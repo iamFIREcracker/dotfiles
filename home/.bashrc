@@ -27,6 +27,7 @@ export HISTSIZE=10000
 export TERM=screen-256color
 export EDITOR="vim"
 export PAGER="/usr/bin/less"
+export MANPAGER="col -b | vim -MR -c 'se ft=man nornu nonu nolist' - "
 export PATH="${HOME}/npm/bin:$PATH"
 export PATH="${HOME}/opt/PathPicker:$PATH"
 export HGEDITOR="~/bin/hgeditor"
