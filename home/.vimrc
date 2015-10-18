@@ -800,6 +800,7 @@ augroup END
 nnoremap <leader>eb <C-w>v<C-w>j:e ~/.bashrc<cr>
 nnoremap <leader>eh <C-w>v<C-w>j:e ~/.hgrc<cr>
 nnoremap <leader>eg <C-w>v<C-w>j:e ~/.gitconfig<cr>
+nnoremap <leader>et <C-w>v<C-w>j:e ~/.tmux.conf<cr>
 nnoremap <leader>ev <C-w>v<C-w>j:e $MYVIMRC<cr>
 
 " }}}
