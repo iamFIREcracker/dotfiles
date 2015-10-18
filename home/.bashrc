@@ -232,7 +232,7 @@ function ssh() {
     customcmd="${2:-true}"
     IFS=:
     set -- $LOADED_SCRIPTS
-    uberscript=$(cat "$@" | base64 -i)
+    uberscript=$(cat "$@" | base64)
     IFS=$oldifs
 
     cmd="${cmd} $customcmd;"
