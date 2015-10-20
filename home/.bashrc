@@ -298,6 +298,9 @@ function x() {
         exit Too many arguments
     fi
 }
+function xvim() {
+    xargs "$@" sh -c 'vim "$@" </dev/tty' dummy_script_name
+}
 
 # }}}
 # Function completion {{{
