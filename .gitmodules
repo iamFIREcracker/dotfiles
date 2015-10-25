@@ -148,3 +148,6 @@
 [submodule "home/opt/PathPicker"]
 	path = home/opt/PathPicker
 	url = https://github.com/facebook/PathPicker.git
+[submodule "home/opt/fabric-completion"]
+	path = home/opt/fabric-completion
+	url = https://github.com/underself/fabric-completion.git
