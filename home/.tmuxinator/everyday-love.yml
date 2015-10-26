@@ -1,0 +1,30 @@
+# ~/.tmuxinator/everyday-love.yml
+
+name: everyday-love
+windows:
+  #- app:
+      #root: ~/Workspace/phonerox/app
+      #panes:
+        #- myctags; vim app.js
+
+  #- nodemon:
+      #root: ~/Workspace/phonerox/app
+      #panes:
+        #- NODE_PATH=$NODE_PATH:./lib REDIS_HOST=$(boot2docker ip) MONGO_HOST=$(boot2docker ip) nodemon -L bin/www
+
+  #- docker:
+      #root: ~/Workspace/phonerox
+      #layout: even-horizontal
+      #panes:
+        #- vim docker-compose.yml
+        #- echo 'boot2docker up; eval "$(boot2docker shellinit)"; docker-compose up'
+
+  - mobile:
+      root: ~/Workspace/everyday-love/
+      panes:
+        - myctags; vim tiapp.xml
+
+  - tishadow:
+      root: ~/Workspace/everyday-love/
+      panes:
+        - fortune
