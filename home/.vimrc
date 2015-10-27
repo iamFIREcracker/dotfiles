@@ -1110,6 +1110,11 @@ let g:mocha_js_command =
             \ ' --recursive --no-colors {spec}'
 
 " }}}
+" Vim-json {{{
+
+let g:vim_json_syntax_conceal = 0
+
+" }}}
 " YankRing {{{
 
 let g:yankring_replace_n_pkey = ''
