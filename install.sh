@@ -1,5 +1,8 @@
 #!/bin/bash
 
+test "$1" == "--force"
+FORCE=$?
+
 WORKDIR="$(pwd)"
 OS_MAC=$(uname -s | grep Darwin)
 OS_WIN=$(uname -s | grep CYGWIN)
@@ -7,8 +10,8 @@ OS_WIN=$(uname -s | grep CYGWIN)
 set -u
 set -e
 
-
 function ensure_link {
+    test $FORCE -eq 0 && test -L "$HOME/$2" && remove "$HOME/$2"
     test -L "$HOME/$2" || create_link "$WORKDIR/$1" "$HOME/$2"
 }
 
@@ -18,7 +21,13 @@ function create_link {
 }
 
 function ensure_dir {
+    test $FORCE -eq 0 && test -d "$HOME/$1" && remove "$HOME/$1"
     test -d "$HOME/$1" || create_dir "$HOME/$1"
+}
+
+function remove {
+    echo "R $1"
+    rm -rf "$1"
 }
 
 function create_dir {
