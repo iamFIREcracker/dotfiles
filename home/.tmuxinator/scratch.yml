@@ -32,3 +32,4 @@ windows:
       root: ~/dotfiles
       panes:
         - g st
+  - bash: fortune
