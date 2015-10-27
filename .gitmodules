@@ -151,3 +151,9 @@
 [submodule "home/opt/fabric-completion"]
 	path = home/opt/fabric-completion
 	url = https://github.com/underself/fabric-completion.git
+[submodule "home/.vim/bundle/vim-json"]
+	path = home/.vim/bundle/vim-json
+	url = https://github.com/elzr/vim-json.git
+[submodule "home/.vim/bundle/typescript-vim"]
+	path = home/.vim/bundle/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim.git
