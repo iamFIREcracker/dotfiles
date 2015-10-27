@@ -1,89 +1,54 @@
 #!/bin/bash
 
+WORKDIR="$(pwd)"
+OS_MAC=$(uname -s | grep Darwin)
+OS_WIN=$(uname -s | grep CYGWIN)
+
 set -u
+set -e
 
 
+function ensure_link {
+    test -L "$HOME/$2" || create_link "$WORKDIR/$1" "$HOME/$2"
+}
 
-do_echo()
-{
-    local kind=$1
-    local target="${2}"
+function create_link {
+    echo "L $1 -> $2"
+    ln -s "$1" "$2"
+}
 
-    echo "${kind}    ${target}"
+function ensure_dir {
+    test -d "$HOME/$1" || create_dir "$HOME/$1"
+}
+
+function create_dir {
+    echo "D $1"
+    mkdir -p $1
 }
 
 
-do_install()
-{
-    local src="$1"
-    local dst="$2"
-    local force="$3"
-
-    if [ -d "${src}" ]; then
-        if [ -d "${dst}" ]; then
-            continue
-        else
-            if [ -e "${dst}" ]; then
-                rm -rf "${dst}"
-                do_echo D "${dst}"
-            fi
-            mkdir "${dst}"
-            do_echo A "${dst}"
-        fi
-    else
-        if [ -h "${dst}" -a $force -eq 0 ]; then
-            continue
-        else
-            if [ -f "${dst}" ]; then
-                rm -rf "${dst}"
-                do_echo D "${dst}"
-            fi
-            ln -s "${src}" "${dst}"
-            do_echo L "${dst}"
-        fi
-    fi
-}
+test -z "$OS_WIN" && ensure_dir ".titanium"
 
 
-do_process()
-{
-    local current="$1"
-    local sources="$2"
-    local force="$3"
-
-    for path in `find -X -L ${sources} ! -path '*.svn*' ! -name '*.un~'`; do
-        if [ ${path} == ${sources} ]; then
-            continue
-        fi
-
-        src="${current}/${path}"
-        dst="$HOME/${path#${sources}}"
-        do_install "${src}" "${dst}" "$force"
-    done
-}
-
-
-
-# parse the sources directory
-if [ $# -lt 1 ]; then
-    echo "Usage: $0 <sources> [-f]"
-    exit 1
-fi
-sources="$1"
-
-# check if optional -f(orce) flag is set
-force=0
-if [ $# -ge 2 ]; then
-    if [ "$2" == "-f" ]; then
-        force=1
-    fi
-fi
-
-# check if the sources directory is either relative or absolute and fill
-# the variable current so that ${current}${sources} return an absolute
-# link.
-if [ "${sources:0:1}" != '/' ]; then
-    current="`pwd`"
-fi
-
-do_process "${current}" "${sources}" "$force"
+                     ensure_link "home/bin"                    "bin"
+                     ensure_link "home/lib"                    "lib"
+                     ensure_link "home/opt"                    "opt"
+                     ensure_link "home/.ackrc"                 ".ackrc"
+                     ensure_link "home/.bash_profile"          ".bash_profile"
+                     ensure_link "home/.bashrc"                ".bashrc"
+                     ensure_link "home/.ctags"                 ".ctags"
+                     ensure_link "home/.gitconfig"             ".gitconfig"
+                     ensure_link "home/.gitignore_global"      ".gitignore_global"
+                     ensure_link "home/.hgignore"              ".hgignore"
+                     ensure_link "home/.hgrc"                  ".hgrc"
+test -n "$OS_WIN" && ensure_link "home/.minttyrc"              ".minttyrc"
+                     ensure_link "home/.npmrc"                 ".npmrc"
+                     ensure_link "home/.pentadactylrc"         ".pentadactylrc"
+                     ensure_link "home/.pythonrc.py"           ".pythonrc.py"
+test -n "$OS_MAC" && ensure_link "home/.slate"                 ".slate"
+test -z "$OS_WIN" && ensure_link "home/.tishadow.json"         ".tishadow.json"
+test -z "$OS_WIN" && ensure_link "home/.titanium/config.json"  ".titanium/config.json"
+                     ensure_link "home/.tmuxinator"            ".tmuxinator"
+                     ensure_link "home/.tmux.conf"             ".tmux.conf"
+                     ensure_link "home/.vim"                   ".vim"
+                     ensure_link "home/.vimrc"                 ".vimrc"
