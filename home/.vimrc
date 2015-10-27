@@ -750,6 +750,47 @@ augroup ft_sh
 augroup END
 
 " }}}
+" Typescript {{{
+
+augroup ft_typescript
+    au!
+
+    au FileType typescript setlocal foldmethod=syntax
+    au FileType typescript setlocal foldnestmax=5
+
+    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+    " positioned inside of them AND the following code doesn't get unfolded.
+    au FileType typescript inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><space><space><esc>zoa
+
+    " Abbreviations {{{
+
+    au FileType typescript call MakeSpacelessBufferIabbrev('clz',  'class ')
+    au FileType typescript call MakeSpacelessBufferIabbrev('class',  'NOPENOPENOPE')
+
+    au FileType typescript call MakeSpacelessBufferIabbrev('int',  'interface ')
+    au FileType typescript call MakeSpacelessBufferIabbrev('interface',  'NOPENOPENOPE')
+
+    au FileType typescript call MakeSpacelessBufferIabbrev('impl',  'implements ')
+    au FileType typescript call MakeSpacelessBufferIabbrev('implements',  'NOPENOPENOPE')
+
+    au FileType typescript call MakeSpacelessBufferIabbrev('ext',  'extends ')
+    au FileType typescript call MakeSpacelessBufferIabbrev('extends',  'NOPENOPENOPE')
+
+    au FileType typescript call MakeSpacelessBufferIabbrev('ctor', 'constructor() {}<left><cr><up><end><left><left><left>')
+    au FileType typescript call MakeSpacelessBufferIabbrev('constructor', 'NOPENOPENOPE')
+
+    au FileType typescript call MakeSpacelessBufferIabbrev('fn',  'function ')
+    au FileType typescript call MakeSpacelessBufferIabbrev('afn', 'function() {}<left><cr><up><end><left><left><left>')
+    au FileType typescript call MakeSpacelessBufferIabbrev('function', 'NOPENOPENOPE')
+
+    au FileType typescript call MakeSpacelessBufferIabbrev('rt', 'return ;<left>')
+    au FileType typescript call MakeSpacelessBufferIabbrev('return', 'NOPENOPENOPE')
+
+    au FileType typescript call MakeSpacelessBufferIabbrev('rq', 'require('''');<left><left><left>')
+    au FileType typescript call MakeSpacelessBufferIabbrev('require', 'NOPENOPENOPE')
+augroup END
+
+" }}}
 " Vagrant {{{
 
 augroup ft_vagrant
