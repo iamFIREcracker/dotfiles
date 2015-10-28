@@ -11,17 +11,17 @@ set -u
 set -e
 
 function ensure_link {
-    test $FORCE -eq 0 && test -L "$HOME/$2" && remove "$HOME/$2"
+    test $FORCE -eq 0 && remove "$HOME/$2"
     test -L "$HOME/$2" || create_link "$WORKDIR/$1" "$HOME/$2"
 }
 
 function create_link {
-    echo "L $1 -> $2"
+    echo "L $2 -> $1"
     ln -s "$1" "$2"
 }
 
 function ensure_dir {
-    test $FORCE -eq 0 && test -d "$HOME/$1" && remove "$HOME/$1"
+    test $FORCE -eq 0 && remove "$HOME/$1"
     test -d "$HOME/$1" || create_dir "$HOME/$1"
 }
 
