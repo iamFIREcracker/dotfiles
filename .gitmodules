@@ -163,3 +163,6 @@
 [submodule "home/.vim/bundle/tsuquyomi"]
 	path = home/.vim/bundle/tsuquyomi
 	url = https://github.com/Quramy/tsuquyomi.git
+[submodule "home/opt/vagrant-bash-completion"]
+	path = home/opt/vagrant-bash-completion
+	url = https://github.com/kura/vagrant-bash-completion.git
