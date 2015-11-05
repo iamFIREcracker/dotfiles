@@ -88,6 +88,7 @@ load_if_present() {
 
 load_if_present ${HOME}/opt/z/z.sh
 load_if_present ${HOME}/opt/fabric-completion/fabric-completion.bash
+load_if_present ${HOME}/opt/vagrant-bash-completion/etc/bash_completion.d/vagrant
 load_if_present /cygdrive/c/Users/mlandi/Google\ Drive/personal/ion.sh
 
 # }}}
