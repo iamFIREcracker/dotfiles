@@ -163,3 +163,6 @@
 [submodule "home/.vim/bundle/tsuquyomi"]
 	path = home/.vim/bundle/tsuquyomi
 	url = https://github.com/Quramy/tsuquyomi.git
+[submodule "home/.vim/bundle/vim-erlang-omnicomplete"]
+	path = home/.vim/bundle/vim-erlang-omnicomplete
+	url = https://github.com/vim-erlang/vim-erlang-omnicomplete.git
