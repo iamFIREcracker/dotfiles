@@ -76,7 +76,7 @@ nmap -builtin d :tabclose<cr>
 "}}}
 " Search engine {{{
 
-bmark -title="bunny1 query" -keyword="bu" b1.matteolandi.net/?___=%s 
+bmark -title="bunny1 query" -keyword="bu" localhost:9084/?___=%s 
 set defsearch=bu
 
 "}}}
