@@ -95,6 +95,9 @@ class ExampleCommands(bunny1.Bunny1Commands):
     def rxjs(self, arg):
         return "https://github.com/Reactive-Extensions/RxJS/blob/master/doc/libraries/main/rx.complete.md"
 
+    def s(self, arg):
+        return self.g(arg + ' english subtitles')
+
     def titanium(self, arg):
         """Search StackOverflow[titanium] or goes there"""
         if arg:
