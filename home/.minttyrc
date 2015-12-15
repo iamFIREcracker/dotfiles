@@ -25,3 +25,4 @@ Font=DejaVu Sans Mono for Powerline
 AllowBlinking=yes
 BoldAsColour=yes
 FontSmoothing=full
+Rows=80
