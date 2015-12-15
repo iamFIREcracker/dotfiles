@@ -98,7 +98,7 @@ eb1() { vim ~/Dropbox/b1_custom.py; }
 eg()  { vim ~/.gitconfig; }
 eh()  { vim ~/.hgrc; }
 em()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX); }
-ep()  { vim ~/.pentadactylrc; }
+e5()  { vim ~/.pentadactylrc; }
 es()  { vim ~/.slate; }
 et()  { vim ~/.tmux.conf; }
 ev()  { vim ~/.vimrc; }
@@ -131,6 +131,11 @@ function -() {
 }
 function a() { ack "$@"; }
 function banner() { figlet -f ogre -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
+function buildpentadactyl() {
+    cd ~/opt/dactyl/
+    g pu
+    make -C pentadactyl xpi
+}
 function bcvi() { ${HOME}/opt/bcvi/bin/bcvi "$@"; }
 function bssh() { bcvi --wrap-ssh -- "$@"; }
 function collapse() { sed -e 's/  */ /g'; }
