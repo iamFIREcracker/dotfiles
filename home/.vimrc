@@ -449,6 +449,22 @@ augroup ft_diff
 augroup END
 
 " }}}
+" Erlang {{{
+
+augroup ft_erlang
+    au!
+
+    " Abbreviations {{{
+
+    au FileType erlang call MakeSpacelessBufferIabbrev('mod',  '-module().<left><left>')
+    au FileType erlang call MakeSpacelessBufferIabbrev('cpl',  '-compile().<left><left>')
+    au FileType erlang call MakeSpacelessBufferIabbrev('rec',  'receive<cr>end.<up><end>')
+    au FileType erlang call MakeSpacelessBufferIabbrev('aft',  'after  -><left><left><left>')
+
+    " }}}
+augroup END
+
+" }}}
 " HTML {{{
 
 augroup ft_html
@@ -658,6 +674,12 @@ augroup ft_python
     au syntax python RainbowParenthesesLoadRound
     au syntax python RainbowParenthesesLoadSquare
     au syntax python RainbowParenthesesLoadBrace
+
+    " Abbreviations {{{
+
+    au FileType python call MakeSpacelessBufferIabbrev('rt', 'return ')
+
+    " }}}
 augroup END
 
 " }}}
@@ -788,6 +810,11 @@ augroup ft_typescript
 
     au FileType typescript call MakeSpacelessBufferIabbrev('rq', 'require('''');<left><left><left>')
     au FileType typescript call MakeSpacelessBufferIabbrev('require', 'NOPENOPENOPE')
+
+    au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('console', 'NOPENOPENOPE')
+
+    " }}}
 augroup END
 
 " }}}

@@ -36,7 +36,10 @@ email = matteo@matteolandi.net
     p = push
     root = rev-parse --show-toplevel
     currentbranch = rev-parse --abbrev-ref HEAD
-    dl = !git diff -w $@ | vim -R -c 'set ft=diff' -
+
+    d = "!sh -c 'git diff $* | vim -R -' -"
+    di = !git diff --cached | vim -R -
+
     in = !git fetch && git log --pretty=oneline --abbrev-commit --graph ..@{u}
     shelve = stash save --include-untracked
     unshelve = stash pop

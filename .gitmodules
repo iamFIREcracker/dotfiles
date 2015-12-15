@@ -169,3 +169,6 @@
 [submodule "home/.vim/bundle/vim-less"]
 	path = home/.vim/bundle/vim-less
 	url = https://github.com/genoma/vim-less.git
+[submodule "home/.vim/bundle/vim-erlang-omnicomplete"]
+	path = home/.vim/bundle/vim-erlang-omnicomplete
+	url = https://github.com/vim-erlang/vim-erlang-omnicomplete.git
