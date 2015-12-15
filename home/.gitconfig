@@ -1,6 +1,11 @@
 [user]
-name = Matteo Landi
-email = matteo@matteolandi.net
+  name = Matteo Landi
+  email = matteo@matteolandi.net
+
+[core]
+  pager = cat
+  editor = vim
+  excludesfile = ~/.gitignore_global
 
 [color]
   branch = auto
@@ -22,9 +27,15 @@ email = matteo@matteolandi.net
   added = yellow
   changed = green
   untracked = cyan
+
 [push]
     default = current
+
 [alias]
+    tags = tag -l
+    branches = branch -a
+    remotes = remote -v
+
     st = status -s
     ci = commit -v
     cm = commit -v -m
@@ -50,12 +61,10 @@ email = matteo@matteolandi.net
     unshelve = stash pop
     record = commit -v -p $@
     spu = submodule foreach 'git pull origin master || git pull origin origin'
-[core]
-    excludesfile = ~/.gitignore_global
 
 [merge]
-        tool = splice
+    tool = splice
 
 [mergetool "splice"]
-        cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"
-            trustExitCode = true
+    cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"
+    trustExitCode = true
