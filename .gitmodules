@@ -166,3 +166,6 @@
 [submodule "home/opt/vagrant-bash-completion"]
 	path = home/opt/vagrant-bash-completion
 	url = https://github.com/kura/vagrant-bash-completion.git
+[submodule "home/.vim/bundle/vim-erlang-omnicomplete"]
+	path = home/.vim/bundle/vim-erlang-omnicomplete
+	url = https://github.com/vim-erlang/vim-erlang-omnicomplete.git
