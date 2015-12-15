@@ -52,8 +52,10 @@ email = matteo@matteolandi.net
     spu = submodule foreach 'git pull origin master || git pull origin origin'
 [core]
     excludesfile = ~/.gitignore_global
+
 [merge]
-	tool = vimdiff
-	conflictstyle = diff3
-[mergetool]
-	prompt = false
+        tool = splice
+
+[mergetool "splice"]
+        cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"
+            trustExitCode = true

@@ -172,3 +172,6 @@
 [submodule "home/.vim/bundle/vim-erlang-omnicomplete"]
 	path = home/.vim/bundle/vim-erlang-omnicomplete
 	url = https://github.com/vim-erlang/vim-erlang-omnicomplete.git
+[submodule "home/.vim/bundle/splice.vim"]
+	path = home/.vim/bundle/splice.vim
+	url = git@github.com:sjl/splice.vim.git
