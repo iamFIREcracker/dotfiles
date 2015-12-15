@@ -163,3 +163,9 @@
 [submodule "home/.vim/bundle/tsuquyomi"]
 	path = home/.vim/bundle/tsuquyomi
 	url = https://github.com/Quramy/tsuquyomi.git
+[submodule "home/.vim/bundle/grunt.vim"]
+	path = home/.vim/bundle/grunt.vim
+	url = https://github.com/mklabs/grunt.vim.git
+[submodule "home/.vim/bundle/vim-less"]
+	path = home/.vim/bundle/vim-less
+	url = https://github.com/genoma/vim-less.git
