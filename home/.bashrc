@@ -95,7 +95,7 @@ load_if_present /cygdrive/c/Users/mlandi/Google\ Drive/personal/ion.sh
 # Useful functions {{{
 
 eb()  { vim ~/.bashrc; }
-eb1() { vim ~/Dropbox/b1_custom.py; }
+eb1() { vim ~/opt/bunny1/b1_custom.py; }
 eg()  { vim ~/.gitconfig; }
 eh()  { vim ~/.hgrc; }
 em()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX); }
@@ -226,6 +226,7 @@ function pip() {
     fi
 }
 function pipf() { pip freeze > requirements.txt; }
+function pipir() { pip install -r requirements.txt; }
 function pip-sys() { $(which pip) "$@"; }
 function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n; }
 function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collapse | cuts -f 2,11-; }
