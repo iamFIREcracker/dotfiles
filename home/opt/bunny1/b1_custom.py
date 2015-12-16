@@ -1,11 +1,5 @@
 #!/usr/bin/python
 
-__author__ = "iamFIREcracker"
-__doc__ = """
-An example bunny1 server with some common commands that you might want to use.
-"""
-__version__ = "0.1"
-
 import urlparse
 
 import bunny1
@@ -15,7 +9,7 @@ from bunny1 import expose
 from bunny1 import dont_expose
 
 
-class ExampleCommands(bunny1.Bunny1Commands):
+class CustomCommands(bunny1.Bunny1Commands):
 
     def crunchbase(self, arg):
         if arg:
@@ -186,7 +180,7 @@ def tld_rewriter(new_tld):
     return expose(lambda url: rewrite_tld(url, new_tld))
 
 
-class ExampleDecorators(bunny1.Bunny1Decorators):
+class CustomDecorators(bunny1.Bunny1Decorators):
     """decorators that show switching between TLDs"""
 
     # we don't really need to hardcode these since they should get handled
@@ -217,10 +211,9 @@ class ExampleDecorators(bunny1.Bunny1Decorators):
         # break if we send it a quoted url
         return "http://tinyurl.com/create.php?url=%s" % url
 
-class ExampleBunny(bunny1.Bunny1):
-    """An example"""
-    def __init__(self):
-        bunny1.Bunny1.__init__(self, ExampleCommands(), ExampleDecorators())
+class CustomBunny1(bunny1.Bunny1):
+    def __init__(self, commands, decorators):
+        bunny1.Bunny1.__init__(self, commands, decorators)
 
     # an example showing how you can handle URLs that happen before
     # the querystring by adding methods to the Bunny class instead of
@@ -233,4 +226,4 @@ class ExampleBunny(bunny1.Bunny1):
 
 
 if __name__ == "__main__":
-    bunny1.main(ExampleBunny())
+    bunny1.main(CustomBunny1(CustomCommands(), CustomDecorators()))
