@@ -166,6 +166,15 @@
 [submodule "home/opt/vagrant-bash-completion"]
 	path = home/opt/vagrant-bash-completion
 	url = https://github.com/kura/vagrant-bash-completion.git
+[submodule "home/.vim/bundle/grunt.vim"]
+	path = home/.vim/bundle/grunt.vim
+	url = https://github.com/mklabs/grunt.vim.git
+[submodule "home/.vim/bundle/vim-less"]
+	path = home/.vim/bundle/vim-less
+	url = https://github.com/genoma/vim-less.git
 [submodule "home/.vim/bundle/vim-erlang-omnicomplete"]
 	path = home/.vim/bundle/vim-erlang-omnicomplete
 	url = https://github.com/vim-erlang/vim-erlang-omnicomplete.git
+[submodule "home/.vim/bundle/splice.vim"]
+	path = home/.vim/bundle/splice.vim
+	url = git@github.com:sjl/splice.vim.git

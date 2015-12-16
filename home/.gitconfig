@@ -1,6 +1,11 @@
 [user]
-name = Matteo Landi
-email = matteo@matteolandi.net
+  name = Matteo Landi
+  email = matteo@matteolandi.net
+
+[core]
+  pager = cat
+  editor = vim
+  excludesfile = ~/.gitignore_global
 
 [color]
   branch = auto
@@ -22,16 +27,27 @@ email = matteo@matteolandi.net
   added = yellow
   changed = green
   untracked = cyan
+
 [push]
     default = current
+
 [alias]
+    tags = tag -l
+    branches = branch -a
+    remotes = remote -v
+
     st = status -s
     ci = commit -v
     cm = commit -v -m
     cmm = commit -v -a -m 'Merge'
+
     l  = log -18 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
     ll = log -36 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
     lll = log -72 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset'
+
+    gl  = log -12 --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(black bold)(by %an)%Creset%C(yellow bold)%d%Creset%n'
+    gll = log     --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(black bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
+
     pu = !git pull && git submodule update --init --recursive
     p = push
     root = rev-parse --show-toplevel
@@ -45,10 +61,10 @@ email = matteo@matteolandi.net
     unshelve = stash pop
     record = commit -v -p $@
     spu = submodule foreach 'git pull origin master || git pull origin origin'
-[core]
-    excludesfile = ~/.gitignore_global
+
 [merge]
-	tool = vimdiff
-	conflictstyle = diff3
-[mergetool]
-	prompt = false
+    tool = splice
+
+[mergetool "splice"]
+    cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"
+    trustExitCode = true
