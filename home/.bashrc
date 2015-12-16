@@ -257,6 +257,12 @@ function tac() {
     fi
     ${_tac} "$@"
 }
+function tmuxlist() { tmux list-sessions; }
+function tmuxattach() {
+    tmuxlist
+    read sessionname
+    tmux attach -t "$sessionname"
+}
 function to() { sed "/$1/q"; }
 function tf() { tail -f "$@"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
