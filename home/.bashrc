@@ -98,7 +98,7 @@ eb()  { vim ~/.bashrc; }
 eb1() { vim ~/opt/bunny1/b1_custom.py; }
 eg()  { vim ~/.gitconfig; }
 eh()  { vim ~/.hgrc; }
-em()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX); }
+em()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX) -c 'se spell wrap nonu noru'; }
 e5()  { vim ~/.pentadactylrc; }
 es()  { vim ~/.slate; }
 et()  { vim ~/.tmux.conf; }
