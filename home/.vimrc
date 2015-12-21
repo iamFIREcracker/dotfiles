@@ -274,7 +274,8 @@ nnoremap VaB vaBV
 noremap <leader>y "*y
 
 " Paste OS clipboard without messing up indent.
-noremap <leader>p :set paste<CR>"+p<CR>:set nopaste<CR>
+nnoremap <leader>p :set paste<CR>"+p<CR>:set nopaste<CR>
+nnoremap <leader>P :set nopaste<CR>
 
 " Visual Mode */# from Scrooloose {{{
 
