@@ -130,7 +130,7 @@ function -() {
         exit Too many arguments
     fi
 }
-function a() { ack "$@"; }
+function a() { ack-grep "$@"; }
 function banner() { figlet -f ogre -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
 function buildpentadactyl() {
     cd ~/opt/dactyl/
