@@ -73,6 +73,8 @@ nmap -builtin <m-t> <nop>
 " Apparently the d key broke at some point.  What the Christ?
 nmap -builtin d :tabclose<cr>
 
+nmap -builtin sp :source ~/.pentadactylrc<cr>
+
 "}}}
 " Search engine {{{
 
@@ -82,9 +84,8 @@ set defsearch=bu
 "}}}
 " Passkeys {{{
 
-set passkeys+='facebook.com':<CR>
+set passkeys+='facebook.com':<CR>,j,k
 set passkeys+='www.google.com/search':j,k
 set passkeys+='mail.google.com':c/kjnp<Return>uemxs+-!raflvIU[]zNqy?<CR>,gi,gs,gt,gd,ga,gc,gb,gk,gl,#
 
 "}}}
-

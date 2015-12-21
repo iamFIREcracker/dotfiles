@@ -1093,6 +1093,7 @@ let g:EasyMotion_leader_key = '<leader>'
 let g:fugitive_github_domains = ['github.banksimple.com']
 
 nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gp :Gpush<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>ga :Gadd<cr>

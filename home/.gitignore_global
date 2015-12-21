@@ -10,4 +10,11 @@ tags
 #######
 target/
 
+# Javascript-crap
+#################
+bower_components/
+node_modules/
+
+# Python
+########
 *.pyc
