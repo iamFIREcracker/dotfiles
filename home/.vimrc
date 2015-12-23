@@ -779,7 +779,7 @@ augroup ft_typescript
     au!
 
     au FileType typescript setlocal foldmethod=syntax
-    au FileType typescript setlocal foldnestmax=5
+    au FileType typescript setlocal foldnestmax=3
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
@@ -812,8 +812,8 @@ augroup ft_typescript
     au FileType typescript call MakeSpacelessBufferIabbrev('rq', 'require('''');<left><left><left>')
     au FileType typescript call MakeSpacelessBufferIabbrev('require', 'NOPENOPENOPE')
 
-    au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('console', 'NOPENOPENOPE')
+    au FileType typescript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
+    au FileType typescript call MakeSpacelessBufferIabbrev('console', 'NOPENOPENOPE')
 
     " }}}
 augroup END
