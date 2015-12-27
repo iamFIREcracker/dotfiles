@@ -76,6 +76,9 @@ class CustomCommands(bunny1.Bunny1Commands):
             return "https://www.google.com/search?site=imghp&tbm=isch"
     im = image
 
+    def l(self, arg):
+        return "https://lodash.com/docs"
+
     def m(self, arg):
         """Goes to Google Music"""
         return "https://play.google.com/music/listen"
