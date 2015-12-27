@@ -62,6 +62,8 @@
     record = commit -v -p $@
     spu = submodule foreach 'git pull origin master || git pull origin origin'
 
+    r = rebase -i
+
 [merge]
     tool = splice
 
