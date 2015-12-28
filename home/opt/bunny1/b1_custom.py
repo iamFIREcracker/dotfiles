@@ -11,6 +11,9 @@ from bunny1 import dont_expose
 
 class CustomCommands(bunny1.Bunny1Commands):
 
+    def bb(self, arg):
+        return "https://bitbucket.org/"
+
     def crunchbase(self, arg):
         if arg:
             return "https://www.crunchbase.com/organization/%s" % qp(arg)
