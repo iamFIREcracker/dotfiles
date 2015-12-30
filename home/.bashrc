@@ -130,7 +130,16 @@ function -() {
         exit Too many arguments
     fi
 }
-function a() { ack-grep "$@"; }
+function a() {
+    local _ack
+
+    if hash ack 2>/dev/null; then
+        _ack=ack
+    elif hash ack-grep 2>/dev/null; then
+        _ack=ack-grep
+    fi
+    ${_ack} "$@"
+}
 function banner() { figlet -f ogre -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
 function buildpentadactyl() {
     cd ~/opt/dactyl/
@@ -214,6 +223,7 @@ function ll6() { tree --dirsfirst -ChFupDaL 6 "$@"; }
 function ls() { fortune; }
 function m() { mvn --batch-mode "$@"; }
 function md() { mkdir -p "$@"; }
+function n() { npm "$@"; }
 function median() { percentile 50; }
 function o() { open "$@"; }
 function oo() { open .; }
