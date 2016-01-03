@@ -12,24 +12,25 @@ from bunny1 import dont_expose
 class CustomCommands(bunny1.Bunny1Commands):
 
     def bb(self, arg):
+        """Go to Bitbucket"""
         return "https://bitbucket.org/"
 
-    def crunchbase(self, arg):
+    def cb(self, arg):
+        """Go to Crunchbase, or search for a specific organization"""
         if arg:
             return "https://www.crunchbase.com/organization/%s" % qp(arg)
         else:
             return "https://www.crunchbase.com"
-    cb = crunchbase
 
     def domain(self, arg):
-        """search www.facebook.com or go there"""
+        """Search www.facebook.com or go there"""
         if arg:
             return "https://www.dotster.com/register/domains/?dom_lookup=%s" % qp(arg)
         else:
             return "https://www.dotster.com/"
 
     def fb(self, arg):
-        """search www.facebook.com or go there"""
+        """Search www.facebook.com or go there"""
         if arg:
             return "http://www.facebook.com/s.php?q=%s&init=q" % qp(arg)
         else:
@@ -45,41 +46,33 @@ class CustomCommands(bunny1.Bunny1Commands):
         return "https://developers.facebook.com/tools/explorer"
 
     def yt(self, arg):
-        """Searches YouTube or goes to it"""
+        """Search YouTube or go there"""
         if arg:
             return "http://www.youtube.com/results?search_query=%s&search_type=&aq=-1&oq=" % qp(arg)
         else:
             return "http://www.youtube.com/"
 
-    def wikipedia(self, arg):
-        """Searches Wikipedia or goes there"""
-        if arg:
-            return "http://en.wikipedia.org/wiki/Special:Search?search=%s&go=Go" % qp(arg)
-        else:
-            return "http://en.wikipedia.org"
-
-    def stackoverflow(self, arg):
+    def so(self, arg):
         """Searches StackOverflow or goes there"""
         if arg:
             return "http://stackoverflow.com/search?q=%s" % qp(arg)
         else:
             return "http://stackoverflow.com"
-    so = stackoverflow
 
     def javascript(self, arg):
         """Search StackOverflow[Javascript] or goes there"""
         return self.stackoverflow('[javascript] ' + arg)
     js = javascript
 
-    def image(self, arg):
+    def im(self, arg):
         """Searches Google Images or goes there"""
         if arg:
             return "https://www.google.com/search?site=imghp&tbm=isch&q=%s" % qp(arg)
         else:
             return "https://www.google.com/search?site=imghp&tbm=isch"
-    im = image
 
     def l(self, arg):
+        """Show lodash documentation"""
         return "https://lodash.com/docs"
 
     def m(self, arg):
@@ -87,38 +80,36 @@ class CustomCommands(bunny1.Bunny1Commands):
         return "https://play.google.com/music/listen"
 
     def nf(self, arg):
+        """Go to netflix"""
         return "https://www.netflix.com"
 
     def nfsub(self, arg):
+        """Show Netflix titles by subtitle"""
         return "https://www.netflix.com/subtitles"
 
     def rxjs(self, arg):
+        """Show rxjs documentation"""
         return "https://github.com/Reactive-Extensions/RxJS/blob/master/doc/libraries/main/rx.complete.md"
 
     def s(self, arg):
+        """Search english subtitles on Google"""
         return self.g(arg + ' english subtitles')
 
-    def titanium(self, arg):
+    def t(self, arg):
+        """Search torrents"""
+        return "https://kickass.unblocked.la/usearch/%s/" % qp(arg)
+
+    def ti(self, arg):
         """Search StackOverflow[titanium] or goes there"""
         if arg:
             return self.stackoverflow('[titanium] ' + arg)
         else:
             return "http://docs.appcelerator.com/titanium/latest/#!/api"
-    ti = titanium
-
-    def torrent(self, arg):
-        return "https://kickass.unblocked.la/usearch/%s/" % qp(arg)
-    t = torrent
 
     def zippyshare(self, arg):
         """Goes to Zippyshare -- it does not support GET searches :-("""
         return "http://www.searchonzippy.com"
     zp = zippyshare
-
-    def vimrc(self, arg):
-        """open sjl vimrc file on bitbucket"""
-        return "https://bitbucket.org/sjl/dotfiles/src/603bb1ae9da27c6e08ab115df1cb5d8f6a1442c3/vim/vimrc?at=default"
-
 
     def yc(self, arg):
         """Goes to Hacker News"""
@@ -131,6 +122,7 @@ class CustomCommands(bunny1.Bunny1Commands):
         return 'https://console.developers.google.com/project'
 
     def say(self, arg):
+        """Pronounce an English word"""
         if arg:
             return 'http://www.howjsay.com/index.php?word=%s' % qp(arg)
         else:
