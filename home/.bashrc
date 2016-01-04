@@ -155,9 +155,10 @@ function uniqdiff() {
     local input=/tmp/uniqdiff_all.$$
     trap "kill -TERM $PID; rm '${input}'" TERM INT
     cat > ${input}
-    </dev/tty vimdiff <(cat ${input}) <(cat ${input} | uniq)
+    </dev/tty vimdiff <(cat ${input}) <(cat ${input} | uniq "$@")
     rm "${input}"
 }
+function uniqdiff1() { uniqdiff --skip-fields 1; }
 function edit-pasteboard() { cb | vipe | cb; }
 function from() { tac "$1" | sed "/$2/q" | tac; }
 function g() { git "$@"; }
@@ -227,6 +228,7 @@ function n() { npm "$@"; }
 function median() { percentile 50; }
 function o() { open "$@"; }
 function oo() { open .; }
+function p() { ping "$@"; }
 function percentile() { awk "{ a[i++]=\$0; } END { print a[int(i*$1/100)]; }"; }
 function pip() {
     if [ -n "$VIRTUAL_ENV" ]; then
