@@ -140,6 +140,7 @@ function a() {
     fi
     ${_ack} "$@"
 }
+function b() { bower "$@"; }
 function banner() { figlet -f ogre -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
 function buildpentadactyl() {
     cd ~/opt/dactyl/

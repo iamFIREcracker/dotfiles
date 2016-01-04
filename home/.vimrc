@@ -528,7 +528,7 @@ augroup ft_javascript
     au!
 
     au FileType javascript setlocal foldmethod=syntax
-    au FileType javascript setlocal foldnestmax=5
+    au FileType javascript setlocal foldnestmax=1
     " Deeper nesting for test files so that we can fold 'describe' or 'it' sections
     au BufNewFile,BufRead test/*.js setlocal foldnestmax=5
 

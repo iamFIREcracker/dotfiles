@@ -45,6 +45,10 @@ class CustomCommands(bunny1.Bunny1Commands):
     def fbexp(self, arg):
         return "https://developers.facebook.com/tools/explorer"
 
+    def gp(self, arg):
+        """Go to G+"""
+        return "https://plus.google.com"
+
     def yt(self, arg):
         """Search YouTube or go there"""
         if arg:
@@ -59,10 +63,16 @@ class CustomCommands(bunny1.Bunny1Commands):
         else:
             return "http://stackoverflow.com"
 
-    def javascript(self, arg):
+    def js(self, arg):
         """Search StackOverflow[Javascript] or goes there"""
         return self.stackoverflow('[javascript] ' + arg)
-    js = javascript
+
+    def id(self, arg):
+        """Search idioms"""
+        if arg:
+            return "http://idios.thefreedictionary.com/%s" % qp(arg)
+        else:
+            return "http://idios.thefreedictionary.com/"
 
     def im(self, arg):
         """Searches Google Images or goes there"""
