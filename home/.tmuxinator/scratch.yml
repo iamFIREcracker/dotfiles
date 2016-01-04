@@ -6,9 +6,8 @@ root: ~/
 windows:
   - bunny1:
       root: ~/opt/bunny1
-      pre: wo
       panes:
-        - python b1_custom.py --host localhost
+        - venv/bin/python b1_custom.py --host localhost
   - dotfiles:
       root: ~/dotfiles
       panes:
