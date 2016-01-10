@@ -64,6 +64,8 @@
 
     r = rebase -i
 
+    unfuck-merge = reset --hard HEAD
+
 [merge]
     tool = splice
 
