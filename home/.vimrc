@@ -1029,6 +1029,11 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
 
+" Ack {
+
+let g:ack_use_dispatch = 1
+
+" }
 " Airline {{{
 
 let g:airline_theme='dark'
