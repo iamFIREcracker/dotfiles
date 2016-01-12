@@ -64,6 +64,10 @@
 
     r = rebase -i
 
+    unfuck-merge = reset --hard HEAD
+
+    zip = archive -o latest.zip HEAD
+
 [merge]
     tool = splice
 

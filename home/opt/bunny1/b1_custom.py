@@ -48,6 +48,10 @@ class CustomCommands(bunny1.Bunny1Commands):
     def fbexp(self, arg):
         return "https://developers.facebook.com/tools/explorer"
 
+    def gdevconsole(self, arg):
+        """Go to the Google developer console"""
+        return 'https://console.developers.google.com/project'
+
     def gp(self, arg):
         """Go to G+"""
         return "https://plus.google.com"
@@ -130,9 +134,6 @@ class CustomCommands(bunny1.Bunny1Commands):
 
     def playconsole(self, arg):
         return 'https://play.google.com/apps/publish'
-
-    def googledevconsole(self, arg):
-        return 'https://console.developers.google.com/project'
 
     def say(self, arg):
         """Pronounce an English word"""
