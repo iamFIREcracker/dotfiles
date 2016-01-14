@@ -300,10 +300,18 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 "            --------------------------------------
 "
 
+" Meta-k
 nnoremap ˚ :lprevious<cr>zvzz
+nnoremap <esc>k :lprevious<cr>zvzz
+" Meta-j
 nnoremap ∆ :lnext<cr>zvzz
+nnoremap <esc>j :lnext<cr>zvzz
+" Meta-left
 nnoremap ˙ :cprev<cr>zvzz
+nnoremap <esc>h :cprev<cr>zvzz
+" Meta-right
 nnoremap ¬ :cnext<cr>zvzz
+nnoremap <esc>l :cprev<cr>zvzz
 
 " }}}
 " Directional Keys {{{
