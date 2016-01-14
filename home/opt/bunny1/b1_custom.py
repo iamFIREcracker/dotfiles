@@ -72,7 +72,7 @@ class CustomCommands(bunny1.Bunny1Commands):
 
     def js(self, arg):
         """Search StackOverflow[Javascript] or goes there"""
-        return self.stackoverflow('[javascript] ' + arg)
+        return self.so('[javascript] ' + arg)
 
     def id(self, arg):
         """Search idioms"""
@@ -119,7 +119,7 @@ class CustomCommands(bunny1.Bunny1Commands):
     def ti(self, arg):
         """Search StackOverflow[titanium] or goes there"""
         if arg:
-            return self.stackoverflow('[titanium] ' + arg)
+            return self.so('[titanium] ' + arg)
         else:
             return "http://docs.appcelerator.com/titanium/latest/#!/api"
 
