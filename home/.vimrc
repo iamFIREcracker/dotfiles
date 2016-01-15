@@ -996,6 +996,10 @@ vnoremap <silent> <localleader>e :SendSelectionToTmux<cr>
 " Syntastic errors
 nnoremap <silent> <leader>r :Errors<cr>
 
+" Diff mode
+nnoremap <localleader>d :windo diffthis<cr>
+nnoremap <localleader>D :windo diffoff<cr>
+
 " Block Colors {{{
 
 let g:blockcolor_state = 0
