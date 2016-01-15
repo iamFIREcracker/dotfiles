@@ -149,6 +149,7 @@ function buildpentadactyl() {
 }
 function bcvi() { ${HOME}/opt/bcvi/bin/bcvi "$@"; }
 function bssh() { bcvi --wrap-ssh -- "$@"; }
+function b1() { ~/opt/bunny1/venv/bin/python ~/opt/bunny1/b1_custom.py --test "$*"; }
 function collapse() { sed -e 's/  */ /g'; }
 function cuts() { cut -d' ' "$@"; }
 function de() { deactivate; }

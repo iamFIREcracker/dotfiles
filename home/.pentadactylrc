@@ -75,6 +75,8 @@ nmap -builtin d :tabclose<cr>
 
 nmap -builtin sp :source ~/.pentadactylrc<cr>
 
+nnoremap gd :normal <C-S-i><cr>
+
 "}}}
 " Search engine {{{
 
