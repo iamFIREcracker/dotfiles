@@ -595,6 +595,16 @@ augroup ft_javascript
 augroup END
 
 " }}}
+" Jira {{{
+
+augroup ft_jira
+    au!
+
+    au BufNewFile,BufRead *.jira setlocal filetype=jira
+    au FileType jira setlocal wrap foldmethod=syntax
+augroup END
+
+" }}}
 " JSON {{{
 
 augroup ft_json
