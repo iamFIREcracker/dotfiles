@@ -41,14 +41,6 @@ nmap -builtin ( :tp<CR>
 " nmap -builtin <c-f> <f12>
 " nmap -builtin <c-g> <s-f12>
 
-" Console toggle
-nmap -builtin <c-g> <m-a-k><esc>
-imap -builtin <c-g> <esc><m-a-k><esc>
-
-" Inspect element toggle
-nmap -builtin <c-s> <m-a-i>
-imap -builtin <c-s> <esc><m-a-i>
-
 " Shift is hard.
 nmap -builtin ; :
 
@@ -64,18 +56,12 @@ nmap -builtin ,<space> <esc>:noh<CR>
 " Shut up.
 javascript dactyl.beep = function() { return false; }
 
-" Okay DDG let's see if I can stand you.
-" nope set defsearch=duckduckgo
-
-" Train myself to use t instead of cmd-t
-nmap -builtin <m-t> <nop>
-
 " Apparently the d key broke at some point.  What the Christ?
 nmap -builtin d :tabclose<cr>
 
 nmap -builtin sp :source ~/.pentadactylrc<cr>
 
-nnoremap gd :normal <C-S-i><cr>
+nmap -builtin gd :emenu Tools.Web Developer.Toggle Tools<cr>
 
 "}}}
 " Search engine {{{
