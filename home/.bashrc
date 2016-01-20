@@ -126,8 +126,6 @@ function -() {
         grep -v -E "$1|$2|$3|$4|$5|$6" | hl "$@"
     elif [ $# -gt 6 ]; then
         grep -v -E "$1|$2|$3|$4|$5|$6" | - "${@:7}"
-    else
-        exit Too many arguments
     fi
 }
 function a() {
@@ -150,6 +148,7 @@ function buildpentadactyl() {
 function bcvi() { ${HOME}/opt/bcvi/bin/bcvi "$@"; }
 function bssh() { bcvi --wrap-ssh -- "$@"; }
 function b1() { ~/opt/bunny1/venv/bin/python ~/opt/bunny1/b1_custom.py --test "$*"; }
+function cleancodes() { sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"; }
 function collapse() { sed -e 's/  */ /g'; }
 function cuts() { cut -d' ' "$@"; }
 function de() { deactivate; }
@@ -208,6 +207,7 @@ function hl3() { GREP_COLOR="1;33" grep -E --color=always "$1|\$"; }
 function hl4() { GREP_COLOR="1;34" grep -E --color=always "$1|\$"; }
 function hl5() { GREP_COLOR="1;35" grep -E --color=always "$1|\$"; }
 function hl6() { GREP_COLOR="1;36" grep -E --color=always "$1|\$"; }
+function hs() { history "$@"; }
 function j() { z "$@"; }
 function l() { l1 "$@"; }
 function l1() { tree --dirsfirst -ChFL 1 "$@"; }
