@@ -1437,3 +1437,52 @@ hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
 hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 
 " }}}
+
+"}}}
+" Shell {{{
+
+let ShellOutputBufferName = "__Shell_Output__"
+
+function! s:Shell(command)
+    " Check whether the shell buffer is already created
+    let shl_bufnum = bufnr(g:ShellOutputBufferName)
+    if shl_bufnum == -1
+        " open a new shell buffer
+        exe "vnew " . g:ShellOutputBufferName
+    else
+        " Shell buffer is already created. Check whether it is open
+        " in one of the windows
+        let shl_winnum = bufwinnr(shl_bufnum)
+        if shl_winnum != -1
+            " Jump to the window which has the shell buffer if we are not
+            " already in that window
+            if winnr() != shl_winnum
+                exe shl_winnum . "wincmd w"
+            endif
+        else
+            " Create a new shell buffer
+            exe "vsplit +buffer" . shl_bufnum
+        endif
+    endif
+
+    " Dump the output of the command in the buffer
+    normal! ggdG
+    let output = system(a:command . " 2>&1")
+    call append(0, split(output, '\v\n'))
+
+endfunction
+
+augroup ft_shelloutput
+    au!
+
+    autocmd BufNewFile __Shell_Output__ setlocal buftype=nofile
+    autocmd BufNewFile __Shell_Output__ setlocal bufhidden=hide
+    autocmd BufNewFile __Shell_Output__ setlocal noswapfile
+    autocmd BufNewFile __Shell_Output__ setlocal buflisted
+    autocmd BufNewFile __Shell_Output__ nnoremap <buffer> q :q<cr>
+    autocmd BufNewFile __Shell_Output__ AnsiEsc
+augroup END
+
+command! -complete=shellcmd -nargs=+ Shell call s:Shell(<q-args>)
+
+" }}}
