@@ -235,8 +235,8 @@ nnoremap D d$
 
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
-nnoremap n nzvzz:call PulseCursorLine()<cr>
-nnoremap N Nzvzz:call PulseCursorLine()<cr>
+nnoremap n nzvzz:Pulse<cr>
+nnoremap N Nzvzz:Pulse<cr>
 
 " Same when jumping around
 nnoremap g; g;zz
@@ -1354,50 +1354,36 @@ inoremap jj <esc>:echo "Use Ctrl!"<cr>i
 
 
 " }}}
-" Pulse ------------------------------------------------------------------- {{{
-function! PulseCursorLine()
-	let current_window = winnr()
+" Pulse Line {{{
 
-	windo set nocursorline
-	execute current_window . 'wincmd w'
+function! s:Pulse() " {{{
+    redir => old_hi
+        silent execute 'hi CursorLine'
+    redir END
+    let old_hi = split(old_hi, '\n')[0]
+    let old_hi = substitute(old_hi, 'xxx', '', '')
 
-	setlocal cursorline
+    let steps = 8
+    let width = 1
+    let start = width
+    let end = steps * width
+    let color = 233
 
-	redir => old_hi
-	silent execute 'hi CursorLine'
-	redir END
-	let old_hi = split(old_hi, '\n')[0]
-	let old_hi = substitute(old_hi, 'xxx', '', '')
+    for i in range(start, end, width)
+        execute "hi CursorLine ctermbg=" . (color + i)
+        redraw
+        sleep 6m
+    endfor
+    for i in range(end, start, -1 * width)
+        execute "hi CursorLine ctermbg=" . (color + i)
+        redraw
+        sleep 6m
+    endfor
 
-	hi CursorLine guibg=#2a2a2a
-	redraw
-	sleep 30m
+    execute 'hi ' . old_hi
+endfunction " }}}
+command! -nargs=0 Pulse call s:Pulse()
 
-	hi CursorLine guibg=#333333
-	redraw
-	sleep 30m
-
-	hi CursorLine guibg=#3a3a3a
-	redraw
-	sleep 30m
-
-	hi CursorLine guibg=#444444
-	redraw
-	sleep 30m
-
-	hi CursorLine guibg=#4a4a4a
-	redraw
-	sleep 30m
-
-	hi CursorLine guibg=#555555
-	redraw
-	sleep 30m
-
-	execute 'hi ' . old_hi
-
-	windo set cursorline
-	execute current_window . 'wincmd w'
-endfunction
 " }}}
 " Highlight Word {{{
 "
