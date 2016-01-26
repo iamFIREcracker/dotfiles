@@ -1443,6 +1443,8 @@ hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 
 let ShellOutputBufferName = "__Shell_Output__"
 
+command! -complete=shellcmd -nargs=+ Shell call s:Shell(<q-args>)
+
 function! s:Shell(command)
     " Check whether the shell buffer is already created
     let shl_bufnum = bufnr(g:ShellOutputBufferName)
@@ -1479,10 +1481,24 @@ augroup ft_shelloutput
     autocmd BufNewFile __Shell_Output__ setlocal bufhidden=hide
     autocmd BufNewFile __Shell_Output__ setlocal noswapfile
     autocmd BufNewFile __Shell_Output__ setlocal buflisted
-    autocmd BufNewFile __Shell_Output__ nnoremap <buffer> q :q<cr>
+    autocmd BufNewFile __Shell_Output__ nnoremap <buffer> q :bd<cr>
     autocmd BufNewFile __Shell_Output__ AnsiEsc
 augroup END
 
-command! -complete=shellcmd -nargs=+ Shell call s:Shell(<q-args>)
+" }}}
+" q to quit help and quickfix window {{{
+
+augroup qquit
+  au!
+
+  function! s:helpquit()
+    if &buftype == 'help'
+      nnoremap <buffer> q :bd<cr>:silent! close<cr>
+    endif
+  endfunction
+
+  au BufEnter *.txt call s:helpquit()
+  au BufReadPost quickfix nnoremap <buffer> q :bd<cr>
+augroup END
 
 " }}}
