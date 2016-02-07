@@ -1185,7 +1185,7 @@ let g:SuperTabCrMapping = 1
 " Syntastic {{{
 
 let g:syntastic_java_checker = 'javac'
-let g:syntastic_javascript_checkers = ['jslint']
+let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_mode_map = {
             \ "mode": "active",
             \ "active_filetypes": [],
