@@ -245,7 +245,7 @@ function pip-sys() { $(which pip) "$@"; }
 function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n; }
 function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collapse | cuts -f 2,11-; }
 function sb() { . ~/.bashrc; }
-function serve-this() { python -m SimpleHTTPServer; }
+function serve-this() { python -m SimpleHTTPServer "$@"; }
 function ssh() {
     local oldifs host customcmd uberscript cmd
 
