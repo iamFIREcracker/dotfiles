@@ -1,13 +1,7 @@
-# ~/.tmuxinator/scratch.yml
-
 name: scratch
 root: ~/
 
 windows:
-  - bunny1:
-      root: ~/opt/bunny1
-      panes:
-        - venv/bin/python b1_custom.py --host localhost
   - dotfiles:
       root: ~/dotfiles
       panes:
