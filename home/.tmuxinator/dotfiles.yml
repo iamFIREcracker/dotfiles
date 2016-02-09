@@ -1,0 +1,8 @@
+name: dotfiles
+root: ~/
+
+windows:
+  - dotfiles:
+      root: ~/dotfiles
+      panes:
+        - g st

@@ -2,10 +2,6 @@ name: scratch
 root: ~/
 
 windows:
-  - dotfiles:
-      root: ~/dotfiles
-      panes:
-        - g st
   - bash:
       panes:
         -
