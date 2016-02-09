@@ -36,7 +36,7 @@
     branches = branch -a
     remotes = remote -v
 
-    st = status -s
+    st = status --short --ignore-submodules=untracked
     ci = commit -v
     cm = commit -v -m
     cmm = commit -v -a -m 'Merge'
