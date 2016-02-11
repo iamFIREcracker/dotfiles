@@ -9,7 +9,9 @@ function paste() {
 }
 
 function copy() {
-    if [ -e /dev/clipboard ]; then
+    if env | grep --quiet -F SSH_TTY; then
+        nc localhost 5556
+    elif [ -e /dev/clipboard ]; then
         cat >/dev/clipboard
     else
         pbcopy
