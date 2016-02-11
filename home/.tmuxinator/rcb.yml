@@ -1,0 +1,7 @@
+name: remote-clipboard
+root: ~/
+
+windows:
+  - magic:
+      panes:
+        - while (true); do nc -l 5556 | echo; done
