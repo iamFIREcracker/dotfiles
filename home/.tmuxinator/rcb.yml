@@ -4,4 +4,4 @@ root: ~/
 windows:
   - magic:
       panes:
-        - while (true); do nc -l 5556 | echo; done
+        - while (true); do nc -l localhost 5556 | cb; cb; done
