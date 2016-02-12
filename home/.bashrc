@@ -260,7 +260,7 @@ function ssh() {
     cmd="${cmd} $customcmd;"
     cmd="${cmd} echo '$uberscript' | base64 --decode > /tmp/.bashrc_temp;"
     cmd="${cmd} bash --rcfile /tmp/.bashrc_temp"
-    $(which ssh) -t $host "$cmd"
+    $(which ssh) -R5557:localhost:5556 -t $host "$cmd"
 }
 function sum() { awk '{s+=$1}END{print s}'; }
 function tac() {
@@ -283,6 +283,12 @@ function to() { sed "/$1/q"; }
 function tf() { tail -f "$@"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
+vup() {
+    vagrant up
+}
+vssh() {
+    vagrant ssh -- -R5557:localhost:5556
+}
 function vw() { vim -R -; }
 function wo() {
     local wd=`pwd`
