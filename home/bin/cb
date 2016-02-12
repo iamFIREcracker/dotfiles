@@ -2,7 +2,7 @@
 
 function paste() {
     if [ -e /dev/clipboard ]; then
-        cat /dev/clipboard
+        getclip
     else
         pbpaste
     fi
@@ -12,7 +12,7 @@ function copy() {
     if env | grep --quiet -F SSH_TTY; then
         nc localhost 5557
     elif [ -e /dev/clipboard ]; then
-        cat >/dev/clipboard
+        putclip
     else
         pbcopy
     fi
