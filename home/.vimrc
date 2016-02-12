@@ -948,10 +948,19 @@ function! g:FuckingCopyTheTextPlease()
     call winrestview(view)
 endfunction
 
+function! g:FuckingCopyAllTheTextPlease()
+    let view = winsaveview()
+    let old_z = @z
+    normal! ggVG"zy
+    call system('cb', @z)
+    let @z = old_z
+    call winrestview(view)
+endfunction
+
 noremap <leader>p "*p
-" noremap <leader>p mz:r!pbpaste<cr>`z
 vnoremap <leader>y :<c-u>call g:FuckingCopyTheTextPlease()<cr>
 nnoremap <leader>y VV:<c-u>call g:FuckingCopyTheTextPlease()<cr>
+nnoremap <leader>Y :<c-u>call g:FuckingCopyAllTheTextPlease()<cr>
 
 " Select pasted stuff
 nnoremap <leader>V V`]
