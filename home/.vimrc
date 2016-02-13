@@ -1154,6 +1154,7 @@ nnoremap <leader>gci :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
 nnoremap <leader>gr :Gremove<cr>
 nnoremap <leader>gl :Shell git ll<cr>
+nnoremap <leader>gi :Shell git ind<cr>
 
 augroup ft_fugitive
     au!
