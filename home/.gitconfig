@@ -57,6 +57,8 @@
     di = !git diff --cached | vim -R -
 
     in = !git fetch && git log --pretty=oneline --abbrev-commit --graph ..@{u}
+    ind = !git fetch && git diff ..@{u}
+
     shelve = stash save --include-untracked
     unshelve = stash pop
     record = commit -v -p $@
