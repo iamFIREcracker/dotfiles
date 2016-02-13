@@ -1,16 +1,11 @@
 #!/usr/bin/env bash
 
-function paste() {
-    if [ -e /dev/clipboard ]; then
-        getclip
-    else
-        pbpaste
-    fi
-}
+NC_COPY_PORT=5556
+NC_PASTE_PORT=5557
 
 function copy() {
     if env | grep --quiet -F SSH_TTY; then
-        nc localhost 5557
+        nc localhost $NC_COPY_PORT
     elif [ -e /dev/clipboard ]; then
         putclip
     else
@@ -18,4 +13,39 @@ function copy() {
     fi
 }
 
-test -t 0 && paste || copy
+function paste() {
+    if env | grep --quiet -F SSH_TTY; then
+        nc localhost $NC_PASTE_PORT
+    elif [ -e /dev/clipboard ]; then
+        getclip
+    else
+        pbpaste
+    fi
+}
+
+function listen_copy() {
+    while (true); do
+        echo "Listening on port $NC_COPY_PORT..."
+        nc -l localhost $NC_PASTE_PORT | copy
+        echo "Copied"
+        paste
+    done
+}
+
+function listen_paste() {
+    rm -rf /tmp/cb_fifo && mkfifo /tmp/cb_fifo
+    while (true); do
+        echo "Listening on port $NC_PASTE_PORT..."
+        nc -l localhost $NC_COPY_PORT </tmp/cb_fifo | paste >/tmp/cb_fifo
+        echo "Pasted"
+        paste
+    done
+}
+
+if [ "$1" = "--listen-copy" ]; then
+    listen_copy
+elif [ "$1" = "--listen-paste" ]; then
+    listen_paste
+else 
+    test -t 0 && paste || copy
+fi
