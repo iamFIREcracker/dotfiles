@@ -273,10 +273,6 @@ nnoremap VaB vaBV
 " Yank to OS clipboard
 noremap <leader>y "*y
 
-" Paste OS clipboard without messing up indent.
-nnoremap <leader>p :set paste<CR>"+p<CR>:set nopaste<CR>
-nnoremap <leader>P :set nopaste<CR>
-
 " Visual Mode */# from Scrooloose {{{
 
 function! s:VSetSearch()
@@ -957,10 +953,11 @@ function! g:FuckingCopyAllTheTextPlease()
     call winrestview(view)
 endfunction
 
-noremap <leader>p "*p
 vnoremap <leader>y :<c-u>call g:FuckingCopyTheTextPlease()<cr>
 nnoremap <leader>y VV:<c-u>call g:FuckingCopyTheTextPlease()<cr>
 nnoremap <leader>Y :<c-u>call g:FuckingCopyAllTheTextPlease()<cr>
+
+nnoremap <leader>p :set paste<CR>:read !cb<CR>:set nopaste<CR>
 
 " Select pasted stuff
 nnoremap <leader>V V`]
