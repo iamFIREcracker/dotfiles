@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-NC_COPY_PORT=5556
-NC_PASTE_PORT=5557
+REMOTE_PORT=5556
+REMOTE_PASTE_REQUEST_TOKEN=AKDJF8U4389HSDHF3H9RH39FJSKDHFJH983QR98HAUFHA
 
 function copy() {
     if env | grep --quiet -F SSH_TTY; then
-        nc localhost $NC_COPY_PORT
+        nc localhost $REMOTE_PORT
     elif [ -e /dev/clipboard ]; then
         putclip
     else
@@ -15,7 +15,7 @@ function copy() {
 
 function paste() {
     if env | grep --quiet -F SSH_TTY; then
-        nc localhost $NC_PASTE_PORT
+        echo -n $REMOTE_PASTE_REQUEST_TOKEN | nc localhost $REMOTE_PORT
     elif [ -e /dev/clipboard ]; then
         getclip
     else
@@ -23,29 +23,47 @@ function paste() {
     fi
 }
 
-function listen_copy() {
+function listen() {
+    echo "Listening on port $REMOTE_PORT..."
     while (true); do
-        echo "Listening on port $NC_COPY_PORT..."
-        nc -l localhost $NC_PASTE_PORT | copy
-        echo "Copied"
-        paste
+        python <<END
+import socket, subprocess
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+s.bind(('localhost', $REMOTE_PORT))
+s.listen(1)
+remote, _ = s.accept()
+input = ''
+while True:
+    data = remote.recv(1024)
+    if not data:
+        break
+    input += data
+if input == '$REMOTE_PASTE_REQUEST_TOKEN':
+    clipboard = subprocess.check_output(['$0',  '--force-paste'])
+    remote.sendall(clipboard)
+    print 'Pasted'
+    print clipboard
+else:
+    process = subprocess.Popen(['$0'], stdin=subprocess.PIPE)
+    process.communicate(input)
+    process.poll()
+    print 'Copied'
+    print input
+remote.close()
+s.close()
+END
+        if [ $? -ne 0 ]; then
+            break
+        fi
     done
 }
 
-function listen_paste() {
-    rm -rf /tmp/cb_fifo && mkfifo /tmp/cb_fifo
-    while (true); do
-        echo "Listening on port $NC_PASTE_PORT..."
-        nc -l localhost $NC_COPY_PORT </tmp/cb_fifo | paste >/tmp/cb_fifo
-        echo "Pasted"
-        paste
-    done
-}
-
-if [ "$1" = "--listen-copy" ]; then
-    listen_copy
-elif [ "$1" = "--listen-paste" ]; then
-    listen_paste
-else 
+if [ "$1" = "--force-paste" ]; then
+    paste
+elif [ "$1" = "--listen" ]; then
+    listen
+else
     test -t 0 && paste || copy
 fi

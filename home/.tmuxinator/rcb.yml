@@ -2,5 +2,4 @@ name: remote-clipboard
 root: ~/
 
 windows:
-  - copy: cb --listen-copy
-  - paste: cb --listen-paste
+  - cb: cb --listen

@@ -244,9 +244,7 @@ function pipir() { pip install -r requirements.txt; }
 function pip-sys() { $(which pip) "$@"; }
 function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n; }
 function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collapse | cuts -f 2,11-; }
-function sb() { . ~/.bashrc; }
-function serve-this() { python -m SimpleHTTPServer "$@"; }
-function ssh() {
+function s() {
     local oldifs host customcmd uberscript cmd
 
     oldifs=$IFS
@@ -260,8 +258,10 @@ function ssh() {
     cmd="${cmd} $customcmd;"
     cmd="${cmd} echo '$uberscript' | base64 --decode > /tmp/.bashrc_temp;"
     cmd="${cmd} bash --rcfile /tmp/.bashrc_temp"
-    $(which ssh) -R5557:localhost:5556 -t $host "$cmd"
+    ssh -R 5556:localhost:5556 -t $host "$cmd"
 }
+function sb() { . ~/.bashrc; }
+function serve-this() { python -m SimpleHTTPServer "$@"; }
 function sum() { awk '{s+=$1}END{print s}'; }
 function tac() {
     local _tac
@@ -287,7 +287,7 @@ vup() {
     vagrant up
 }
 vssh() {
-    vagrant ssh -- -R5557:localhost:5556
+    vagrant ssh -- -R 5556:localhost:5556
 }
 function vw() { vim -R -; }
 function wo() {
