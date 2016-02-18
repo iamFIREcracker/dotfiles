@@ -504,6 +504,15 @@ augroup ft_gitcommit
 augroup END
 
 " }}}
+" Gitconfig {{{
+
+augroup ft_gitconfig
+    au!
+
+    au BufNewFile,BufRead *gitconfig* setlocal filetype=gitconfig
+augroup END
+
+" }}}
 " Jade {{{
 
 augroup ft_jade
