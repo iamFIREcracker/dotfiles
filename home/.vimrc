@@ -552,6 +552,8 @@ augroup ft_javascript
     " positioned inside of them AND the following code doesn't get unfolded.
     au FileType javascript inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><space><space><esc>zoa
 
+    au FileType javascript nnoremap <buffer> <localleader>ee <C-w>v<C-w>j:e .eslintrc<cr>
+    
     " Abbreviations {{{
 
     au FileType javascript call MakeSpacelessBufferIabbrev('fn',  'function ')
@@ -1080,11 +1082,11 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
 
-" Ack {
+" Ack {{{
 
 let g:ack_use_dispatch = 1
 
-" }
+" }}}
 " Airline {{{
 
 let g:airline_theme='dark'

@@ -22,8 +22,8 @@ set showtabline=multitab
 set showstatuslinks=command
 
 " FASTER PLEASE
-nmap -builtin -silent j 3j
-nmap -builtin -silent k 3k
+nmap -builtin -silent j 4j
+nmap -builtin -silent k 4k
 
 " Go to the second input field.
 " Useful for skipping over search fields, etc.
