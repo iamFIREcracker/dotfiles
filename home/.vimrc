@@ -342,7 +342,11 @@ nnoremap <space> za
 vnoremap <space> za
 
 " Use ,z to "focus" the current fold.
-nnoremap <leader>z zMzvzz
+function! FocusCurrentFold()
+    normal! zMzvzz
+endfunction
+
+nnoremap <leader>z :call FocusCurrentFold()<cr>
 
 " Automatic unfolding {{{
 " Fix automatic unfolding while entering insert mode
@@ -544,6 +548,9 @@ augroup ft_javascript
     au FileType javascript setlocal foldnestmax=1
     " Deeper nesting for test files so that we can fold 'describe' or 'it' sections
     au BufNewFile,BufRead test/*.js setlocal foldnestmax=5
+
+    au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>:call FocusCurrentFold()<cr>
+    au FileType javascript nnoremap <buffer> <silent> <C-^> :TernRefs<cr>
 
     au Filetype javascript nnoremap <buffer> <leader>d :call RunAllSpecs()<cr>
     au Filetype javascript nnoremap <buffer> <localleader>t :call RunNearestSpec()<cr>
@@ -988,7 +995,7 @@ noremap ' `
 noremap ` '
 
 " Better Completion
-set completeopt=longest,menuone,preview
+set completeopt=longest,menuone
 inoremap <expr> <Tab> pumvisible() ? "<C-Y>" : "<Tab>"
 augroup close_completion_menu
     au!
