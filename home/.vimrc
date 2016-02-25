@@ -474,6 +474,16 @@ augroup ft_erlang
 augroup END
 
 " }}}
+" Eslintrc {{{
+
+augroup ft_eslintrc
+    au!
+
+    au BufEnter .eslintrc setlocal ft=json
+    au BufEnter .eslintrc nnoremap <buffer> q :bd<cr>
+augroup END
+
+" }}}
 " HTML {{{
 
 augroup ft_html
@@ -560,6 +570,7 @@ augroup ft_javascript
     au FileType javascript inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><space><space><esc>zoa
 
     au FileType javascript nnoremap <buffer> <localleader>ee <C-w>v<C-w>j:e .eslintrc<cr>
+    au FileType javascript nnoremap <buffer> <localleader>et <C-w>v<C-w>j:e .tern-project<cr>
     
     " Abbreviations {{{
 
@@ -851,11 +862,21 @@ augroup ft_typescript
 augroup END
 
 " }}}
+" Ternproject {{{
+
+augroup ft_ternproject
+    au!
+
+    au BufEnter .tern-project setlocal ft=json
+    au BufEnter .tern-project nnoremap <buffer> q :bd<cr>
+augroup END
+
+" }}}
 " Vagrant {{{
 
 augroup ft_vagrant
     au!
-    au BufRead,BufNewFile Vagrantfile set ft=ruby
+    au BufRead,BufNewFile Vagrantfile setlocal ft=ruby
 augroup END
 
 " }}}
@@ -867,6 +888,15 @@ augroup ft_vim
     au FileType vim setlocal foldmethod=marker
     au FileType help setlocal textwidth=78
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+augroup END
+
+" }}}
+" Vimrc {{{
+
+augroup ft_vimrc
+    au!
+
+    au BufEnter .vimrc nnoremap <buffer> q :bd<cr>
 augroup END
 
 " }}}
@@ -1073,6 +1103,8 @@ nnoremap <leader>B :call BlockColor()<cr>
 
 inoremap <c-l> <c-x><c-l>
 inoremap <c-f> <c-x><c-f>
+inoremap <c-space> <c-x><c-o>
+inoremap <c-@> <c-x><c-o>
 
 " }}}
 
