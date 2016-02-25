@@ -569,9 +569,6 @@ augroup ft_javascript
     " positioned inside of them AND the following code doesn't get unfolded.
     au FileType javascript inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><space><space><esc>zoa
 
-    au FileType javascript nnoremap <buffer> <localleader>ee <C-w>v<C-w>j:e .eslintrc<cr>
-    au FileType javascript nnoremap <buffer> <localleader>et <C-w>v<C-w>j:e .tern-project<cr>
-    
     " Abbreviations {{{
 
     au FileType javascript call MakeSpacelessBufferIabbrev('fn',  'function ')
@@ -933,6 +930,8 @@ nnoremap <leader>eh <C-w>v<C-w>j:e ~/.hgrc<cr>
 nnoremap <leader>eg <C-w>v<C-w>j:e ~/.gitconfig<cr>
 nnoremap <leader>et <C-w>v<C-w>j:e ~/.tmux.conf<cr>
 nnoremap <leader>ev <C-w>v<C-w>j:e $MYVIMRC<cr>
+nnoremap <leader>ee <C-w>v<C-w>j:e .eslintrc<cr>
+nnoremap <leader>et <C-w>v<C-w>j:e .tern-project<cr>
 
 " }}}
 " Quick reload ------------------------------------------------------------ {{{
