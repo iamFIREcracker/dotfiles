@@ -66,7 +66,7 @@ class CustomCommands(bunny1.Bunny1Commands):
     def so(self, arg):
         """Searches StackOverflow or goes there"""
         if arg:
-            return "http://stackoverflow.com/search?q=%s" % qp(arg)
+            return self.g('site:stackoverflow.com ' +  arg)
         else:
             return "http://stackoverflow.com"
 

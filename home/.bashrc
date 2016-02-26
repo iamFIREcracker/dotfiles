@@ -286,9 +286,8 @@ function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(
 vup() {
     vagrant up
 }
-vssh() {
-    vagrant ssh -- -R 5556:localhost:5556
-}
+vs() { vagrant ssh -- -R 5556:localhost:5556; }
+vu() { vagrant up; }
 function vw() { vim -R -; }
 function wo() {
     local wd=`pwd`
