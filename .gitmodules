@@ -175,3 +175,6 @@
 [submodule "home/.vim/bundle/splice.vim"]
 	path = home/.vim/bundle/splice.vim
 	url = https://github.com/sjl/splice.vim.git
+[submodule "home/.vim/bundle/tern_for_vim"]
+	path = home/.vim/bundle/tern_for_vim
+	url = https://github.com/ternjs/tern_for_vim.git

@@ -342,7 +342,11 @@ nnoremap <space> za
 vnoremap <space> za
 
 " Use ,z to "focus" the current fold.
-nnoremap <leader>z zMzvzz
+function! FocusCurrentFold()
+    normal! zMzvzz
+endfunction
+
+nnoremap <leader>z :call FocusCurrentFold()<cr>
 
 " Automatic unfolding {{{
 " Fix automatic unfolding while entering insert mode
@@ -470,6 +474,16 @@ augroup ft_erlang
 augroup END
 
 " }}}
+" Eslintrc {{{
+
+augroup ft_eslintrc
+    au!
+
+    au BufEnter .eslintrc setlocal ft=json
+    au BufEnter .eslintrc nnoremap <buffer> q :bd<cr>
+augroup END
+
+" }}}
 " HTML {{{
 
 augroup ft_html
@@ -504,6 +518,15 @@ augroup ft_gitcommit
 augroup END
 
 " }}}
+" Gitconfig {{{
+
+augroup ft_gitconfig
+    au!
+
+    au BufNewFile,BufRead *gitconfig* setlocal filetype=gitconfig
+augroup END
+
+" }}}
 " Jade {{{
 
 augroup ft_jade
@@ -535,6 +558,9 @@ augroup ft_javascript
     au FileType javascript setlocal foldnestmax=1
     " Deeper nesting for test files so that we can fold 'describe' or 'it' sections
     au BufNewFile,BufRead test/*.js setlocal foldnestmax=5
+
+    au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>:call FocusCurrentFold()<cr>
+    au FileType javascript nnoremap <buffer> <silent> <C-^> :TernRefs<cr>
 
     au Filetype javascript nnoremap <buffer> <leader>d :call RunAllSpecs()<cr>
     au Filetype javascript nnoremap <buffer> <localleader>t :call RunNearestSpec()<cr>
@@ -833,11 +859,21 @@ augroup ft_typescript
 augroup END
 
 " }}}
+" Ternproject {{{
+
+augroup ft_ternproject
+    au!
+
+    au BufEnter .tern-project setlocal ft=json
+    au BufEnter .tern-project nnoremap <buffer> q :bd<cr>
+augroup END
+
+" }}}
 " Vagrant {{{
 
 augroup ft_vagrant
     au!
-    au BufRead,BufNewFile Vagrantfile set ft=ruby
+    au BufRead,BufNewFile Vagrantfile setlocal ft=ruby
 augroup END
 
 " }}}
@@ -849,6 +885,15 @@ augroup ft_vim
     au FileType vim setlocal foldmethod=marker
     au FileType help setlocal textwidth=78
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+augroup END
+
+" }}}
+" Vimrc {{{
+
+augroup ft_vimrc
+    au!
+
+    au BufEnter .vimrc nnoremap <buffer> q :bd<cr>
 augroup END
 
 " }}}
@@ -885,6 +930,8 @@ nnoremap <leader>eh <C-w>v<C-w>j:e ~/.hgrc<cr>
 nnoremap <leader>eg <C-w>v<C-w>j:e ~/.gitconfig<cr>
 nnoremap <leader>et <C-w>v<C-w>j:e ~/.tmux.conf<cr>
 nnoremap <leader>ev <C-w>v<C-w>j:e $MYVIMRC<cr>
+nnoremap <leader>ee <C-w>v<C-w>j:e .eslintrc<cr>
+nnoremap <leader>et <C-w>v<C-w>j:e .tern-project<cr>
 
 " }}}
 " Quick reload ------------------------------------------------------------ {{{
@@ -977,7 +1024,7 @@ noremap ' `
 noremap ` '
 
 " Better Completion
-set completeopt=longest,menuone,preview
+set completeopt=longest,menuone
 inoremap <expr> <Tab> pumvisible() ? "<C-Y>" : "<Tab>"
 augroup close_completion_menu
     au!
@@ -1055,6 +1102,8 @@ nnoremap <leader>B :call BlockColor()<cr>
 
 inoremap <c-l> <c-x><c-l>
 inoremap <c-f> <c-x><c-f>
+inoremap <c-space> <c-x><c-o>
+inoremap <c-@> <c-x><c-o>
 
 " }}}
 
@@ -1071,11 +1120,11 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
 
-" Ack {
+" Ack {{{
 
 let g:ack_use_dispatch = 1
 
-" }
+" }}}
 " Airline {{{
 
 let g:airline_theme='dark'
