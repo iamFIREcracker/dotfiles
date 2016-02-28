@@ -632,6 +632,8 @@ augroup END
 augroup ft_json
     au!
 
+    au FileType json setlocal foldnestmax=99
+
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
     au FileType json inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><space><space><esc>zoa
