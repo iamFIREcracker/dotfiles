@@ -1572,3 +1572,22 @@ augroup qquit
 augroup END
 
 " }}}
+" Diffwhite Toggle {{{
+
+set diffopt-=iwhite
+let g:diffwhitespaceon = 0
+function! ToggleDiffWhitespace()
+    if g:diffwhitespaceon
+        set diffopt-=iwhite
+        let g:diffwhitespaceon = 0
+    else
+        set diffopt+=iwhite
+        let g:diffwhitespaceon = 1
+    endif
+    diffupdate
+endfunc
+
+" TODO: Figure out the diffexpr shit necessary to make this buffer-local.
+nnoremap <leader>W :call ToggleDiffWhitespace()<CR>
+
+" }}}

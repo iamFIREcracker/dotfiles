@@ -61,7 +61,7 @@
 
     shelve = stash save --include-untracked
     unshelve = stash pop
-    record = commit -v -p $@
+    record = commit -v -p
     spu = submodule foreach 'git pull origin master || git pull origin origin'
 
     r = rebase -i
