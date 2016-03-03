@@ -53,7 +53,7 @@
     root = rev-parse --show-toplevel
     currentbranch = rev-parse --abbrev-ref HEAD
 
-    d = "!sh -c 'git diff $* | vim -R -' -"
+    d = !sh -c 'git diff $* | vim -R -' -
     di = !git diff --cached | vim -R -
 
     in = !git fetch && git log --pretty=oneline --abbrev-commit --graph ..@{u}
