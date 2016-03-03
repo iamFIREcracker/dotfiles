@@ -1,11 +1,28 @@
 # Bash {{{
 
+# Update window size after every command
+shopt -s checkwinsize
+
+# Automatically trim long paths in the prompt (requires Bash 4.x)
+PROMPT_DIRTRIM=2
+
+# Display matches for ambiguous patterns at first tab press
+bind "set show-all-if-ambiguous on"
+
 # merge / append histories
 shopt -s histappend
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
+# Save multi-line commands as one command
+shopt -s cmdhist
+
+# Avoid duplicate entries
+HISTCONTROL="erasedups:ignoreboth"
+
+# Don't record some commands
+export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
+
+# Useful timestamp format
+HISTTIMEFORMAT='%F %T '
 
 # }}}
 # Vim mode {{{
@@ -477,6 +494,9 @@ prompt_command() {
     EXITVAL=$?; 
 
     z --add `pwd`
+
+    # Record each line as it gets issued
+    history -a
 }
 export PROMPT_COMMAND='prompt_command'
 export PS1='\n${PINK}\u${D} at ${ORANGE}\h${D} in ${GREEN}\w${D} $(rcs_ps1) $(venv_ps1)\n$(prompt) '
