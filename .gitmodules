@@ -178,3 +178,6 @@
 [submodule "home/.vim/bundle/tern_for_vim"]
 	path = home/.vim/bundle/tern_for_vim
 	url = https://github.com/ternjs/tern_for_vim.git
+[submodule "home/.vim/bundle/vim-javascript-syntax"]
+	path = home/.vim/bundle/vim-javascript-syntax
+	url = https://github.com/jelera/vim-javascript-syntax
