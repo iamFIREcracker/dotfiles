@@ -371,6 +371,9 @@ nnoremap K <nop>
 " Stop it, hash key.
 inoremap # X<BS>#
 
+" Arghhhhh
+nnoremap q: :
+
 " }}}
 " Various filetype-specific stuff ----------------------------------------- {{{
 
