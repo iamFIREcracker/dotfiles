@@ -59,6 +59,7 @@
 
     d = !sh -c 'git diff $* | vim -R -' -
     di = !git diff --cached | vim -R -
+    du = diff origin/master upstream/master
 
     in = !git fetch && git log --pretty=oneline --abbrev-commit --graph ..@{u}
     ind = !git fetch && git diff ..@{u}
