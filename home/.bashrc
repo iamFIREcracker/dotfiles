@@ -24,6 +24,11 @@ export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
 # Useful timestamp format
 HISTTIMEFORMAT='%F %T '
 
+# Allows space to complete and expand !$ eg:
+# $ ls Projects
+# $ cd !$<space> # completes to `cd Projects`
+bind Space:magic-space
+
 # }}}
 # Vim mode {{{
 
