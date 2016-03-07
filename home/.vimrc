@@ -579,6 +579,30 @@ augroup ft_html
 augroup END
 
 " }}}
+" Grunt-ion {{{
+
+augroup ft_gruntion
+    au!
+
+    function! DetectGruntIon()
+        let moduleinfo = join([getcwd(), 'moduleInfo.ts'], '/')
+        if filereadable(moduleinfo)
+            " Override default dispatch command
+            execute "Focus -compiler=grunt-ion " .
+                        \ fnameescape(globpath(&runtimepath, 'compiler/grunt-ion.py')) .
+                        \ " quick --no-color"
+
+            " Run tests
+            execute "nnoremap <leader>t :Dispatch -compiler=grunt-ion " .
+                    \ fnameescape(globpath(&runtimepath, 'compiler/grunt-ion.py')) .
+                    \ " test --no-color<cr>"
+        endif
+    endfunction
+
+    autocmd VimEnter * call DetectGruntIon()
+augroup end
+
+" }}}
 " Jade {{{
 
 augroup ft_jade
