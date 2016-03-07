@@ -1,0 +1,22 @@
+# ~/.tmuxinator/omshtml.yml
+
+name: omshtml
+root: ~/workspace/oms.html/
+
+windows:
+  - ion.web:
+      root: ~/workspace/ion.web/
+      panes:
+        - svn info
+  - samples:
+      root: ~/workspace/samples/
+      panes:
+        - svn info
+  - sdp:
+      root: ~/workspace/sales.sdp.html/
+      panes:
+        - svn update
+  - oms:
+      root: ~/workspace/oms.html/
+      panes:
+        - g in
