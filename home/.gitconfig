@@ -130,3 +130,6 @@
 [mergetool "splice"]
     cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"
     trustExitCode = true
+
+[include]
+    path = ~/.gitconfig_ion

@@ -1,0 +1,8 @@
+[user]
+  name = Matteo Landi
+  email = m.landi@iontrading.com
+
+[url "https://github.com/"]
+    insteadOf = git@github.com:
+[url "https://"]
+    insteadOf = git://
