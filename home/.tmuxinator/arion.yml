@@ -8,7 +8,4 @@ windows:
       root: ~/workspace/arion/app
       panes:
         - serve-this
-  - vim:
-      root: ~/workspace/arion/app
-      panes:
-        - vim
+  - vim: vim
