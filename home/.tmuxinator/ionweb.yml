@@ -1,0 +1,12 @@
+name: ionweb
+root: ~/
+
+windows:
+  - webserver:
+      root: ~/workspace/iw/ION_WEB_SERVER118/bin
+      panes:
+        - ./IonWebServer
+  - webstreaming:
+      root: ~/workspace/iw/ION_WEB_STREAMING103/bin
+      panes:
+        - ./IonWebStreamingServer

@@ -1,0 +1,8 @@
+name: ionrouter
+root: ~/
+
+windows:
+  - router:
+      root: ~/h/opt/router_m106p4/
+      panes:
+        - ./mkvrouter_m106p4.sh

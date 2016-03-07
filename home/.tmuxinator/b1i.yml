@@ -1,0 +1,8 @@
+name: bunny1
+root: ~/
+
+windows:
+  - bunny1:
+      root: ~/opt/bunny1
+      panes:
+        - venv/bin/python b1_ion.py --host localhost

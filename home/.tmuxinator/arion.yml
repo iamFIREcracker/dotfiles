@@ -1,0 +1,14 @@
+# ~/.tmuxinator/arion.yml
+
+name: arion
+root: ~/workspace/arion
+
+windows:
+  - web:
+      root: ~/workspace/arion/app
+      panes:
+        - serve-this
+  - vim:
+      root: ~/workspace/arion/app
+      panes:
+        - vim
