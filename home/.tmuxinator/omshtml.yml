@@ -12,6 +12,10 @@ windows:
       root: ~/workspace/samples/
       panes:
         - svn info
+  - automation:
+      root: ~/workspace/automation/
+      panes:
+        - svn info
   - sdp:
       root: ~/workspace/sales.sdp.html/
       panes:
