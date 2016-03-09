@@ -563,6 +563,7 @@ augroup ft_javascript
     au BufNewFile,BufRead test/*.js setlocal foldnestmax=5
 
     au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>:call FocusCurrentFold()<cr>
+    au FileType javascript nnoremap <buffer> <silent> gd :TernDef<cr>:call FocusCurrentFold()<cr>
     au FileType javascript nnoremap <buffer> <silent> <C-^> :TernRefs<cr>
 
     au Filetype javascript nnoremap <buffer> <leader>d :call RunAllSpecs()<cr>
@@ -825,6 +826,11 @@ augroup ft_typescript
 
     au FileType typescript setlocal foldmethod=syntax
     au FileType typescript setlocal foldnestmax=3
+
+    au FileType typescript nnoremap <buffer> <silent> <C-]> :TsuDefinition<cr>:call FocusCurrentFold()<cr>
+    au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr>:call FocusCurrentFold()<cr>
+
+    au FileType typescript nnoremap <buffer> <silent> ,S :TsuRenameSymbol<cr>
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
@@ -1170,6 +1176,12 @@ let my_ctrlp_git_command = "" .
     \ ctrlp_filter_greps
 
 let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command, my_ctrlp_user_command]
+
+let my_ctrlp_svn_command = "" .
+    \ "cd %s && svn ls -R | " .
+    \ ctrlp_filter_greps
+
+let g:ctrlp_user_command = ['.svn/', my_ctrlp_svn_command, my_ctrlp_user_command]
 
 nnoremap <C-P> :CtrlP<cr>
 
