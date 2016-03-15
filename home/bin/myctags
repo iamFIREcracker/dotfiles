@@ -15,6 +15,12 @@ FIND=`which find`
 
 rm -f tags
 
+# Typescript
+if [ -f tsconfig.json ]; then
+    tsconfig .
+    exit 0
+fi
+
 
 # Java/Maven
 if [ -f pom.xml ]; then
