@@ -1175,13 +1175,17 @@ let my_ctrlp_git_command = "" .
     \ "cd %s && git ls-files | " .
     \ ctrlp_filter_greps
 
-let g:ctrlp_user_command = ['.git/', my_ctrlp_git_command, my_ctrlp_user_command]
-
 let my_ctrlp_svn_command = "" .
     \ "cd %s && svn ls -R | " .
     \ ctrlp_filter_greps
 
-let g:ctrlp_user_command = ['.svn/', my_ctrlp_svn_command, my_ctrlp_user_command]
+let g:ctrlp_user_command = {
+\ 'types': {
+    \ 1: ['.git', my_ctrlp_git_command],
+    \ 2: ['.svn', my_ctrlp_svn_command],
+\ },
+\ 'fallback': my_ctrlp_user_command
+\ }
 
 nnoremap <C-P> :CtrlP<cr>
 
