@@ -50,7 +50,7 @@ export TERM=screen-256color
 export EDITOR="vim"
 export PAGER="/usr/bin/less"
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu nornu noma' -\""
-export PATH="${HOME}/npm/bin:$PATH"
+export PATH="./node_modules/.bin:${HOME}/npm/bin:$PATH"
 export PATH="${HOME}/opt/PathPicker:$PATH"
 export HGEDITOR="~/bin/hgeditor"
 export GIT_EDITOR="~/bin/giteditor"
