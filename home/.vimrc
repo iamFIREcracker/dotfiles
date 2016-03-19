@@ -1587,7 +1587,7 @@ augroup qquit
   endfunction
 
   au BufEnter *.txt call s:helpquit()
-  au BufReadPost quickfix nnoremap <buffer> q :bd<cr>
+  au FileType qf nnoremap <buffer> q :bd<cr>
 augroup END
 
 " }}}
