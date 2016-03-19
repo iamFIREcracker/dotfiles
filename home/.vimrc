@@ -1130,7 +1130,7 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 
 " Ack {{{
 
-let g:ack_use_dispatch = 1
+let g:ack_use_dispatch = 0
 
 " }}}
 " Airline {{{
