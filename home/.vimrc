@@ -479,8 +479,7 @@ augroup END
 augroup ft_eslintrc
     au!
 
-    au BufEnter .eslintrc setlocal ft=json
-    au BufEnter .eslintrc nnoremap <buffer> q :bd<cr>
+    au BufNewFile,BufRead .eslintrc nnoremap <buffer> q :bd<cr>
 augroup END
 
 " }}}
@@ -506,24 +505,6 @@ augroup ft_html
     "         |
     "     </tag>
     au FileType html,jinja,htmldjango nnoremap <buffer> <s-cr> vit<esc>a<cr><esc>vito<esc>i<cr><esc>
-augroup END
-
-" }}}
-" Gitcommit {{{
-
-augroup ft_gitcommit
-    au!
-
-    au BufNewFile,BufRead *giteditor*/msg setlocal filetype=gitcommit
-augroup END
-
-" }}}
-" Gitconfig {{{
-
-augroup ft_gitconfig
-    au!
-
-    au BufNewFile,BufRead *gitconfig* setlocal filetype=gitconfig
 augroup END
 
 " }}}
@@ -623,7 +604,6 @@ augroup END
 augroup ft_jira
     au!
 
-    au BufNewFile,BufRead *.jira setlocal filetype=jira
     au FileType jira setlocal wrap foldmethod=syntax
 augroup END
 
@@ -654,8 +634,6 @@ augroup END
 
 augroup ft_markdown
     au!
-
-    au BufNewFile,BufRead *.m*down setlocal filetype=markdown
 
     au Filetype markdown setlocal spell
 
@@ -731,7 +709,9 @@ augroup END
 
 augroup ft_quickfix
     au!
+
     au Filetype qf setlocal colorcolumn=0 nolist nocursorline nowrap
+    au FileType qf nnoremap <buffer> q :bd<cr>
 augroup END
 
 " }}}
@@ -872,16 +852,7 @@ augroup END
 augroup ft_ternproject
     au!
 
-    au BufEnter .tern-project setlocal ft=json
-    au BufEnter .tern-project nnoremap <buffer> q :bd<cr>
-augroup END
-
-" }}}
-" Vagrant {{{
-
-augroup ft_vagrant
-    au!
-    au BufRead,BufNewFile Vagrantfile setlocal ft=ruby
+    au BufNewFile,BufRead .tern-project nnoremap <buffer> q :bd<cr>
 augroup END
 
 " }}}
@@ -893,15 +864,7 @@ augroup ft_vim
     au FileType vim setlocal foldmethod=marker
     au FileType help setlocal textwidth=78
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
-augroup END
-
-" }}}
-" Vimrc {{{
-
-augroup ft_vimrc
-    au!
-
-    au BufEnter .vimrc nnoremap <buffer> q :bd<cr>
+    au BufEnter *.txt if &ft == 'help' | nnoremap <buffer> q :bd<cr>:silent! close<cr> | endif
 augroup END
 
 " }}}
@@ -1572,22 +1535,6 @@ augroup ft_shelloutput
     autocmd BufNewFile __Shell_Output__ setlocal buflisted
     autocmd BufNewFile __Shell_Output__ nnoremap <buffer> q :bd<cr>
     autocmd BufNewFile __Shell_Output__ AnsiEsc
-augroup END
-
-" }}}
-" q to quit help and quickfix window {{{
-
-augroup qquit
-  au!
-
-  function! s:helpquit()
-    if &buftype == 'help'
-      nnoremap <buffer> q :bd<cr>:silent! close<cr>
-    endif
-  endfunction
-
-  au BufEnter *.txt call s:helpquit()
-  au FileType qf nnoremap <buffer> q :bd<cr>
 augroup END
 
 " }}}

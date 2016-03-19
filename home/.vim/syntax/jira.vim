@@ -15,5 +15,3 @@ syntax match jiraQuoteInline /bq\..*/ excludenl contains=ALL
 
 syntax region jiraCode matchgroup=hide start="{code}" end="{code}" fold keepend
 syntax region jiraQuote matchgroup=hide start="{quote}" end="{quote}" fold keepend
-
-set foldmethod=syntax
