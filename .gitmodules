@@ -25,9 +25,6 @@
 [submodule "home/.vim/bundle/syntastic"]
 	path = home/.vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
-[submodule "home/.vim/bundle/taglist.vim"]
-	path = home/.vim/bundle/taglist.vim
-	url = https://github.com/vim-scripts/taglist.vim.git
 [submodule "home/.vim/bundle/YankRing.vim"]
 	path = home/.vim/bundle/YankRing.vim
 	url = https://github.com/vim-scripts/YankRing.vim.git
@@ -163,9 +160,6 @@
 [submodule "home/opt/vagrant-bash-completion"]
 	path = home/opt/vagrant-bash-completion
 	url = https://github.com/kura/vagrant-bash-completion.git
-[submodule "home/.vim/bundle/grunt.vim"]
-	path = home/.vim/bundle/grunt.vim
-	url = https://github.com/mklabs/grunt.vim.git
 [submodule "home/.vim/bundle/vim-less"]
 	path = home/.vim/bundle/vim-less
 	url = https://github.com/genoma/vim-less.git
