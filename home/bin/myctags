@@ -16,7 +16,10 @@ FIND=`which find`
 rm -f tags
 
 # Typescript
-if [ -f tsconfig.json ]; then
+if [ -f Gruntfile.js -a -n "$(grep grunt-tsconfig Gruntfile.js)" ]; then
+    grunt tsconfig
+    exit 0
+elif [ -f tsconfig.json ]; then
     tsconfig .
     exit 0
 fi
