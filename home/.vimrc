@@ -1226,6 +1226,11 @@ let g:pymode_syntax_all = 0
 let g:pymode_syntax_builtin_objs = 1
 
 " }}}
+" Tsuquyomi {{{
+
+let g:tsuquyomi_use_dev_node_module = 1
+
+" }}}
 " Supertab {{{
 
 let g:SuperTabDefaultCompletionType = "<c-n>"
@@ -1237,7 +1242,10 @@ let g:SuperTabCrMapping = 1
 
 let g:syntastic_java_checker = 'javac'
 let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_typescript_tsc_fname = ''
+"let g:syntastic_typescript_tsc_fname = ''
+let g:syntastic_typescript_tsc_exec =
+\ fnameescape(globpath(&runtimepath, 'bundle/tsuquyomi/node_modules/typescript/bin/tsc'))
+
 let g:syntastic_mode_map = {
             \ "mode": "active",
             \ "active_filetypes": [],
