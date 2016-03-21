@@ -590,7 +590,7 @@ augroup ft_gruntion
             " Override default dispatch command
             execute "Focus -compiler=grunt-ion " .
                         \ fnameescape(globpath(&runtimepath, 'compiler/grunt-ion.py')) .
-                        \ " quick --no-color"
+                        \ " debug --no-color"
 
             " Run tests
             execute "nnoremap <leader>t :Dispatch -compiler=grunt-ion " .
