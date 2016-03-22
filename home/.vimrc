@@ -1242,7 +1242,7 @@ let g:SuperTabCrMapping = 1
 
 let g:syntastic_java_checker = 'javac'
 let g:syntastic_javascript_checkers = ['eslint']
-"let g:syntastic_typescript_tsc_fname = ''
+let g:syntastic_typescript_tsc_fname = ''
 let g:syntastic_typescript_tsc_exec =
 \ fnameescape(globpath(&runtimepath, 'bundle/tsuquyomi/node_modules/typescript/bin/tsc'))
 
