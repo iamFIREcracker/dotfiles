@@ -11,9 +11,6 @@ fi
 # Update window size after every command
 shopt -s checkwinsize
 
-# Automatically trim long paths in the prompt (requires Bash 4.x)
-PROMPT_DIRTRIM=2
-
 # Display matches for ambiguous patterns at first tab press
 bind "set show-all-if-ambiguous on"
 
