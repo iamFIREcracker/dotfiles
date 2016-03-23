@@ -50,10 +50,12 @@
 
     pull = pull --ff-only
     pu = !git pull --ff-only && git submodule update --init --recursive
+    puu = !git pull upstream master --ff-only && git submodule update --init --recursive
     up = merge --ff-only
     update = merge --ff-only
 
     p = push
+    pf = push --force
     root = rev-parse --show-toplevel
     currentbranch = rev-parse --abbrev-ref HEAD
 

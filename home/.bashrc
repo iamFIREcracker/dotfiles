@@ -210,6 +210,7 @@ complete -F _tmuxinator tmuxinator mux
 eb()  { vim ~/.bashrc; }
 eb1() { vim ~/opt/bunny1/b1_custom.py; }
 eg()  { vim ~/.gitconfig; }
+ej()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX) -c 'se spell wrap nonu noru ft=jira'; }
 eh()  { vim ~/.hgrc; }
 em()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX) -c 'se spell wrap nonu noru'; }
 e5()  { vim ~/.pentadactylrc; }
