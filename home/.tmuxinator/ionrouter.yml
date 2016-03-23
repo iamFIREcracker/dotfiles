@@ -3,6 +3,6 @@ root: ~/
 
 windows:
   - router:
-      root: ~/h/opt/router_m106p4/
+      root: ~/workspace/iw/router_m106p4/
       panes:
         - ./mkvrouter_m106p4.sh
