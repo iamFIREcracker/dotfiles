@@ -92,6 +92,10 @@ class IONCommands(CustomCommands):
         else:
             return "http://axton.fssnet.internal:8081/#welcome"
 
+    def pb(self, arg):
+        """Goes to the product backlog of the current release"""
+        return "https://docs.google.com/spreadsheets/d/1rIHEcQuIp2ow6EWG3AHPYnakL4BAtUJnIeIECqLI15k/edit#gid=0"
+
     def rflog(self, arg):
         """Open Robotframework local output file"""
         return "file:///C:/Users/mlandi/workspace/xoms-git/oms-order-test/target/robotframework-reports/log.html"
