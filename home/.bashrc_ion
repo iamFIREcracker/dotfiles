@@ -1,0 +1,165 @@
+# Fast edits {{{
+
+function eb1i() { vim ~/opt/bunny1/b1_ion.py; }
+function ebi() { vim ~/.bashrc_ion; }
+function ek() { vim /cygdrive/c/Users/mlandi/Google\ Drive/personal/KeyMappings.ahk; }
+
+# }}}
+# Awk {{{
+
+function delta() {
+    awk -f ~/h/Google\ Drive/personal/delta.awk
+}
+mq_slowness() {
+    awk -f ~/h/Google\ Drive/personal/mq_slowness.awk
+}
+
+split_runs() {
+    awk -f ~/h/Google\ Drive/personal/split_runs.awk
+}
+
+# }}}
+
+function b1i() { ~/opt/bunny1/venv/bin/python ~/opt/bunny1/b1_ion.py --test "$*"; }
+function cm() { cygstart "C:\Program Files\CommitMonitor\CommitMonitor.exe"; }
+function cts_reconfigure() {
+    scp /cygdrive/c/Users/mlandi/Downloads/cts.init \
+        ion@lilith.fssnet.internal:PLATFORM_LILITH/DM_LILITH_OMS_STATIC/wrk/CTS_OMS_CI
+    #ssh ion@lilith.fssnet.internal "psg cts | cuts -f1 | xargs kill && exit 0"
+}
+function cyg_get() { cyg_setup -q -P "$1"; }
+function cyg_setup() { cygstart 'C:\Users\mlandi\Downloads\setup-x86_64.exe' "$@"; }
+function d() {
+    if [ x"$1" == x"isearch" ]; then
+        curl -X GET http://10.100.80.48:5000/v2/_catalog 2> /dev/null | json_pp | hl "${@:2}"
+    else
+        sudo docker "$@"
+    fi
+}
+function gce() { gc '(	at |xception|ERROR)' "$@"; }
+function fetchdocs() { m live-documentation-fetcher:fetch -DtestCasesDirectorySplit=$0; }
+function last_log() { $(which ls) -t /cygdrive/c/Users/mlandi/workspace/xoms-git/$1/LOGS/OMS* | hn 1; }
+function last_log_mmi() { $(which ls) -t /cygdrive/c/Users/mlandi/AppData/Roaming/ION\ Trading/MMI.NET/lilith_20000/Workspaces/lilith_20000_mlandi/LOGS/MMI.NET* | hn 1; }
+function last_run() { tail_from_start $(last_log $1); }
+function last_run_mmi() { tail_from_start $(last_log_mmi); }
+function lr { last_run "$@"; }
+function mmi() {
+    /cygdrive/c/IonDev/output/mmi.exe \
+        -themes=true -EnabledThemesDemoLevelBase \
+        "$@"
+}
+function mmi_trader() {
+    mmi \
+        -auth=secure -pwd=mlandi -user=mlandi \
+        -env=lilith_20000 -workspace=lilith_20000_mlandi
+}
+function mmi_sales() {
+    mmi \
+        -auth=secure -pwd=mlandi -user=mlandi_sales \
+        -env=lilith_20000_sales -workspace=lilith_20000_mlandi_sales
+}
+function omscodegen() {
+    true && \
+        cd /cygdrive/c/Users/mlandi/workspace/xoms-git/oms-common && \
+            m clean codegen:codegen install && \
+        cd /cygdrive/c/Users/mlandi/workspace/xoms-git/oms_wm && \
+            m clean dependency:unpack-dependencies@unpack-codegen codegen:codegen
+}
+function rf() {
+    test_=$1
+    suite=${2:-stuff}
+    testCasesDirectorySplit=${3:-stuff}
+    platform=${4:-ci00_lilith_mlandi}
+
+    m robotframework:run \
+        -Denv.platform="$platform" \
+        -DtestCasesDirectorySplit="$testCasesDirectorySplit" \
+        -Dsuite.test="$suite" \
+        -Dtest.name="$test_"
+}
+function rflog() {
+    cygstart 'C:\Users\mlandi\workspace\xoms-git\oms-order-test\target\robotframework-reports\log.html'
+}
+function ride() {
+    cygstart "C:\Python27\pythonw.exe" -c "from robotide import main; main()";
+}
+function sysadmin() {
+    cygstart \
+        "C:\Program Files\ION Trading\System Administrator 223p2d1 (64-bit)\SystemAdministrator.exe" \
+        "$@"
+}
+function sysadmin_lilith() {
+    sysadmin \
+        -auth=secure -pwd=mlandi -user=mlandi \
+        -env=lilith_20000 -workspace=lilith_20000_mkv
+}
+function sysadmin_qsearch() {
+    sysadmin \
+        -auth=secure -pwd=qSe@rch123 -user=qsearch \
+        -env=qsearch.iontrading.com -workspace=lilith_20000_mkv
+}
+function sysadmin_pimatlanw01() {
+    sysadmin \
+        -auth=secure -pwd=mkvpwd -user=mkv \
+        -env=pimatlanw01 -workspace=pimatlanw01_mkv
+}
+function tail_from_start() { tail_from 'Application {INFO} Action {START}' "$@"; }
+function to_sheet_fcall() {
+    # 04:45:28:438|0501-00102:TracingFunctionListenerFactory: {INFO} FCall Start <-- {190} FName {OWM1_VCMIOrderAdd181} Comp {OC1} User {default user} InstrumentId {} Verb {Sell} Price {0.0} QtyShown {0.0} QtyTot {1000.0} Type {Market} TimeInForce {FAK} IsSoft {0} Attribute {0} CustomerInfo {cust info} FreeText {free text} StopCond {0} StopId {} StopPrice {0.0} Optional { CPMember {AASAKAWA} FXTypeStr {Swap} L1_DateSettlRequested {20160208} S0_CurrencyStr {EUR} S1_CurrencyStr {USD} OnBehalfOfComponentName {ROBOT_OMS1} }
+    # =OWM1_VCMIOrderAdd181('default user', '', 'Sell', 0.0, 0.0, 1000.0, 'Market', 'FAK', 0, 0, 'cust info', 'free text', 0, '', 0.0, 'CPMember', 'AASAKAWA', 'FXTypeStr', 'Swap', 'L1_DateSettlRequested', 20160208, 'S0_CurrencyStr', 'EUR', 'S1_CurrencyStr', 'USD', 'OnBehalfOfComponentName', 'ROBOT_OMS1')
+    echo 
+}
+# Components {{{
+
+function router() {
+    (
+    cd /cygdrive/c/Users/mlandi/opt/router_m106p4;
+    ./mkvrouter_m106p4.sh
+    )
+}
+function webserver() {
+    (
+    cd /cygdrive/c/Users/mlandi/opt/ION_WEB_SERVER117/bin;
+    ./IonWebServer.bat;
+    )
+}
+function webstreaming() {
+    (
+    cd /cygdrive/c/Users/mlandi/opt/ION_WEB_STREAMING103/bin;
+    ./IonWebStreamingServer.bat
+    )
+}
+
+# }}}
+# Hosts {{{
+
+pimatlanw01() {
+    ssh -R 5556:localhost:5556 mlandi@PIMATLANW01.iontrading.com
+}
+pimatlanw01linux() {
+    ssh -R 5556:localhost:5556 -p 10022 vagrant@PIMATLANW01.iontrading.com
+}
+lndct01() { s ion@lnd-ct-01.iontrading.com; }
+axton() { s ion@axton.fssnet.internal "cd jenkins-axton/jobs"; }
+coral() { s ion@coral.fssnet.internal; }
+lilith() { s ion@lilith.fssnet.internal "cd PLATFORM_LILITH"; }
+ipse() {
+    sshs app-dev@lnd-ipse-dev-03.iontrading.com \
+        -t "cd /opt/ion/DEVPlatform; bash --login"
+}
+
+dmondra() {
+    sshs ion@ondra.iontrading.com \
+        -t "cd /export/saltest/test/21000; bash --login"
+}
+
+dsondra() {
+    sshs ion@ondra.iontrading.com \
+        -t "cd /export/saltest/test/20000; bash --login"
+}
+
+delhiqa() {
+    sshs delhi_qa@192.168.46.176 \
+        -t "cd BIMI_FX; bash --login"
+}
+# }}}

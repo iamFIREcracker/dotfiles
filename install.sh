@@ -4,7 +4,6 @@ test "$1" == "--force"
 FORCE=$?
 
 WORKDIR="$(pwd)"
-OS_MAC=$(uname -s | grep Darwin)
 OS_WIN=$(uname -s | grep CYGWIN)
 
 set -u
@@ -65,6 +64,7 @@ test -z "$OS_WIN" && ensure_dir ".titanium"
                      ensure_link "home/.ackrc"                 ".ackrc"
                      ensure_link "home/.bash_profile"          ".bash_profile"
                      ensure_link "home/.bashrc"                ".bashrc"
+                     ensure_link "home/.bashrc_ion"            ".bashrc_ion"
                      ensure_link "home/.ctags"                 ".ctags"
                      ensure_link "home/.gitconfig"             ".gitconfig"
                      ensure_link "home/.gitconfig_ion"         ".gitconfig_ion"
@@ -76,9 +76,6 @@ test -n "$OS_WIN" && ensure_link "home/.minttyrc"              ".minttyrc"
                      ensure_link "home/.npmrc"                 ".npmrc"
                      ensure_link "home/.vimfx"                 ".vimfx"
                      ensure_link "home/.pythonrc.py"           ".pythonrc.py"
-test -n "$OS_MAC" && ensure_link "home/.slate"                 ".slate"
-test -z "$OS_WIN" && ensure_link "home/.tishadow.json"         ".tishadow.json"
-test -z "$OS_WIN" && ensure_link "home/.titanium/config.json"  ".titanium/config.json"
                      ensure_link "home/.tmuxinator"            ".tmuxinator"
                      ensure_link "home/.tmux.conf"             ".tmux.conf"
                      ensure_link "home/.vim"                   ".vim"
