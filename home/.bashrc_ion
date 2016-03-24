@@ -38,13 +38,16 @@ function d() {
 }
 function gce() { gc '(	at |xception|ERROR)' "$@"; }
 function fetchdocs() { m live-documentation-fetcher:fetch -DtestCasesDirectorySplit=$0; }
+function fuck_cmd() {
+    cmd /c start "$@"
+}
 function last_log() { $(which ls) -t /cygdrive/c/Users/mlandi/workspace/xoms-git/$1/LOGS/OMS* | hn 1; }
 function last_log_mmi() { $(which ls) -t /cygdrive/c/Users/mlandi/AppData/Roaming/ION\ Trading/MMI.NET/lilith_20000/Workspaces/lilith_20000_mlandi/LOGS/MMI.NET* | hn 1; }
 function last_run() { tail_from_start $(last_log $1); }
 function last_run_mmi() { tail_from_start $(last_log_mmi); }
 function lr { last_run "$@"; }
 function mmi() {
-    /cygdrive/c/IonDev/output/mmi.exe \
+    ~/workspace/oms.net/output/mmi.exe \
         -themes=true -EnabledThemesDemoLevelBase \
         "$@"
 }
