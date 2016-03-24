@@ -118,13 +118,13 @@ class IONCommands(CustomCommands):
         """Open webserver.  Optional arg: 'lilith'"""
         if 'lilith' in arg:
             return "http://lilith.fssnet.internal:7095/ionweb/ip/html5.jsp#"
-        return "http://pisa092:8080/ionweb/ip/html5.jsp#"
+        return "http://pimatlanw01.iontrading.com:18080/ionweb/ip/html5.jsp#"
 
     def wa(self, arg):
         """Open webadmin gui.  Optional arg: 'lilith'"""
         if 'lilith' in arg:
             return "http://lilith.fssnet.internal:7095/ionweb/admin"
-        return "http://pisa092:8080/ionweb/admin"
+        return "http://pimatlanw01.iontrading.com:18080/ionweb/admin"
 
 class IONDecorators(CustomDecorators):
     pass
