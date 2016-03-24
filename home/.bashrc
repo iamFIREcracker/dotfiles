@@ -407,11 +407,10 @@ function to() { sed "/$1/q"; }
 function tf() { tail -f "$@"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
-vup() {
-    vagrant up
-}
-vs() { vagrant ssh -- -R 5556:localhost:5556; }
-vu() { vagrant up; }
+v() { vagrant "$@"; }
+vh() { v halt; }
+vs() { v ssh -- -R 5556:localhost:5556; }
+vu() { v up; }
 function vw() { vim -R -; }
 function wo() {
     local wd=`pwd`
