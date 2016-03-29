@@ -176,5 +176,8 @@
 	path = home/.vim/bundle/vim-javascript-syntax
 	url = https://github.com/jelera/vim-javascript-syntax
 [submodule "home/.vim/bundle/delimitMate"]
-	path = home/.vim/bundle/delimitMate
-	url = https://github.com/Raimondi/delimitMate.git
+    path = home/.vim/bundle/delimitMate
+    url = https://github.com/Raimondi/delimitMate.git
+    [submodule "home/.vim/bundle/omnisharp-vim"]
+        path = home/.vim/bundle/omnisharp-vim
+        url = https://github.com/OmniSharp/omnisharp-vim.git
