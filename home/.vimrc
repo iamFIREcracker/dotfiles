@@ -1150,9 +1150,9 @@ let g:ctrlp_user_command = {
 nnoremap <C-P> :CtrlP<cr>
 
 " }}}
-" DelimitMate {{{
+" delimitMate {{{
 
-let delimitMate_expand_cr = 0
+let delimitMate_expand_cr = 1
 
 " }}}
 " Dispatch {{{
