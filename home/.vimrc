@@ -896,13 +896,13 @@ augroup END
 " }}}
 " Quick editing ----------------------------------------------------------- {{{
 
-nnoremap <leader>eb <C-w>vj:e ~/.bashrc<cr>
-nnoremap <leader>eh <C-w>vj:e ~/.hgrc<cr>
-nnoremap <leader>eg <C-w>vj:e ~/.gitconfig<cr>
-nnoremap <leader>et <C-w>vj:e ~/.tmux.conf<cr>
-nnoremap <leader>ev <C-w>vj:e $MYVIMRC<cr>
-nnoremap <leader>ee <C-w>vj:e .eslintrc<cr>
-nnoremap <leader>et <C-w>vj:e .tern-project<cr>
+nnoremap <leader>eb :vsplit ~/.bashrc<cr>
+nnoremap <leader>eh :vsplit ~/.hgrc<cr>
+nnoremap <leader>eg :vsplit ~/.gitconfig<cr>
+nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ee :vsplit .eslintrc<cr>
+nnoremap <leader>et :vsplit .tern-project<cr>
 
 " }}}
 " Quick reload ------------------------------------------------------------ {{{
