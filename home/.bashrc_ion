@@ -62,17 +62,17 @@ function mmi_sales() {
         -env=lilith_20000_sales -workspace=lilith_20000_mlandi_sales
 }
 function omscodegen() {
-    true && \
+    (true && \
         cd /cygdrive/c/Users/mlandi/workspace/xoms-git/oms-common && \
             m clean codegen:codegen install && \
         cd /cygdrive/c/Users/mlandi/workspace/xoms-git/oms_wm && \
-            m clean dependency:unpack-dependencies@unpack-codegen codegen:codegen
+            m clean dependency:unpack-dependencies@unpack-codegen codegen:codegen)
 }
 function rf() {
     test_=$1
     suite=${2:-stuff}
     testCasesDirectorySplit=${3:-stuff}
-    platform=${4:-ci00_lilith_mlandi}
+    platform=${4:-local_mlandi}
 
     m robotframework:run \
         -Denv.platform="$platform" \
