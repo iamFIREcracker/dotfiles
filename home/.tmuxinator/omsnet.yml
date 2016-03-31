@@ -1,0 +1,14 @@
+# ~/.tmuxinator/omsnet.yml
+
+name: omsnet
+root: ~/workspace/oms.net/
+
+windows:
+  - workspace:
+      root: ~/workspace/oms.net
+      panes:
+        -
+  - oms:
+      root: ~/workspace/oms.net/oms.owm/
+      panes:
+        - svn info
