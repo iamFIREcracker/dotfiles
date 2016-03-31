@@ -407,10 +407,23 @@ function to() { sed "/$1/q"; }
 function tf() { tail -f "$@"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
+# Vagrant {{{
+
 v() { vagrant "$@"; }
 vh() { v halt; }
 vs() { v ssh -- -R 5556:localhost:5556; }
 vu() { v up; }
+
+# }}}
+vipe() {
+    # http://stackoverflow.com/a/10686830
+    local tmpfile
+    tmpfile=`mktemp /tmp/vipe.bashXXXXXXXX`
+    cat > ${tmpfile}
+    vim ${tmpfile} < /dev/tty > /dev/tty
+    cat ${tmpfile}
+    rm ${tmpfile}
+}
 function vw() { vim -R -; }
 function wo() {
     local wd=`pwd`
