@@ -411,6 +411,18 @@ augroup ft_c
 augroup END
 
 " }}}
+" C# {{{
+
+augroup ft_csharp
+    au!
+    au FileType cs setlocal foldmethod=marker foldmarker={,}
+    au FileType cs setlocal ts=4 sts=4 sw=4 noexpandtab
+
+    au FileType cs nnoremap <c-]> :OmniSharpGotoDefinition<cr>
+    au FileType cs nnoremap <C-^> :OmniSharpFindUsages<cr>
+augroup END
+
+" }}}
 " CSS and LessCSS {{{
 
 augroup ft_css
@@ -1212,6 +1224,11 @@ let g:jk_jumps_minimum_lines = 2
 " Maven {{{
 
 let g:maven_disable_mappings = 1
+
+" }}}
+" OmniSharp {{{
+
+let g:OmniSharp_selector_ui = 'ctrlp'
 
 " }}}
 " Python-Mode {{{
