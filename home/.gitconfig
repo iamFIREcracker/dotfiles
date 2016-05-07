@@ -50,6 +50,7 @@
 
     pull = pull --ff-only
     pu = !git pull --ff-only && git submodule update --init --recursive
+    pur = pull --rebase
     puu = !git pull upstream master --ff-only && git submodule update --init --recursive
     up = merge --ff-only
     update = merge --ff-only
