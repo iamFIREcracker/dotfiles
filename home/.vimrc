@@ -463,6 +463,9 @@ augroup END
 augroup ft_erlang
     au!
 
+    " Send to tmux with localleader e
+    au FileType erlang nnoremap <buffer> <silent> <localleader>e :let erlang_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(erlang_tslime_view)<cr>
+
     " Abbreviations {{{
 
     au FileType erlang call MakeSpacelessBufferIabbrev('mod',  '-module().<left><left>')
@@ -537,6 +540,7 @@ augroup ft_javascript
 
     au FileType javascript setlocal foldmethod=syntax
     au FileType javascript setlocal foldnestmax=1
+    au FileType javascript setlocal ts=2 sw=2 sts=2
     " Deeper nesting for test files so that we can fold 'describe' or 'it' sections
     au BufNewFile,BufRead test/*.js setlocal foldnestmax=5
 
@@ -566,6 +570,7 @@ augroup ft_javascript
     au FileType javascript call MakeSpacelessBufferIabbrev('require', 'NOPENOPENOPE')
 
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('cwarn', 'console.warn();<left><left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('console', 'NOPENOPENOPE')
 
     au FileType javascript call MakeSpacelessBufferIabbrev('sc',  '$scope.')
@@ -1242,6 +1247,7 @@ let g:SuperTabCrMapping = 1
 
 let g:syntastic_java_checker = 'javac'
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exec = 'node_modules/eslint/bin/eslint.js'
 let g:syntastic_typescript_tsc_fname = ''
 let g:syntastic_typescript_tsc_exec =
 \ fnameescape(globpath(&runtimepath, 'bundle/tsuquyomi/node_modules/typescript/bin/tsc'))

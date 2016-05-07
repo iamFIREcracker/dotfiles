@@ -26,7 +26,9 @@ HISTCONTROL="erasedups:ignoreboth"
 # Don't record some commands
 export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
 
-# Useful timestamp format
+# Use standard ISO 8601 timestamp
+# %F equivalent to %Y-%m-%d
+# %T equivalent to %H:%M:%S (24-hours format) 
 HISTTIMEFORMAT='%F %T '
 
 # Allows space to complete and expand !$ eg:

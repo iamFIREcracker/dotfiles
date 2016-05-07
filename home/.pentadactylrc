@@ -80,5 +80,6 @@ set passkeys+='mail.google.com':c/kjnp<Return>uemxs+-!raflvIU[]zNqy?<CR>,gi,gs,g
 " Disabled sites {{{
 
 autocmd LocationChange 'https://docs.google.com/*' :normal! gi
+autocmd LocationChange 'https://docs.google.com/presentation/*' :normal! 2gi
 
 " }}}

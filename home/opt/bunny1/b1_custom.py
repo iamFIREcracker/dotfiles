@@ -108,6 +108,10 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Show rxjs documentation"""
         return "https://github.com/Reactive-Extensions/RxJS/blob/master/doc/libraries/main/rx.complete.md"
 
+    def settleup(self, arg):
+        """Goes to settleup.info"""
+        return "http://www.settleup.info/?web"
+
     def sub(self, arg):
         """Search english subtitles on Google"""
         return self.g(arg + ' english subtitles')
