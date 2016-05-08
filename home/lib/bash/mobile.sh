@@ -18,16 +18,16 @@ adb() {
     esac
 }
 
-# iOS emulator id
+# Emulators {{{
+
 _iei() { xcrun simctl list devices | grep -v unavailable | grep "$@" | awk '{print $3}' | tr -d \(\); }
-
-
-# Emulators
 ea5() { ${ANDROID_SDK}/tools/emulator -avd nexus5 -scale 0.29 & }
 ea6() { ${ANDROID_SDK}/tools/emulator -avd nexus6 -scale 0.26 & }
 ei4s() { open -a "Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 4s'); }
 ei5s() { open -a "Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 5s'); }
 ei6() { open -a "Simulator" --args -CurrentDeviceUDID $(_iei 'iPhone 6'); }
+
+# }}}
 
 ticonz() {
     ticons -t icons
@@ -37,7 +37,7 @@ ticonz() {
 
 # Titanium {{{
 
-ti() { myreattach-to-user-namespace appc ti --no-color "$@"; }
+ti() { myreattach-to-user-namespace appc ti --no-colors "$@"; }
 
 tiba() { ti build --platform android "$@"; }
 tibad() { ti build --platform android --target device "$@"; }

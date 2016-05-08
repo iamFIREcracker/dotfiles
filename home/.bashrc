@@ -57,7 +57,7 @@ export TERM=screen-256color
 export EDITOR="vim"
 export PAGER="/usr/bin/less"
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu nornu noma' -\""
-export PATH="./node_modules/.bin:${HOME}/npm/bin:$PATH"
+export PATH="${HOME}/npm/bin:$PATH"
 export PATH="${HOME}/opt/PathPicker:$PATH"
 export HGEDITOR="~/bin/hgeditor"
 export GIT_EDITOR="~/bin/giteditor"
@@ -370,6 +370,13 @@ function pipir() { pip install -r requirements.txt; }
 function pip-sys() { $(which pip) "$@"; }
 function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n; }
 function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collapse | cuts -f 2,11-; }
+# react-native {{{
+
+function rn() { react-native "$@"; }
+function rnri() { rn run-ios "$@"; }
+function rnri5s() { rnri --simulator "iPhone 5s"; }
+
+# }}}
 function s() {
     local oldifs host customcmd uberscript cmd
 
@@ -388,6 +395,11 @@ function s() {
 }
 function sb() { . ~/.bashrc; }
 function serve-this() { python -m SimpleHTTPServer "$@"; }
+# strip colors {{{
+
+function strip-colors() { perl -pe 's/\e\[?.*?[\@-~]//g'; }
+
+# }}}
 function sum() { awk '{s+=$1}END{print s}'; }
 function tac() {
     local _tac
