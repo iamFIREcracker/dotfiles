@@ -59,7 +59,7 @@ javascript dactyl.beep = function() { return false; }
 " Apparently the d key broke at some point.  What the Christ?
 nmap -builtin d :tabclose<cr>
 
-nmap -builtin sp :source ~/.pentadactylrc<cr>
+nmap -builtin ,sp :source ~/.pentadactylrc<cr>
 
 nmap -builtin gd :emenu Tools.Web Developer.Toggle Tools<cr>
 
