@@ -36,6 +36,7 @@ function create_dir {
 }
 
 (cd home/.vim/bundle/vimproc.vim/ && make)
+(cd home/.vim/bundle/tern_for_vim/ && npm install)
 (cd home/.vim/bundle/tsuquyomi/ && npm install)
 
 test -z "$OS_WIN" && ensure_dir ".titanium"
