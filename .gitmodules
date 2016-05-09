@@ -88,9 +88,6 @@
 [submodule "home/.vim/bundle/vim-vinegar"]
 	path = home/.vim/bundle/vim-vinegar
 	url = https://github.com/tpope/vim-vinegar.git
-[submodule "home/opt/bcvi"]
-	path = home/opt/bcvi
-	url = https://github.com/grantm/bcvi.git
 [submodule "home/.vim/bundle/titanium-vim"]
 	path = home/.vim/bundle/titanium-vim
 	url = https://github.com/pekepeke/titanium-vim.git
