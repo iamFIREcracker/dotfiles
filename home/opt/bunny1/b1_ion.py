@@ -21,9 +21,14 @@ class IONCommands(CustomCommands):
             return "https://confluence.iontrading.com/dosearchsite.action?spaceSearch=false&queryString=%s" % qp(arg)
         else:
             return "https://confluence.iontrading.com/"
+
     def cionweb(self, arg):
         """Go to the ion.web confluence page"""
         return "https://confluence.iontrading.com/display/RD/HTML5+-+Programming+reference"
+
+    def itas(self, arg):
+        """Go to the ITAS confluence page"""
+        return "http://iondelsvr12/Keywords/Platform%20Keywords.html#RunKeywordAsFiber"
 
     def jr(self, arg):
         """Go or search jira.iontrading.com"""
@@ -66,6 +71,10 @@ class IONCommands(CustomCommands):
     def jks(self, arg):
         """Go on the Jenkins Slicing configuration page"""
         return "http://axton.fssnet.internal:8080/slicing/"
+
+    def jksd(self, arg):
+        """Go to the Jenkins Slicing configuration page for disabling jobs"""
+        return "http://axton.fssnet.internal:8080/slicing/jobdisabledstring/"
 
     def jkf(self, arg):
         """Go on the last failure of the specified Jenkins job"""
@@ -115,9 +124,11 @@ class IONCommands(CustomCommands):
         return "https://docs.google.com/spreadsheets/d/1JkVSxvv8gQJtKxeOGx6hJJ93XDM66DlwI4Pn6yBkbUc/edit#gid=197286876"
 
     def w(self, arg):
-        """Open webserver.  Optional arg: 'lilith'"""
+        """Open webserver.  Optional arg: 'lilith', 'res'"""
         if 'lilith' in arg:
             return "http://lilith.fssnet.internal:7095/ionweb/ip/html5.jsp#"
+        elif 'res' in arg:
+            return "http://lilith.fssnet.internal:7070/ionweb/ip/ionweb.jsp"
         return "http://pimatlanw01.iontrading.com:18080/ionweb/ip/html5.jsp#"
 
     def wa(self, arg):
