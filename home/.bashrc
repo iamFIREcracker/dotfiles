@@ -36,6 +36,16 @@ HISTTIMEFORMAT='%F %T '
 # $ cd !$<space> # completes to `cd Projects`
 bind Space:magic-space
 
+# Colors
+N=$'\e[0m'
+BOLD=$'\e[1m'
+D=$'\e[37;40m'
+PINK=$'\e[35;40m'
+GREEN=$'\e[32;40m'
+ORANGE=$'\e[33;40m'
+CYAN=$'\e[36;40m'
+RED=$'\e[31;40m'
+
 # }}}
 # Vim mode {{{
 
@@ -69,7 +79,7 @@ if [ -z "$JAVA_HOME" ]; then
         export JAVA_HOME=$(/usr/libexec/java_home)
     fi
 fi
-export MAVEN_OPTS="-Xmx512M -XX:MaxPermSize=512M"
+export MAVEN_OPTS="-Xmx512M -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 export _JAVA_OPTIONS="-Djava.awt.headless=true"
 
 headed_java() {
@@ -88,8 +98,8 @@ headless_java() {
 # }}}
 # Python {{{
 
-export PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
-export PYTHONSTARTUP="$HOME/.pythonrc.py"
+export PYTHONPATH="~/lib/python:$PYTHONPATH"
+export PYTHONSTARTUP="~/.pythonrc.py"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # }}}
@@ -102,8 +112,8 @@ elif [ -f /usr/local/etc/bash_completion ]; then
     source /usr/local/etc/bash_completion
 fi
 
-if [ -f ${HOME}/lib/bash/mobile.sh ]; then
-    source ${HOME}/lib/bash/mobile.sh
+if [ -f ~/lib/bash/mobile.sh ]; then
+    source ~/lib/bash/mobile.sh
 fi
 
 export LOADED_SCRIPTS=${BASH_SOURCE}
@@ -115,9 +125,10 @@ load_if_present() {
     fi
 }
 
-load_if_present ${HOME}/opt/z/z.sh
-load_if_present ${HOME}/opt/fabric-completion/fabric-completion.bash
-load_if_present ${HOME}/opt/vagrant-bash-completion/etc/bash_completion.d/vagrant
+load_if_present ~/opt/z/z.sh
+load_if_present ~/opt/fabric-completion/fabric-completion.bash
+load_if_present ~/opt/vagrant-bash-completion/etc/bash_completion.d/vagrant
+load_if_present ~/.bashrc_ion
 
 # }}}
 # Function completion {{{
@@ -261,8 +272,6 @@ function buildpentadactyl() {
     g pu
     make -C pentadactyl xpi
 }
-function bcvi() { ${HOME}/opt/bcvi/bin/bcvi "$@"; }
-function bssh() { bcvi --wrap-ssh -- "$@"; }
 function b1() { ~/opt/bunny1/venv/bin/python ~/opt/bunny1/b1_custom.py --test "$*"; }
 function cleancodes() { sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"; }
 function collapse() { sed -e 's/  */ /g'; }
@@ -284,6 +293,21 @@ function g() { git "$@"; }
 wrap_alias g git ''
 
 # }}}
+
+gimmeurjson() {
+    local url=$1
+    local method=${2:-GET}
+    local data="$3"
+    local line
+
+    [ ${method} = "GET" ] && url="${url}?${data}"
+
+    curl -i -s -w'\n' \
+        --header 'Accept: application/json' \
+        --header 'Content-Type: application/json' \
+        "${url}" -X "${method}" -d "${data}"
+}
+
 function grep() { $(which grep) --line-buffered "$@"; }
 function gc() {
     if [ $# == 1 ]; then
@@ -350,8 +374,21 @@ function ll4() { tree --dirsfirst -ChFupDaL 4 "$@"; }
 function ll5() { tree --dirsfirst -ChFupDaL 5 "$@"; }
 function ll6() { tree --dirsfirst -ChFupDaL 6 "$@"; }
 function ls() { fortune; }
-function m() { mvn --batch-mode "$@"; }
-function md() { mkdir -p "$@"; }
+# maven {{{
+
+function m() {
+    mvn --batch-mode --threads 1.0C "$@" | \
+        sed --unbuffered \
+            -e "s/Tests run: \([^,]*\), Failures: \([^,]*\), Errors: \([^,]*\), Skipped: \([^,]*\)/ESC[1;32mTests run: \1ESC[0m, Failures: ESC[1;31m\2ESC[0m, Errors: ESC[1;33m\3ESC[0m, Skipped: ESC[1;34m\4ESC[0m/g" \
+            -e "s/\[INFO\] \(--- .* ---\)/$BOLD\1$N/g" \
+            -e "s/\[INFO\] \(Building [^jar].*\)/$CYAN\1$D/g" \
+            -e "s/\[WARNING\] \(.*\)/$ORANGE\1$D/g" \
+            -e "s/\[ERROR\] \(.*\)/$RED\1$D/g" | \
+        sed --unbuffered \
+            -e "s/\[INFO\] \(.*\)/\1/g"
+}
+
+# }}}
 function n() { npm "$@"; }
 function median() { percentile 50; }
 function o() { open "$@"; }
@@ -401,16 +438,17 @@ function strip-colors() { perl -pe 's/\e\[?.*?[\@-~]//g'; }
 
 # }}}
 function sum() { awk '{s+=$1}END{print s}'; }
+# tac {{{
+if hash gtac 2>/dev/null; then
+    _tac=gtac
+elif hash tac 2>/dev/null; then
+    _tac=tac
+fi
 function tac() {
-    local _tac
-
-    if hash gtac 2>/dev/null; then
-        _tac=gtac
-    else
-        _tac=tac
-    fi
     ${_tac} "$@"
 }
+
+# }}}
 function tmuxlist() { tmux list-sessions; }
 function tmuxattach() {
     tmuxlist
@@ -484,16 +522,10 @@ function x() {
 function xvim() {
     xargs "$@" sh -c 'vim "$@" </dev/tty' dummy_script_name
 }
+function zombies() {  ps ex | awk "\$3==\"Z\"{print \$0}"; }
 
 # }}}
 # Prompt {{{
-
-D=$'\e[37;40m'
-PINK=$'\e[35;40m'
-GREEN=$'\e[32;40m'
-ORANGE=$'\e[33;40m'
-CYAN=$'\e[36;40m'
-RED=$'\e[31;40m'
 
 git_ps1() {
     if git root >/dev/null 2>&1; then

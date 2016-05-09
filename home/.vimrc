@@ -1117,6 +1117,7 @@ let g:ack_use_dispatch = 0
 
 let g:airline_theme='dark'
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#syntastic#enabled = 0
 
 " }}}
 " Ctrl-P {{{

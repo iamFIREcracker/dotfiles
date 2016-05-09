@@ -3,5 +3,6 @@
 --ignore-file=match:.*\.min\.js
 --ignore-file=match:.*\.js\.map
 --ignore-dir=build
+--ignore-dir=target
 --ignore-dir=Resources
 --ignore-dir=.ropeproject
