@@ -39,10 +39,10 @@ function create_dir {
     cd home/.vim/bundle/omnisharp-vim/
     git submodule update --init --recursive
     cd server
-    if [ -n "$OS_WIN" ]; then
-        msbuild
-    else
+    if which xbuild 2>/dev/null; then
         xbuild
+    elif which msbuild.exe 2>/dev/null; then
+        msbuild.exe
     fi
 )
 (cd home/.vim/bundle/vimproc.vim/ && make)
