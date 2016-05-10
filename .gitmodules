@@ -181,3 +181,6 @@
 [submodule "home/.vim/bundle/robotframework-vim"]
 	path = home/.vim/bundle/robotframework-vim
 	url = https://github.com/mfukar/robotframework-vim.git
+[submodule "home/.vim/bundle/vim-git"]
+	path = home/.vim/bundle/vim-git
+	url = https://github.com/tpope/vim-git.git
