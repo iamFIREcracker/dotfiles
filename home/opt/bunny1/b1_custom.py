@@ -112,6 +112,10 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Goes to settleup.info"""
         return "http://www.settleup.info/?web"
 
+    def slackbot(self, arg):
+        """Goes to slackbot configuration page; possible values 'strappo', 'xoms', 'tinyapp'"""
+        return "https://%s.slack.com/customize/slackbot" % qp(arg)
+
     def sub(self, arg):
         """Search english subtitles on Google"""
         return self.g(arg + ' english subtitles')
