@@ -444,7 +444,7 @@ function sum() { awk '{s+=$1}END{print s}'; }
 if hash gtac 2>/dev/null; then
     _tac=gtac
 elif hash tac 2>/dev/null; then
-    _tac=tac
+    _tac=$(which tac)
 fi
 function tac() {
     ${_tac} "$@"
