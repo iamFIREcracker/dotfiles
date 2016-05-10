@@ -24,3 +24,7 @@ windows:
       root: ~/workspace/oms.html/
       panes:
         - g in
+  - oms-watch:
+      root: ~/workspace/oms.html/
+      panes:
+        - grunt watch
