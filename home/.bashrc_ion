@@ -88,6 +88,17 @@ function rflog() { cygstart $(cygpath -a target/robotframework-reports/log.html)
 function ride() {
     cygstart "C:\Python27\pythonw.exe" -c "from robotide import main; main()";
 }
+# Scum {{{
+
+_scum=$(which scum)
+function scum() {
+    "${_scum}" "$@" | \
+        sed --unbuffered \
+            -e "s/Warning: \(.*\)/$ORANGE\1$D/g" \
+            -e "s/Error: \(.*\)/$RED\1$D/g"
+}
+
+# }}}
 function sysadmin() {
     cygstart \
         "C:\Program Files\ION Trading\System Administrator 227p5d2 (64-bit)\SystemAdministrator.exe" \
