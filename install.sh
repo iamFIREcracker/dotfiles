@@ -36,6 +36,13 @@ function create_dir {
 }
 
 (
+    cd home/opt/bunny1
+    if [ ! -d venv ]; then
+        virtualenv venv
+        venv/bin/pip install -r requirements.txt
+    fi
+)
+(
     cd home/.vim/bundle/omnisharp-vim/
     git submodule update --init --recursive
     cd server
