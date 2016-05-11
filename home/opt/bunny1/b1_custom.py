@@ -66,7 +66,7 @@ class CustomCommands(bunny1.Bunny1Commands):
     def so(self, arg):
         """Searches StackOverflow or goes there"""
         if arg:
-            return self.g('site:stackoverflow.com ' +  arg)
+            return self.g('site:stackoverflow.com ' + arg)
         else:
             return "http://stackoverflow.com"
 
@@ -113,7 +113,8 @@ class CustomCommands(bunny1.Bunny1Commands):
         return "http://www.settleup.info/?web"
 
     def slackbot(self, arg):
-        """Goes to slackbot configuration page; possible values 'strappo', 'xoms', 'tinyapp'"""
+        """Goes to slackbot configuration page;
+        possible values 'strappo', 'xoms', 'tinyapp'"""
         return "https://%s.slack.com/customize/slackbot" % qp(arg)
 
     def sub(self, arg):
@@ -195,6 +196,7 @@ def rewrite_tld(url, new_tld):
     new_domain = ".".join(domain)
     return urlparse.urlunsplit((scheme, new_domain, path, query, fragment))
 
+
 def tld_rewriter(new_tld):
     """returns a function that rewrites the TLD of a URL to be new_tld"""
     return expose(lambda url: rewrite_tld(url, new_tld))
@@ -230,6 +232,7 @@ class CustomDecorators(bunny1.Bunny1Decorators):
         # we need to leave url raw here since tinyurl will actually
         # break if we send it a quoted url
         return "http://tinyurl.com/create.php?url=%s" % url
+
 
 class CustomBunny1(bunny1.Bunny1):
     def __init__(self, commands, decorators):
