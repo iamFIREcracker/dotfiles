@@ -546,8 +546,12 @@ hg_ps1() {
 }
 
 rcs_ps1() {
-    hg_ps1
-    git_ps1
+    if [ -n "$PROMPT_NO_RCS" ]; then
+        echo
+    else
+        hg_ps1
+        git_ps1
+    fi
 }
 
 venv_ps1() {
