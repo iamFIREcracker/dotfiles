@@ -992,7 +992,8 @@ vnoremap <leader>y :<c-u>call g:FuckingCopyTheTextPlease()<cr>
 nnoremap <leader>y VV:<c-u>call g:FuckingCopyTheTextPlease()<cr>
 nnoremap <leader>Y :<c-u>call g:FuckingCopyAllTheTextPlease()<cr>
 
-nnoremap <leader>p :set paste<CR>:read !cb<CR>:set nopaste<CR>
+nnoremap <leader>p :set paste<CR>:read !cb<CR>:set nopaste<CR><leader>V=
+nnoremap <leader>P O<esc>:set paste<CR>:read !cb<CR>:set nopaste<CR>kdd
 
 " Select pasted stuff
 nnoremap <leader>V V`]
