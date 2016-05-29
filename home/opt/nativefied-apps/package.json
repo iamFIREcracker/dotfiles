@@ -3,8 +3,7 @@
   "private": true,
   "scripts": {
       "gmail": "nativefier gmail.google.com",
-      "messenger": "nativefier messenger.com",
-      "whatsapp": "nativefier web.whatsapp.com"
+      "messenger": "nativefier messenger.com"
   },
   "devDependencies": {
     "nativefier": "^6.13.0"
