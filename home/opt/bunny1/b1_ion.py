@@ -44,6 +44,7 @@ class IONCommands(CustomCommands):
     def jhd(self, arg):
         """Go on the JIRA helpdesk portal"""
         return "https://jira.iontrading.com/servicedesk/customer/portals"
+    hd = jhd
 
     def jk(self, arg):
         """Go on Jenkins, or search something on it"""
@@ -75,6 +76,7 @@ class IONCommands(CustomCommands):
     def jksd(self, arg):
         """Go to the Jenkins Slicing configuration page for disabling jobs"""
         return "http://axton.fssnet.internal:8080/slicing/jobdisabledstring/"
+    jkse = jksd
 
     def jkf(self, arg):
         """Go on the last failure of the specified Jenkins job"""
@@ -105,6 +107,12 @@ class IONCommands(CustomCommands):
         """Goes to the product backlog of the current release"""
         return "https://docs.google.com/spreadsheets/d/1rIHEcQuIp2ow6EWG3AHPYnakL4BAtUJnIeIECqLI15k/edit#gid=0"
 
+    def rfdoc(self, arg):
+        """Searches inside robotframework.org"""
+        if arg:
+            return self.g('site:robotframework.org ' + arg)
+        else:
+            return 'http://robotframework.org'
     def rflog(self, arg):
         """Open Robotframework local output file"""
         return "file:///C:/Users/mlandi/workspace/xoms-git/oms-order-test/target/robotframework-reports/log.html"
@@ -136,6 +144,10 @@ class IONCommands(CustomCommands):
         if 'lilith' in arg:
             return "http://lilith.fssnet.internal:7095/ionweb/admin"
         return "http://pimatlanw01.iontrading.com:18080/ionweb/admin"
+
+    def webex(self, arg):
+        """Goes on the Stuart's webex page"""
+        return "https://iontrading.webex.com/iontrading/j.php?MTID=m7da3a508094ebaee1a150609a2994ef3"
 
 class IONDecorators(CustomDecorators):
     pass

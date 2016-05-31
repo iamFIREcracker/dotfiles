@@ -62,6 +62,13 @@ function mmi_sales() {
         -auth=secure -pwd=mlandi -user=mlandi_sales \
         -env=lilith_20000_sales -workspace=lilith_20000_mlandi_sales
 }
+function omsparents() {
+    (true && \
+        cd /cygdrive/c/Users/mlandi/workspace/xoms-git/oms-parent && \
+            m clean install && \
+        cd /cygdrive/c/Users/mlandi/workspace/xoms-git/oms-parent-tests && \
+            m clean install)
+}
 function omscodegen() {
     (true && \
         cd /cygdrive/c/Users/mlandi/workspace/xoms-git/oms-common && \
@@ -69,22 +76,43 @@ function omscodegen() {
         cd /cygdrive/c/Users/mlandi/workspace/xoms-git/oms_wm && \
             m clean dependency:unpack-dependencies@unpack-codegen codegen:codegen)
 }
+# Robotframework {{{
+
 function rf() {
     test_=$1
     suite=${2:-stuff}
     testCasesDirectorySplit=${3:-stuff}
     platform=${4:-local_mlandi}
 
-    m compile robotframework:run \
+    _JAVA_OPTIONS="$_JAVA_OPTIONS -Djava.awt.headless=false" \
+        m compile robotframework:run \
         -Dtest.name="$test_" \
         -Dsuite.test="$suite" \
         -DtestCasesDirectorySplit="$testCasesDirectorySplit" \
         -Denv.platform="$platform" \
         -Drobot.log=NONE \
         -Drobot.removekeywords=passed \
+        -Dwebdriver.chrome.driver="src\test\chromedriver.exe" \
+        -Dwebdriver.ie.driver="C:\Program Files\Internet Explorer\iexplore.exe" \
         || (m exec:java@robotframework-generate-log; rflog)
 }
+function rfi() {
+    local _test
+    local suite
+    local split
+    read -p "test? [*]" _test
+    read -p "suite? [stuff]" suite
+    read -p "split? [stuff]" split
+    echo $_test $suite $split
+
+    rf "$_test" "$suite" "$split"
+}
 function rflog() { cygstart $(cygpath -a target/robotframework-reports/log.html); }
+function rfcb() {
+    cb | J | cb
+}
+
+# }}}
 function ride() {
     cygstart "C:\Python27\pythonw.exe" -c "from robotide import main; main()";
 }
@@ -101,7 +129,7 @@ function scum() {
 # }}}
 function sysadmin() {
     cygstart \
-        "C:\Program Files\ION Trading\System Administrator 227p5d2 (64-bit)\SystemAdministrator.exe" \
+        "C:\Program Files\ION Trading\System Administrator 227p6d2 (64-bit)\SystemAdministrator.exe" \
         "$@"
 }
 function sysadmin_lilith() {
