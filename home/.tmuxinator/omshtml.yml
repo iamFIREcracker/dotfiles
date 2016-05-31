@@ -28,3 +28,11 @@ windows:
       root: ~/workspace/oms.html/
       panes:
         - grunt watch
+  - playground:
+      root: ~/workspace/playground/
+      panes:
+        - g in
+  - playground-watch:
+      root: ~/workspace/playground/
+      panes:
+        - grunt watch

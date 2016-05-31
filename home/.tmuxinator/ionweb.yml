@@ -7,6 +7,6 @@ windows:
       panes:
         - ./IonWebServer
   - webstreaming:
-      root: /vagrant/ION_WEB_STREAMING103/bin
+      root: /vagrant/ION_WEB_STREAMING104/bin
       panes:
         - ./IonWebStreamingServer
