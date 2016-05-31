@@ -363,7 +363,7 @@ function hs() { history "$@"; }
 function j() { z "$@"; }
 # Join lines {{{
 
-function join() {
+function J() {
     tr '^M' '\n' | tr -s '\n' '      '
 }
 
