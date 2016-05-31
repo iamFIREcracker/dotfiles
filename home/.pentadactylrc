@@ -62,7 +62,7 @@ nmap -builtin d :tabclose<cr>
 
 nmap -builtin ,sp :source ~/.pentadactylrc<cr>
 
-nmap -builtin gd :emenu Tools.Web Developer.Toggle Tools<cr>
+nmap -builtin gd :emenu Strumenti.Sviluppo web.Attiva strumenti<cr>
 
 "" toggle toolbar
 nmap -builtin -ex ,t :set guioptions!=T

@@ -211,8 +211,11 @@ delhiqa() {
 export PATH="/usr/sbin:$PATH"
 export PATH="${HOME}/h/AppData/Roaming/npm:$PATH"
 
-PATH="/home/mlandi/perl5/bin${PATH+:}${PATH}"; export PATH;
-PERL5LIB="/home/mlandi/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/mlandi/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/mlandi/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/mlandi/perl5"; export PERL_MM_OPT;
+export PATH="/home/mlandi/perl5/bin${PATH+:}${PATH}"; export PATH;
+export PERL5LIB="/home/mlandi/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
+export PERL_LOCAL_LIB_ROOT="/home/mlandi/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"; export PERL_LOCAL_LIB_ROOT;
+export PERL_MB_OPT="--install_base \"/home/mlandi/perl5\""; export PERL_MB_OPT;
+export PERL_MM_OPT="INSTALL_BASE=/home/mlandi/perl5"; export PERL_MM_OPT;
+
+# disable remote-control-system related stuff
+export PROMPT_NO_RCS=true
