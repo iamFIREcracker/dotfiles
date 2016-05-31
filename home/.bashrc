@@ -361,6 +361,13 @@ function hl5() { GREP_COLOR="1;35" grep -E --color=always "$1|\$"; }
 function hl6() { GREP_COLOR="1;36" grep -E --color=always "$1|\$"; }
 function hs() { history "$@"; }
 function j() { z "$@"; }
+# Join lines {{{
+
+function join() {
+    tr '^M' '\n' | tr -s '\n' '      '
+}
+
+# }}}
 function l() { l1 "$@"; }
 function l1() { tree --dirsfirst -ChFL 1 "$@"; }
 function l2() { tree --dirsfirst -ChFL 2 "$@"; }
