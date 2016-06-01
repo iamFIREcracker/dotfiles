@@ -3,3 +3,5 @@ home/.vim/tmp
 home/opt/bunny1/venv/
 home/.vim/.netrwhist
 home/opt/nativefied-apps/*-x64
+home/bin/mux
+home/bin/tmuxinator
