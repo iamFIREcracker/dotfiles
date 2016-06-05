@@ -43,6 +43,7 @@ nmap -builtin ( :tp<CR>
 
 " Shift is hard.
 nmap -builtin ; :
+nmap -builtin : ;
 
 " YES YES YES REMOVE THE IDIOCY
 nmap -builtin <bs> <nop>
@@ -63,6 +64,9 @@ nmap -builtin ,sp :source ~/.pentadactylrc<cr>
 
 nmap -builtin gd :emenu Tools.Web Developer.Toggle Tools<cr>
 
+"" toggle toolbar
+nmap -builtin -ex ,t :set guioptions!=T
+
 "}}}
 " Search engine {{{
 
@@ -72,8 +76,7 @@ set defsearch=bu
 "}}}
 " Passkeys {{{
 
-set passkeys+='facebook.com':<CR>,j,k
-set passkeys+='www.google.com/search':j,k
+set passkeys+='www.facebook.com':<CR>,j,k
 set passkeys+='mail.google.com':c/kjnp<Return>uemxs+-!raflvIU[]zNqy?<CR>,gi,gs,gt,gd,ga,gc,gb,gk,gl,#
 
 "}}}
