@@ -259,6 +259,8 @@ function -() {
         grep -v -E "$1|$2|$3|$4|$5|$6" | - "${@:7}"
     fi
 }
+# Ack {{{
+
 function a() {
     local _ack
 
@@ -269,6 +271,9 @@ function a() {
     fi
     ${_ack} "$@"
 }
+function ai() { a -i "$@"; }
+
+# }}}
 function b() { bower "$@"; }
 function banner() { figlet -f ogre -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
 function buildpentadactyl() {
