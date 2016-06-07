@@ -164,13 +164,6 @@ class CustomCommands(bunny1.Bunny1Commands):
         else:
             return "https://www.yammer.com/iontrading.com/#/home"
 
-    def yt(self, arg):
-        """Search YouTube or go there"""
-        if arg:
-            return "http://www.youtube.com/results?search_query=%s&search_type=&aq=-1&oq=" % qp(arg)
-        else:
-            return "http://www.youtube.com/"
-
     def zippyshare(self, arg):
         """Goes to Zippyshare -- it does not support GET searches :-("""
         return "http://www.searchonzippy.com"
