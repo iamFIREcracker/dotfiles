@@ -1,2 +1,7 @@
 # Enable vi editing mode
 set editing-mode vi
+
+# Customize PS1 depending on mode (insert, command)
+set show-mode-in-prompt on
+#set vi-ins-mode-string "" Does not work
+#set vi-cmd-mode-string "!" Does not work

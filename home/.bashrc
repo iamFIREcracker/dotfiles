@@ -59,9 +59,6 @@ RED=$'\e[31;40m'
 
 set -o vi
 
-# Prepend ':' for commands, and '+' when in insert mode
-bind 'set show-mode-in-prompt on'
-
 # Handy bindings
 bind -m vi-command '"H":beginning-of-line'
 bind -m vi-command '"L":end-of-line'
