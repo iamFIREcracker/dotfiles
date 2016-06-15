@@ -76,41 +76,57 @@ function omscodegen() {
         cd /cygdrive/c/Users/mlandi/workspace/xoms-git/oms_wm && \
             m clean dependency:unpack-dependencies@unpack-codegen codegen:codegen)
 }
+function omstest() {
+    (true && \
+        cd /cygdrive/c/Users/mlandi/workspace/xoms-git/oms-common && \
+            m integration-test && \
+        cd /cygdrive/c/Users/mlandi/workspace/xoms-git/oms_wm && \
+            m integration-test && \
+        cd /cygdrive/c/Users/mlandi/workspace/xoms-git/oms_capture && \
+            m integration-test && \
+        cd /cygdrive/c/Users/mlandi/workspace/xoms-git/oms_rs && \
+            m integration-test)
+}
 # Robotframework {{{
 
 function rf() {
-    test_=$1
-    suite=${2:-stuff}
-    testCasesDirectorySplit=${3:-stuff}
-    platform=${4:-local_mlandi}
+    local _test=${1:-*}
+    local _suite=${2:-stuff}
+    local _split=${3:-stuff}
+    local _platform=${4:-local_mlandi}
 
     _JAVA_OPTIONS="$_JAVA_OPTIONS -Djava.awt.headless=false" \
-        m compile robotframework:run \
-        -Dtest.name="$test_" \
-        -Dsuite.test="$suite" \
-        -DtestCasesDirectorySplit="$testCasesDirectorySplit" \
-        -Denv.platform="$platform" \
-        -Drobot.log=NONE \
-        -Drobot.removekeywords=passed \
+        m verify \
+        -Dtest.name="$_test" \
+        -Dsuite.test="$_suite" \
+        -DtestCasesDirectorySplit="$_split" \
+        -Denv.platform="$_platform" \
         -Dwebdriver.chrome.driver="src\test\chromedriver.exe" \
         -Dwebdriver.ie.driver="C:\Program Files\Internet Explorer\iexplore.exe" \
-        || (m exec:java@robotframework-generate-log; rflog)
+    || rflog
 }
-function rfi() {
-    local _test
-    local suite
-    local split
-    read -p "test? [*]" _test
-    read -p "suite? [stuff]" suite
-    read -p "split? [stuff]" split
-    echo $_test $suite $split
-
-    rf "$_test" "$suite" "$split"
-}
-function rflog() { cygstart $(cygpath -a target/robotframework-reports/log.html); }
 function rfcb() {
     cb | J | cb
 }
+function rfi() {
+    local _test
+    local _suite
+    local _split
+    read -p "test [${GREEN}${_RFI_TEST:-*}${D}]: " _test
+    read -p "suite [${PINK}${_RFI_SUITE:-stuff}${D}]: " _suite
+    read -p "split [${ORANGE}${_RFI_SPLIT:-stuff}${D}]: " _split
+
+    export _RFI_TEST=${_test:-${_RFI_TEST}}
+    export _RFI_SUITE=${_suite:-${_RFI_SUITE}}
+    export _RFI_SPLIT=${_split:-${_RFI_SPLIT}}
+
+    echo
+    echo "rf '${GREEN}${_RFI_TEST:-*}${D}' '${PINK}${_RFI_SUITE}${D}' '${ORANGE}${_RFI_SPLIT}${D}'"
+
+    rf "${_RFI_TEST}" "${_RFI_SUITE}" "${_RFI_SPLIT}"
+}
+function rflog() { cygstart $(cygpath -a target/robotframework-reports/log.html); }
+function rfuck() { m exec:java@robotframework-generate-log; }
 
 # }}}
 function ride() {
