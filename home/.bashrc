@@ -8,6 +8,10 @@ elif [ -f /usr/share/bash-completion/bash_completion ]; then
     source /usr/share/bash-completion/bash_completion
 fi
 
+
+# Abort piped command ASAP
+set -o pipefail
+
 # Update window size after every command
 shopt -s checkwinsize
 
@@ -401,7 +405,7 @@ function ls() { fortune; }
 function m() {
     mvn --batch-mode --threads 1.0C "$@" | \
         sed --unbuffered \
-            -e "s/Tests run: \([^,]*\), Failures: \([^,]*\), Errors: \([^,]*\), Skipped: \([^,]*\)/ESC[1;32mTests run: \1ESC[0m, Failures: ESC[1;31m\2ESC[0m, Errors: ESC[1;33m\3ESC[0m, Skipped: ESC[1;34m\4ESC[0m/g" \
+            -e "s/Tests run: \([^,]*\), Failures: \([^,]*\), Errors: \([^,]*\), Skipped: \([^,]*\)/${GREEN}Tests run: \1${D}, Failures: ${ORANGE}\2${D}, Errors: ${RED}\3${D}, Skipped: ${CYAN}\4${D}/g" \
             -e "s/\[INFO\] \(--- .* ---\)/$BOLD\1$N/g" \
             -e "s/\[INFO\] \(Building [^jar].*\)/$CYAN\1$D/g" \
             -e "s/\[WARNING\] \(.*\)/$ORANGE\1$D/g" \
