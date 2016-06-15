@@ -53,14 +53,18 @@ RED=$'\e[31;40m'
 # }}}
 # Vim mode {{{
 
-# I give up
-alias :q=exit
-alias :qa=exit
+set -o vi
 
+# Prepend ':' for commands, and '+' when in insert mode
+bind 'set show-mode-in-prompt on'
+
+# Handy bindings
 bind -m vi-command '"H":beginning-of-line'
 bind -m vi-command '"L":end-of-line'
 
-set -o vi
+# I give up
+alias :q=exit
+alias :qa=exit
 
 # }}}
 # Environment variables {{{
@@ -574,28 +578,26 @@ venv_ps1() {
     [ $VIRTUAL_ENV ] && echo "${ORANGE}>>"`basename $VIRTUAL_ENV`"<<${D}"
 }
 
-rcs_promp() {
-    echo '$'
-}
-
-prompt() {
+actual_prompt() {
     if [[ $EXITVAL == 0 ]]; then
-        echo -n "$"
+        echo -n " > "
     else
-        echo -n "${RED}$EXITVAL \$${D}"
+        echo -n " $EXITVAL > "
     fi
 }
 
 # Inspired by: https://gist.github.com/3083586
 prompt_command() {
-    EXITVAL=$?; 
+    EXITVAL=$?
+    PS1=$(actual_prompt)
 
     z --add `pwd`
 
     # Record each line as it gets issued
     history -a
+
+    echo -e "\n${PINK}${USER}${D} at ${ORANGE}${HOSTNAME}${D} in ${GREEN}${PWD}${D} $(rcs_ps1) $(venv_ps1)"
 }
 export PROMPT_COMMAND='prompt_command'
-export PS1='\n${PINK}\u${D} at ${ORANGE}\h${D} in ${GREEN}\w${D} $(rcs_ps1) $(venv_ps1)\n$(prompt) '
 
 # }}}
