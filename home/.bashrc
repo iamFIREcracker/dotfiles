@@ -400,15 +400,22 @@ function ls() { fortune; }
 # maven {{{
 
 function m() {
-    mvn --batch-mode --threads 1.0C "$@" | \
-        sed --unbuffered \
-            -e "s/Tests run: \([^,]*\), Failures: \([^,]*\), Errors: \([^,]*\), Skipped: \([^,]*\)/${GREEN}Tests run: \1${D}, Failures: ${ORANGE}\2${D}, Errors: ${RED}\3${D}, Skipped: ${CYAN}\4${D}/g" \
-            -e "s/\[INFO\] \(--- .* ---\)/$BOLD\1$N/g" \
-            -e "s/\[INFO\] \(Building [^jar].*\)/$CYAN\1$D/g" \
-            -e "s/\[WARNING\] \(.*\)/$ORANGE\1$D/g" \
-            -e "s/\[ERROR\] \(.*\)/$RED\1$D/g" | \
-        sed --unbuffered \
-            -e "s/\[INFO\] \(.*\)/\1/g"
+    mvn --batch-mode --threads 1.0C "$@" | mcolorify
+}
+function mcolorify() {
+    sed --unbuffered \
+        -e "s/Tests run: \([^,]*\), Failures: \([^,]*\), Errors: \([^,]*\), Skipped: \([^,]*\)/${GREEN}Tests run: \1${D}, Failures: ${ORANGE}\2${D}, Errors: ${RED}\3${D}, Skipped: ${CYAN}\4${D}/g" \
+        -e "s/\[INFO\] \(--- .* ---\)/$BOLD\1$N/g" \
+        -e "s/\[INFO\] \(Building [^jar].*\)/$CYAN\1$D/g" \
+        -e "s/\[INFO\] \(BUILD SUCCESS\)/$GREEN\1$D/g" \
+        -e "s/\[INFO\] \(BUILD FAILURE\)/$RED\1$D/g" \
+        -e "s/\[WARNING\] \(.*\)/$ORANGE\1$D/g" \
+        -e "s/\[ERROR\] \(.*\)/$RED\1$D/g" \
+        -e "s/\(.*\)| \(PASS\) |/\1| ${GREEN}\2$D |/g" \
+        -e "s/\(.*\)| \(FAIL\) |/\1| ${RED}\2$D |/g" \
+    | \
+    sed --unbuffered \
+        -e "s/\[INFO\] \(.*\)/\1/g"
 }
 
 # }}}
