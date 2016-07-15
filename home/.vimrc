@@ -566,6 +566,7 @@ augroup ft_javascript
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
     au FileType javascript inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><space><space><esc>zoa
+    au FileType javascript inoremap <buffer> [<cr> <C-G>u[]<left><cr><cr><up><space><space><space><space><esc>zoa
 
     " Abbreviations {{{
 
@@ -1427,15 +1428,6 @@ nnoremap <right> <nop>
 " Use CTRL-H like a boss
 nnoremap <backspace> <nop>
 inoremap <backspace> <nop>
-"" Train to use /S/ for splitting lines.
-"nnoremap i<CR> <esc>:echo "Use S!"<cr>
-"nnoremap a<CR> <esc>:echo "Use S!"<cr>
-"nnoremap s<CR> <esc>:echo "Use S!"<cr>
-" Train to use <c-e> to move at the end of a line
-" inoremap <esc>A <esc>:echo "Use <c-e>!"<cr>
-" Use Ctrl!
-inoremap jj <esc>:echo "Use Ctrl!"<cr>i
-
 
 " }}}
 " Pulse Line {{{
