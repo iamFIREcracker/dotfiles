@@ -22,17 +22,13 @@ windows:
         - svn update
   - oms:
       root: ~/workspace/oms.html/
+      layout: main-horizontal
       panes:
         - g in
-  - oms-watch:
-      root: ~/workspace/oms.html/
-      panes:
-        - grunt watch
+        - grunt debug; grunt watch
   - playground:
       root: ~/workspace/playground/
+      layout: main-horizontal
       panes:
         - g in
-  - playground-watch:
-      root: ~/workspace/playground/
-      panes:
-        - grunt watch
+        - grunt debug; grunt watch

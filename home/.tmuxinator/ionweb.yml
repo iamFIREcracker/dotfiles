@@ -3,7 +3,7 @@ root: ~/
 
 windows:
   - webserver:
-      root: /vagrant/ION_WEB_SERVER118/bin
+      root: /vagrant/ION_WEB_SERVER119/bin
       panes:
         - ./IonWebServer
   - webstreaming:
