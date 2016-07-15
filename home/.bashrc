@@ -79,7 +79,6 @@ export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu
 export PATH="${HOME}/npm/bin:$PATH"
 export PATH="${HOME}/opt/PathPicker:$PATH"
 export HGEDITOR="~/bin/hgeditor"
-export GIT_EDITOR="~/bin/giteditor"
 
 # Java et al. {{{
 
