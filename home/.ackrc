@@ -3,6 +3,7 @@
 --ignore-file=match:.*\.min\.js
 --ignore-file=match:.*\.js\.map
 --ignore-dir=build
+--ignore-dir=dist
 --ignore-dir=obj
 --ignore-dir=target
 --ignore-dir=Resources
