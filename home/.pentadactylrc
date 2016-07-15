@@ -78,11 +78,14 @@ set defsearch=bu
 
 set passkeys+='www.facebook.com':<CR>,j,k
 set passkeys+='mail.google.com':c/kjnp<Return>uemxs+-!raflvIU[]zNqy?<CR>,gi,gs,gt,gd,ga,gc,gb,gk,gl,#
+set passkeys+='youtu.be':<space>f
+set passkeys+='youtube.com':<space>f
 
 "}}}
 " Disabled sites {{{
 
 autocmd LocationChange 'https://docs.google.com/*' :normal! gi
 autocmd LocationChange 'https://docs.google.com/presentation/*' :normal! 2gi
+autocmd LocationChange 'https://www.netflix.com/watch/*' :normal! gi
 
 " }}}
