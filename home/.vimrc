@@ -466,7 +466,9 @@ augroup END
 
 augroup ft_diff
     au!
+
     au Filetype diff setlocal nolist
+    au Filetype diff nnoremap <buffer> q :q<cr>
 augroup END
 
 " }}}
@@ -1559,7 +1561,7 @@ augroup ft_shelloutput
     autocmd BufNewFile __Shell_Output__ setlocal bufhidden=hide
     autocmd BufNewFile __Shell_Output__ setlocal noswapfile
     autocmd BufNewFile __Shell_Output__ setlocal buflisted
-    autocmd BufNewFile __Shell_Output__ nnoremap <buffer> q :bd<cr>
+    autocmd BufNewFile __Shell_Output__ nnoremap <buffer> q :AnsiEsc<cr>:bd<cr>
     autocmd BufNewFile __Shell_Output__ AnsiEsc
 augroup END
 
