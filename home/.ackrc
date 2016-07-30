@@ -8,3 +8,5 @@
 --ignore-dir=target
 --ignore-dir=Resources
 --ignore-dir=.ropeproject
+--ignore-dir=node_modules
+--ignore-dir=bower_components
