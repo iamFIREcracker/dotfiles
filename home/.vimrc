@@ -423,17 +423,17 @@ augroup ft_csharp
 augroup END
 
 " }}}
-" CSS and LessCSS {{{
+" CSS, SCSS, and LessCSS {{{
 
 augroup ft_css
     au!
 
     au BufNewFile,BufRead *.less setlocal filetype=less
 
-    au Filetype less,css setlocal foldmethod=marker
-    au Filetype less,css setlocal foldmarker={,}
-    au Filetype less,css setlocal omnifunc=csscomplete#CompleteCSS
-    au Filetype less,css setlocal iskeyword+=-
+    au Filetype less,css,scss setlocal foldmethod=marker
+    au Filetype less,css,scss setlocal foldmarker={,}
+    au Filetype less,css,scss setlocal omnifunc=csscomplete#CompleteCSS
+    au Filetype less,css,scss setlocal iskeyword+=-
 
     " Use <leader>S to sort properties.  Turns this:
     "
@@ -454,10 +454,10 @@ augroup ft_css
     "
     "         ...
     "     }
-    au BufNewFile,BufRead *.less,*.css nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
+    au BufNewFile,BufRead *.less,*.css,*.scss nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au BufNewFile,BufRead *.less,*.css inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><space><space><esc>zoa
+    au BufNewFile,BufRead *.less,*.css,*.scss inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><esc>zoa
 
 augroup END
 
@@ -506,6 +506,7 @@ augroup ft_html
     au!
 
     au BufNewFile,BufRead *.html setlocal filetype=htmldjango
+    au FileType html,jinja,htmldjango setlocal ts=2 sw=2 sts=2
     au FileType html,jinja,htmldjango setlocal foldmethod=manual
 
     " Use <localleader>f to fold the current tag.
@@ -555,6 +556,7 @@ augroup ft_javascript
     au FileType javascript setlocal foldmethod=syntax
     au FileType javascript setlocal foldnestmax=1
     au FileType javascript setlocal ts=2 sw=2 sts=2
+    au Filetype javascript setlocal textwidth=100
     " Deeper nesting for test files so that we can fold 'describe' or 'it' sections
     au BufNewFile,BufRead test/*.js setlocal foldnestmax=5
 
@@ -567,8 +569,9 @@ augroup ft_javascript
 
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
-    au FileType javascript inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><space><space><esc>zoa
-    au FileType javascript inoremap <buffer> [<cr> <C-G>u[]<left><cr><cr><up><space><space><space><space><esc>zoa
+    au FileType javascript inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><esc>zoa
+    au FileType javascript inoremap <buffer> [<cr> <C-G>u[]<left><cr><cr><up><space><space><esc>zoa
+    au FileType javascript inoremap <buffer> (<cr> <C-G>u()<left><cr><cr><up><space><space><esc>zoa
 
     " Abbreviations {{{
 
