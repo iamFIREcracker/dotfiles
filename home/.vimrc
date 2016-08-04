@@ -738,9 +738,19 @@ augroup ft_quickfix
 augroup END
 
 " }}}
-" ReStructuredText {{{
+" REST {{{
 
 augroup ft_rest
+    au!
+
+    au Filetype rest setlocal foldmethod=marker foldmarker={{{,}}}
+    au Filetype rest nnoremap <buffer> <localleader>1 yypVr=
+augroup END
+
+" }}}
+" ReStructuredText {{{
+
+augroup ft_rst
     au!
 
     au Filetype rst nnoremap <buffer> <localleader>1 yypVr=
@@ -1302,6 +1312,20 @@ let g:mocha_js_command =
 " Vim-json {{{
 
 let g:vim_json_syntax_conceal = 0
+
+" }}}
+" vim-rest-console {{{
+
+let g:vrc_follow_redirects = 1
+let g:vrc_include_response_header = 1
+let g:vrc_ssl_secure = 1
+let g:vrc_trigger = '<localleader>e'
+
+augroup ft_restresponse
+    au!
+
+    autocmd BufNewFile __REST_response__ nnoremap <buffer> q :bd<cr>
+augroup END
 
 " }}}
 " YankRing {{{
