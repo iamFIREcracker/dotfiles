@@ -897,7 +897,7 @@ augroup ft_vim
     au FileType vim setlocal foldmethod=marker
     au FileType help setlocal textwidth=78
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
-    au BufEnter *.txt if &ft == 'help' | nnoremap <buffer> q :bd<cr>:silent! close<cr> | endif
+    au BufEnter *.txt if &ft == 'help' | nnoremap <buffer> q :bd<cr> | endif
 augroup END
 
 " }}}
