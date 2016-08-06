@@ -42,13 +42,15 @@
     cm = commit -v -m
     cmm = commit -v -a -m 'Merge'
 
-    l   = !git la master..
-    ll  = !git lla master..
-    lll = !git llla master..
-
-    la   = log -18 --color=always --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(blue bold)(by %an)%Creset'
-    lla  = log -36 --color=always --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(blue bold)(by %an)%Creset'
-    llla = log -72 --color=always --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(blue bold)(by %an)%Creset'
+    pl = "!f() { \
+        if [ \"$(git currentbranch)\" != \"master\" ]; then \
+            args=master..; \
+        fi; \
+        git log -$1 --color=always --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(blue bold)(by %an)%Creset' $args; \
+    }; f"
+    l   = !git pl 18
+    ll  = !git pl 36
+    lll = !git pl 72
 
     gl   = log -12 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(by %an)%Creset%C(yellow bold)%d%Creset%n'
     gll  = log -24 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'

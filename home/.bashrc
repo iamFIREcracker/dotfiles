@@ -307,6 +307,10 @@ function from() { tac "$1" | sed "/$2/q" | tac; }
 function g() { git "$@"; }
 wrap_alias g git ''
 
+function _git_pl() {
+    _git_log
+}
+
 # }}}
 
 gimmeurjson() {
