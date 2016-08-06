@@ -35,25 +35,33 @@
     tags = tag -l
     branches = branch -a
     remotes = remote -v
+    shelves = stash list
 
     st = status --short --ignore-submodules=untracked
     ci = commit -v
     cm = commit -v -m
     cmm = commit -v -a -m 'Merge'
 
-    l   = !git log -18 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(blue bold)(by %an)%Creset' && echo
-    ll  = !git log -36 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(blue bold)(by %an)%Creset' && echo
-    lll = !git log -72 --color=always --all --topo-order --pretty='format:%Cgreen%h%Creset %s%Cred%d%Creset %C(blue bold)(by %an)%Creset' && echo
+    l   = !git la master..
+    ll  = !git lla master..
+    lll = !git llla master..
 
-    gl   = log -12 --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(blue bold)(by %an)%Creset%C(yellow bold)%d%Creset%n'
-    gll  = log -24 --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(blue bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
-    glll = log -36 --color=always --all --graph --topo-order --pretty='format:%Cgreen%h%Creset %s %C(blue bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
+    la   = log -18 --color=always --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(blue bold)(by %an)%Creset'
+    lla  = log -36 --color=always --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(blue bold)(by %an)%Creset'
+    llla = log -72 --color=always --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(blue bold)(by %an)%Creset'
+
+    gl   = log -12 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(by %an)%Creset%C(yellow bold)%d%Creset%n'
+    gll  = log -24 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
+    glll = log -36 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
+
+    ack = log --color=always --all --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset' --full-history -S
 
     pull = pull --ff-only
-    pu = !git pull --ff-only && git pus
+    pu = pull
     pur = pull --rebase
     puu = !git fetch upstream && git rebase upstream/master
     pus = submodule update --init --recursive
+    spu = submodule foreach 'git pull origin master || git pull origin origin'
     up = merge --ff-only
     update = merge --ff-only
 
@@ -62,8 +70,8 @@
     root = rev-parse --show-toplevel
     currentbranch = rev-parse --abbrev-ref HEAD
 
-    d = !sh -c 'git diff $* | vim -R -' -
-    di = !git diff --cached | vim -R -
+    d  = "!f() { cd ${GIT_PREFIX:-.}; git diff -- $@ | vim -R -; }; f"
+    di = "!f() { cd ${GIT_PREFIX:-.}; git diff --cached -- $@ | vim -R -; }; f"
     du = diff origin/master upstream/master
 
     in = !git fetch && git log --pretty=oneline --abbrev-commit --graph ..@{u}
