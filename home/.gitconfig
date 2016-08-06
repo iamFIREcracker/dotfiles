@@ -65,10 +65,11 @@
     up = merge --ff-only
     update = merge --ff-only
 
+
     p = push
     pf = push --force
     root = rev-parse --show-toplevel
-    currentbranch = rev-parse --abbrev-ref HEAD
+    currentbranch = !git rev-parse --abbrev-ref HEAD 2>/dev/null
 
     d  = "!f() { cd ${GIT_PREFIX:-.}; git diff -- $@ | vim -R -; }; f"
     di = "!f() { cd ${GIT_PREFIX:-.}; git diff --cached -- $@ | vim -R -; }; f"
@@ -78,12 +79,29 @@
     ind = !git fetch && git diff ..@{u}
 
     shelve = stash save --include-untracked
-    unshelve = stash pop
-    record = commit -v -p
-    spu = submodule foreach 'git pull origin master || git pull origin origin'
+    unshelve = "!f() { \
+        if git stash list | grep .; then \
+            git stash pop || ( git mergetool && git reset && git stash drop ); \
+        fi; \
+    }; f"
 
-    r = rebase -i
+    record = "!f() { \
+        local need_shelve; \
+        cd ${GIT_PREFIX:-.}; \
+        git add -p $@ && git commit -m 'WIP'; \
+        if [ $? -ne 0 ]; then \
+            git reset -q; \
+            return; \
+        fi; \
+        need_shelve=$(git st); \
+        echo $need_shelve; \
+        [ -n \"$need_shelve\" ] && git shelve; \
+        git rollback; \
+        git commit -v || git reset -q; \
+        [ -n \"$need_shelve\" ] && git unshelve; \
+    }; f"
 
+    rollback = reset --soft HEAD^
     unfuck-merge = reset --hard HEAD
 
     zip = archive -o latest.zip HEAD
