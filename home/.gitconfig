@@ -88,19 +88,18 @@
     }; f"
 
     record = "!f() { \
-        local need_shelve; \
+        local need_stash; \
         cd ${GIT_PREFIX:-.}; \
         git add -p $@ && git commit -m 'WIP'; \
         if [ $? -ne 0 ]; then \
             git reset -q; \
             return; \
         fi; \
-        need_shelve=$(git st); \
-        echo $need_shelve; \
-        [ -n \"$need_shelve\" ] && git shelve; \
+        need_stash=$(git st); \
+        [ -n \"$need_stash\" ] && git stash save; \
         git rollback; \
         git commit -v || git reset -q; \
-        [ -n \"$need_shelve\" ] && git unshelve; \
+        [ -n \"$need_stash\" ] && git stash pop; \
     }; f"
 
     rollback = reset --soft HEAD^
