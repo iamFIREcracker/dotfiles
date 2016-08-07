@@ -1224,6 +1224,12 @@ augroup ft_fugitive
 
     au BufNewFile,BufRead .git/index setlocal nolist
 augroup END
+augroup ft_shell_g_ll
+    au!
+
+    autocmd BufNewFile __Shell_Output__git_ll AnsiEsc
+    autocmd BufNewFile __Shell_Output__git_ll nnoremap <buffer> K ^:exec("Git show " . expand("<cword>")[3:])<cr>
+augroup END
 
 " }}}
 " Gundo {{{
@@ -1554,10 +1560,11 @@ command! -complete=shellcmd -nargs=+ Shell call s:Shell(<q-args>)
 
 function! s:Shell(command)
     " Check whether the shell buffer is already created
-    let shl_bufnum = bufnr(g:ShellOutputBufferName)
+    let bufName = g:ShellOutputBufferName . substitute(a:command, ' ', '_', '')
+    let shl_bufnum = bufnr(bufName)
     if shl_bufnum == -1
         " open a new shell buffer
-        exe "vnew " . g:ShellOutputBufferName
+        exe "vnew " . bufName
     else
         " Shell buffer is already created. Check whether it is open
         " in one of the windows
@@ -1584,12 +1591,11 @@ endfunction
 augroup ft_shelloutput
     au!
 
-    autocmd BufNewFile __Shell_Output__ setlocal buftype=nofile
-    autocmd BufNewFile __Shell_Output__ setlocal bufhidden=hide
-    autocmd BufNewFile __Shell_Output__ setlocal noswapfile
-    autocmd BufNewFile __Shell_Output__ setlocal buflisted
-    autocmd BufNewFile __Shell_Output__ nnoremap <buffer> q :AnsiEsc<cr>:bd<cr>
-    autocmd BufNewFile __Shell_Output__ AnsiEsc
+    autocmd BufNewFile __Shell_Output__* setlocal buftype=nofile
+    autocmd BufNewFile __Shell_Output__* setlocal bufhidden=hide
+    autocmd BufNewFile __Shell_Output__* setlocal noswapfile
+    autocmd BufNewFile __Shell_Output__* setlocal buflisted
+    autocmd BufNewFile __Shell_Output__* nnoremap <buffer> q :AnsiEsc<cr>:bd<cr>
 augroup END
 
 " }}}

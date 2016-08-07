@@ -46,11 +46,11 @@
         if [ \"$(git currentbranch)\" != \"master\" ]; then \
             args=master..; \
         fi; \
-        git log -$1 --color=always --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(blue bold)(by %an)%Creset' $args; \
+        git log \"${@}\" --color=always $args --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(blue bold)(by %an)%Creset'; \
     }; f"
-    l   = !git pl 18
-    ll  = !git pl 36
-    lll = !git pl 72
+    l   = !git pl -18
+    ll  = !git pl -36
+    lll = !git pl -72
 
     gl   = log -12 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(by %an)%Creset%C(yellow bold)%d%Creset%n'
     gll  = log -24 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
