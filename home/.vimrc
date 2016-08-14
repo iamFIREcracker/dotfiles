@@ -313,8 +313,8 @@ nnoremap <esc>l :cprev<cr>zvzz
 " Directional Keys {{{
 
 " It's 2011.
-noremap j gj
-noremap k gk
+noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " Easy buffer navigation
 noremap <C-h>  <C-w>h
