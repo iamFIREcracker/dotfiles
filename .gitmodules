@@ -7,9 +7,6 @@
 [submodule "home/.vim/bundle/matchit"]
 	path = home/.vim/bundle/matchit
 	url = https://github.com/Kris2k/matchit.git
-[submodule "home/.vim/bundle/nerdcommenter"]
-	path = home/.vim/bundle/nerdcommenter
-	url = https://github.com/scrooloose/nerdcommenter.git
 [submodule "home/.vim/bundle/nose.vim"]
 	path = home/.vim/bundle/nose.vim
 	url = https://github.com/vim-scripts/nose.vim.git
@@ -187,3 +184,6 @@
 [submodule "home/.vim/bundle/vim-rest-console"]
 	path = home/.vim/bundle/vim-rest-console
 	url = https://github.com/iamFIREcracker/vim-rest-console.git
+[submodule "home/.vim/bundle/tcomment_vim"]
+	path = home/.vim/bundle/tcomment_vim
+	url = https://github.com/tomtom/tcomment_vim.git
