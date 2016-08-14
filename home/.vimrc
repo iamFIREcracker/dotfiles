@@ -257,8 +257,8 @@ noremap H ^
 noremap L g_
 
 " Heresy
-inoremap <c-a> <esc>I
-inoremap <c-e> <esc>A
+inoremap <c-a> <c-o>^
+inoremap <c-e> <c-o>$
 
 " Open a Quickfix window for the last search.
 nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
@@ -269,9 +269,6 @@ nnoremap Vit vitVkoj
 nnoremap Vat vatV
 nnoremap Vab vabV
 nnoremap VaB vaBV
-
-" Yank to OS clipboard
-noremap <leader>y "*y
 
 " Visual Mode */# from Scrooloose {{{
 
