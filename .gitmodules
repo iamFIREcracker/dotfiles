@@ -187,3 +187,12 @@
 [submodule "home/.vim/bundle/tcomment_vim"]
 	path = home/.vim/bundle/tcomment_vim
 	url = https://github.com/tomtom/tcomment_vim.git
+[submodule "home/.vim/bundle/ReplaceWithRegister"]
+	path = home/.vim/bundle/ReplaceWithRegister
+	url = https://github.com/vim-scripts/ReplaceWithRegister.git
+[submodule "home/.vim/bundle/vim-indent-object"]
+	path = home/.vim/bundle/vim-indent-object
+	url = https://github.com/michaeljsmith/vim-indent-object.git
+[submodule "home/.vim/bundle/targets.vim"]
+	path = home/.vim/bundle/targets.vim
+	url = https://github.com/wellle/targets.vim.git
