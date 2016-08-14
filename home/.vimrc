@@ -940,7 +940,7 @@ nnoremap <leader>et :vsplit .tern-project<cr>
 " }}}
 " Quick reload ------------------------------------------------------------ {{{
 
-nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <silent>sv :let stay_sourcevimrc_view = winsaveview()<cr>:source $MYVIMRC<cr>:call winrestview(stay_sourcevimrc_view)<cr>
 
 " }}}
 " Convenience mappings ---------------------------------------------------- {{{
