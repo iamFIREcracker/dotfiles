@@ -58,15 +58,11 @@
 
     ack = log --color=always --all --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset' --full-history -S
 
-    pull = pull --ff-only
     pu = pull
     pur = pull --rebase
     puu = !git fetch upstream && git rebase upstream/master
     pus = submodule update --init --recursive
     spu = submodule foreach 'git pull origin master || git pull origin origin'
-    up = merge --ff-only
-    update = merge --ff-only
-
 
     p = push
     pf = push --force
@@ -106,6 +102,9 @@
     unfuck-merge = reset --hard HEAD
 
     zip = archive -o latest.zip HEAD
+
+[pull]
+    ff = only
 
 [merge]
     tool = splice
