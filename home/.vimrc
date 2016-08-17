@@ -557,6 +557,8 @@ augroup ft_javascript
     " Deeper nesting for test files so that we can fold 'describe' or 'it' sections
     au BufNewFile,BufRead test/*.js setlocal foldnestmax=5
 
+    au FileType javascript let b:argwrap_tail_comma = 1
+
     au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>:call FocusCurrentFold()<cr>
     au FileType javascript nnoremap <buffer> <silent> gd :TernDef<cr>:call FocusCurrentFold()<cr>
     au FileType javascript nnoremap <buffer> <silent> <C-^> :TernRefs<cr>
@@ -1079,6 +1081,8 @@ vnoremap <silent> <localleader>e :SendSelectionToTmux<cr>
 " Diff mode
 nnoremap <localleader>d :windo diffthis<cr>
 nnoremap <localleader>D :windo diffoff<cr>
+
+nnoremap <silent> gw :ArgWrap<cr>
 
 " Block Colors {{{
 

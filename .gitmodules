@@ -196,3 +196,6 @@
 [submodule "home/.vim/bundle/targets.vim"]
 	path = home/.vim/bundle/targets.vim
 	url = https://github.com/wellle/targets.vim.git
+[submodule "home/.vim/bundle/vim-argwrap"]
+	path = home/.vim/bundle/vim-argwrap
+	url = https://github.com/FooSoft/vim-argwrap.git
