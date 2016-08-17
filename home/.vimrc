@@ -952,10 +952,15 @@ nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<cr>
 nnoremap <C-u> gUiw
 inoremap <C-u> <esc>gUiwea
 
-" Substitute the word under the cursor
-nnoremap <leader>S :%Subvert/<c-r>=expand("<cword>")<cr>//c<left><left>
-" Substitute on the selection
-vnoremap <leader>S :Subvert//c<left><left>
+" Allows you to easily replace the current word and all its occurrences.
+nnoremap <Leader>r :%Subvert/\<<C-r><C-w>\>//c<left><left>
+vnoremap <Leader>r y:%Subvert/<C-r>"//c<left><left>
+
+" Allows you to easily change the current word and all occurrences to something
+" else. The difference between this and the previous mapping is that the mapping
+" below pre-fills the current word for you to change.
+nnoremap <Leader>c :%Subvert/\<<C-r><C-w>\>/<C-r><C-w>/c<left><left>
+vnoremap <Leader>c y:%Subvert/<C-r>"/<C-r>"/c<left><left>
 
 " Emacs bindings in command line mode
 cnoremap <C-a> <home>
@@ -1070,9 +1075,6 @@ nnoremap vv ^vg_
 " TSlime2 general
 nnoremap <silent> <localleader>E :ConnectToTmux<cr>
 vnoremap <silent> <localleader>e :SendSelectionToTmux<cr>
-
-" Syntastic errors
-nnoremap <silent> <leader>r :Errors<cr>
 
 " Diff mode
 nnoremap <localleader>d :windo diffthis<cr>
