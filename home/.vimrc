@@ -235,8 +235,8 @@ nnoremap D d$
 
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
-nnoremap n nzvzz:Pulse<cr>
-nnoremap N Nzvzz:Pulse<cr>
+nmap n nzvzz<Plug>Pulse
+nmap N Nzvzz<Plug>Pulse
 
 " Same when jumping around
 nnoremap g; g;zz
@@ -1333,6 +1333,11 @@ augroup ft_restresponse
 augroup END
 
 " }}}
+" vim-search-pulse {{{
+
+let g:vim_search_pulse_disable_auto_mappings = 1
+
+" }}}
 " YankRing {{{
 
 let g:yankring_replace_n_pkey = ''
@@ -1464,37 +1469,6 @@ nnoremap <right> <nop>
 " Use CTRL-H like a boss
 nnoremap <backspace> <nop>
 inoremap <backspace> <nop>
-
-" }}}
-" Pulse Line {{{
-
-function! s:Pulse() " {{{
-    redir => old_hi
-        silent execute 'hi CursorLine'
-    redir END
-    let old_hi = split(old_hi, '\n')[0]
-    let old_hi = substitute(old_hi, 'xxx', '', '')
-
-    let steps = 8
-    let width = 1
-    let start = width
-    let end = steps * width
-    let color = 233
-
-    for i in range(start, end, width)
-        execute "hi CursorLine ctermbg=" . (color + i)
-        redraw
-        sleep 6m
-    endfor
-    for i in range(end, start, -1 * width)
-        execute "hi CursorLine ctermbg=" . (color + i)
-        redraw
-        sleep 6m
-    endfor
-
-    execute 'hi ' . old_hi
-endfunction " }}}
-command! -nargs=0 Pulse call s:Pulse()
 
 " }}}
 " Highlight Word {{{
