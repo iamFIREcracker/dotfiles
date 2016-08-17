@@ -1285,6 +1285,7 @@ let g:SuperTabCrMapping = 1
 " }}}
 " Syntastic {{{
 
+let g:syntastic_auto_loc_list = 3 " https://github.com/ElmCast/elm-vim/issues/55
 let g:syntastic_java_checker = 'javac'
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'node_modules/eslint/bin/eslint.js'
