@@ -1226,8 +1226,6 @@ augroup END
 augroup ft_shell_g_ll
     au!
 
-    autocmd BufNewFile __Shell_Output__git_ll AnsiEsc
-    autocmd BufNewFile __Shell_Output__git_ll nnoremap <buffer> q :AnsiEsc<cr>:bd<cr>
     autocmd BufNewFile __Shell_Output__git_ll nnoremap <buffer> K ^:exec("Git show " . expand("<cword>")[3:])<cr>
 augroup END
 
@@ -1595,7 +1593,8 @@ augroup ft_shelloutput
     autocmd BufNewFile __Shell_Output__* setlocal bufhidden=hide
     autocmd BufNewFile __Shell_Output__* setlocal noswapfile
     autocmd BufNewFile __Shell_Output__* setlocal buflisted
-    autocmd BufNewFile __Shell_Output__* nnoremap <buffer> q :bd<cr>
+    autocmd BufNewFile __Shell_Output__* AnsiEsc
+    autocmd BufNewFile __Shell_Output__* nnoremap <buffer> q :AnsiEsc<cr>:bd<cr>
 augroup END
 
 " }}}
