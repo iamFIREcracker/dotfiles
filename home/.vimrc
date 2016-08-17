@@ -1054,10 +1054,6 @@ nnoremap <leader>I :set list!<cr>
 nnoremap <c-w>qq :q<cr>
 nnoremap <c-w>qa :qa<cr>
 
-" Vimgrep shortcut
-nnoremap <leader>g :vimgrep / */**<left><left><left><left><left>
-nnoremap <leader>G :vimgrep /<c-r>=expand("<cword>")<cr> */**
-
 " Forgot to `sudo vim ...` ?
 nnoremap <leader>! :w !sudo tee %
 
@@ -1632,13 +1628,13 @@ nnoremap <leader>W :call ToggleDiffWhitespace()<CR>
 " Note: If the text covered by a motion contains a newline it won't work.  Ack
 " searches line-by-line.
 
-nnoremap <silent> <leader>A :set opfunc=<SID>AckMotion<CR>g@
-vnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
-xnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
-
-"nnoremap <leader>A :LAck! '\b<c-r><c-w>\b'<cr>
-"nnoremap <bs> :LAck! '\b<c-r><c-w>\b'<cr>
-"xnoremap <bs> :<C-U>call <SID>AckMotion(visualmode())<CR>
+" nnoremap <silent> <leader>A :set opfunc=<SID>AckMotion<CR>g@
+" vnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
+" xnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
+"
+nnoremap <silent> <leader>* :LAck! '\b<c-r><c-w>\b'<cr>
+vnoremap <silent> <leader>* :<C-U>call <SID>AckMotion(visualmode())<CR>
+xnoremap <silent> <leader>* :<C-U>call <SID>AckMotion(visualmode())<CR>
 
 function! s:CopyMotionForType(type)
     if a:type ==# 'v'
