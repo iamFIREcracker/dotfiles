@@ -1587,6 +1587,9 @@ function! s:Shell(command)
     normal! ggdG
     let output = system(a:command . " 2>&1")
     call append(0, split(output, '\v\n'))
+    " Move to the top of the file
+    normal! gg
+    " Then trigger the event
     doautocmd BufReadPost
 endfunction
 
