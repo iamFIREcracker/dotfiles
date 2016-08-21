@@ -1060,9 +1060,6 @@ nnoremap <leader>! :w !sudo tee %
 "Don't clobber the unnamed register when pasting over text in visual mode.
 vnoremap p pgvy
 
-" Ack!!!
-nnoremap <leader>a :LAck 
-
 " Move to next line after 'reindent' operation -- IntelliJ style
 nnoremap == ==j
 
@@ -1125,7 +1122,8 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 
 " Ack {{{
 
-let g:ack_use_dispatch = 0
+nnoremap <leader>a :Ack<space>
+let g:ackprg = 'ack --smart-case --nogroup --nocolor --column'
 
 " }}}
 " Airline {{{
@@ -1607,7 +1605,7 @@ nnoremap <leader>W :call ToggleDiffWhitespace()<CR>
 " vnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
 " xnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
 "
-nnoremap <silent> <leader>* :LAck! '\b<c-r><c-w>\b'<cr>
+nnoremap <silent> <leader>* :Ack! '\b<c-r><c-w>\b'<cr>
 vnoremap <silent> <leader>* :<C-U>call <SID>AckMotion(visualmode())<CR>
 xnoremap <silent> <leader>* :<C-U>call <SID>AckMotion(visualmode())<CR>
 
@@ -1624,7 +1622,7 @@ function! s:AckMotion(type) abort
 
     call s:CopyMotionForType(a:type)
 
-    execute "normal! :LAck! --literal " . shellescape(@@) . "\<cr>"
+    execute "normal! :Ack! --literal " . shellescape(@@) . "\<cr>"
 
     let @@ = reg_save
 endfunction
