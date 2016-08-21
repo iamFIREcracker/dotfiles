@@ -311,6 +311,10 @@ function _git_pl() {
     _git_log
 }
 
+function _git_rb() {
+    _git_rebase
+}
+
 # }}}
 
 gimmeurjson() {
