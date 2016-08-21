@@ -1,7 +1,26 @@
 " Preamble ---------------------------------------------------------------- {{{
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 
+" Dear /bin/bash: fuck you and your bullshit, arcane command-line behaviour.
+"
+" Basically, I want to set this to a non-login, non-interactive bash shell.
+" Using a login/interactive bash as Vim's 'shell' breaks subtle things, like
+" ack.vim's command-line argument parsing. However, I *do* want bash to load
+" ~/.bash_profile so my aliases get loaded and such.
+"
+" You might think you could do this with the --init-file command line option,
+" which is used to specify an init file. Or with --rcfile. But no, those only
+" get loaded for interactive/login shells.
+"
+" So how do we tell bash to source a goddamned file when it loads? With an
+" *environment variable*. Jesus, you have multiple command line options for
+" specifying files to load and none of them work?
+"
+" Computers are bullshit.
+" let $BASH_ENV = "~/.bash_profile"
+set shell=/bin/bash\ --login
 filetype off
+
 execute pathogen#infect()
 execute pathogen#helptags()
 filetype plugin indent on
@@ -28,7 +47,6 @@ set undofile
 set undoreload=10000
 set list
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
-set shell=bash
 set lazyredraw
 set matchtime=3
 set showbreak=↪
@@ -283,28 +301,12 @@ vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
 vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 
 " }}}
-" Error navigation {{{
-"
-"                Location List         Quickfix
-"            (e.g. Syntastic, Ack) (Make, Dispatch)
-"            --------------------------------------
-" Previous  |     M-k            |        M-h      |
-" Next      |     M-j            |        M-l      |
-"            --------------------------------------
-"
+" List navigation {{{
 
-" Meta-k
-nnoremap ˚ :lprevious<cr>zvzz
-nnoremap <esc>k :lprevious<cr>zvzz
-" Meta-j
-nnoremap ∆ :lnext<cr>zvzz
-nnoremap <esc>j :lnext<cr>zvzz
-" Meta-left
-nnoremap ˙ :cprev<cr>zvzz
-nnoremap <esc>h :cprev<cr>zvzz
-" Meta-right
-nnoremap ¬ :cnext<cr>zvzz
-nnoremap <esc>l :cprev<cr>zvzz
+nnoremap <left>  :cprev<cr>zvzz
+nnoremap <right> :cnext<cr>zvzz
+nnoremap <up>    :lprev<cr>zvzz
+nnoremap <down>  :lnext<cr>zvzz
 
 " }}}
 " Directional Keys {{{
@@ -1283,7 +1285,6 @@ let g:SuperTabCrMapping = 1
 " }}}
 " Syntastic {{{
 
-let g:syntastic_auto_loc_list = 3 " https://github.com/ElmCast/elm-vim/issues/55
 let g:syntastic_java_checker = 'javac'
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'node_modules/eslint/bin/eslint.js'
@@ -1460,10 +1461,6 @@ endif
 " }}}
 " Training ---------------------------------------------------------------- {{{
 
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
 " Use CTRL-H like a boss
 nnoremap <backspace> <nop>
 inoremap <backspace> <nop>
