@@ -189,7 +189,9 @@ augroup END
 augroup line_return
     au!
     au BufReadPost *
-        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \ if line("'\"") > 0 && line("'\"") <= line("$")
+        \       && &ft != 'gitcommit'
+        \       |
         \     execute 'normal! g`"zvzz' |
         \ endif
 augroup END
