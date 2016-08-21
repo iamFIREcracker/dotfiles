@@ -957,14 +957,14 @@ nnoremap <C-u> gUiw
 inoremap <C-u> <esc>gUiwea
 
 " Allows you to easily replace the current word and all its occurrences.
-nnoremap <Leader>r :%Subvert/\<<C-r><C-w>\>//c<left><left>
-vnoremap <Leader>r y:%Subvert/<C-r>"//c<left><left>
+nnoremap <Leader>rc :%Subvert/\<<C-r><C-w>\>//c<left><left>
+vnoremap <Leader>rc y:%Subvert/<C-r>"//c<left><left>
 
 " Allows you to easily change the current word and all occurrences to something
 " else. The difference between this and the previous mapping is that the mapping
 " below pre-fills the current word for you to change.
-nnoremap <Leader>c :%Subvert/\<<C-r><C-w>\>/<C-r><C-w>/c<left><left>
-vnoremap <Leader>c y:%Subvert/<C-r>"/<C-r>"/c<left><left>
+nnoremap <Leader>cc :%Subvert/\<<C-r><C-w>\>/<C-r><C-w>/c<left><left>
+vnoremap <Leader>cc y:%Subvert/<C-r>"/<C-r>"/c<left><left>
 
 " Emacs bindings in command line mode
 cnoremap <C-a> <home>
@@ -1076,6 +1076,15 @@ vnoremap <silent> <localleader>e :SendSelectionToTmux<cr>
 " Diff mode
 nnoremap <localleader>d :windo diffthis<cr>
 nnoremap <localleader>D :windo diffoff<cr>
+
+" Remove ANSI color escape codes for the edited file. This is handy when
+" piping colored text into Vim.
+function! RemoveAnsiColor() " {{{
+    let l:save = winsaveview()
+    %s/\[\(\d\{1,2}\(;\d\{1,2}\)\{0,2\}\)\?[m\|K]//
+    call winrestview(l:save)
+endfunction " }}}
+nnoremap <Leader>rac :call RemoveAnsiColor()<cr>
 
 nnoremap <silent> gw :ArgWrap<cr>
 
@@ -1226,7 +1235,8 @@ augroup END
 augroup ft_shell_g_ll
     au!
 
-    autocmd BufNewFile __Shell_Output__git_ll nnoremap <buffer> K ^:exec("Git show " . expand("<cword>")[3:])<cr>
+    autocmd BufReadPost __Shell_Output__git_ll :silent call RemoveAnsiColor()
+    autocmd BufReadPost __Shell_Output__git_ll setlocal filetype=gitrebase
 augroup END
 
 " }}}
@@ -1553,7 +1563,7 @@ function! s:Shell(command)
     normal! ggdG
     let output = system(a:command . " 2>&1")
     call append(0, split(output, '\v\n'))
-
+    doautocmd BufReadPost
 endfunction
 
 augroup ft_shelloutput
@@ -1563,8 +1573,7 @@ augroup ft_shelloutput
     autocmd BufNewFile __Shell_Output__* setlocal bufhidden=hide
     autocmd BufNewFile __Shell_Output__* setlocal noswapfile
     autocmd BufNewFile __Shell_Output__* setlocal buflisted
-    autocmd BufNewFile __Shell_Output__* AnsiEsc
-    autocmd BufNewFile __Shell_Output__* nnoremap <buffer> q :AnsiEsc<cr>:bd<cr>
+    autocmd BufNewFile __Shell_Output__* nnoremap <buffer> q :bd<cr>
 augroup END
 
 " }}}
