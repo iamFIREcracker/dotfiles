@@ -2,10 +2,10 @@
   "name": "nativefier-apps-builder",
   "private": true,
   "scripts": {
-      "gmail": "nativefier gmail.google.com",
-      "messenger": "nativefier messenger.com"
+    "gmail": "nativefier gmail.com",
+    "messenger": "nativefier messenger.com"
   },
   "devDependencies": {
-    "nativefier": "^6.13.0"
+    "nativefier": "^7.0.1"
   }
 }

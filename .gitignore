@@ -2,3 +2,4 @@ home/.vim/tmp
 .ropeproject/
 home/opt/bunny1/venv/
 home/.vim/.netrwhist
+home/opt/nativefied-apps/*-x64
