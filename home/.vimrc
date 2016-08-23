@@ -585,8 +585,8 @@ augroup ft_javascript
 
     au FileType javascript let b:argwrap_tail_comma = 1
 
-    au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>:call FocusCurrentFold()<cr>
-    au FileType javascript nnoremap <buffer> <silent> gd :TernDef<cr>:call FocusCurrentFold()<cr>
+    au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>zvzz
+    au FileType javascript nnoremap <buffer> <silent> gd :TernDef<cr>zvzz
     au FileType javascript nnoremap <buffer> <silent> <C-^> :TernRefs<cr>
 
     au Filetype javascript nnoremap <buffer> <leader>d :call RunAllSpecs()<cr>
@@ -862,8 +862,8 @@ augroup ft_typescript
     au FileType typescript setlocal foldmethod=syntax
     au FileType typescript setlocal foldnestmax=3
 
-    au FileType typescript nnoremap <buffer> <silent> <C-]> :TsuDefinition<cr>:call FocusCurrentFold()<cr>
-    au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr>:call FocusCurrentFold()<cr>
+    au FileType typescript nnoremap <buffer> <silent> <C-]> :TsuDefinition<cr>zvzz
+    au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr>zvzz
 
     au FileType typescript nnoremap <buffer> <silent> ,S :TsuRenameSymbol<cr>
 
