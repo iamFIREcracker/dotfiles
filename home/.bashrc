@@ -16,7 +16,7 @@ set -o pipefail
 shopt -s checkwinsize
 
 # Display matches for ambiguous patterns at first tab press
-bind "set show-all-if-ambiguous on"
+shopt -q login_shell || bind "set show-all-if-ambiguous on"
 
 # merge / append histories
 shopt -s histappend
@@ -38,11 +38,11 @@ HISTTIMEFORMAT='%F %T '
 # Allows space to complete and expand !$ eg:
 # $ ls Projects
 # $ cd !$<space> # completes to `cd Projects`
-bind Space:magic-space
+shopt -q login_shell || bind Space:magic-space
 
 # Resume suspended program with C-Z -- and not `fg`
 stty susp undef
-bind '"\C-z":"fg\015"'
+shopt -q login_shell || bind '"\C-z":"fg\015"'
 
 # Colors
 N=$'\e[0m'
