@@ -1356,6 +1356,7 @@ let g:vim_json_syntax_conceal = 0
 
 let g:vrc_follow_redirects = 1
 let g:vrc_include_response_header = 1
+let g:vrc_resolve_to_ipv4 = 1
 let g:vrc_ssl_secure = 1
 let g:vrc_trigger = '<localleader>e'
 

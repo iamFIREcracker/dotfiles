@@ -183,7 +183,7 @@
 	url = https://github.com/tpope/vim-git.git
 [submodule "home/.vim/bundle/vim-rest-console"]
 	path = home/.vim/bundle/vim-rest-console
-	url = https://github.com/iamFIREcracker/vim-rest-console.git
+	url = https://github.com/diepm/vim-rest-console.git
 [submodule "home/.vim/bundle/tcomment_vim"]
 	path = home/.vim/bundle/tcomment_vim
 	url = https://github.com/tomtom/tcomment_vim.git
