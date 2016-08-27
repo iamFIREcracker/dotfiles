@@ -1,0 +1,102 @@
+" Theme {{{
+
+" remove gui cruft
+set gui=none,tabs
+
+"1.0b3 (created: 2010/11/06 12:31:35)
+
+" highlight Hint       font-size: 14px; background: rgba(210,1,133,0.8) !important; border: 2px solid rgb(165,1,105); padding: 4px; border-radius: 3px; font-weight: bold; margin-left: -25px; color: white; font-family: Helvetica; line-height:1em;
+" highlight HintActive background: rgba(145,197,43,0.8)    !important;
+" highlight HintElem   background: rgba(255, 209, 20, 0.7) !important;
+" highlight StatusLine -moz-appearance: none !important; font-weight: bold; background: transparent !important; border: 0px !important; min-height: 22px !important; text-shadow: none !important; font: normal 14px/1 'Menlo' !important; padding: 3px 0px 3px 5px !important;
+" highlight CmdLine    padding: 1px !important; font: normal 14px 'Menlo' !important;
+" highlight CmdOutput  font: normal 13px 'Menlo' !important;
+" highlight CompItem   font: normal 13px 'Menlo' !important;
+"
+" highlight Find   background: #d6c149; color: #000;
+
+highlight CmdLine    font: normal 15px 'Menlo' !important; background: white !important; padding: 0px 10px 0px 0px;
+highlight CmdLine>*  font: normal 15px 'Menlo' !important;
+highlight StatusLine font: normal 15px 'Menlo' !important; padding: 2px 10px 2px 0px;
+
+highlight CmdOutput  font: normal 13px 'Menlo' !important;
+highlight CompItem   font: normal 13px 'Menlo' !important;
+highlight CompTitle  font: normal 13px 'Menlo' !important;
+
+"}}}
+
+" General settings/mappings {{{
+
+set showstatuslinks=2
+
+" FASTER PLEASE
+nnoremap j 6j
+nnoremap k 6k
+
+" Go to the second input field.
+" Useful for skipping over search fields, etc.
+nnoremap gI 2gi
+
+" I never use marks, but always use quickmarks.
+nnoremap "'" go
+nnoremap '"' gn
+
+" Switch tabs with parens
+nnoremap ) :tn<CR>
+nnoremap ( :tp<CR>
+
+" YES YES YES REMOVE THE IDIOCY
+nnoremap <bs> <nop>
+
+" Shift is hard.
+nnoremap ; :
+nnoremap : ;
+
+" Highlight all search matches, not just the first.
+set hlsearch
+
+" Clear search highlighting and normal highlighting.
+nnoremap ,<space> <esc>:noh<CR>
+
+" Shut up
+set noerrorbells
+
+" Apparently the d key broke at some point.  What the Christ?
+"nmap d :tabclose<cr>
+
+nnoremap ,sv :source ~/.vimperatorrc<cr>
+
+nnoremap gd :emenu Tools.Web Developer.Toggle Tools<cr>
+
+"" toggle toolbar
+map <silent> <F2> :js toggle_navbar()<CR>
+:js << EOF
+function toggle_navbar() {
+    var nb = document.getElementById('nav-bar');
+    if (!nb)
+        return;
+    nb.style.visibility = (nb.style.visibility == '') ? 'collapse' : '';
+    nb.style.overflow = (nb.style.height == '') ? '' : 'hidden';
+    }
+toggle_navbar();
+EOF
+"
+nnoremap ,t :js toggle_navbar()<cr>
+
+
+"}}}
+" Search engine {{{
+
+bmark -title="bunny1 query" -keyword="bu" localhost:9084/?___=%s 
+set defsearch=bu
+
+"}}}
+" Passkeys {{{
+
+ignorekeys add -except=:,/,d,t,o facebook.com
+ignorekeys add -except=:,/,d,t,o mail.google.com
+ignorekeys add -except=:,/,d,t,o youtube.com
+ignorekeys add -except=:,/,d,t,o netflix.com
+
+
+" }}}
