@@ -27,7 +27,7 @@ highlight CompTitle  font: normal 13px 'Menlo' !important;
 
 " General settings/mappings {{{
 
-set showstatuslinks=2
+set showstatuslinks=3
 
 " FASTER PLEASE
 nnoremap j 6j
