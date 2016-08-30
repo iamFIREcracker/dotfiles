@@ -1158,6 +1158,7 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 " Ack {{{
 
 nnoremap <leader>a :Ack<space>
+nnoremap <localleader>a :Ack  %:h<left><left><left><left>
 let g:ackprg = 'ack --smart-case --nogroup --nocolor --column'
 
 " }}}
@@ -1643,6 +1644,10 @@ nnoremap <silent> <leader>* :Ack! '\b<c-r><c-w>\b'<cr>
 vnoremap <silent> <leader>* :<C-U>call <SID>AckMotion(visualmode())<CR>
 xnoremap <silent> <leader>* :<C-U>call <SID>AckMotion(visualmode())<CR>
 
+nnoremap <silent> <localleader>* :Ack! '\b<c-r><c-w>\b' %:h<CR>
+vnoremap <silent> <localleader>* :<C-U>call <SID>AckLocalMotion(visualmode())<CR>
+xnoremap <silent> <localleader>* :<C-U>call <SID>AckLocalMotion(visualmode())<CR>
+
 function! s:CopyMotionForType(type)
     if a:type ==# 'v'
         silent execute "normal! `<" . a:type . "`>y"
@@ -1657,6 +1662,16 @@ function! s:AckMotion(type) abort
     call s:CopyMotionForType(a:type)
 
     execute "normal! :Ack! --literal " . shellescape(@@) . "\<cr>"
+
+    let @@ = reg_save
+endfunction
+
+function! s:AckLocalMotion(type) abort
+    let reg_save = @@
+
+    call s:CopyMotionForType(a:type)
+
+    execute "normal! :Ack! --literal " . shellescape(@@) . " " . expand('%:h') . "\<cr>"
 
     let @@ = reg_save
 endfunction
