@@ -1,0 +1,32 @@
+# ~/.tmuxinator/connection.yml
+
+name: connection
+root: ~/workspace/connection
+
+windows:
+  - neo4j:
+      root: ~/neo4j/
+      panes:
+        - bash start.sh
+  - elasticsearch:
+      root: ~/elasticsearch/
+      panes:
+        - bash start.sh
+  - api:
+      layout: main-vertical
+      root: ~/workspace/connection/api-gateway/
+      panes:
+        - vim
+        - sleep 15s && n start
+  - server:
+      layout: main-vertical
+      root: ~/workspace/connection/server/
+      panes:
+        - vim
+        - sleep 15s && n start
+  - client:
+      layout: main-vertical
+      root: ~/workspace/connection/client/
+      panes:
+        - vim
+        - sleep 15s && n start
