@@ -51,7 +51,7 @@
 	url = https://github.com/othree/vim-autocomplpop.git
 [submodule "home/.vim/bundle/vim-jinja"]
 	path = home/.vim/bundle/vim-jinja
-	url = https://github.com/mitsuhiko/vim-jinja.git
+	url = https://github.com/lepture/vim-jinja.git
 [submodule "home/.vim/bundle/vim-dispatch"]
 	path = home/.vim/bundle/vim-dispatch
 	url = https://github.com/tpope/vim-dispatch.git
