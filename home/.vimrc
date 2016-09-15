@@ -1159,7 +1159,7 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 
 nnoremap <leader>a :Ack<space>
 nnoremap <localleader>a :Ack  %:h<left><left><left><left>
-let g:ackprg = 'ack --smart-case --nogroup --nocolor --column'
+let g:ackprg = 'ag --smart-case --nogroup --nocolor --column'
 
 " }}}
 " Airline {{{

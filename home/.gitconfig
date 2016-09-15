@@ -58,7 +58,7 @@
 
     ack = log --color=always --all --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset' --full-history -S
 
-    pu = pull
+    pu = pull --ff-only
     pur = pull --rebase
     puu = !git fetch upstream && git rebase upstream/master
     pus = submodule update --init --recursive
