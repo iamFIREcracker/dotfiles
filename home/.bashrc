@@ -28,11 +28,11 @@ shopt -s cmdhist
 HISTCONTROL="erasedups:ignoreboth"
 
 # Don't record some commands
-export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
+export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:hs:clear:*fpp"
 
 # Use standard ISO 8601 timestamp
 # %F equivalent to %Y-%m-%d
-# %T equivalent to %H:%M:%S (24-hours format) 
+# %T equivalent to %H:%M:%S (24-hours format)
 HISTTIMEFORMAT='%F %T '
 
 # Allows space to complete and expand !$ eg:
@@ -43,6 +43,12 @@ shopt -q login_shell || bind Space:magic-space
 # Resume suspended program with C-Z -- and not `fg`
 stty susp undef
 shopt -q login_shell || bind '"\C-z":"fg\015"'
+
+# Pipe last command to fpp with C-P
+bind '"\C-p": "!! | fpp\015"'
+# Sudo last command with C-<enter>
+bind '"✠": "sudo !!\015"'
+
 
 # Colors
 N=$'\e[0m'
@@ -60,8 +66,10 @@ RED=$'\e[31;40m'
 set -o vi
 
 # Handy bindings
-bind -m vi-command '"H":beginning-of-line'
-bind -m vi-command '"L":end-of-line'
+bind -m vi-command '"gg": beginning-of-history'
+bind -m vi-command '"G": end-of-history'
+bind -m vi-command '"H": beginning-of-line'
+bind -m vi-command '"L": end-of-line'
 
 # I give up
 alias :q=exit
@@ -210,7 +218,7 @@ _tmuxinator() {
     if [ "$COMP_CWORD" -eq 1 ]; then
         local commands="$(compgen -W "$(tmuxinator commands)" -- "$word")"
         local projects="$(compgen -W "$(tmuxinator completions start)" -- "$word")"
- 
+
         COMPREPLY=( $commands $projects )
     elif [ "$COMP_CWORD" -eq 2 ]; then
         local words
