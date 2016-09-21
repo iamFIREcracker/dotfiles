@@ -93,10 +93,11 @@ set defsearch=bu
 "}}}
 " Passkeys {{{
 
-ignorekeys add -except=:,/,d,t,o facebook.com
-ignorekeys add -except=:,/,d,t,o mail.google.com
-ignorekeys add -except=:,/,d,t,o youtube.com
-ignorekeys add -except=:,/,d,t,o netflix.com
+ignorekeys clear
+ignorekeys add -except=:,/,d,D,t,y,Y,o,p,P,),( ^https?://www\.facebook\.com
+ignorekeys add -except=:,/,d,D,t,y,Y,o,p,P,),( ^https?://mail\.google\.com
+ignorekeys add -except=:,/,d,D,t,y,Y,o,p,P,),( ^https?://www\.youtube\.com
+ignorekeys add -except=:,/,d,D,t,y,Y,o,p,P,),( ^https?://www\.netflix\.com
 
 
 " }}}
