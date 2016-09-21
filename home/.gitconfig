@@ -86,7 +86,7 @@
     r = "!f() { \
         local need_stash; \
         cd ${GIT_PREFIX:-.}; \
-        git add -p $@ && git commit -m 'WIP'; \
+        git add -p -- $@ && git commit -m 'WIP'; \
         if [ $? -ne 0 ]; then \
             git reset -q; \
             return; \
@@ -97,7 +97,6 @@
         git commit -v || git reset -q; \
         [ -n \"$need_stash\" ] && git stash pop; \
     }; f"
-    record = !git r
 
     rb = "!f() { \
         local need_stash=$(git st); \
