@@ -45,7 +45,7 @@ stty susp undef
 bind '"\C-z":"fg\015"'
 
 # Pipe last command to fpp with C-P
-bind '"\C-p": "!! | fpp\015"'
+bind '"\C-p": "!! | FPP_DISABLE_PREPENDING_HOME_WITH_SLASH=1 fpp\015"'
 # Sudo last command with C-<enter>
 bind '"✠": "sudo !!\015"'
 
