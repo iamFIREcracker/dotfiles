@@ -61,9 +61,6 @@
 [submodule "home/.vim/bundle/vim-scala"]
 	path = home/.vim/bundle/vim-scala
 	url = https://github.com/sjl/vim-scala.git
-[submodule "home/.vim/bundle/vim-pentadactyl"]
-	path = home/.vim/bundle/vim-pentadactyl
-	url = https://github.com/dogrover/vim-pentadactyl.git
 [submodule "home/.vim/bundle/vim-nodejs-complete"]
 	path = home/.vim/bundle/vim-nodejs-complete
 	url = https://github.com/myhere/vim-nodejs-complete.git
@@ -109,9 +106,6 @@
 [submodule "home/.vim/bundle/vim-maven-plugin"]
 	path = home/.vim/bundle/vim-maven-plugin
 	url = https://github.com/sjl/vim-maven-plugin.git
-[submodule "home/opt/dactyl"]
-	path = home/opt/dactyl
-	url = https://github.com/5digits/dactyl.git
 [submodule "home/opt/z"]
 	path = home/opt/z
 	url = https://github.com/rupa/z.git

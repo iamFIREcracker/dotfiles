@@ -43,11 +43,6 @@ function create_dir {
     fi
 )
 (
-    cd home/opt/dactyl
-    make -C pentadactyl clean
-    make -C pentadactyl xpi
-)
-(
     cd home/.vim/bundle/omnisharp-vim/
     git submodule update --init --recursive
     cd server

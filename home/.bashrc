@@ -236,16 +236,16 @@ complete -F _tmuxinator tmuxinator mux
 # }}}
 # Useful functions {{{
 
-eb()  { vim ~/.bashrc; }
-eb1() { vim ~/opt/bunny1/b1_custom.py; }
-eg()  { vim ~/.gitconfig; }
+eb()  { vim ~/dotfiles/home/.bashrc; }
+eb1() { vim ~/dotfiles/home/opt/bunny1/b1_custom.py; }
+eg()  { vim ~/dotfiles/.gitconfig; }
 ej()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX) -c 'se spell wrap nonu noru ft=jira'; }
-eh()  { vim ~/.hgrc; }
+eh()  { vim ~/dotfiles/home/.hgrc; }
 em()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX) -c 'se spell wrap nonu noru'; }
-e5()  { vim ~/.pentadactylrc; }
-es()  { vim ~/.slate; }
-et()  { vim ~/.tmux.conf; }
-ev()  { vim ~/.vimrc; }
+es()  { vim ~/dotfiles/home/.slate; }
+et()  { vim ~/dotfiles/home/.tmux.conf; }
+ev()  { vim ~/dotfiles/home/.vimrc; }
+eV()  { vim ~/dotfiles/home/.vimperatorrc; }
 
 function ..() {    cd ../"$@"; }
 function ...() {   cd ../../"$@"; }
