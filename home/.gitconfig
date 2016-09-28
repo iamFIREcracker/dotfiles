@@ -40,7 +40,7 @@
     st = status --short --ignore-submodules=untracked
     ci = commit -v
     cm = commit -v -m
-    cmm = commit -v -a -m 'Merge'
+    cmm = commit --no-edit
 
     pl = "!f() { \
         if [ \"$(git currentbranch)\" != \"master\" ]; then \
@@ -96,6 +96,12 @@
         git rollback; \
         git commit -v || git reset -q; \
         [ -n \"$need_stash\" ] && git stash pop; \
+    }; f"
+
+    ra = "!f() { \
+        local need_stash; \
+        cd ${GIT_PREFIX:-.}; \
+        git add -p -- $@ && git commit -m 'WIP'; \
     }; f"
 
     rb = "!f() { \
