@@ -238,7 +238,7 @@ complete -F _tmuxinator tmuxinator mux
 
 eb()  { vim ~/dotfiles/home/.bashrc; }
 eb1() { vim ~/dotfiles/home/opt/bunny1/b1_custom.py; }
-eg()  { vim ~/dotfiles/.gitconfig; }
+eg()  { vim ~/dotfiles/home/.gitconfig; }
 ej()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX) -c 'se spell wrap nonu noru ft=jira'; }
 eh()  { vim ~/dotfiles/home/.hgrc; }
 em()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX) -c 'se spell wrap nonu noru'; }
