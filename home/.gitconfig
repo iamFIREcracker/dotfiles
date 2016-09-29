@@ -65,7 +65,7 @@
     spu = submodule foreach 'git pull origin master || git pull origin origin'
 
     p = push
-    pf = push --force
+    pf = push --force-with-lease
     root = rev-parse --show-toplevel
     currentbranch = !git rev-parse --abbrev-ref HEAD 2>/dev/null
 
