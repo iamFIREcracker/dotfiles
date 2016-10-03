@@ -1,0 +1,14 @@
+# ~/.tmuxinator/cnenv.yml
+
+name: cnenv
+root: ~/workspace/connection
+
+windows:
+  - neo4j:
+      root: ~/neo4j/
+      panes:
+        - bash start.sh
+  - elasticsearch:
+      root: ~/elasticsearch/
+      panes:
+        - bash start.sh
