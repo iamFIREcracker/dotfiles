@@ -79,7 +79,11 @@
     shelve = stash save --include-untracked
     unshelve = "!f() { \
         if git stash list | grep .; then \
-            git stash pop || ( git mergetool && git reset && git stash drop ); \
+            if ! git stash pop; then \
+                if git status --short | grep '^UU '; then \
+                    git mergetool && git reset && git stash drop; \
+                fi; \
+            fi; \
         fi; \
     }; f"
 
