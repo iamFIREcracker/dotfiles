@@ -10,7 +10,6 @@ from bunny1 import dont_expose
 
 
 class CustomCommands(bunny1.Bunny1Commands):
-
     def bb(self, arg):
         """Go to Bitbucket"""
         return "https://bitbucket.org/"
@@ -21,6 +20,27 @@ class CustomCommands(bunny1.Bunny1Commands):
             return "https://www.crunchbase.com/organization/%s" % qp(arg)
         else:
             return "https://www.crunchbase.com"
+
+    def cn(self, arg):
+        """Goes or search connection.iontrading.com"""
+        if arg:
+            return "https://connection.iontrading.com/#/search/people?query=%s" % qp(arg)
+        else:
+            return "https://connection.iontrading.com"
+
+    def cnuat(self, arg):
+        """Goes or search uat-connection.iontrading.com"""
+        if arg:
+            return "https://uat-connection.iontrading.com/#/search/people?query=%s" % qp(arg)
+        else:
+            return "https://uat-connection.iontrading.com"
+
+    def cnint(self, arg):
+        """Goes or search int-connection.iontrading.com"""
+        if arg:
+            return "https://int-connection.iontrading.com/#/search/people?query=%s" % qp(arg)
+        else:
+            return "https://int-connection.iontrading.com"
 
     def domain(self, arg):
         """Search www.facebook.com or go there"""
@@ -56,24 +76,6 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Go to G+"""
         return "https://plus.google.com"
 
-    def yt(self, arg):
-        """Search YouTube or go there"""
-        if arg:
-            return "http://www.youtube.com/results?search_query=%s&search_type=&aq=-1&oq=" % qp(arg)
-        else:
-            return "http://www.youtube.com/"
-
-    def so(self, arg):
-        """Searches StackOverflow or goes there"""
-        if arg:
-            return self.g('site:stackoverflow.com ' + arg)
-        else:
-            return "http://stackoverflow.com"
-
-    def js(self, arg):
-        """Search StackOverflow[Javascript] or goes there"""
-        return self.so('[javascript] ' + arg)
-
     def id(self, arg):
         """Search idioms"""
         if arg:
@@ -87,6 +89,10 @@ class CustomCommands(bunny1.Bunny1Commands):
             return "https://www.google.com/search?site=imghp&tbm=isch&q=%s" % qp(arg)
         else:
             return "https://www.google.com/search?site=imghp&tbm=isch"
+
+    def js(self, arg):
+        """Search StackOverflow[Javascript] or goes there"""
+        return self.so('[javascript] ' + arg)
 
     def l(self, arg):
         """Show lodash documentation"""
@@ -107,6 +113,13 @@ class CustomCommands(bunny1.Bunny1Commands):
     def rxjs(self, arg):
         """Show rxjs documentation"""
         return "https://github.com/Reactive-Extensions/RxJS/blob/master/doc/libraries/main/rx.complete.md"
+
+    def so(self, arg):
+        """Searches StackOverflow or goes there"""
+        if arg:
+            return self.g('site:stackoverflow.com ' + arg)
+        else:
+            return "http://stackoverflow.com"
 
     def settleup(self, arg):
         """Goes to settleup.info"""
@@ -139,6 +152,20 @@ class CustomCommands(bunny1.Bunny1Commands):
             return "https://www.tvshowtime.com/search?q=%s" % qp(arg)
         else:
             return "https://www.tvshowtime.com"
+
+    def ym(self, arg):
+        """Goes or search yammer"""
+        if arg:
+            return "https://www.yammer.com/iontrading.com/#/Threads/Search?search=%s" % qp(arg)
+        else:
+            return "https://www.yammer.com/iontrading.com/#/home"
+
+    def yt(self, arg):
+        """Search YouTube or go there"""
+        if arg:
+            return "http://www.youtube.com/results?search_query=%s&search_type=&aq=-1&oq=" % qp(arg)
+        else:
+            return "http://www.youtube.com/"
 
     def zippyshare(self, arg):
         """Goes to Zippyshare -- it does not support GET searches :-("""
