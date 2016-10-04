@@ -134,8 +134,11 @@ class CustomCommands(bunny1.Bunny1Commands):
             return "http://docs.appcelerator.com/titanium/latest/#!/api"
 
     def tv(self, arg):
-        """Goes to tvshowtime"""
-        return "https://www.tvshowtime.com/en"
+        """Goes to or search tvshowtime"""
+        if arg:
+            return "https://www.tvshowtime.com/search?q=%s" % qp(arg)
+        else:
+            return "https://www.tvshowtime.com"
 
     def zippyshare(self, arg):
         """Goes to Zippyshare -- it does not support GET searches :-("""
