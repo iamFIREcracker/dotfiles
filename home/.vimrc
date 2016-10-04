@@ -1247,7 +1247,7 @@ nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gco :Gcheckout<cr>
 nnoremap <leader>gci :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
-nnoremap <leader>gr :Git record<cr>
+nnoremap <leader>gr :Git r<cr>
 nnoremap <leader>gR :Gremove<cr>
 nnoremap <leader>gl :Shell git ll<cr>
 nnoremap <leader>gi :Shell git ind<cr>
