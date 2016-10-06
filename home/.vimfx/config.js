@@ -16,19 +16,6 @@ set('prevent_autofocus', true)
 set('smoothScroll.lines.spring-constant', '4000')
 
 
-// commands
-vimfx.addCommand({
-    name: 'search_selected_text',
-    description: 'Search for the selected text'
-}, ({vim}) => {
-    vimfx.send(vim, 'getSelection', null, selection => {
-        let inTab = true // Change to `false` if you’d like to search in current tab.
-        vim.window.BrowserSearch.loadSearch(selection, inTab)
-    })
-})
-map('s', 'search_selected_text', true)
-
-
 // Reload config file
 map(',sv', 'reload_config_file')
 
