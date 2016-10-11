@@ -478,10 +478,6 @@ augroup ft_css
     "         ...
     "     }
     au BufNewFile,BufRead *.less,*.css,*.scss nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
-    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-    " positioned inside of them AND the following code doesn't get unfolded.
-    au BufNewFile,BufRead *.less,*.css,*.scss inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><esc>zoa
-
 augroup END
 
 " }}}
@@ -592,12 +588,6 @@ augroup ft_javascript
     au Filetype javascript nnoremap <buffer> <leader>d :call RunAllSpecs()<cr>
     au Filetype javascript nnoremap <buffer> <localleader>t :call RunNearestSpec()<cr>
 
-    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-    " positioned inside of them AND the following code doesn't get unfolded.
-    au FileType javascript inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><esc>zoa
-    au FileType javascript inoremap <buffer> [<cr> <C-G>u[]<left><cr><cr><up><space><space><esc>zoa
-    au FileType javascript inoremap <buffer> (<cr> <C-G>u()<left><cr><cr><up><space><space><esc>zoa
-
     " Abbreviations {{{
 
     au FileType javascript call MakeSpacelessBufferIabbrev('fn',  'function ')
@@ -662,10 +652,6 @@ augroup ft_json
     au!
 
     au FileType json setlocal foldnestmax=99
-
-    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-    " positioned inside of them AND the following code doesn't get unfolded.
-    au FileType json inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><space><space><esc>zoa
 augroup END
 
 " }}}
@@ -771,9 +757,6 @@ augroup ft_rest
     au FileType rest setlocal ts=2 sw=2 sts=2
     au Filetype rest setlocal foldmethod=marker foldmarker={{{,}}}
     au Filetype rest nnoremap <buffer> <localleader>1 yypVr=
-    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-    " positioned inside of them AND the following code doesn't get unfolded.
-    au FileType rest inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><esc>zoa
 augroup END
 
 " }}}
@@ -870,10 +853,6 @@ augroup ft_typescript
     au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr>zvzz
 
     au FileType typescript nnoremap <buffer> <silent> ,S :TsuRenameSymbol<cr>
-
-    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
-    " positioned inside of them AND the following code doesn't get unfolded.
-    au FileType typescript inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><space><space><esc>zoa
 
     " Abbreviations {{{
 
@@ -975,7 +954,7 @@ nnoremap <leader>sv :let stay_sourcevimrc_view = winsaveview()<cr>:source $MYVIM
 " Convenience mappings ---------------------------------------------------- {{{
 
 " Break undo on <CR>
-inoremap <CR> <C-G>u<CR>
+"inoremap <CR> <C-G>u<CR> XXX conflicts with delimitMate
 
 " Clean trailing whitespace
 nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<cr>
@@ -1224,6 +1203,7 @@ nnoremap <C-P> :CtrlP<cr>
 " delimitMate {{{
 
 let delimitMate_expand_cr = 1
+let delimitMate_expand_space = 1
 
 " }}}
 " Dispatch {{{
