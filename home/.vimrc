@@ -768,8 +768,12 @@ augroup END
 augroup ft_rest
     au!
 
+    au FileType rest setlocal ts=2 sw=2 sts=2
     au Filetype rest setlocal foldmethod=marker foldmarker={{{,}}}
     au Filetype rest nnoremap <buffer> <localleader>1 yypVr=
+    " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+    " positioned inside of them AND the following code doesn't get unfolded.
+    au FileType rest inoremap <buffer> {<cr> <C-G>u{}<left><cr><cr><up><space><space><esc>zoa
 augroup END
 
 " }}}
