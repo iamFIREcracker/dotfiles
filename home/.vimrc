@@ -239,6 +239,8 @@ set showmatch
 set hlsearch
 set gdefault
 
+set autochdir
+
 set scrolloff=5
 set sidescroll=1
 set sidescrolloff=10
@@ -573,13 +575,8 @@ augroup ft_javascript
     au!
 
     au FileType javascript setlocal foldmethod=syntax
-    au FileType javascript setlocal foldnestmax=1
     au FileType javascript setlocal ts=2 sw=2 sts=2
     au Filetype javascript setlocal textwidth=100
-    " Deeper nesting for test files so that we can fold 'describe' or 'it' sections
-    au BufNewFile,BufRead test/*.js setlocal foldnestmax=5
-
-    au FileType javascript let b:argwrap_tail_comma = 1
 
     au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>zvzz
     au FileType javascript nnoremap <buffer> <silent> gd :TernDef<cr>zvzz
@@ -1095,6 +1092,9 @@ nnoremap <Leader>rac :call RemoveAnsiColor()<cr>
 
 nnoremap <silent> gw :ArgWrap<cr>
 
+" Go back to the previous edited file with backspace
+nnoremap <BS> <C-^>
+
 " Block Colors {{{
 
 let g:blockcolor_state = 0
@@ -1152,15 +1152,16 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#syntastic#enabled = 0
 
 " }}}
+" Argwrap {{{
+
+"let g:delimitMate_expand_space = 1
+
+" }}}
 " Ctrl-P {{{
 
-let g:ctrlp_dont_split = 'NERD_tree_2'
 let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_split_window = 0
-let g:ctrlp_max_height = 20
-let g:ctrlp_extensions = ['tag']
+let g:ctrlp_working_path_mode = 'r'
+let g:ctrlp_match_window = 'bottom,order:btt,max:20'
 
 let g:ctrlp_prompt_mappings = {
 \ 'PrtSelectMove("j")':   ['<c-j>'],
@@ -1477,13 +1478,6 @@ else
     " Mouse support
     set mouse=a
 endif
-
-" }}}
-" Training ---------------------------------------------------------------- {{{
-
-" Use CTRL-H like a boss
-nnoremap <backspace> <nop>
-inoremap <backspace> <nop>
 
 " }}}
 " Highlight Word {{{
