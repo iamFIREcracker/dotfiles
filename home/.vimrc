@@ -1117,7 +1117,7 @@ let g:airline#extensions#syntastic#enabled = 0
 " }}}
 " Argwrap {{{
 
-"let g:delimitMate_expand_space = 1
+let g:argwrap_tail_comma_braces='[{'
 
 " }}}
 " Ctrl-P {{{
