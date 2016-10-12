@@ -587,49 +587,12 @@ augroup ft_javascript
 
     " Abbreviations {{{
 
-    au FileType javascript call MakeSpacelessBufferIabbrev('fn',  'function ')
-    au FileType javascript call MakeSpacelessBufferIabbrev('afn', 'function() {}<left><cr><up><end><left><left><left>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('function', 'NOPENOPENOPE')
-
-    au FileType javascript call MakeSpacelessBufferIabbrev('rt', 'return ;<left>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('return', 'NOPENOPENOPE')
-
-    au FileType javascript call MakeSpacelessBufferIabbrev('db', 'debug(''''<left>')
-
-    au FileType javascript call MakeSpacelessBufferIabbrev('rq', 'require('''');<left><left><left>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('require', 'NOPENOPENOPE')
-
+    au FileType javascript call MakeSpacelessBufferIabbrev('if',   'if ()<left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('fn',   'function ')
+    au FileType javascript call MakeSpacelessBufferIabbrev('afn',  'function()<left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('rt',   'return ;<left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('cwarn', 'console.warn();<left><left>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('console', 'NOPENOPENOPE')
 
-    au FileType javascript call MakeSpacelessBufferIabbrev('sc',  '$scope.')
-    au FileType javascript call MakeSpacelessBufferIabbrev('alt',  'alert();<left><left>')
-
-    au FileType javascript call MakeSpacelessBufferIabbrev('proto',  '.prototype.<home>')
-
-    au FileType javascript call MakeSpacelessBufferIabbrev('aeq',  'assert.equal();<left><left>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('aok',  'assert.ok();<left><left>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('mcbf',  ''.
-                \ 'before(function() {});'.
-                \ '<left><left><left>'.
-                \ '<cr>'.
-                \ '<up><end>'.
-                \ '<cr>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('mcit',  ''.
-                \ 'it('''', function() {<cr>'.
-                \ '// Given<cr>'.
-                \ 'When<cr>'.
-                \ 'Then'.
-                \ '<down><end>);'.
-                \ '<up><up><up><up><end>'.
-                \ '<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('mcdes',  ''.
-                \ 'describe('''', function() {});'.
-                \ '<left><left><left>'.
-                \ '<cr>'.
-                \ '<up><end>'.
-                \ '<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>')
     " }}}
 augroup END
 
@@ -1204,7 +1167,7 @@ nnoremap <C-P> :CtrlP<cr>
 " delimitMate {{{
 
 let delimitMate_expand_cr = 1
-let delimitMate_expand_space = 1
+let delimitMate_expand_space = 0 " or custom abbreviations wouldn't work
 
 " }}}
 " Dispatch {{{
