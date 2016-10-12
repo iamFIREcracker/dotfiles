@@ -33,7 +33,7 @@
 
 [alias]
     tags = tag -l
-    b = branchv -v
+    b = branch -v
     branches = branch -a
     remotes = remote -v
     shelves = stash list
