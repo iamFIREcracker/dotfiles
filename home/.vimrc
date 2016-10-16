@@ -307,10 +307,30 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 " }}}
 " List navigation {{{
 
-nnoremap <left>  :cprev<cr>zvzz
-nnoremap <right> :cnext<cr>zvzz
-nnoremap <up>    :lprev<cr>zvzz
-nnoremap <down>  :lnext<cr>zvzz
+" wrap :cnext/:cprevious and :lnext/:lprevious
+" courtesy of: http://stackoverflow.com/a/27204000/348524
+function! WrapCommand(direction, prefix)
+    if a:direction == "up"
+        try
+            execute a:prefix . "previous"
+        catch /^Vim\%((\a\+)\)\=:E553/
+            execute a:prefix . "last"
+        catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+        endtry
+    elseif a:direction == "down"
+        try
+            execute a:prefix . "next"
+        catch /^Vim\%((\a\+)\)\=:E553/
+            execute a:prefix . "first"
+        catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+        endtry
+    endif
+endfunction
+
+nmap <left>  :call WrapCommand('up', 'c')<cr><leader>z
+nmap <right> :call WrapCommand('down', 'c')<cr><leader>z
+nmap <up>    :call WrapCommand('up', 'l')<cr><leader>z
+nmap <down>  :call WrapCommand('down', 'l')<cr><leader>z
 
 " }}}
 " Directional Keys {{{
