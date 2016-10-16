@@ -128,10 +128,17 @@ syntax on
 set background=dark
 let g:molokai_original = 1
 let g:rehash256 = 1
-colorscheme molokai
 
-" Highlight VCS conflict markers
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+augroup theme_customizations
+    au!
+
+    autocmd ColorScheme *
+            \ syn match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$' |
+            \ hi NeomakeErrorSign ctermfg=red ctermbg=235 |
+            \ hi NeomakeWarningSign ctermfg=yellow ctermbg=235
+augroup END
+
+colorscheme molokai
 
 " }}}
 " Auttogroups {{{
@@ -309,7 +316,7 @@ vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
 
 " wrap :cnext/:cprevious and :lnext/:lprevious
 " courtesy of: http://stackoverflow.com/a/27204000/348524
-function! WrapCommand(direction, prefix)
+function! WrapCommand(direction, prefix) "{{{
     if a:direction == "up"
         try
             execute a:prefix . "previous"
@@ -325,12 +332,12 @@ function! WrapCommand(direction, prefix)
         catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
         endtry
     endif
-endfunction
+endfunction "}}}
 
-nmap <left>  :call WrapCommand('up', 'c')<cr><leader>z
-nmap <right> :call WrapCommand('down', 'c')<cr><leader>z
-nmap <up>    :call WrapCommand('up', 'l')<cr><leader>z
-nmap <down>  :call WrapCommand('down', 'l')<cr><leader>z
+nmap <silent> <left>  :call WrapCommand('up', 'c')<cr><leader>z
+nmap <silent> <right> :call WrapCommand('down', 'c')<cr><leader>z
+nmap <silent> <up>    :call WrapCommand('up', 'l')<cr><leader>z
+nmap <silent> <down>  :call WrapCommand('down', 'l')<cr><leader>z
 
 " }}}
 " Directional Keys {{{
@@ -1132,7 +1139,6 @@ let g:ackprg = 'ag --hidden --smart-case --nogroup --nocolor --column'
 
 let g:airline_theme='dark'
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#syntastic#enabled = 0
 
 " }}}
 " Argwrap {{{
@@ -1252,6 +1258,38 @@ let g:jk_jumps_minimum_lines = 2
 let g:maven_disable_mappings = 1
 
 " }}}
+" Neomake {{{
+
+let g:neomake_open_list = 0
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_javascript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
+let g:neomake_typescript_enabled_makers = ['tsc']
+let g:neomake_typescript_tsc_exe =
+    \ fnameescape(globpath(&runtimepath, 'bundle/tsuquyomi/node_modules/typescript/bin/tsc'))
+
+autocmd! BufRead * Neomake
+autocmd! BufWritePost * Neomake
+
+let g:neomake_error_sign = {
+    \ 'text': '●',
+    \ 'texthl': 'NeomakeErrorSign'
+    \ }
+let g:neomake_warning_sign = {
+    \ 'text': '●',
+    \ 'texthl': 'NeomakeWarningSign',
+    \ }
+let g:neomake_message_sign = {
+    \ 'text': '●',
+    \ 'texthl': 'NeomakeMessageSign',
+    \ }
+let g:neomake_info_sign = {
+    \ 'text': '●',
+    \ 'texthl': 'NeomakeInfoSign'
+    \ }
+
+nnoremap <leader>C :Neomake<cr>
+
+" }}}
 " OmniSharp {{{
 
 let g:OmniSharp_selector_ui = 'ctrlp'
@@ -1284,23 +1322,6 @@ let g:tsuquyomi_use_dev_node_module = 1
 let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabLongestHighlight = 1
 let g:SuperTabCrMapping = 1
-
-" }}}
-" Syntastic {{{
-
-let g:syntastic_java_checker = 'javac'
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exec = 'node_modules/eslint/bin/eslint.js'
-let g:syntastic_typescript_tsc_fname = ''
-let g:syntastic_typescript_tsc_exec =
-\ fnameescape(globpath(&runtimepath, 'bundle/tsuquyomi/node_modules/typescript/bin/tsc'))
-
-let g:syntastic_mode_map = {
-            \ "mode": "active",
-            \ "active_filetypes": [],
-            \ "passive_filetypes": ['java', 'html', 'rst']
-            \ }
-nnoremap <leader>C :SyntasticCheck<cr>
 
 " }}}
 " tslime2 {{{
