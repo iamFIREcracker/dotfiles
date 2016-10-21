@@ -2,6 +2,12 @@
   name = Matteo Landi
   email = m.landi@iontrading.com
 
+[core]
+  preloadindex = true
+  fscache = true
+  filemode = false
+  #autocrlf = true
+
 [url "https://github.com/"]
     insteadOf = git@github.com:
 [url "https://"]

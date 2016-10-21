@@ -121,6 +121,8 @@
 
     zip = archive -o latest.zip HEAD
 
+    deleted = !git log --diff-filter=D --summary | vim -R -
+
 [pull]
     ff = only
 
@@ -133,3 +135,5 @@
 
 [include]
     path = ~/.gitconfig_ion
+[gc]
+	auto = 256

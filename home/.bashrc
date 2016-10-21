@@ -332,6 +332,7 @@ gimmeurjson() {
     curl -i -s -w'\n' \
         --header 'Accept: application/json' \
         --header 'Content-Type: application/json' \
+        "${@:4}" \
         "${url}" -X "${method}" -d "${data}"
 }
 
@@ -389,7 +390,7 @@ function j() { z "$@"; }
 # Join lines {{{
 
 function J() {
-    tr '^M' '\n' | tr -s '\n' '      '
+    tr '' '\n' | tr -s '\n' '	'
 }
 
 # }}}

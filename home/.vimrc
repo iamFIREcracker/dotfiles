@@ -793,6 +793,16 @@ augroup ft_rst
 augroup END
 
 " }}}
+" Robot {{{
+
+augroup ft_robot
+    au!
+
+    au FileType robot setlocal noexpandtab
+
+augroup END
+
+" }}}
 " Ruby {{{
 
 augroup ft_ruby
@@ -1378,6 +1388,7 @@ let g:vrc_follow_redirects = 1
 let g:vrc_include_response_header = 1
 let g:vrc_resolve_to_ipv4 = 1
 let g:vrc_ssl_secure = 1
+let g:vrc_allow_get_request_body = 1
 let g:vrc_trigger = '<localleader>e'
 
 augroup ft_restresponse
