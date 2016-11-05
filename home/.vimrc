@@ -185,7 +185,17 @@ augroup END
 augroup trailing
     au!
     au InsertEnter * :set listchars-=trail:⌴
-    au InsertLeave * :set listchars+=trail:⌴
+    au InsertLeave,WinLeave * :set listchars+=trail:⌴
+augroup END
+
+" }}}
+" Fix relative filename completion {{{
+
+augroup relative_fname_completion
+    au!
+
+    au InsertEnter * let save_cwd = getcwd() | set autochdir
+    au InsertLeave,WinLeave * if exists('save_cwd') | set noautochdir | execute 'cd' fnameescape(save_cwd) | endif
 augroup END
 
 " }}}
@@ -245,8 +255,6 @@ set incsearch
 set showmatch
 set hlsearch
 set gdefault
-
-set autochdir
 
 set scrolloff=5
 set sidescroll=1
@@ -1149,7 +1157,7 @@ let g:argwrap_tail_comma_braces='[{'
 " Ctrl-P {{{
 
 let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_working_path_mode = 'r'
+let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window = 'bottom,order:btt,max:20'
 
 let g:ctrlp_prompt_mappings = {
