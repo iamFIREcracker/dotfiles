@@ -272,14 +272,14 @@ nnoremap D d$
 
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
-nmap n nzvzz<Plug>Pulse
-nmap N Nzvzz<Plug>Pulse
+nmap n n<Plug>FocusCurrentLine<Plug>Pulse
+nmap N N<Plug>FocusCurrentLine<Plug>Pulse
 
 " Same when jumping around
-nnoremap g; g;zz
-nnoremap g, g,zz
-nnoremap gd gdzz
-nnoremap gD gDzz
+nmap g; g;<Plug>FocusCurrentLine<Plug>Pulse
+nmap g, g,<Plug>FocusCurrentLine<Plug>Pulse
+nmap gd gd<Plug>FocusCurrentLine<Plug>Pulse
+nmap gD gD<Plug>FocusCurrentLine<Plug>Pulse
 
 " Don't move on * and #
 nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(stay_star_view)<cr>
@@ -342,10 +342,10 @@ function! WrapCommand(direction, prefix) "{{{
     endif
 endfunction "}}}
 
-nmap <silent> <left>  :call WrapCommand('up', 'c')<cr><leader>z
-nmap <silent> <right> :call WrapCommand('down', 'c')<cr><leader>z
-nmap <silent> <up>    :call WrapCommand('up', 'l')<cr><leader>z
-nmap <silent> <down>  :call WrapCommand('down', 'l')<cr><leader>z
+nmap <silent> <left>  :call WrapCommand('up', 'c')<cr><Plug>FocusCurrentLine<Plug>Pulse
+nmap <silent> <right> :call WrapCommand('down', 'c')<cr><Plug>FocusCurrentLine<Plug>Pulse
+nmap <silent> <up>    :call WrapCommand('up', 'l')<cr><Plug>FocusCurrentLine<Plug>Pulse
+nmap <silent> <down>  :call WrapCommand('down', 'l')<cr><Plug>FocusCurrentLine<Plug>Pulse
 
 " }}}
 " Directional Keys {{{
@@ -389,7 +389,8 @@ vnoremap <space> za
 " This mapping wipes out the z mark, which I never use.
 "
 " I use :sus for the rare times I want to actually background Vim.
-nnoremap <leader>z mzzMzvzz15<c-e>`z<Plug>Pulse
+nnoremap <expr> <Plug>FocusCurrentLine 'mzzMzvzz15<c-e>`z'
+nmap <leader>z <Plug>FocusCurrentLine<Plug>Pulse
 
 function! MyFoldText() " {{{
     let line = getline(v:foldstart)
@@ -613,8 +614,8 @@ augroup ft_javascript
     au FileType javascript setlocal ts=2 sw=2 sts=2
     au Filetype javascript setlocal textwidth=100
 
-    au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>zvzz
-    au FileType javascript nnoremap <buffer> <silent> gd :TernDef<cr>zvzz
+    au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr><Plug>FocusCurrentLine<Plug>Pulse
+    au FileType javascript nnoremap <buffer> <silent> gd :TernDef<cr><Plug>FocusCurrentLine<Plug>Pulse
     au FileType javascript nnoremap <buffer> <silent> <C-^> :TernRefs<cr>
 
     au Filetype javascript nnoremap <buffer> <leader>d :call RunAllSpecs()<cr>
@@ -844,8 +845,8 @@ augroup ft_typescript
     au FileType typescript setlocal foldmethod=syntax
     au FileType typescript setlocal foldnestmax=3
 
-    au FileType typescript nnoremap <buffer> <silent> <C-]> :TsuDefinition<cr>zvzz
-    au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr>zvzz
+    au FileType typescript nnoremap <buffer> <silent> <C-]> :TsuDefinition<cr><Plug>FocusCurrentLine<Plug>Pulse
+    au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr><Plug>FocusCurrentLine<Plug>Pulse
 
     au FileType typescript nnoremap <buffer> <silent> ,S :TsuRenameSymbol<cr>
 
