@@ -50,7 +50,11 @@ class CustomCommands(bunny1.Bunny1Commands):
             return "https://www.dotster.com/"
 
     def dr(self, arg):
-        return "https://drive.google.com/?hl=en&tab=bo#search/%s" % qp(arg)
+        """Goes to or searches on Google drive"""
+        if arg:
+            return "https://drive.google.com/drive/search?q=%s" % qp(arg)
+        else:
+            return "https://drive.google.com/drive"
 
     def fb(self, arg):
         """Search www.facebook.com or go there"""
