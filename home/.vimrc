@@ -491,6 +491,7 @@ augroup ft_css
 
     au BufNewFile,BufRead *.less setlocal filetype=less
 
+    au FileType less,css,scss setlocal ts=2 sw=2 sts=2
     au Filetype less,css,scss setlocal foldmethod=marker
     au Filetype less,css,scss setlocal foldmarker={,}
     au Filetype less,css,scss setlocal omnifunc=csscomplete#CompleteCSS
@@ -620,6 +621,11 @@ augroup ft_javascript
 
     au Filetype javascript nnoremap <buffer> <leader>d :call RunAllSpecs()<cr>
     au Filetype javascript nnoremap <buffer> <localleader>t :call RunNearestSpec()<cr>
+
+    au FileType javascript RainbowParenthesesActivate
+    au syntax javascript RainbowParenthesesLoadRound
+    au syntax javascript RainbowParenthesesLoadSquare
+    au syntax javascript RainbowParenthesesLoadBrace
 
     " Abbreviations {{{
 
