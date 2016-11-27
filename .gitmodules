@@ -19,9 +19,6 @@
 [submodule "home/.vim/bundle/vim-surround"]
 	path = home/.vim/bundle/vim-surround
 	url = https://github.com/tpope/vim-surround.git
-[submodule "home/.vim/bundle/YankRing.vim"]
-	path = home/.vim/bundle/YankRing.vim
-	url = https://github.com/vim-scripts/YankRing.vim.git
 [submodule "home/.vim/bundle/vim-markdown"]
 	path = home/.vim/bundle/vim-markdown
 	url = https://github.com/tpope/vim-markdown.git
@@ -58,9 +55,6 @@
 [submodule "home/.vim/bundle/vim-scala"]
 	path = home/.vim/bundle/vim-scala
 	url = https://github.com/sjl/vim-scala.git
-[submodule "home/.vim/bundle/vim-nodejs-complete"]
-	path = home/.vim/bundle/vim-nodejs-complete
-	url = https://github.com/myhere/vim-nodejs-complete.git
 [submodule "home/.vim/bundle/vim-colors-solarized"]
 	path = home/.vim/bundle/vim-colors-solarized
 	url = https://github.com/altercation/vim-colors-solarized.git
@@ -196,3 +190,12 @@
 [submodule "home/.vim/bundle/neomake"]
 	path = home/.vim/bundle/neomake
 	url = https://github.com/neomake/neomake.git
+[submodule "home/.vim/bundle/vim-hybrid"]
+	path = home/.vim/bundle/vim-hybrid
+	url = https://github.com/w0ng/vim-hybrid.git
+[submodule "home/.vim/bundle/vim-yankstack"]
+	path = home/.vim/bundle/vim-yankstack
+	url = https://github.com/maxbrunsfeld/vim-yankstack.git
+[submodule "home/.vim/bundle/vim-airline-themes"]
+	path = home/.vim/bundle/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes

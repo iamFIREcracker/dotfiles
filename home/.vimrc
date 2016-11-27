@@ -126,8 +126,6 @@ let maplocalleader = "\\"
 
 syntax on
 set background=dark
-let g:molokai_original = 1
-let g:rehash256 = 1
 
 augroup theme_customizations
     au!
@@ -138,7 +136,7 @@ augroup theme_customizations
             \ hi NeomakeWarningSign ctermfg=yellow ctermbg=235
 augroup END
 
-colorscheme molokai
+colorscheme hybrid
 
 " }}}
 " Auttogroups {{{
@@ -1152,7 +1150,7 @@ let g:ackprg = 'ag --hidden --smart-case --nogroup --nocolor --column'
 " }}}
 " Airline {{{
 
-let g:airline_theme='dark'
+let g:airline_theme='hybrid'
 let g:airline_powerline_fonts = 1
 
 " }}}
@@ -1377,21 +1375,12 @@ augroup END
 let g:vim_search_pulse_disable_auto_mappings = 1
 
 " }}}
-" YankRing {{{
+" vim-yankstack {{{
 
-let g:yankring_replace_n_pkey = ''
-
-function! YRRunAfterMaps()
-    " Make Y yank to end of line.
-    nnoremap Y :<C-U>YRYankCount 'y$'<CR>
-
-    " Fix L and H in operator-pending mode, so yH and such works.
-    omap <expr> L YRMapsExpression("", "$")
-    omap <expr> H YRMapsExpression("", "^")
-
-    " Don't clobber the yank register when pasting over text in visual mode.
-    vnoremap p :<c-u>YRPaste 'p', 'v'<cr>gv:YRYankRange 'v'<cr>
-endfunction
+call yankstack#setup()
+nmap Y y$
+nmap gp <Plug>yankstack_substitute_older_paste
+nnoremap gP g-
 
 " }}}
 
