@@ -106,7 +106,7 @@
     ra = "!f() { \
         local need_stash; \
         cd ${GIT_PREFIX:-.}; \
-        git add -p -- $@ && git commit -m 'WIP'; \
+        git add -p -- $@; \
     }; f"
 
     rb = "!f() { \
