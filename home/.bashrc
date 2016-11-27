@@ -40,6 +40,9 @@ HISTTIMEFORMAT='%F %T '
 # $ cd !$<space> # completes to `cd Projects`
 bind Space:magic-space
 
+# Disable terminal scroll lock
+stty -ixon
+
 # Resume suspended program with C-Z -- and not `fg`
 stty susp undef
 bind '"\C-z":"fg\015"'

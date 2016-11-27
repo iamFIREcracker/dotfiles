@@ -265,9 +265,6 @@ noremap <silent><leader><space> :noh<cr>:call clearmatches()<cr>
 runtime macros/matchit.vim
 map <tab> %
 
-" Made D behave
-nnoremap D d$
-
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
 nmap n nzvzz<Plug>Pulse
@@ -964,14 +961,10 @@ nnoremap <C-u> gUiw
 inoremap <C-u> <esc>gUiwea
 
 " Allows you to easily replace the current word and all its occurrences.
-nnoremap <Leader>rc :%Subvert/\<<C-r><C-w>\>//c<left><left>
-vnoremap <Leader>rc y:%Subvert/<C-r>"//c<left><left>
-
-" Allows you to easily change the current word and all occurrences to something
-" else. The difference between this and the previous mapping is that the mapping
-" below pre-fills the current word for you to change.
-nnoremap <Leader>cc :%Subvert/\<<C-r><C-w>\>/<C-r><C-w>/c<left><left>
-vnoremap <Leader>cc y:%Subvert/<C-r>"/<C-r>"/c<left><left>
+nnoremap <C-S> :%Subvert/
+vnoremap <C-S> :Subvert/
+nnoremap <Leader>S :%Subvert/<C-r><C-w>//cw<left><left><left>
+vnoremap <Leader>S y:%Subvert/<C-r>"//cw<left><left><left>
 
 " Emacs bindings in command line mode
 cnoremap <C-a> <home>
@@ -1280,7 +1273,7 @@ let g:neomake_typescript_enabled_makers = ['tsc']
 let g:neomake_typescript_tsc_exe =
     \ fnameescape(globpath(&runtimepath, 'bundle/tsuquyomi/node_modules/typescript/bin/tsc'))
 
-autocmd! BufRead * Neomake
+" autocmd! BufRead * Neomake
 autocmd! BufWritePost * Neomake
 
 let g:neomake_error_sign = {
@@ -1344,7 +1337,7 @@ let g:tslime_ensure_trailing_newlines = 1
 " }}}
 " Vim-Mocha {{{
 
-let g:mocha_js_command = 
+let g:mocha_js_command =
             \ 'Dispatch -compiler=mocha-wrapper ' .
             \ fnameescape(globpath(&runtimepath, 'compiler/mocha-wrapper.py')) .
             \ ' --recursive --no-colors {spec}'
@@ -1379,6 +1372,7 @@ let g:vim_search_pulse_disable_auto_mappings = 1
 
 call yankstack#setup()
 nmap Y y$
+nmap D d$
 nmap gp <Plug>yankstack_substitute_older_paste
 nnoremap gP g-
 
