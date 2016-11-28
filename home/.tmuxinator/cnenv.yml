@@ -12,3 +12,7 @@ windows:
       root: ~/elasticsearch/
       panes:
         - bash start.sh
+  - redis:
+      root: ~/redis/
+      panes:
+        - bash start.sh
