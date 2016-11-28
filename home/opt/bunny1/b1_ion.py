@@ -26,32 +26,56 @@ class IONCommands(CustomCommands):
         """Go to the ion.web confluence page"""
         return "https://confluence.iontrading.com/display/RD/HTML5+-+Programming+reference"
 
+    def cnl(self, arg):
+        """Go or search pimatlan01.iontrading.com"""
+        if arg:
+            return "http://pimatlanw01.iontrading.com:3000/#/search/people?query=%s" % qp(arg)
+        else:
+            return "http://pimatlanw01.iontrading.com:3000/"
+
     def itas(self, arg):
         """Go to the ITAS confluence page"""
         return "http://iondelsvr12/Keywords/Platform%20Keywords.html#RunKeywordAsFiber"
 
+    def j(self, arg):
+        """Go to QST journal"""
+        return "https://iontradingcom-my.sharepoint.com/personal/a_pirino_iontrading_com/_layouts/15/WopiFrame.aspx?sourcedoc=%7Be151592c-56c6-4a1c-9f05-b01b28148bcc%7D&action=default"
+
     def jr(self, arg):
         """Go or search jira.iontrading.com"""
         if arg:
-            return "https://jira.iontrading.com/browse/%s" % qp(arg)
+            return "https://is-jirasupport-test.iontrading.com/browse/%s" % qp(arg)
         else:
-            return "https://jira.iontrading.com/"
+            return "https://is-jirasupport-test.iontrading.com"
 
-    def jrm(self, arg):
-        """Go to the JIRA markup page"""
-        return "https://jira.atlassian.com/secure/WikiRendererHelpAction.jspa?section=all"
+    def jrtest(self, arg):
+        """Go or search is-jirasupport-test.iontrading.com"""
+        if arg:
+            return "https://is-jirasupport-test.iontrading.com/browse/%s" % qp(arg)
+        else:
+            return "https://is-jirasupport-test.iontrading.com"
 
+    def jrtpttest(self, arg):
+        """Go or search https://portal.tpt.com/devjira2"""
+        if arg:
+            return "https://portal.tpt.com/devjira2/browse/%s" % qp(arg)
+        else:
+            return "https://portal.tpt.com/devjira2"
     def jhd(self, arg):
         """Go on the JIRA helpdesk portal"""
         return "https://jira.iontrading.com/servicedesk/customer/portals"
     hd = jhd
 
+    def jrqst(self, arg):
+        """Goes to QST Jira page"""
+        return "https://jira.iontrading.com/secure/RapidBoard.jspa?rapidView=620";
+
     def jk(self, arg):
         """Go on Jenkins, or search something on it"""
-        if arg:
-            return "http://axton.fssnet.internal:8080/search/?q=%s" % qp(arg)
-        else:
+        if arg == 'axton':
             return "http://axton.fssnet.internal:8080/user/mlandi/my-views/view/main/"
+        else:
+            return "https://con-jenk-mstr.lab49.com/job/ConnectION/"
 
     def jkc(self, arg):
         """Edit the configuration page of the specified Jenkins job"""
@@ -82,6 +106,11 @@ class IONCommands(CustomCommands):
         """Go on the last failure of the specified Jenkins job"""
         return "http://axton.fssnet.internal:8080/user/mlandi/my-views/view/main/job/%s/lastFailedBuild/console" % qp(arg)
 
+
+    def n49(self, arg):
+        """Go lab49"""
+        return "https://software-repository.lab49.com/nexus/"
+
     def np(self, arg):
         """Go or search pinexus01"""
         if arg:
@@ -102,10 +131,15 @@ class IONCommands(CustomCommands):
             return "http://axton.fssnet.internal:8081/#nexus-search;quick~%s" % qp(arg)
         else:
             return "http://axton.fssnet.internal:8081/#welcome"
+    n = n49
 
     def pb(self, arg):
         """Goes to the product backlog of the current release"""
         return "https://docs.google.com/spreadsheets/d/1rIHEcQuIp2ow6EWG3AHPYnakL4BAtUJnIeIECqLI15k/edit#gid=0"
+
+    def rally(self, arg):
+        """Goes to Connection Delivery train"""
+        return "https://rally1.rallydev.com/#/50168985559d/custom/50509556258"
 
     def rfdoc(self, arg):
         """Searches inside robotframework.org"""
