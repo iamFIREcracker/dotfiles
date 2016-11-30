@@ -14,6 +14,18 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Go to Bitbucket"""
         return "https://bitbucket.org/"
 
+    def co(self, arg):
+        """Go or search confluence.iontrading.com"""
+        if arg:
+            return "https://confluence.iontrading.com/dosearchsite.action?spaceSearch=false&queryString=%s" % qp(arg)
+        else:
+            return "https://confluence.iontrading.com/"
+
+    def coionweb(self, arg):
+        """Go to the ion.web confluence page"""
+        return "https://confluence.iontrading.com/display/RD/HTML5+-+Programming+reference"
+
+
     def cb(self, arg):
         """Go to Crunchbase, or search for a specific organization"""
         if arg:
@@ -27,6 +39,13 @@ class CustomCommands(bunny1.Bunny1Commands):
             return "https://connection.iontrading.com/#/search/people?query=%s" % qp(arg)
         else:
             return "https://connection.iontrading.com"
+
+    def cnl(self, arg):
+        """Go or search pimatlan01.iontrading.com"""
+        if arg:
+            return "http://pimatlanw01.iontrading.com:9001/#/search/people?query=%s" % qp(arg)
+        else:
+            return "http://pimatlanw01.iontrading.com:9001/"
 
     def cnuat(self, arg):
         """Goes or search uat-connection.iontrading.com"""
@@ -80,6 +99,10 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Go to G+"""
         return "https://plus.google.com"
 
+    def hd(self, arg):
+        """Go on the JIRA helpdesk portal"""
+        return "https://jira.iontrading.com/servicedesk/customer/portals"
+
     def id(self, arg):
         """Search idioms"""
         if arg:
@@ -94,6 +117,32 @@ class CustomCommands(bunny1.Bunny1Commands):
         else:
             return "https://www.google.com/search?site=imghp&tbm=isch"
 
+    def jk(self, arg):
+        """Goes to Jenkins"""
+        return "https://con-jenk-mstr.lab49.com/job/ConnectION/"
+
+    def jr(self, arg):
+        """Go or search jira.iontrading.com"""
+        if arg and arg == 'qst':
+            return "https://jira.iontrading.com/secure/RapidBoard.jspa?rapidView=620"
+        if arg:
+            return "https://jira.iontrading.com/browse/%s" % qp(arg)
+        else:
+            return "https://jira.iontrading.com"
+
+    def jrtest(self, arg):
+        """Go or search is-jirasupport-test.iontrading.com"""
+        if arg:
+            return "https://is-jirasupport-test.iontrading.com/browse/%s" % qp(arg)
+        else:
+            return "https://is-jirasupport-test.iontrading.com"
+
+    def jrtpttest(self, arg):
+        """Go or search https://portal.tpt.com/devjira2"""
+        if arg:
+            return "https://portal.tpt.com/devjira2/browse/%s" % qp(arg)
+        else:
+            return "https://portal.tpt.com/devjira2"
     def js(self, arg):
         """Search StackOverflow[Javascript] or goes there"""
         return self.so('[javascript] ' + arg)
@@ -113,6 +162,42 @@ class CustomCommands(bunny1.Bunny1Commands):
     def nfsub(self, arg):
         """Show Netflix titles by subtitle"""
         return "https://www.netflix.com/subtitles"
+
+    def nx49(self, arg):
+        """Goes or search lab49's nexus"""
+        return "https://software-repository.lab49.com/nexus/"
+
+    def nxp(self, arg):
+        """Go or search pinexus01"""
+        if arg:
+            return "http://pinexus01.iontrading.com:8081/nexus/#nexus-search;quick~%s" % qp(arg)
+        else:
+            return "http://pinexus01.iontrading.com:8081/nexus/#welcome"
+
+    def nxu(self, arg):
+        """Go or search usnexus01"""
+        if arg:
+            return "http://usnexus01.iontrading.com:8081/nexus/#nexus-search;quick~%s" % qp(arg)
+        else:
+            return "http://usnexus01.iontrading.com:8081/nexus/#welcome"
+
+    def nxa(self, arg):
+        """Go or search axton's nexus"""
+        if arg:
+            return "http://axton.fssnet.internal:8081/#nexus-search;quick~%s" % qp(arg)
+        else:
+            return "http://axton.fssnet.internal:8081/#welcome"
+
+    def rally(self, arg):
+        """Goes to Connection Delivery train"""
+        return "https://rally1.rallydev.com/#/50168985559d/custom/50509556258"
+
+    def rfdoc(self, arg):
+        """Goes or searches inside robotframework.org"""
+        if arg:
+            return self.g('site:robotframework.org ' + arg)
+        else:
+            return 'http://robotframework.org'
 
     def rxjs(self, arg):
         """Show rxjs documentation"""

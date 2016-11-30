@@ -1,6 +1,5 @@
 # Fast edits {{{
 
-function eb1i() { vim ~/opt/bunny1/b1_ion.py; }
 function ebi() { vim ~/.bashrc_ion; }
 function ek() { vim /cygdrive/c/Users/mlandi/Google\ Drive/personal/KeyMappings.ahk; }
 
