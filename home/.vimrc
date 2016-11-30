@@ -1330,6 +1330,11 @@ let g:neomake_info_sign = {
 nnoremap <leader>C :Neomake<cr>
 
 " }}}
+" Netrw {{{
+
+let g:netrw_bufsettings="noma nomod nonu nobl nowrap ro rnu"
+
+" }}}
 " OmniSharp {{{
 
 let g:OmniSharp_selector_ui = 'ctrlp'
