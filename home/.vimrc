@@ -1228,6 +1228,7 @@ let g:ctrlp_user_command = {
 \ }
 
 nnoremap <C-P> :CtrlP<cr>
+nnoremap 🔎 :CtrlPRoot<cr>
 
 " }}}
 " delimitMate {{{
