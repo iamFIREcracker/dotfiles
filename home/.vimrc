@@ -1125,6 +1125,8 @@ nnoremap <silent> gw :ArgWrap<cr>
 " Go back to the previous edited file with backspace
 nnoremap <BS> <C-^>
 
+nnoremap <leader>J :%!python -m json.tool
+
 " Block Colors {{{
 
 let g:blockcolor_state = 0
@@ -1228,7 +1230,7 @@ let g:ctrlp_user_command = {
 \ }
 
 nnoremap <C-P> :CtrlP<cr>
-nnoremap 🔎 :CtrlPRoot<cr>
+nnoremap Ř :CtrlPRoot<cr>
 
 " }}}
 " delimitMate {{{
