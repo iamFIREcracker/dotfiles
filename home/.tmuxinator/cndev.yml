@@ -4,14 +4,15 @@ name: cndev
 root: ~/workspace/connection
 
 windows:
-  - shared:
-      layout: main-vertical
-      root: ~/workspace/connection/shared/
-      panes:
-        - vim
   - api:
       layout: main-vertical
       root: ~/workspace/connection/api-gateway/
+      panes:
+        - vim
+        - n run start-dev
+  - admin:
+      layout: main-vertical
+      root: ~/workspace/connection/admin/
       panes:
         - vim
         - n run start-dev
@@ -27,3 +28,8 @@ windows:
       panes:
         - vim
         - n start
+  - styleguide:
+      layout: main-vertical
+      root: ~/workspace/connection/client/
+      panes:
+        - n run styleguide
