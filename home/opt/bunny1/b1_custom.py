@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import time
 import urlparse
 
 import bunny1
@@ -74,6 +75,12 @@ class CustomCommands(bunny1.Bunny1Commands):
             return "https://drive.google.com/drive/search?q=%s" % qp(arg)
         else:
             return "https://drive.google.com/drive"
+
+    def epoch(self, arg):
+        """Converts epoch-with-millis to date"""
+        s, ms = divmod(int(arg) or time.gmtime(), 1000)
+        date = '%s.%03d' % (time.strftime('%d %b %Y %H:%M:%S', time.gmtime(s)), ms)
+        raise bunny1.PRE(date)
 
     def fb(self, arg):
         """Search www.facebook.com or go there"""
