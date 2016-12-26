@@ -1,4 +1,6 @@
 " Preamble ---------------------------------------------------------------- {{{
+
+set nocompatible
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 
 " Dear /bin/bash: fuck you and your bullshit, arcane command-line behaviour.
@@ -24,7 +26,6 @@ filetype off
 execute pathogen#infect()
 execute pathogen#helptags()
 filetype plugin indent on
-set nocompatible
 
 " }}}
 " Basic options ----------------------------------------------------------- {{{
