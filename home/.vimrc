@@ -654,6 +654,7 @@ augroup ft_javascript
     au FileType javascript call MakeSpacelessBufferIabbrev('afn',  'function()<left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('rt',   'return ;<left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('dolog', '.do(console.log)')
 
     " }}}
 augroup END
@@ -1110,7 +1111,7 @@ vnoremap <silent> <localleader>e :SendSelectionToTmux<cr>
 
 " Diff mode
 nnoremap <localleader>d :windo diffthis<cr>
-nnoremap <localleader>D :windo diffoff<cr>
+nnoremap <localleader>D :windo diffoff!<cr>
 
 " Remove ANSI color escape codes for the edited file. This is handy when
 " piping colored text into Vim.
