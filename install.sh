@@ -40,7 +40,7 @@ function create_dir {
 }
 
 (
-    cd home/.vim/bundle/omnisharp-vim/server
+    cd .vim/bundle/omnisharp-vim/server
     if which xbuild 2>/dev/null; then
         xbuild
     elif which msbuild.exe 2>/dev/null; then
@@ -49,19 +49,19 @@ function create_dir {
 )
 
 (
-    cd home/.vim/bundle/vimproc.vim/
+    cd .vim/bundle/vimproc.vim/
     test $FORCE -eq 0 && make clean
     make
 )
 
 (
-    cd home/.vim/bundle/tern_for_vim/
+    cd .vim/bundle/tern_for_vim/
     test $FORCE -eq 0 && rm -rf node_modules
     npm install
 )
 
 (
-    cd home/.vim/bundle/tsuquyomi/
+    cd .vim/bundle/tsuquyomi/
     test $FORCE -eq 0 && rm -rf node_modules
     npm install
 )

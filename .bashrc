@@ -144,9 +144,10 @@ load_if_present() {
     fi
 }
 
-load_if_present ~/opt/z/z.sh
-load_if_present ~/opt/fabric-completion/fabric-completion.bash
-load_if_present ~/opt/vagrant-bash-completion/etc/bash_completion.d/vagrant
+load_if_present ~/dev-env/opt/z/z.sh
+load_if_present ~/dev-env/opt/fabric-completion/fabric-completion.bash
+load_if_present ~/dev-env/opt/vagrant-bash-completion/etc/bash_completion.d/vagrant
+load_if_present ~/dev-env/opt/tmuxinator/completion/tmuxinator.bash
 load_if_present ~/.bashrc_ion
 
 # }}}
@@ -213,42 +214,19 @@ function ${wrapper_name}() {
   eval "$new_completion"
 }
 
-_tmuxinator() {
-    COMPREPLY=()
-    local word
-    word="${COMP_WORDS[COMP_CWORD]}"
-
-    if [ "$COMP_CWORD" -eq 1 ]; then
-        local commands="$(compgen -W "$(tmuxinator commands)" -- "$word")"
-        local projects="$(compgen -W "$(tmuxinator completions start)" -- "$word")"
-
-        COMPREPLY=( $commands $projects )
-    elif [ "$COMP_CWORD" -eq 2 ]; then
-        local words
-        words=("${COMP_WORDS[@]}")
-        unset words[0]
-        unset words[$COMP_CWORD]
-        local completions
-        completions=$(tmuxinator completions "${words[@]}")
-        COMPREPLY=( $(compgen -W "$completions" -- "$word") )
-    fi
-}
-
-complete -F _tmuxinator tmuxinator mux
-
 # }}}
 # Useful functions {{{
 
-eb()  { vim ~/dotfiles/home/.bashrc; }
-eb1() { vim ~/dotfiles/home/opt/bunny1/b1_custom.py; }
-eg()  { vim ~/dotfiles/home/.gitconfig; }
+eb()  { vim ~/dotfiles/.bashrc; }
+eb1() { vim ~/dotfiles/opt/bunny1/b1_custom.py; }
+eg()  { vim ~/dotfiles/.gitconfig; }
 ej()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX) -c 'se spell wrap nonu noru ft=jira'; }
-eh()  { vim ~/dotfiles/home/.hgrc; }
+eh()  { vim ~/dotfiles/.hgrc; }
 em()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX) -c 'se spell wrap nonu noru'; }
-es()  { vim ~/dotfiles/home/.slate; }
-et()  { vim ~/dotfiles/home/.tmux.conf; }
-ev()  { vim ~/dotfiles/home/.vimrc; }
-eV()  { vim ~/dotfiles/home/.vimperatorrc; }
+es()  { vim ~/dotfiles/.slate; }
+et()  { vim ~/dotfiles/.tmux.conf; }
+ev()  { vim ~/dotfiles/.vimrc; }
+eV()  { vim ~/dotfiles/.vimperatorrc; }
 
 function ..() {    cd ../"$@"; }
 function ...() {   cd ../../"$@"; }
@@ -274,21 +252,7 @@ function -() {
         grep -v -E "$1|$2|$3|$4|$5|$6" | - "${@:7}"
     fi
 }
-# Ack {{{
-
-function a() {
-    local _ack
-
-    if hash ack 2>/dev/null; then
-        _ack=ack
-    elif hash ack-grep 2>/dev/null; then
-        _ack=ack-grep
-    fi
-    ${_ack} "$@"
-}
-function ai() { a -i "$@"; }
-
-# }}}
+function a() { ag --hidden --smart-case "$@"; }
 function b() { bower "$@"; }
 function banner() { figlet -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
 function b1() { ~/opt/bunny1/venv/bin/python ~/opt/bunny1/b1_custom.py --test "$*"; }
