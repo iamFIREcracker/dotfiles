@@ -27,3 +27,4 @@ venv/
 .vagrant
 npm-debug.log
 .DS_Store
+.vim/tmp/
