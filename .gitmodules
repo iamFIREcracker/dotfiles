@@ -76,6 +76,7 @@
 [submodule "home/.vim/bundle/titanium-vim"]
 	path = .vim/bundle/titanium-vim
 	url = https://github.com/pekepeke/titanium-vim.git
+	ignore = dirty
 [submodule "home/.vim/bundle/vitality.vim"]
 	path = .vim/bundle/vitality.vim
 	url = https://github.com/sjl/vitality.vim.git
@@ -124,6 +125,7 @@
 [submodule "home/.vim/bundle/tsuquyomi"]
 	path = .vim/bundle/tsuquyomi
 	url = https://github.com/Quramy/tsuquyomi.git
+	ignore = dirty
 [submodule "home/.vim/bundle/vim-less"]
 	path = .vim/bundle/vim-less
 	url = https://github.com/genoma/vim-less.git
@@ -145,6 +147,7 @@
 [submodule "home/.vim/bundle/omnisharp-vim"]
 	path = .vim/bundle/omnisharp-vim
 	url = https://github.com/OmniSharp/omnisharp-vim.git
+	ignore = dirty
 [submodule "home/.vim/bundle/robotframework-vim"]
 	path = .vim/bundle/robotframework-vim
 	url = https://github.com/mfukar/robotframework-vim.git
