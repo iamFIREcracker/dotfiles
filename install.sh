@@ -1,13 +1,18 @@
 #!/bin/bash
 
-test "$1" == "--force"
-FORCE=$?
+FORCE=1
+for i; do
+    if [ "$i" == '--force' ]; then
+        FORCE=0
+    fi
+done
 
 WORKDIR="$(pwd)"
 OS_WIN=$(uname -s | grep CYGWIN)
 
 set -u
 set -e
+set -x
 
 function ensure_link {
     test $FORCE -eq 0 && remove "$HOME/$2"
@@ -35,39 +40,44 @@ function create_dir {
 }
 
 (
-    cd home/opt/bunny1
-    if [ ! -d venv ]; then
-        virtualenv venv
-        venv/bin/pip install -r requirements.txt
-    fi
-)
-(
-    cd home/.vim/bundle/omnisharp-vim/
-    git submodule update --init --recursive
-    cd server
+    cd home/.vim/bundle/omnisharp-vim/server
     if which xbuild 2>/dev/null; then
         xbuild
     elif which msbuild.exe 2>/dev/null; then
         msbuild.exe
     fi
 )
-(cd home/.vim/bundle/vimproc.vim/ && make clean && make)
-(cd home/.vim/bundle/tern_for_vim/ && rm -rf node_modules && npm install)
-(cd home/.vim/bundle/tsuquyomi/ && rm -rf node_modules && npm install)
+
+(
+    cd home/.vim/bundle/vimproc.vim/
+    test $FORCE -eq 0 && make clean
+    make
+)
+
+(
+    cd home/.vim/bundle/tern_for_vim/
+    test $FORCE -eq 0 && rm -rf node_modules
+    npm install
+)
+
+(
+    cd home/.vim/bundle/tsuquyomi/
+    test $FORCE -eq 0 && rm -rf node_modules
+    npm install
+)
+
 
 test -z "$OS_WIN" && ensure_dir ".titanium"
 
 
                      ensure_link "home/bin"                    "bin"
                      ensure_link "home/lib"                    "lib"
-                     ensure_link "home/opt"                    "opt"
                      ensure_link "home/.ackrc"                 ".ackrc"
                      ensure_link "home/.bash_profile"          ".bash_profile"
                      ensure_link "home/.bashrc"                ".bashrc"
                      ensure_link "home/.bashrc_ion"            ".bashrc_ion"
                      ensure_link "home/.ctags"                 ".ctags"
                      ensure_link "home/.gitconfig"             ".gitconfig"
-                     ensure_link "home/.gitconfig_ion"         ".gitconfig_ion"
                      ensure_link "home/.gitignore_global"      ".gitignore_global"
                      ensure_link "home/.hgignore"              ".hgignore"
                      ensure_link "home/.hgrc"                  ".hgrc"

@@ -2,6 +2,9 @@
 ###########
 tags
 
+# Electron
+*-darwin-x64
+
 # Intellij
 ##########
 .idea/
@@ -18,6 +21,9 @@ node_modules/
 # Python
 ########
 *.pyc
+.ropeproject
+venv/
 
+.vagrant
 npm-debug.log
 .DS_Store
