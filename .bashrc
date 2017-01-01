@@ -56,12 +56,12 @@ bind '"✠": "sudo !!\015"'
 # Colors
 N=$'\e[0m'
 BOLD=$'\e[1m'
-D=$'\e[37;40m'
-PINK=$'\e[35;40m'
-GREEN=$'\e[32;40m'
-ORANGE=$'\e[33;40m'
-CYAN=$'\e[36;40m'
-RED=$'\e[31;40m'
+D=$'\e[37m'
+PINK=$'\e[35m'
+GREEN=$'\e[32m'
+ORANGE=$'\e[33m'
+CYAN=$'\e[36m'
+RED=$'\e[31m'
 
 # }}}
 # Vim mode {{{
@@ -144,10 +144,10 @@ load_if_present() {
     fi
 }
 
-load_if_present ~/dev-env/opt/z/z.sh
-load_if_present ~/dev-env/opt/fabric-completion/fabric-completion.bash
-load_if_present ~/dev-env/opt/vagrant-bash-completion/etc/bash_completion.d/vagrant
-load_if_present ~/dev-env/opt/tmuxinator/completion/tmuxinator.bash
+load_if_present ~/opt/z/z.sh
+load_if_present ~/opt/fabric-completion/fabric-completion.bash
+load_if_present ~/opt/vagrant-bash-completion/etc/bash_completion.d/vagrant
+load_if_present ~/opt/tmuxinator/completion/tmuxinator.bash
 load_if_present ~/.bashrc_ion
 
 # }}}
