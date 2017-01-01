@@ -72,7 +72,7 @@ test -z "$OS_WIN" && ensure_dir ".titanium"
 
                      ensure_link "bin"                    "bin"
                      ensure_link "lib"                    "lib"
-                     ensure_link ".ackrc"                 ".ackrc"
+                     ensure_link ".agignore"              ".agignore"
                      ensure_link ".bash_profile"          ".bash_profile"
                      ensure_link ".bashrc"                ".bashrc"
                      ensure_link ".bashrc_ion"            ".bashrc_ion"
