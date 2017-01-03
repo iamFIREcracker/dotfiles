@@ -3,10 +3,7 @@
 reattach=`which reattach-to-user-namespace 2> /dev/null`
 
 if [ -n "${reattach}" ]; then
-    ${reattach} "$@"
+    exec "${reattach}" "$@"
 else
-    if [ "-l" == "$1" ]; then
-        shift # skip
-    fi
-    "$@"
+    exec "$@"
 fi
