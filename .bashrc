@@ -258,6 +258,7 @@ function banner() { figlet -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
 function b1() { ~/opt/bunny1/venv/bin/python ~/opt/bunny1/b1_custom.py --test "$*"; }
 function cleancodes() { sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"; }
 function collapse() { sed -e 's/  */ /g'; }
+function cols() { collapse | cuts -f "$@"; }
 function cuts() { cut -d' ' "$@"; }
 function de() { deactivate; }
 function uniqdiff() {

@@ -749,6 +749,8 @@ augroup ft_python
     " Send to tmux with localleader e
     au FileType python nnoremap <buffer> <silent> <localleader>e :let python_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(python_tslime_view)<cr>
 
+    au FileType python let b:delimitMate_nesting_quotes = ['"']
+
     au FileType python RainbowParenthesesActivate
     au syntax python RainbowParenthesesLoadRound
     au syntax python RainbowParenthesesLoadSquare
