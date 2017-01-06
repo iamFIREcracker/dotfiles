@@ -1422,6 +1422,12 @@ nmap gp <Plug>yankstack_substitute_older_paste
 nnoremap gP g-
 
 " }}}
+" Writegooder {{{
+
+nnoremap <localleader>w :WritegooderEnable<cr>
+nnoremap <localleader>W :WritegooderDisable<cr>
+
+" }}}
 
 " }}}
 " Text objects ------------------------------------------------------------ {{{

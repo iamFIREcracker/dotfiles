@@ -187,3 +187,6 @@
 [submodule "home/.vim/bundle/vim-airline-themes"]
 	path = .vim/bundle/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes
+[submodule ".vim/bundle/writegooder.vim"]
+	path = .vim/bundle/writegooder.vim
+	url = https://github.com/JKirchartz/writegooder.vim.git
