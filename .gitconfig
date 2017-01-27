@@ -43,6 +43,8 @@
     cm = commit -v -m
     cmm = commit --no-edit
 
+    co = checkout
+
     pl = "!f() { \
         if [ \"$(git currentbranch)\" != \"master\" ]; then \
             args=master..; \
@@ -79,7 +81,7 @@
 
     shelve = stash save --include-untracked
     unshelve = "!f() { \
-        if git stash list | grep .; then \
+        if git stash list | grep . >/dev/null; then \
             if ! git stash pop; then \
                 if git status --short | grep '^UU '; then \
                     git mergetool && git reset && git stash drop; \

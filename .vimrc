@@ -654,7 +654,8 @@ augroup ft_javascript
     au FileType javascript call MakeSpacelessBufferIabbrev('afn',  'function()<left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('rt',   'return ;<left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('dolog', '.do(console.log)')
+    au FileType javascript call MakeSpacelessBufferIabbrev('dolog', 'do(console.log)')
+    au FileType javascript call MakeSpacelessBufferIabbrev('maplog', 'map(e => console.log(e) \|\| e)')
 
     " }}}
 augroup END

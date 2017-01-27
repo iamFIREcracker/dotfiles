@@ -368,22 +368,22 @@ function webstreaming() {
 # Connection {{{ 
 
     cn() {
-        ssh -R 5556:localhost:5556 cpuk1ionhurap01.iontrading.com
+        ssh -R 5556:localhost:5556 mlandi@cpuk1ionhurap01.iontrading.com
     }
     cndb() {
-        ssh -R 5556:localhost:5556 cpuk1ionhurdb01.iontrading.com
+        ssh -R 5556:localhost:5556 mlandi@cpuk1ionhurdb01.iontrading.com
     }
     cnuat() {
-        ssh -R 5556:localhost:5556 cuuk1ionhurap01.iontrading.com
+        ssh -R 5556:localhost:5556 mlandi@cuuk1ionhurap01.iontrading.com
     }
     cnuatdb() {
-        ssh -R 5556:localhost:5556 cuuk1ionhurdb01.iontrading.com
+        ssh -R 5556:localhost:5556 mlandi@cuuk1ionhurdb01.iontrading.com
     }
     cnint() {
-        ssh -R 5556:localhost:5556 cpuk1ionhurap02.iontrading.com
+        ssh -R 5556:localhost:5556 mlandi@cpuk1ionhurap02.iontrading.com
     }
     cnintdb() {
-        ssh -R 5556:localhost:5556 cpuk1ionhurdb02.iontrading.com
+        ssh -R 5556:localhost:5556 mlandi@cpuk1ionhurdb02.iontrading.com
     }
     cnjk01() {
         ssh -R 5556:localhost:5556 Matteo.Landi@con-jenkins-01.lab49.com
