@@ -138,7 +138,7 @@ augroup theme_customizations
             \ hi NeomakeWarningSign ctermfg=yellow ctermbg=235
 augroup END
 
-" let g:gruvbox_italic=1
+let g:gruvbox_italic=1
 colorscheme gruvbox
 
 " }}}
