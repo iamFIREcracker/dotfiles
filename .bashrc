@@ -88,6 +88,7 @@ export PAGER="/usr/bin/less"
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu nornu noma' -\""
 export PATH="${HOME}/npm/bin:$PATH"
 export PATH="${HOME}/opt/PathPicker:$PATH"
+export PATH="${HOME}/opt/tmux:${PATH}"
 export HGEDITOR="~/bin/hgeditor"
 
 # Java et al. {{{
