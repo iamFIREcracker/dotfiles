@@ -8,6 +8,7 @@ for i; do
 done
 
 WORKDIR="$(pwd)"
+OS_MAC=$(uname -s | grep Darwin)
 OS_WIN=$(uname -s | grep CYGWIN)
 
 set -u
@@ -86,6 +87,7 @@ test -n "$OS_WIN" && ensure_link ".minttyrc"              ".minttyrc"
                      ensure_link ".npmrc"                 ".npmrc"
                      ensure_link ".vimfx"                 ".vimfx"
                      ensure_link ".pythonrc.py"           ".pythonrc.py"
+test -n "$OS_MAC" && ensure_link ".slate"                 ".slate"
                      ensure_link ".tmuxinator"            ".tmuxinator"
                      ensure_link ".tmux.conf"             ".tmux.conf"
                      ensure_link ".vim"                   ".vim"
