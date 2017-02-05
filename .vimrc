@@ -70,6 +70,7 @@ set title
 set linebreak
 set dictionary=/usr/share/dict/words
 "set clipboard=unnamed
+set termguicolors
 
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
@@ -137,7 +138,8 @@ augroup theme_customizations
             \ hi NeomakeWarningSign ctermfg=yellow ctermbg=235
 augroup END
 
-colorscheme hybrid
+" let g:gruvbox_italic=1
+colorscheme gruvbox
 
 " }}}
 " Auttogroups {{{

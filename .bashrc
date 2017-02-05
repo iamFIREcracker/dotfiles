@@ -56,12 +56,12 @@ bind '"✠": "sudo !!\015"'
 # Colors
 N=$'\e[0m'
 BOLD=$'\e[1m'
-D=$'\e[37m'
-PINK=$'\e[35m'
-GREEN=$'\e[32m'
-ORANGE=$'\e[33m'
-CYAN=$'\e[36m'
-RED=$'\e[31m'
+D=$'\e[1;37m'
+PINK=$'\e[1;35m'
+GREEN=$'\e[1;32m'
+ORANGE=$'\e[1;33m'
+CYAN=$'\e[1;36m'
+RED=$'\e[1;31m'
 
 # }}}
 # Vim mode {{{
@@ -83,7 +83,6 @@ alias :qa=exit
 
 export HISTCONTROL=erasedups
 export HISTSIZE=10000
-export TERM=screen-256color
 export EDITOR="vim"
 export PAGER="/usr/bin/less"
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu nornu noma' -\""
