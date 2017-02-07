@@ -633,7 +633,6 @@ augroup END
 augroup ft_javascript
     au!
 
-    au FileType javascript setlocal foldmethod=syntax
     au FileType javascript setlocal ts=2 sw=2 sts=2
     au Filetype javascript setlocal textwidth=100
 
