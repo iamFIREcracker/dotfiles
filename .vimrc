@@ -657,6 +657,7 @@ augroup ft_javascript
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
     au FileType javascript call MakeSpacelessBufferIabbrev('dolog', 'do(console.log)')
     au FileType javascript call MakeSpacelessBufferIabbrev('maplog', 'map(e => console.log(e) \|\| e)')
+    au FileType javascript call MakeSpacelessBufferIabbrev('thenlog', 'then(e => console.log(e) \|\| e)')
 
     " }}}
 augroup END
@@ -1131,7 +1132,7 @@ nnoremap <silent> gw :ArgWrap<cr>
 " Go back to the previous edited file with backspace
 nnoremap <BS> <C-^>
 
-nnoremap <leader>J :%!python -m json.tool
+nnoremap <leader>J :%!python -m json.tool<cr>
 
 " Block Colors {{{
 

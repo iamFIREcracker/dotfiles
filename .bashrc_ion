@@ -367,41 +367,31 @@ function webstreaming() {
 
 # Connection {{{ 
 
+    echo_n_run() {
+        echo "$@"
+        "$@"
+    }
+
     cn() {
-        ssh -R 5556:localhost:5556 mlandi@cpuk1ionhurap01.iontrading.com
+        echo_n_run ssh -R 5556:localhost:5556 mlandi@cpuk1ionhurap01.iontrading.com
     }
     cndb() {
-        ssh -R 5556:localhost:5556 mlandi@cpuk1ionhurdb01.iontrading.com
+        echo_n_run ssh -R 5556:localhost:5556 mlandi@cpuk1ionhurdb01.iontrading.com
     }
     cnuat() {
-        ssh -R 5556:localhost:5556 mlandi@cuuk1ionhurap01.iontrading.com
+        echo_n_run ssh -R 5556:localhost:5556 mlandi@cuuk1ionhurap01.iontrading.com
     }
     cnuatdb() {
-        ssh -R 5556:localhost:5556 mlandi@cuuk1ionhurdb01.iontrading.com
+        echo_n_run ssh -R 5556:localhost:5556 mlandi@cuuk1ionhurdb01.iontrading.com
     }
     cnint() {
-        ssh -R 5556:localhost:5556 mlandi@cpuk1ionhurap02.iontrading.com
+        echo_n_run ssh -R 5556:localhost:5556 mlandi@cpuk1ionhurap02.iontrading.com
     }
     cnintdb() {
-        ssh -R 5556:localhost:5556 mlandi@cpuk1ionhurdb02.iontrading.com
+        echo_n_run ssh -R 5556:localhost:5556 mlandi@cpuk1ionhurdb02.iontrading.com
     }
-    cnjk01() {
-        ssh -R 5556:localhost:5556 Matteo.Landi@con-jenkins-01.lab49.com
-    }
-    cnjk02() {
-        ssh -R 5556:localhost:5556 Matteo.Landi@con-jenkins-02.lab49.com
-    }
-    cnjk03() {
-        ssh -R 5556:localhost:5556 Matteo.Landi@con-jenkins-03.lab49.com
-    }
-    cnjk04() {
-        ssh -R 5556:localhost:5556 Matteo.Landi@con-jenkins-04.lab49.com
-    }
-    cnjk05() {
-        ssh -R 5556:localhost:5556 Matteo.Landi@con-jenkins-05.lab49.com
-    }
-    cnjk06() {
-        ssh -R 5556:localhost:5556 Matteo.Landi@con-jenkins-06.lab49.com
+    jk() {
+        echo_n_run ssh -R 5556:localhost:5556 IONTRADING\\mlandi@10.101.2.196
     }
 
 # }}}

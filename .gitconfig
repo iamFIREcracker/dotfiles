@@ -44,6 +44,10 @@
     cmm = commit --no-edit
 
     co = checkout
+    cob = checkout -b
+
+    com = checkout master
+    mom = merge origin/master
 
     pl = "!f() { \
         if [ \"$(git currentbranch)\" != \"master\" ]; then \
@@ -75,6 +79,7 @@
     d  = "!f() { cd ${GIT_PREFIX:-.}; git diff -- $@ | vim -R -; }; f"
     di = "!f() { cd ${GIT_PREFIX:-.}; git diff --cached -- $@ | vim -R -; }; f"
     du = diff origin/master upstream/master
+    dom = !git diff origin/master.. | vim -R -
 
     in = !git fetch && git log --pretty=oneline --abbrev-commit --graph ..@{u}
     ind = !git fetch && git diff ..@{u}
