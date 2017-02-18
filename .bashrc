@@ -218,7 +218,11 @@ function ${wrapper_name}() {
 # Useful functions {{{
 
 eb()  { vim ~/dotfiles/.bashrc; }
-eb1() { vim ~/dotfiles/opt/bunny1/b1_custom.py; }
+eb1() { vim ~/my-env/opt/bunny1/b1_custom.py; }
+echo_n_run() {
+    echo "$@"
+    "$@"
+}
 eg()  { vim ~/dotfiles/.gitconfig; }
 ej()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX) -c 'se spell wrap nonu noru ft=jira'; }
 eh()  { vim ~/dotfiles/.hgrc; }
@@ -437,6 +441,34 @@ function s() {
     cmd="${cmd} bash --rcfile /tmp/.bashrc_temp"
     ssh -R 5556:localhost:5556 -t $host "$cmd"
 }
+# SSH monochrome {{{
+
+function ssh-mono() {
+    TERM=vt220 ssh "$@" -t "clear;bash"
+    unfuck && clear
+}
+function ssh-red() {
+    printf "\x1b[41m"
+    ssh-mono "$@"
+}
+function ssh-green() {
+    printf "\x1b[42m"
+    ssh-mono "$@"
+}
+function ssh-orange() {
+    printf "\x1b[43m"
+    ssh-mono "$@"
+}
+function ssh-blue() {
+    printf "\x1b[44m"
+    ssh-mono "$@"
+}
+function ssh-purple() {
+    printf "\x1b[45m"
+    ssh-mono "$@"
+}
+
+# }}}
 function sb() { . ~/.bashrc; }
 function serve-this() { python -m SimpleHTTPServer "$@"; }
 # strip colors {{{
@@ -464,6 +496,7 @@ function tmuxattach() {
 }
 function to() { sed "/$1/q"; }
 function tf() { tail -f "$@"; }
+function unfuck() { echo "${N}"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
 # Vagrant {{{
@@ -530,6 +563,13 @@ function xvim() {
     xargs "$@" sh -c 'vim "$@" </dev/tty' dummy_script_name
 }
 function zombies() {  ps ex | awk "\$3==\"Z\"{print \$0}"; }
+
+# }}}
+# Hosts {{{
+
+function matteolandi {
+    echo_n_run ssh-red matteo@matteolandi.net
+}
 
 # }}}
 # Prompt {{{
