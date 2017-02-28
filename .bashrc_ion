@@ -427,10 +427,10 @@ delhiqa() {
 }
 
 pimatlanw01() {
-    ssh -R 5556:localhost:5556 mlandi@PIMATLANW01.iontrading.com
+    echo_n_run ssh -R 5556:localhost:5556 mlandi@PIMATLANW01.iontrading.com
 }
 pimatlanw01linux() {
-    ssh -R 5556:localhost:5556 -p 10022 vagrant@PIMATLANW01.iontrading.com
+    echo_n_run ssh -R 5556:localhost:5556 -p 10022 vagrant@PIMATLANW01.iontrading.com
 }
 
 # }}}

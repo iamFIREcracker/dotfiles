@@ -416,7 +416,7 @@ function pip() {
 function pipf() { pip freeze > requirements.txt; }
 function pipir() { pip install -r requirements.txt; }
 function pip-sys() { $(which pip) "$@"; }
-function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n; }
+function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n | gc "${1-.}"; }
 function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collapse | cuts -f 2,11-; }
 # react-native {{{
 
