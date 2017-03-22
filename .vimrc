@@ -305,6 +305,12 @@ nnoremap Vat vatV
 nnoremap Vab vabV
 nnoremap VaB vaBV
 
+"" Smarcase for */# {{{
+
+nnoremap * /\<<C-R>=expand('<cword>')<CR>\><CR>
+nnoremap # ?\<<C-R>=expand('<cword>')<CR>\><CR>
+
+"" }}}
 " Visual Mode */# from Scrooloose {{{
 
 function! s:VSetSearch()
