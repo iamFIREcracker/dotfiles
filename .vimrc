@@ -890,6 +890,7 @@ augroup END
 augroup ft_typescript
     au!
 
+    au FileType typescript setlocal ts=2 sw=2 sts=2
     au FileType typescript setlocal foldmethod=syntax
     au FileType typescript setlocal foldnestmax=3
 
@@ -1274,6 +1275,7 @@ nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>ga :Gadd<cr>
 nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gco :Gcheckout<cr>
 nnoremap <leader>gci :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>

@@ -34,6 +34,7 @@
 [alias]
     tags = tag -l
     b = branch -v
+    bd = branch -d
     branches = branch -a
     remotes = remote -v
     shelves = stash list
@@ -47,7 +48,13 @@
     cob = checkout -b
 
     com = checkout master
-    mom = merge origin/master
+    mo = "!f() {\
+        git merge origin/\"${@}\";\
+    }; f"
+    mom = !git mo master
+    mr = "!f() { \
+        git mo \"${@}\" && git push && git push origin :\"${@}\";\
+    }; f"
 
     pl = "!f() { \
         if [ \"$(git currentbranch)\" != \"master\" ]; then \
@@ -76,10 +83,10 @@
     root = rev-parse --show-toplevel
     currentbranch = !git rev-parse --abbrev-ref HEAD 2>/dev/null
 
-    d  = "!f() { cd ${GIT_PREFIX:-.}; git diff -- $@ | vim -R -; }; f"
-    di = "!f() { cd ${GIT_PREFIX:-.}; git diff --cached -- $@ | vim -R -; }; f"
+    d  = "!f() { cd ${GIT_PREFIX:-.}; git diff -- $@ | vim -c 'set ft=diff' -R -; }; f"
+    di = "!f() { cd ${GIT_PREFIX:-.}; git diff --cached -- $@ | vim -c 'set ft=diff' -R -; }; f"
     du = diff origin/master upstream/master
-    dom = !git diff origin/master.. | vim -R -
+    dom = !git diff origin/master.. | vim -c 'set ft=diff' -R -
 
     in = !git fetch && git log --pretty=oneline --abbrev-commit --graph ..@{u}
     ind = !git fetch && git diff ..@{u}
@@ -139,3 +146,6 @@
 [mergetool "splice"]
     cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"
     trustExitCode = true
+
+[difftool]
+  prompt = false
