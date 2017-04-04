@@ -1141,6 +1141,8 @@ nnoremap <BS> <C-^>
 
 nnoremap <leader>J :%!python -m json.tool<cr>
 
+nnoremap <leader>Z :Goyo<cr>
+
 " Block Colors {{{
 
 let g:blockcolor_state = 0

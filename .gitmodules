@@ -196,3 +196,6 @@
 [submodule ".tmux-plugins/tmux-gruvbox"]
 	path = .tmux-plugins/tmux-gruvbox
 	url = https://github.com/egel/tmux-gruvbox.git
+[submodule ".vim/bundle/goyo.vim"]
+	path = .vim/bundle/goyo.vim
+	url = https://github.com/junegunn/goyo.vim.git
