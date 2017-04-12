@@ -380,10 +380,10 @@ function webstreaming() {
         echo_n_run ssh-green mlandi@cuuk1ionhurdb01.iontrading.com
     }
     cnint() {
-        echo_n_run ssh-blue mlandi@cpuk1ionhurap02.iontrading.com
+        echo_n_run ssh-blue mlandi@cduk1ionhurap01.iontrading.com
     }
     cnintdb() {
-        echo_n_run ssh-blue mlandi@cpuk1ionhurdb02.iontrading.com
+        echo_n_run ssh-blue mlandi@cduk1ionhurdb01.iontrading.com
     }
     jk() {
         echo_n_run ssh-purple IONTRADING\\mlandi@10.101.2.196

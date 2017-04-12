@@ -137,6 +137,14 @@
 
     deleted = !git log --diff-filter=D --summary | vim -R -
 
+    fuck-win = "!f() { \
+        git config core.preloadindex true; \
+        git config core.fscache true; \
+        git config core.autocrlf true; \
+        git config core.filemode false; \
+        git config gc.auto 256; \
+    }; f"
+
 [pull]
     ff = only
 
