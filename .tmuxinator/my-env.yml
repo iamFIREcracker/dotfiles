@@ -1,7 +1,11 @@
-name: dotfiles
+name: my-env
 root: ~/
 
 windows:
+  - my-env:
+      root: ~/my-env
+      panes:
+        - g st
   - dotfiles:
       root: ~/dotfiles
       panes:
