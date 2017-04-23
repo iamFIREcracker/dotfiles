@@ -491,8 +491,9 @@ function tac() {
 function tmuxlist() { tmux list-sessions; }
 function tmuxattach() {
     tmuxlist
+    echo -n "? "
     read sessionname
-    tmux attach -t "$sessionname"
+    [ -n "$sessionname" ] && tmux attach -t "$sessionname"
 }
 function to() { sed "/$1/q"; }
 function tf() { tail -f "$@"; }
