@@ -15,9 +15,6 @@ set -o pipefail
 # Update window size after every command
 shopt -s checkwinsize
 
-# Display matches for ambiguous patterns at first tab press
-bind "set show-all-if-ambiguous on"
-
 # merge / append histories
 shopt -s histappend
 
@@ -35,22 +32,11 @@ export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:hs:clear:*fpp"
 # %T equivalent to %H:%M:%S (24-hours format)
 HISTTIMEFORMAT='%F %T '
 
-# Allows space to complete and expand !$ eg:
-# $ ls Projects
-# $ cd !$<space> # completes to `cd Projects`
-bind Space:magic-space
-
 # Disable terminal scroll lock
 stty -ixon
 
-# Resume suspended program with C-Z -- and not `fg`
+# Don't 'susp' with C-Z (default)
 stty susp undef
-bind '"\C-z":"fg\015"'
-
-# Pipe last command to fpp with C-P
-bind '"\C-p": "!-1 | FPP_DISABLE_PREPENDING_HOME_WITH_SLASH=1 fpp\015"'
-# Sudo last command with C-<enter>
-bind '"✠": "sudo !!\015"'
 
 
 # Colors
@@ -67,12 +53,6 @@ RED=$'\e[1;31m'
 # Vim mode {{{
 
 set -o vi
-
-# Handy bindings
-bind -m vi-command '"gg": beginning-of-history'
-bind -m vi-command '"G": end-of-history'
-bind -m vi-command '"H": beginning-of-line'
-bind -m vi-command '"L": end-of-line'
 
 # I give up
 alias :q=exit
