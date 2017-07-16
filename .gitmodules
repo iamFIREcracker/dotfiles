@@ -83,12 +83,6 @@
 [submodule "home/.vim/bundle/AnsiEsc.vim"]
 	path = .vim/bundle/AnsiEsc.vim
 	url = https://github.com/sjl/AnsiEsc.vim.git
-[submodule "home/.vim/bundle/timl"]
-	path = .vim/bundle/timl
-	url = https://github.com/tpope/timl.git
-[submodule "home/.vim/bundle/tslime2.vim"]
-	path = .vim/bundle/tslime2.vim
-	url = https://github.com/sjl/tslime2.vim.git
 [submodule "home/.vim/bundle/Dockerfile.vim"]
 	path = .vim/bundle/Dockerfile.vim
 	url = https://github.com/ekalinin/Dockerfile.vim
