@@ -309,6 +309,7 @@ function h() { hg "$@"; }
 wrap_alias h hg ''
 
 # }}}
+function histgrep() { history | grep "$@" | gtac; }
 function hn() { head -n "$@"; }
 function hn1() { hn 1; }
 function hl() {

@@ -12,8 +12,8 @@ bind h:${hyper} ${halfleft}
 alias halfright move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY
 bind l:${hyper} ${halfright}
 
-alias bigleft  move screenOriginX;screenOriginY               2*screenSizeX/5;screenSizeY
-bind y:${hyper} ${bigleft}
+alias smallleft  move screenOriginX;screenOriginY               1*screenSizeX/4;screenSizeY
+bind y:${hyper} ${smallleft}
 
 alias bigright move screenOriginX+screenSizeX/4;screenOriginY 3*screenSizeX/4;screenSizeY
 bind o:${hyper} ${bigright}
