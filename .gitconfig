@@ -86,7 +86,9 @@
     d  = "!f() { cd ${GIT_PREFIX:-.}; git diff -- $@ | vim -c 'set ft=diff' -R -; }; f"
     di = "!f() { cd ${GIT_PREFIX:-.}; git diff --cached -- $@ | vim -c 'set ft=diff' -R -; }; f"
     du = diff origin/master upstream/master
-    dom = !git diff origin/master.. | vim -c 'set ft=diff' -R -
+
+    do = "!f() { git diff origin/\"${@}\".. | vim -c 'set ft=diff' -R -; }; f"
+    dom = !git do master
 
     in = !git fetch && git log --pretty=oneline --abbrev-commit --graph ..@{u}
     ind = !git fetch && git diff ..@{u}
