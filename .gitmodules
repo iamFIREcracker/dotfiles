@@ -181,9 +181,6 @@
 [submodule ".vim/bundle/writegooder.vim"]
 	path = .vim/bundle/writegooder.vim
 	url = https://github.com/JKirchartz/writegooder.vim.git
-[submodule ".vim/bundle/tslime.vim"]
-	path = .vim/bundle/tslime.vim
-	url = https://github.com/rjungemann/tslime.vim.git
 [submodule ".vim/bundle/gruvbox"]
 	path = .vim/bundle/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
