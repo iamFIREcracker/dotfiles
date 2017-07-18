@@ -436,6 +436,18 @@ function ssh-purple() {
 
 # }}}
 function sb() { . ~/.bashrc; }
+# Sed cross-OS wrapper {{{
+
+if hash gsed 2>/dev/null; then
+    _sed=gsed
+elif hash sed 2>/dev/null; then
+    _sed=sed
+fi
+function sed() {
+    ${_sed} "$@"
+}
+
+#}}}
 function serve-this() { python -m SimpleHTTPServer "$@"; }
 # strip colors {{{
 
