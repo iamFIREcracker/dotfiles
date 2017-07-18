@@ -1,14 +1,5 @@
 # Bash {{{
 
-if [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion
-elif [ -f /usr/local/etc/bash_completion ]; then
-    source /usr/local/etc/bash_completion
-elif [ -f /usr/share/bash-completion/bash_completion ]; then
-    source /usr/share/bash-completion/bash_completion
-fi
-
-
 # Abort piped command ASAP
 set -o pipefail
 
@@ -104,12 +95,6 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 # }}}
 # }}}
 # Extra {{{
-
-if [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion
-elif [ -f /usr/local/etc/bash_completion ]; then
-    source /usr/local/etc/bash_completion
-fi
 
 if [ -f ~/lib/bash/mobile.sh ]; then
     source ~/lib/bash/mobile.sh
@@ -557,27 +542,26 @@ function matteolandi {
 # Prompt {{{
 
 git_ps1() {
-    if git root >/dev/null 2>&1; then
-        local branch=$(git currentbranch)
-        local status=$(git_prompt_status)
-        echo "on ${PINK}${branch}${D}${GREEN}${status}${D}"
-    fi
+    local branch=$(git currentbranch)
+    local status=$(git_prompt_status)
+    echo "on ${PINK}${branch}${D}${GREEN}${status}${D}"
 }
 
 hg_ps1() {
-    if hg st >/dev/null 2>&1; then
-        local branch=$(hg branch)
-        local status=$(hg_prompt_status)
-        echo "on ${PINK}${branch}${D}${GREEN}${status}${D}"
-    fi
+    local branch=$(hg branch)
+    local status=$(hg_prompt_status)
+    echo "on ${PINK}${branch}${D}${GREEN}${status}${D}"
 }
 
 rcs_ps1() {
     if [ -n "$PROMPT_NO_RCS" ]; then
         echo
     else
-        hg_ps1
-        git_ps1
+        if git root >/dev/null 2>&1; then
+            git_ps1
+        elif hg st >/dev/null 2>&1; then
+            hg_ps1
+        fi
     fi
 }
 

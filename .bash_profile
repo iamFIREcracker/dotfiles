@@ -2,6 +2,14 @@
 # see /usr/share/doc/bash/examples/startup-files for examples.
 # the files are located in the bash-doc package.
 
+if [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
+elif [ -f /usr/local/etc/bash_completion ]; then
+    source /usr/local/etc/bash_completion
+elif [ -f /usr/share/bash-completion/bash_completion ]; then
+    source /usr/share/bash-completion/bash_completion
+fi
+
 # the default umask is set in /etc/login.defs
 umask 022
 
