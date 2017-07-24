@@ -190,3 +190,6 @@
 [submodule ".vim/bundle/goyo.vim"]
 	path = .vim/bundle/goyo.vim
 	url = https://github.com/junegunn/goyo.vim.git
+[submodule ".tmux-plugins/tmux-fpp"]
+	path = .tmux-plugins/tmux-fpp
+	url = https://github.com/tmux-plugins/tmux-fpp

@@ -21,6 +21,7 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 " Computers are bullshit.
 " let $BASH_ENV = "~/.bash_profile"
 " set shell=/bin/bash\ --login
+set shellcmdflag=-ic
 filetype off
 
 execute pathogen#infect()
