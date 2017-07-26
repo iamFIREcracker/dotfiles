@@ -10,3 +10,7 @@ windows:
       root: ~/dotfiles
       panes:
         - g st
+  - cb:
+      root: ~/opt/cb
+      panes:
+        - g st

@@ -1,16 +1,24 @@
 # Bash {{{
 
-# Abort piped command ASAP
-set -o pipefail
+if [ -z "$PS1" ]; then
+    # Abort piped command ASAP
+    set -o pipefail
 
-# Update window size after every command
-shopt -s checkwinsize
+    # Update window size after every command
+    shopt -s checkwinsize
 
-# merge / append histories
-shopt -s histappend
+    # merge / append histories
+    shopt -s histappend
 
-# Save multi-line commands as one command
-shopt -s cmdhist
+    # Save multi-line commands as one command
+    shopt -s cmdhist
+
+    # Disable terminal scroll lock
+    stty -ixon
+
+    # Don't 'susp' with C-Z (default)
+    stty susp undef
+fi
 
 # Avoid duplicate entries
 HISTCONTROL="erasedups:ignoreboth"
@@ -22,13 +30,6 @@ export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:hs:clear:*fpp"
 # %F equivalent to %Y-%m-%d
 # %T equivalent to %H:%M:%S (24-hours format)
 HISTTIMEFORMAT='%F %T '
-
-# Disable terminal scroll lock
-stty -ixon
-
-# Don't 'susp' with C-Z (default)
-stty susp undef
-
 
 # Colors
 N=$'\e[0m'
@@ -59,6 +60,7 @@ export PAGER="/usr/bin/less"
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu nornu noma' -\""
 export PATH="${HOME}/npm/bin:$PATH"
 export PATH="${HOME}/opt/PathPicker:$PATH"
+export PATH="${HOME}/opt/cb:$PATH"
 export PATH="${HOME}/opt/tmux:${PATH}"
 export HGEDITOR="~/bin/hgeditor"
 
@@ -110,7 +112,6 @@ load_if_present() {
 }
 
 load_if_present ~/opt/z/z.sh
-load_if_present ~/opt/cb/cb.sh
 load_if_present ~/opt/fabric-completion/fabric-completion.bash
 load_if_present ~/opt/vagrant-bash-completion/etc/bash_completion.d/vagrant
 load_if_present ~/opt/tmuxinator/completion/tmuxinator.bash
@@ -602,6 +603,9 @@ prompt_command() {
 
     echo -e "\n${PINK}${USER}${D} at ${ORANGE}${HOSTNAME}${D} in ${GREEN}${PWD}${D} $(rcs_ps1) $(venv_ps1)"
 }
-export PROMPT_COMMAND='prompt_command'
+
+if [ -n "$PS1" ]; then
+    export PROMPT_COMMAND='prompt_command'
+fi
 
 # }}}
