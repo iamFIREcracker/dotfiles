@@ -665,6 +665,7 @@ augroup END
 augroup ft_json
     au!
 
+    au FileType json setlocal ts=2 sw=2 sts=2
     au FileType json setlocal foldnestmax=99
 augroup END
 
@@ -1170,8 +1171,8 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 
 " Ack {{{
 
-nnoremap <leader>a :Ack<space>
-nnoremap <localleader>a :Ack  %:h<left><left><left><left>
+nnoremap <leader>a :Ack!<space>
+nnoremap <localleader>a :Ack!  %:h<left><left><left><left>
 let g:ackprg = 'ag --hidden --smart-case --nogroup --nocolor --column'
 
 " }}}
