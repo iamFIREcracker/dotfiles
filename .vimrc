@@ -19,7 +19,6 @@ set showmode
 set showcmd
 set hidden
 set visualbell
-set cursorline
 set ttyfast
 set ruler
 set backspace=indent,eol,start
@@ -39,12 +38,18 @@ set splitright
 " iTerm2 is currently slow as balls at rendering the nice unicode lines, so for
 " " now I'll just use ASCII pipes.  They're ugly but at least I won't want to kill
 " " myself when trying to move around a file.
-set fillchars=diff:⣿,vert:│
-" set fillchars=diff:⣿,vert:\|
+" set fillchars=diff:⣿,vert:│
+set fillchars=diff:⣿,vert:\|
 
-set ttimeout
+" Don't try to highlight lines longer than 800 characters.
+set synmaxcol=800
+
+" Time out on key codes but not mappings.
+" Basically this makes terminal Vim work sanely.
 set notimeout
-set nottimeout
+set ttimeout
+set ttimeoutlen=10
+
 set autowrite
 set shiftround
 set autoread
@@ -143,12 +148,13 @@ augroup auto_win_resize
 augroup END
 
 " }}}
-" Disable cursorline when losing focus {{{
+" Cursorline {{{
+" Only show cursorline in the current window and in normal mode.
 
-augroup cursorline
+augroup cline
     au!
-    au WinLeave * setlocal nocursorline
-    au WinEnter * setlocal cursorline
+    au WinLeave,InsertEnter * set nocursorline
+    au WinEnter,InsertLeave * set cursorline
 augroup END
 
 " }}}
