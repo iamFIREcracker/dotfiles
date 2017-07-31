@@ -1,6 +1,7 @@
 # Bash {{{
 
-if [ -z "$PS1" ]; then
+
+if [[ $- == *i* ]]; then
     # Abort piped command ASAP
     set -o pipefail
 
@@ -601,7 +602,8 @@ prompt_command() {
     echo -e "\n${PINK}${USER}${D} at ${ORANGE}${HOSTNAME}${D} in ${GREEN}${PWD}${D} $(rcs_ps1) $(venv_ps1)"
 }
 
-if [ -n "$PS1" ]; then
+
+if [[ $- == *i* ]]; then
     export PROMPT_COMMAND='prompt_command'
 fi
 
