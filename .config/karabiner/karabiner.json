@@ -1,0 +1,177 @@
+{
+    "global": {
+        "check_for_updates_on_startup": true,
+        "show_in_menu_bar": true,
+        "show_profile_name_in_menu_bar": false
+    },
+    "profiles": [
+        {
+            "complex_modifications": {
+                "parameters": {
+                    "basic.to_if_alone_timeout_milliseconds": 500
+                },
+                "rules": [
+                    {
+                        "manipulators": [
+                            {
+                                "description": "Change left_control to command+control+option+shift.",
+                                "from": {
+                                    "key_code": "left_control",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_shift",
+                                        "modifiers": [
+                                            "left_command",
+                                            "left_control",
+                                            "left_option"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "description": "Change caps_lock to left_control. (Post escape if pressed alone)",
+                                "from": {
+                                    "key_code": "caps_lock",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_control"
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "escape"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "description": "Change return_or_enter to left_control. (Post return_or_enter if pressed alone)",
+                                "from": {
+                                    "key_code": "return_or_enter",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_control"
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "return_or_enter"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "description": "Post ( if left_shift pressed alone",
+                                "from": {
+                                    "key_code": "left_shift",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_shift",
+                                        "modifiers": []
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "9",
+                                        "modifiers": [
+                                            "left_shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "description": "Post ) if right_shift is pressed alone",
+                                "from": {
+                                    "key_code": "right_shift",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_shift",
+                                        "modifiers": []
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "0",
+                                        "modifiers": [
+                                            "right_shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "devices": [
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 657,
+                        "vendor_id": 1452
+                    },
+                    "ignore": false
+                }
+            ],
+            "fn_function_keys": {
+                "f1": "vk_consumer_brightness_down",
+                "f10": "mute",
+                "f11": "volume_down",
+                "f12": "volume_up",
+                "f2": "vk_consumer_brightness_up",
+                "f3": "vk_mission_control",
+                "f4": "vk_launchpad",
+                "f5": "vk_consumer_illumination_down",
+                "f6": "vk_consumer_illumination_up",
+                "f7": "vk_consumer_previous",
+                "f8": "vk_consumer_play",
+                "f9": "vk_consumer_next"
+            },
+            "name": "Default profile",
+            "selected": true,
+            "simple_modifications": {
+                "left_command": "left_option",
+                "left_option": "left_command"
+            },
+            "virtual_hid_keyboard": {
+                "caps_lock_delay_milliseconds": 0,
+                "keyboard_type": "ansi",
+                "standalone_keys_delay_milliseconds": 200
+            }
+        }
+    ]
+}
