@@ -58,10 +58,6 @@ export HISTSIZE=10000
 export EDITOR="vim"
 export PAGER="/usr/bin/less"
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu nornu noma' -\""
-export PATH="${HOME}/npm/bin:$PATH"
-export PATH="${HOME}/opt/PathPicker:$PATH"
-export PATH="${HOME}/opt/cb:$PATH"
-export PATH="${HOME}/opt/tmux:${PATH}"
 export HGEDITOR="~/bin/hgeditor"
 
 # Java et al. {{{
@@ -227,6 +223,7 @@ function a() { ag --hidden --smart-case "$@"; }
 function b() { bower "$@"; }
 function banner() { figlet -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
 function b1() { ~/opt/bunny1/venv/bin/python ~/opt/bunny1/b1_custom.py --test "$*"; }
+function brewski() { brew update && brew upgrade && brew cleanup; brew doctor; }
 function cleancodes() { sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"; }
 function collapse() { sed -e 's/  */ /g'; }
 function cols() { collapse | cuts -f "$@"; }

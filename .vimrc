@@ -691,6 +691,7 @@ augroup ft_markdown
     au!
 
     au Filetype markdown setlocal spell
+    au FileType markdown let b:delimitMate_nesting_quotes = ['`']
 
     " Use <localleader>1/2/3 to add headings.
     au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=

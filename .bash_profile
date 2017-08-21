@@ -18,13 +18,13 @@ if [ -f ~/.bashrc ]; then
     . ~/.bashrc
 fi
 
-# the rest of this file is commented out.
-
-# set PATH so it includes user's private bin if it exists
-if [ -d ~/bin ] ; then
-    PATH=~/bin:"${PATH}"
-    export PATH
-fi
+test -d /usr/local/opt/node@6/bin && export PATH="/usr/local/opt/node@6/bin:$PATH"
+test -d /usr/local/sbin           && export PATH="/usr/local/sbin:$PATH"
+test -d ~/bin                     && export PATH="~/bin:$PATH"
+test -d ~/npm/bin                 && export PATH="~/npm/bin:$PATH"
+test -d ~/opt/PathPicker          && export PATH="~/opt/PathPicker:$PATH"
+test -d ~/opt/cb                  && export PATH="~/opt/cb:$PATH"
+test -d ~/opt/tmux                && export PATH="~/opt/tmux:${PATH}"
 
 # do the same with MANPATH
 if [ -d ~/man ]; then
@@ -47,3 +47,4 @@ if [ -z "${LC_ALL}" ]; then
     LC_ALL=$LANG
     export LC_ALL
 fi
+
