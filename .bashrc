@@ -482,6 +482,18 @@ function tmuxattach() {
 }
 function to() { sed "/$1/q"; }
 function tf() { tail -f "$@"; }
+function tunnel() {
+    local _server
+    local _local_port
+    local _service_host
+    local _service_port
+    read -p "server: " _server
+    read -p "local port: " _local_port
+    read -p "service host: " _service_host
+    read -p "service port: " _service_port
+
+    echo_n_run ssh ${_server} -L ${_local_port}:${_service_host}:${_service_port} -N
+}
 function unfuck() { echo "${N}"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }

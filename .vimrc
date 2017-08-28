@@ -227,6 +227,7 @@ call MakeSpacelessIabbrev('gh/',  'http://github.com/')
 call MakeSpacelessIabbrev('ghm/', 'http://github.com/iamFIREcracker/')
 
 iabbrev ml@ matteo@matteolandi.net
+iabbrev lenght length
 
 " }}}
 " Searching and movement -------------------------------------------------- {{{
