@@ -344,6 +344,13 @@ function ll4() { tree --dirsfirst -ChFupDaL 4 "$@"; }
 function ll5() { tree --dirsfirst -ChFupDaL 5 "$@"; }
 function ll6() { tree --dirsfirst -ChFupDaL 6 "$@"; }
 function ls() { fortune; }
+# math {{{
+
+function math() {
+    bc -l -q <(echo "$@"; echo "quit")
+}
+
+# }}}
 # maven {{{
 
 function m() {
