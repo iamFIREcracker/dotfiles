@@ -217,7 +217,19 @@ function! MakeSpacelessIabbrev(from, to)
     execute "iabbrev <silent> ".a:from." ".a:to."<C-R>=EatChar('\\s')<CR>"
 endfunction
 function! MakeSpacelessBufferIabbrev(from, to)
-    execute "iabbrev <silent> <buffer> ".a:from." ".a:to."<C-R>=EatChar('\\s')<CR>"
+    let cmd = "iabbrev <silent> <buffer> ".a:from." ".a:to
+    if a:to =~ 'HERE'
+        let cmd .= "<ESC>".
+            \ ":let search_active=v:hlsearch<CR>".
+            \ "?HERE<CR>dw" .
+            \ ":call histdel('search', -1)<CR>" .
+            \ ":let @/ = histget('search', -1)<CR>" .
+            \ ":if search_active == 0 <bar> noh <bar> endif<CR>" .
+            \ "i"
+    endif
+    let cmd .= "<C-R>=EatChar('\\s')<CR>"
+
+    execute cmd
 endfunction
 
 call MakeSpacelessIabbrev('ml/',  'http://matteolandi.net/')
@@ -640,11 +652,12 @@ augroup ft_javascript
 
     " Abbreviations {{{
 
-    au FileType javascript call MakeSpacelessBufferIabbrev('if',   'if ()<left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('if',   'if (HERE)')
     au FileType javascript call MakeSpacelessBufferIabbrev('fn',   'function ')
-    au FileType javascript call MakeSpacelessBufferIabbrev('afn',  'function()<left>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('rt',   'return ;<left>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
+    au FileType javascript call MakeSpacelessBufferIabbrev('afn',  'function(HERE)')
+    au FileType javascript call MakeSpacelessBufferIabbrev('rt',   'return HERE;')
+    au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log(HERE);')
+    au FileType javascript call MakeSpacelessBufferIabbrev('pclog', 'console.log(require("util").inspect(HERE,{showHidden:false,depth:null}));')
     au FileType javascript call MakeSpacelessBufferIabbrev('dolog', 'do(console.log)')
     au FileType javascript call MakeSpacelessBufferIabbrev('maplog', 'map(e => console.log(e) \|\| e)')
     au FileType javascript call MakeSpacelessBufferIabbrev('thenlog', 'then(e => console.log(e) \|\| e)')
