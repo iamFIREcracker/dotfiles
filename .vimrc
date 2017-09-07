@@ -267,10 +267,6 @@ nmap g, g,zvzz<Plug>Pulse
 nmap gd gdzvzz<Plug>Pulse
 nmap gD gDzvzz<Plug>Pulse
 
-" Don't move on * and #
-nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(stay_star_view)<cr>
-nnoremap <silent> # :let stay_star_view = winsaveview()<cr>#:call winrestview(stay_star_view)<cr>
-
 " Window resizing
 nnoremap <c-left> 5<c-w>>
 nnoremap <c-right> 5<c-w><
@@ -293,10 +289,10 @@ nnoremap Vat vatV
 nnoremap Vab vabV
 nnoremap VaB vaBV
 
-"" Smarcase for */# {{{
+"" Smarcase for */# -- and don't automatically jump around {{{
 
-nnoremap * /\<<C-R>=expand('<cword>')<CR>\><CR>
-nnoremap # ?\<<C-R>=expand('<cword>')<CR>\><CR>
+nnoremap * :let stay_star_view = winsaveview()<cr>/\<<C-R>=expand('<cword>')<CR>\><CR>:call winrestview(stay_star_view)<cr>
+nnoremap # :let stay_star_view = winsaveview()<cr>?\<<C-R>=expand('<cword>')<CR>\><CR>:call winrestview(stay_star_view)<cr>
 
 "" }}}
 " Visual Mode */# from Scrooloose {{{

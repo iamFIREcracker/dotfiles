@@ -94,6 +94,7 @@
     ind = !git fetch && git diff ..@{u}
 
     shelve = stash save --include-untracked
+    shelver = stash save --patch
     unshelve = "!f() { \
         if git stash list | grep . >/dev/null; then \
             if ! git stash pop; then \
