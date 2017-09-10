@@ -435,6 +435,31 @@ inoremap # X<BS>#
 " }}}
 " Various filetype-specific stuff ----------------------------------------- {{{
 
+" Angular {{{
+
+augroup ft_angular
+    au!
+
+
+    au BufNewFile,BufRead *.template.html,*.tpl.html setlocal filetype=angular_template
+
+    function! DirectiveUnderCursor() " {{{
+        let directive = expand('<cWORD>')
+        if directive =~ '='
+            let directive = split(directive, '=')[0]
+        endif
+        let directive = substitute(directive, '<\|/\|>', '', 'g')
+        return directive
+    endfunction " }}}
+    function! FindDirectiveOccurrences() " {{{
+        let directive = DirectiveUnderCursor()
+
+        exe "normal! :Ack! --literal " . directive . "\<cr>"
+    endfunction "}}}
+    au Filetype angular_template nnoremap <buffer> <C-^> :call FindDirectiveOccurrences()<cr>
+augroup END
+
+" }}}
 " Blogger {{{
 
 augroup ft_blogger
