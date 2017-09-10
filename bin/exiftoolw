@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+# Reference: https://gist.github.com/rjames86/33b9af12548adf091a26
+
+NO_ARGS=0
+HELP=1
+DATE_TIME_ORIGINAL_MISSING=1
+DATE_TIME_ORIGINAL_MIN_MAX=1
+CHECKUP=1
+
+for i; do
+    if [ "$1" == '--help' ]; then
+        NO_ARGS=1
+        HELP=0
+    elif [ "$1" == '--checkup' ]; then
+        NO_ARGS=1
+        CHECKUP=0
+    elif [ "$1" == '--date-time-original-missing' ]; then
+        NO_ARGS=1
+        DATE_TIME_ORIGINAL_MISSING=0
+    elif [ "$1" == '--date-time-original-min-max' ]; then
+        NO_ARGS=1
+        DATE_TIME_ORIGINAL_MIN_MAX=0
+    fi
+done
+
+if [ $NO_ARGS -eq 0 -o $HELP -eq 0 ]; then
+    cat <<EOF
+`basename $0` OPTIONS
+
+OPTIONS:
+
+--help                          Prints this messsage
+--checkup                       Almost similar to passing --date-time-original-missing and --date-time-original-min-max
+--date-time-original-missing    Scans the current directory for JPEG files with date-time-original tags missing
+--date-time-original-min-max    Scans the current directory and output min and max date-time-original tags found
+EOF
+    exit 1
+fi
+
+if [ $CHECKUP -eq 0 -o $DATE_TIME_ORIGINAL_MISSING -eq 0 ]; then
+    exiftool -filename -filemodifydate -createdate -r \
+        -if '(not $datetimeoriginal) and $filetype eq "JPEG"' . \
+        | grep '^========' \
+        | sed -e 's/^======== //g'
+fi
+
+if [ $CHECKUP -eq 0 -o $DATE_TIME_ORIGINAL_MIN_MAX -eq 0 ]; then
+    exiftool -filename -datetimeoriginal -r \
+        -if '$datetimeoriginal and $filetype eq "JPEG"' . \
+        | grep 'Date/Time Original' \
+        | sed -e 's/  */ /g' \
+        | cut -d ':' -f 2- \
+        | sed -e 's/^ //g' \
+        | sort \
+        | tee >(head -1) \
+              >(tail -1) \
+              > /dev/null
+fi
+
+# elif [ "$1" == '--set-all-dates' ]; then
+#     exiftool_alldates_template="${1}"
+#     shift
+#     seed=0
+#     for filename in "$@"; do
+#         seed=$((seed + 1))
+#         seconds=$(printf "%02d\n" ${seed})
+#         timestamp=${exiftool_alldates_template/XX/${seconds}}
+#         exiftool "-datetimeoriginal=${timestamp}" "${filename}"
+#     done
+# fi

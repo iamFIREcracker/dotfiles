@@ -1,0 +1,21 @@
+# ~/.tmuxinator/matteolandi.yml
+
+name: matteolandi
+root: ~/Workspace/matteolandi.net/
+
+windows:
+  - root:
+      layout: main-vertical
+      root: ~/Workspace/matteolandi.net/
+      panes:
+        - vim pom.xml
+  - index:
+      layout: main-vertical
+      root: ~/Workspace/matteolandi.net/index/
+      panes:
+        - vim pom.xml
+  - system:
+      layout: main-vertical
+      root: ~/Workspace/matteolandi.net/system/
+      panes:
+        - vim
