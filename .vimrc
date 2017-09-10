@@ -76,7 +76,7 @@ set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 set wildignore+=*.pyc                            " Python byte code
 set wildignore+=*.orig                           " Merge resolution files
-set wildignore+=*node_modules                    " npm
+set wildignore+=*/node_modules/*                 " npm
 
 " Clojure/Leiningen
 set wildignore+=classes
@@ -456,7 +456,23 @@ augroup ft_angular
 
         exe "normal! :Ack! --literal " . directive . "\<cr>"
     endfunction "}}}
+    function! GuessDirectiveFilename() " {{{
+        let inex_save = &inex
+
+        function! FilenameOfDirectiveUnderCursor() " {{{
+            let directive = DirectiveUnderCursor()
+            let filename = substitute(directive, '-', '', 'g')
+            return filename
+        endfunction  " }}}
+
+        set includeexpr=FilenameOfDirectiveUnderCursor()
+        normal! gf
+
+        let &inex = inex_save
+    endfunction "}}}
+    au Filetype angular_template setlocal suffixesadd+=.js path+=**
     au Filetype angular_template nnoremap <buffer> <C-^> :call FindDirectiveOccurrences()<cr>
+    au Filetype angular_template nnoremap <buffer> gf :call GuessDirectiveFilename()<cr>
 augroup END
 
 " }}}
