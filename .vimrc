@@ -34,6 +34,7 @@ set matchtime=3
 set showbreak=↪
 set splitbelow
 set splitright
+set path=.,,
 
 " iTerm2 is currently slow as balls at rendering the nice unicode lines, so for
 " " now I'll just use ASCII pipes.  They're ugly but at least I won't want to kill
