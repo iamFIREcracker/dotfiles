@@ -1489,8 +1489,8 @@ nnoremap gP g-
 " }}}
 " Writegooder {{{
 
-nnoremap <localleader>w :WritegooderEnable<cr>
-nnoremap <localleader>W :WritegooderDisable<cr>
+let g:writegooder_disable_mappings = 1
+nnoremap <localleader>W :WritegooderToggle<cr>
 
 " }}}
 
