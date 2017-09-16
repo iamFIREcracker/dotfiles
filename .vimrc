@@ -1158,9 +1158,10 @@ nnoremap == ==j
 " " Great for pasting Python lines into REPLs.
 nnoremap vv ^vg_
 
-" TSlime2 general
-nnoremap <silent> <localleader>E :ConnectToTmux<cr>
-vnoremap <silent> <localleader>e :SendSelectionToTmux<cr>
+" TSlime general
+nmap <silent> <localleader>E <Plug>SetTmuxVars
+vmap <silent> <localleader>e <Plug>SendSelectionToTmux
+
 
 " Diff mode
 nnoremap <localleader>d :windo diffthis<cr>
@@ -1439,7 +1440,7 @@ let g:SuperTabLongestHighlight = 1
 let g:SuperTabCrMapping = 1
 
 " }}}
-" tslime2 {{{
+" tslime {{{
 
 let g:tslime_ensure_trailing_newlines = 1
 

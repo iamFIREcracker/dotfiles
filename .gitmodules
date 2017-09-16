@@ -193,3 +193,6 @@
 [submodule ".vim/bundle/commentary.vim"]
 	path = .vim/bundle/commentary.vim
 	url = https://github.com/tpope/vim-commentary.git
+[submodule ".vim/pack/plugins/start/tslime.vim"]
+	path = .vim/bundle/tslime.vim
+	url = https://github.com/jgdavey/tslime.vim
