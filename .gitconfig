@@ -33,9 +33,13 @@
 
 [alias]
     tags = tag -l
+    branches = branch -a
+
     b = branch -v
     bd = branch -d
-    branches = branch -a
+    bclean = "!f() { git branch --merged ${1-master} | grep -v \" ${1-master}$\" | xargs -r git branch -d; }; f"
+    bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
+
     remotes = remote -v
     shelves = stash list
 
@@ -72,6 +76,7 @@
 
     ack = log --color=always --all --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset' --full-history -S
 
+    up = !git pull --rebase --prune $@ && git submodule update --init --recursive
     pu = pull --ff-only
     pur = pull --rebase
     puu = !git fetch upstream && git rebase upstream/master
@@ -147,6 +152,9 @@
         git config core.filemode false; \
         git config gc.auto 256; \
     }; f"
+
+    save = !git add -A && git commit -m 'SAVEPOINT'
+    restore = reset HEAD~1 --mixed
 
 [pull]
     ff = only
