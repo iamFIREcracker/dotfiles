@@ -271,14 +271,14 @@ map <tab> %
 
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
-nmap n nzvzz<Plug>Pulse
-nmap N Nzvzz<Plug>Pulse
+nnoremap n nzvzz:Pulse<cr>
+nnoremap N Nzvzz:Pulse<cr>
 
 " Same when jumping around
-nmap g; g;zvzz<Plug>Pulse
-nmap g, g,zvzz<Plug>Pulse
-nmap gd gdzvzz<Plug>Pulse
-nmap gD gDzvzz<Plug>Pulse
+nnoremap g; g;zvzz:Pulse<cr>
+nnoremap g, g,zvzz:Pulse<cr>
+nnoremap gd gdzvzz:Pulse<cr>
+nnoremap gD gDzvzz:Pulse<cr>
 
 " Window resizing
 nnoremap <c-left> 5<c-w>>
@@ -343,10 +343,10 @@ function! WrapCommand(direction, prefix) "{{{
     endif
 endfunction "}}}
 
-nmap <silent> <left>  :call WrapCommand('up', 'c')<cr>zvzz<Plug>Pulse
-nmap <silent> <right> :call WrapCommand('down', 'c')<cr>zvzz<Plug>Pulse
-nmap <silent> <up>    :call WrapCommand('up', 'l')<cr>zvzz<Plug>Pulse
-nmap <silent> <down>  :call WrapCommand('down', 'l')<cr>zvzz<Plug>Pulse
+nnoremap <silent> <left>  :call WrapCommand('up', 'c')<cr>zvzz:Pulse()<cr>
+nnoremap <silent> <right> :call WrapCommand('down', 'c')<cr>zvzz:Pulse()<cr>
+nnoremap <silent> <up>    :call WrapCommand('up', 'l')<cr>zvzz:Pulse()<cr>
+nnoremap <silent> <down>  :call WrapCommand('down', 'l')<cr>zvzz:Pulse()<cr>
 
 " }}}
 " Directional Keys {{{
@@ -391,7 +391,7 @@ vnoremap <space> za
 "
 " I use :sus for the rare times I want to actually background Vim.
 nnoremap <expr> <Plug>FocusCurrentLine 'mzzMzvzz15<c-e>`z'
-nmap <leader>z <Plug>FocusCurrentLine<Plug>Pulse
+nmap <leader>z <Plug>FocusCurrentLine:Pulse()<cr>
 
 function! MyFoldText() " {{{
     let line = getline(v:foldstart)
@@ -680,8 +680,8 @@ augroup ft_javascript
     au FileType javascript setlocal ts=2 sw=2 sts=2
     au Filetype javascript setlocal textwidth=100
 
-    au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>zvzz<Plug>Pulse
-    au FileType javascript nnoremap <buffer> <silent> gd :TernDef<cr>zvzz<Plug>Pulse
+    au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>zvzz:Pulse<cr>
+    au FileType javascript nnoremap <buffer> <silent> gd :TernDef<cr>zvzz:Pulse<cr>
     au FileType javascript nnoremap <buffer> <silent> <C-^> :TernRefs<cr>
 
     au Filetype javascript nnoremap <buffer> <leader>d :call RunAllSpecs()<cr>
@@ -935,8 +935,8 @@ augroup ft_typescript
     au FileType typescript setlocal foldmethod=syntax
     au FileType typescript setlocal foldnestmax=3
 
-    au FileType typescript nnoremap <buffer> <silent> <C-]> :TsuDefinition<cr>zvzz<Plug>Pulse
-    au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr>zvzz<Plug>Pulse
+    au FileType typescript nnoremap <buffer> <silent> <C-]> :TsuDefinition<cr>zvzz:Pulse<cr>
+    au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr>zvzz:Pulse<cr>
 
     au FileType typescript nnoremap <buffer> <silent> ,S :TsuRenameSymbol<cr>
 
@@ -1477,13 +1477,14 @@ augroup END
 " vim-search-pulse {{{
 
 let g:vim_search_pulse_disable_auto_mappings = 1
+command! -nargs=0 Pulse :call search_pulse#Pulse()
 
 " }}}
 " vim-yankstack {{{
 
 call yankstack#setup()
-nmap Y y$
-nmap D d$
+nnoremap Y y$
+nnoremap D d$
 nmap gp <Plug>yankstack_substitute_older_paste
 nnoremap gP g-
 
