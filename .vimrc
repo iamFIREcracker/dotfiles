@@ -215,10 +215,10 @@ function! EatChar(pat)
 endfunction
 
 function! MakeSpacelessIabbrev(from, to)
-    execute "iabbrev <silent> ".a:from." ".a:to."<C-R>=EatChar('\\s')<CR>"
+    execute "inoreabbr <silent> ".a:from." ".a:to."<C-R>=EatChar('\\s')<CR>"
 endfunction
 function! MakeSpacelessBufferIabbrev(from, to)
-    let cmd = "iabbrev <silent> <buffer> ".a:from." ".a:to
+    let cmd = "inoreabbr <silent> <buffer> ".a:from." ".a:to
     if a:to =~ 'HERE'
         let cmd .= "<ESC>".
             \ ":let search_active=v:hlsearch<CR>".
@@ -239,8 +239,8 @@ call MakeSpacelessIabbrev('bbm/', 'http://bitbucket.org/iamFIREcracker/')
 call MakeSpacelessIabbrev('gh/',  'http://github.com/')
 call MakeSpacelessIabbrev('ghm/', 'http://github.com/iamFIREcracker/')
 
-iabbrev ml@ matteo@matteolandi.net
-iabbrev lenght length
+inoreabbr ml@ matteo@matteolandi.net
+inoreabbr lenght length
 
 " }}}
 " Searching and movement -------------------------------------------------- {{{
@@ -343,10 +343,10 @@ function! WrapCommand(direction, prefix) "{{{
     endif
 endfunction "}}}
 
-nnoremap <silent> <left>  :call WrapCommand('up', 'c')<cr>zvzz:Pulse()<cr>
-nnoremap <silent> <right> :call WrapCommand('down', 'c')<cr>zvzz:Pulse()<cr>
-nnoremap <silent> <up>    :call WrapCommand('up', 'l')<cr>zvzz:Pulse()<cr>
-nnoremap <silent> <down>  :call WrapCommand('down', 'l')<cr>zvzz:Pulse()<cr>
+nnoremap <silent> <left>  :call WrapCommand('up', 'c')<cr>zvzz:Pulse<cr>
+nnoremap <silent> <right> :call WrapCommand('down', 'c')<cr>zvzz:Pulse<cr>
+nnoremap <silent> <up>    :call WrapCommand('up', 'l')<cr>zvzz:Pulse<cr>
+nnoremap <silent> <down>  :call WrapCommand('down', 'l')<cr>zvzz:Pulse<cr>
 
 " }}}
 " Directional Keys {{{
@@ -391,7 +391,7 @@ vnoremap <space> za
 "
 " I use :sus for the rare times I want to actually background Vim.
 nnoremap <expr> <Plug>FocusCurrentLine 'mzzMzvzz15<c-e>`z'
-nmap <leader>z <Plug>FocusCurrentLine:Pulse()<cr>
+nmap <leader>z <Plug>FocusCurrentLine:Pulse<cr>
 
 function! MyFoldText() " {{{
     let line = getline(v:foldstart)
