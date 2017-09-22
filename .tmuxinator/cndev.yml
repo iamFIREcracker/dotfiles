@@ -27,7 +27,7 @@ windows:
       root: ~/workspace/connection/client/
       panes:
         - vim
-        - n start
+        - n run start
   - styleguide:
       layout: main-vertical
       root: ~/workspace/connection/client/
