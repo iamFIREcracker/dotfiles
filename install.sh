@@ -67,6 +67,10 @@ function create_dir {
     npm install
 )
 
+(
+    cd .vim/bundle/vim-javacomplete2/libs/javavi/
+    m compile
+)
 
 test -z "$OS_WIN" && ensure_dir ".titanium"
 
