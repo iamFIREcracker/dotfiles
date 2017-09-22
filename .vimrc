@@ -664,6 +664,7 @@ augroup END
 augroup ft_java
     au!
 
+    au FileType java setlocal omnifunc=javacomplete#Complete
     au FileType java setlocal tabstop=4 shiftwidth=4 softtabstop=4
     au FileType java setlocal foldmethod=marker foldmarker={,}
     au Filetype java setlocal textwidth=120
@@ -1118,6 +1119,7 @@ nnoremap S i<cr><esc><right>mwgk:silent! s/\v +$//<cr>:noh<cr>`wh
 
 " Less chording
 nnoremap ; :
+nnoremap : ;
 
 " Marks and Quotes
 noremap ' `
@@ -1478,6 +1480,11 @@ augroup END
 
 let g:vim_search_pulse_disable_auto_mappings = 1
 command! -nargs=0 Pulse :call search_pulse#Pulse()
+
+" }}}
+" vim-slime {{{
+
+let g:slime_target = "tmux"
 
 " }}}
 " vim-yankstack {{{

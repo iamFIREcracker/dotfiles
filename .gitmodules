@@ -196,3 +196,6 @@
 [submodule ".vim/pack/plugins/start/tslime.vim"]
 	path = .vim/bundle/tslime.vim
 	url = https://github.com/jgdavey/tslime.vim
+[submodule ".vim/bundle/vim-javacomplete2"]
+	path = .vim/bundle/vim-javacomplete2
+	url = https://github.com/artur-shaik/vim-javacomplete2.git
