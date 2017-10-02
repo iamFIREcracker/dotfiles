@@ -1001,6 +1001,7 @@ augroup END
 augroup ft_xml
     au!
 
+    au FileType xml setlocal ts=2 sw=2 sts=2
     au FileType xml setlocal foldmethod=manual
 
     " Use <localleader>f to fold the current tag.
@@ -1184,6 +1185,7 @@ nnoremap <silent> gw :ArgWrap<cr>
 nnoremap <BS> <C-^>
 
 nnoremap <leader>J :%!python -m json.tool<cr>
+xnoremap <leader>J :'<,'>!python -m json.tool<cr>
 
 nnoremap <leader>Z :Goyo<cr>
 

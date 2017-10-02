@@ -81,7 +81,6 @@
     pur = pull --rebase
     puu = !git fetch upstream && git rebase upstream/master
     pus = submodule update --init --recursive
-    spu = submodule foreach 'git pull origin master || git pull origin origin'
 
     p = push
     pf = push --force-with-lease
