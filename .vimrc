@@ -1,12 +1,7 @@
 " Preamble ---------------------------------------------------------------- {{{
 
 set nocompatible
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-
 filetype off
-
-execute pathogen#infect()
-execute pathogen#helptags()
 filetype plugin indent on
 
 " }}}
