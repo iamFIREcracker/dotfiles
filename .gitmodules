@@ -40,9 +40,6 @@
 [submodule ".vim/bundle/ack.vim"]
 	path = .vim/bundle/ack.vim
 	url = https://github.com/mileszs/ack.vim.git
-[submodule ".vim/bundle/vim-autocomplpop"]
-	path = home/.vim/bundle/vim-autocomplpop
-	url = https://github.com/othree/vim-autocomplpop.git
 [submodule ".vim/bundle/vim-jinja"]
 	path = .vim/bundle/vim-jinja
 	url = https://github.com/lepture/vim-jinja.git
@@ -67,9 +64,6 @@
 [submodule ".vim/bundle/vim-abolish"]
 	path = .vim/bundle/vim-abolish
 	url = https://github.com/tpope/vim-abolish.git
-[submodule "home/.vim/bundle/vim-pasta"]
-	path = home/.vim/bundle/vim-pasta
-	url = https://github.com/sickill/vim-pasta.git
 [submodule ".vim/bundle/vim-vinegar"]
 	path = .vim/bundle/vim-vinegar
 	url = https://github.com/tpope/vim-vinegar.git
@@ -92,9 +86,6 @@
 [submodule ".vim/bundle/vim-maven-plugin"]
 	path = .vim/bundle/vim-maven-plugin
 	url = https://github.com/sjl/vim-maven-plugin.git
-[submodule "home/opt/hhighlighter"]
-	path = home/opt/hhighlighter
-	url = https://github.com/paoloantinori/hhighlighter.git
 [submodule ".vim/bundle/vim-jade"]
 	path = .vim/bundle/vim-jade
 	url = https://github.com/digitaltoad/vim-jade.git
@@ -151,9 +142,6 @@
 [submodule ".vim/bundle/vim-rest-console"]
 	path = .vim/bundle/vim-rest-console
 	url = https://github.com/diepm/vim-rest-console.git
-[submodule "home/.vim/bundle/ReplaceWithRegister"]
-	path = .vim/bundle/ReplaceWithRegister
-	url = https://github.com/vim-scripts/ReplaceWithRegister.git
 [submodule ".vim/bundle/vim-indent-object"]
 	path = .vim/bundle/vim-indent-object
 	url = https://github.com/michaeljsmith/vim-indent-object.git
