@@ -1146,9 +1146,6 @@ nnoremap <c-w>qa :qa<cr>
 " Forgot to `sudo vim ...` ?
 nnoremap <leader>! :w !sudo tee %
 
-"Don't clobber the unnamed register when pasting over text in visual mode.
-vnoremap p pgvy
-
 " Move to next line after 'reindent' operation -- IntelliJ style
 nnoremap == ==j
 
@@ -1476,7 +1473,6 @@ augroup END
 " vim-search-pulse {{{
 
 let g:vim_search_pulse_disable_auto_mappings = 1
-command! -nargs=0 Pulse :call search_pulse#Pulse()
 
 " }}}
 " vim-slime {{{
@@ -1486,11 +1482,14 @@ let g:slime_target = "tmux"
 " }}}
 " vim-yankstack {{{
 
-call yankstack#setup()
-nnoremap Y y$
-nnoremap D d$
-nmap gp <Plug>yankstack_substitute_older_paste
-nnoremap gP g-
+function! YankStackAfterSetup()
+    nmap Y y$
+    nmap D d$
+    nmap gp <Plug>yankstack_substitute_older_paste
+    nmap gP <Plug>yankstack_substitute_newer_paste
+endfunction
+
+let g:yankstack_after_setup = 'YankStackAfterSetup'
 
 " }}}
 " Writegooder {{{

@@ -150,13 +150,13 @@
 	url = https://github.com/FooSoft/vim-argwrap.git
 [submodule ".vim/bundle/vim-search-pulse"]
 	path = .vim/pack/bundle/start/vim-search-pulse
-	url = https://github.com/inside/vim-search-pulse.git
+	url = https://github.com/iamFIREcracker/vim-search-pulse.git
 [submodule ".vim/bundle/neomake"]
 	path = .vim/pack/bundle/start/neomake
 	url = https://github.com/neomake/neomake.git
 [submodule ".vim/bundle/vim-yankstack"]
 	path = .vim/pack/bundle/start/vim-yankstack
-	url = https://github.com/maxbrunsfeld/vim-yankstack.git
+	url = https://github.com/iamFIREcracker/vim-yankstack.git
 [submodule ".vim/bundle/vim-airline-themes"]
 	path = .vim/pack/bundle/start/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes
