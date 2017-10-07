@@ -157,9 +157,6 @@
 [submodule ".vim/bundle/vim-yankstack"]
 	path = .vim/pack/bundle/start/vim-yankstack
 	url = https://github.com/iamFIREcracker/vim-yankstack.git
-[submodule ".vim/bundle/vim-airline-themes"]
-	path = .vim/pack/bundle/start/vim-airline-themes
-	url = https://github.com/vim-airline/vim-airline-themes
 [submodule ".vim/bundle/writegooder.vim"]
 	path = .vim/pack/bundle/start/writegooder.vim
 	url = https://github.com/JKirchartz/writegooder.vim.git
