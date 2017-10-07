@@ -41,7 +41,7 @@ function create_dir {
 }
 
 (
-    cd .vim/bundle/omnisharp-vim/server
+    cd .vim/pack/bundle/start/omnisharp-vim/server
     if which xbuild 2>/dev/null; then
         xbuild
     elif which msbuild.exe 2>/dev/null; then
@@ -50,26 +50,26 @@ function create_dir {
 )
 
 (
-    cd .vim/bundle/vimproc.vim/
+    cd .vim/pack/bundle/start/vimproc.vim/
     test $FORCE -eq 0 && make clean
     make
 )
 
 (
-    cd .vim/bundle/tern_for_vim/
+    cd .vim/pack/bundle/start/tern_for_vim/
     test $FORCE -eq 0 && rm -rf node_modules
     npm install
 )
 
 (
-    cd .vim/bundle/tsuquyomi/
+    cd .vim/pack/bundle/start/tsuquyomi/
     test $FORCE -eq 0 && rm -rf node_modules
     npm install
 )
 
 (
-    cd .vim/bundle/vim-javacomplete2/libs/javavi/
-    m compile
+    cd .vim/pack/bundle/start/vim-javacomplete2/libs/javavi/
+    mvn compile
 )
 
 test -z "$OS_WIN" && ensure_dir ".titanium"
