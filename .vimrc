@@ -562,6 +562,18 @@ augroup END
 augroup ft_diff
     au!
 
+    function! DiffFold(lnum)
+        let line = getline(a:lnum)
+        if line =~ '^\(diff\|---\|+++\|@@\) '
+            return 0
+        elseif line[0] =~ '[-+ ]'
+            return 1
+        else
+            return 0
+        endif
+    endfunction
+
+    au FileType diff setlocal foldmethod=expr foldexpr=DiffFold(v:lnum)
     au Filetype diff setlocal nolist
     au Filetype diff nnoremap <buffer> q :q<cr>
 augroup END
@@ -1308,7 +1320,7 @@ let g:EasyMotion_leader_key = '<leader>'
 let g:fugitive_github_domains = ['github.banksimple.com']
 
 nnoremap <leader>gd :Gdiff<cr>
-nnoremap <leader>gD :Git d<cr>
+nnoremap <leader>gD :Shell git diff<cr>
 nnoremap <leader>gp :Gpush<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gw :Gwrite<cr>
@@ -1355,7 +1367,7 @@ let g:gundo_preview_statusline = "Gundo Preview"
 
 " }}}
 " JK-Jumps {{{
-"
+
 let g:jk_jumps_minimum_lines = 2
 
 " }}}
