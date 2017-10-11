@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+rlwrap -I -m @ -M .js -a ___ -O '^>' -p BLUE -q '"' node
