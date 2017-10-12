@@ -236,6 +236,7 @@ call MakeSpacelessIabbrev('ghm/', 'http://github.com/iamFIREcracker/')
 
 inoreabbr ml@ matteo@matteolandi.net
 inoreabbr lenght length
+inoreabbr mainteinance maintainance
 
 " }}}
 " Searching and movement -------------------------------------------------- {{{

@@ -68,6 +68,8 @@ if [ -z "$JAVA_HOME" ]; then
         export JAVA_HOME=$(/usr/libexec/java_home)
     fi
 fi
+test -n "$JAVA_HOME" && export PATH="$JAVA_HOME/bin:${PATH}"
+test -n "$M2_HOME" && export PATH="$M2_HOME/bin:${PATH}"
 export MAVEN_OPTS="-Xmx512M -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 export _JAVA_OPTIONS="-Djava.awt.headless=true"
 
