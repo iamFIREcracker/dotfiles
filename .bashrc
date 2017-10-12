@@ -465,6 +465,12 @@ function strip-colors() { perl -pe 's/\e\[?.*?[\@-~]//g'; }
 
 # }}}
 function sum() { awk '{s+=$1}END{print s}'; }
+function ta() {
+    tmux list-sessions; 
+    echo -n "? "
+    read sessionname
+    [ -n "$sessionname" ] && tmux attach -t "$sessionname"
+}
 # tac {{{
 if hash gtac 2>/dev/null; then
     _tac=gtac
@@ -476,13 +482,6 @@ function tac() {
 }
 
 # }}}
-function tmuxlist() { tmux list-sessions; }
-function tmuxattach() {
-    tmuxlist
-    echo -n "? "
-    read sessionname
-    [ -n "$sessionname" ] && tmux attach -t "$sessionname"
-}
 function to() { sed "/$1/q"; }
 function tf() { tail -f "$@"; }
 function tunnel() {
