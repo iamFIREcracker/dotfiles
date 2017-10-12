@@ -50,26 +50,42 @@ function create_dir {
 )
 
 (
-    cd .vim/pack/bundle/start/vimproc.vim/
-    test $FORCE -eq 0 && make clean
-    make
+    if ! which make 2>/dev/null; then
+        echo "Missing command: make"
+    else
+        cd .vim/pack/bundle/start/vimproc.vim/
+        test $FORCE -eq 0 && make clean
+        make
+    fi
 )
 
 (
-    cd .vim/pack/bundle/start/tern_for_vim/
-    test $FORCE -eq 0 && rm -rf node_modules
-    npm install
+    if ! which npm 2>/dev/null; then
+        echo "Missing command: npm"
+    else
+        cd .vim/pack/bundle/start/tern_for_vim/
+        test $FORCE -eq 0 && rm -rf node_modules
+        npm install
+    fi
 )
 
 (
-    cd .vim/pack/bundle/start/tsuquyomi/
-    test $FORCE -eq 0 && rm -rf node_modules
-    npm install
+    if ! which npm 2>/dev/null; then
+        echo "Missing command: npm"
+    else
+        cd .vim/pack/bundle/start/tsuquyomi/
+        test $FORCE -eq 0 && rm -rf node_modules
+        npm install
+    fi
 )
 
 (
-    cd .vim/pack/bundle/start/vim-javacomplete2/libs/javavi/
-    mvn compile
+    if ! which mvn 2>/dev/null; then
+        echo "Missing command: mvn"
+    else
+        cd .vim/pack/bundle/start/vim-javacomplete2/libs/javavi/
+        mvn compile
+    fi
 )
 
 test -z "$OS_WIN" && ensure_dir ".titanium"
