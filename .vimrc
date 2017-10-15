@@ -87,7 +87,7 @@ set softtabstop=4
 set expandtab
 set nowrap
 set textwidth=79
-set formatoptions=qrn1
+set formatoptions=qrn1j
 set colorcolumn=+1
 
 " }}}
@@ -260,7 +260,7 @@ set sidescrolloff=10
 
 set virtualedit+=block
 
-noremap <silent><leader><space> :noh<cr>:call clearmatches()<cr>
+noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 
 runtime macros/matchit.vim
 map <tab> %
@@ -304,47 +304,6 @@ nnoremap * :let stay_star_view = winsaveview()<cr>/\<<C-R>=expand('<cword>')<CR>
 nnoremap # :let stay_star_view = winsaveview()<cr>?\<<C-R>=expand('<cword>')<CR>\><CR>:call winrestview(stay_star_view)<cr>
 
 "" }}}
-" Visual Mode */# from Scrooloose {{{
-
-function! s:VSetSearch()
-  let temp = @@
-  norm! gvy
-  let @/ = '\V' . substitute(escape(@@, '\'), '\n', '\\n', 'g')
-  let @@ = temp
-endfunction
-
-vnoremap * :<C-u>call <SID>VSetSearch()<CR>//<CR><c-o>
-vnoremap # :<C-u>call <SID>VSetSearch()<CR>??<CR><c-o>
-
-" }}}
-" List navigation {{{
-
-" wrap :cnext/:cprevious and :lnext/:lprevious
-" courtesy of: http://stackoverflow.com/a/27204000/348524
-function! WrapCommand(direction, prefix) "{{{
-    if a:direction == "up"
-        try
-            execute a:prefix . "previous"
-        catch /^Vim\%((\a\+)\)\=:E553/
-            execute a:prefix . "last"
-        catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
-        endtry
-    elseif a:direction == "down"
-        try
-            execute a:prefix . "next"
-        catch /^Vim\%((\a\+)\)\=:E553/
-            execute a:prefix . "first"
-        catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
-        endtry
-    endif
-endfunction "}}}
-
-nnoremap <silent> <left>  :call WrapCommand('up', 'c')<cr>zvzz:Pulse<cr>
-nnoremap <silent> <right> :call WrapCommand('down', 'c')<cr>zvzz:Pulse<cr>
-nnoremap <silent> <up>    :call WrapCommand('up', 'l')<cr>zvzz:Pulse<cr>
-nnoremap <silent> <down>  :call WrapCommand('down', 'l')<cr>zvzz:Pulse<cr>
-
-" }}}
 " Directional Keys {{{
 
 " It's 2011.
@@ -1049,15 +1008,17 @@ nnoremap <leader>sv :let stay_sourcevimrc_view = winsaveview()<cr>:source $MYVIM
 " }}}
 " Convenience mappings ---------------------------------------------------- {{{
 
-" Break undo on <CR>
-"inoremap <CR> <C-G>u<CR> XXX conflicts with delimitMate
-
 " Clean trailing whitespace
 nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<cr>
 
 " Change case
 nnoremap <C-u> gUiw
 inoremap <C-u> <esc>gUiwea
+
+" Fix the & command by making sure substituion flags are not lost when
+" re-executing
+nnoremap & :&&<CR>
+xnoremap & :&&<CR>
 
 " Allows you to easily replace the current word and all its occurrences.
 nnoremap <C-S> :%Subvert/
@@ -1078,10 +1039,6 @@ cnoremap <Esc>b <S-Left>
 cnoremap <Esc>f <S-Right>
 cnoremap <Esc>d <S-right><Delete>
 cnoremap <C-g> <C-c>
-
-" Add some bash editing shortcuts
-inoremap <C-K> <ESC>lC
-inoremap <C-D> <ESC>lxi
 
 " Skip automatically to next difference
 nnoremap do do]c
@@ -1129,18 +1086,14 @@ nnoremap S i<cr><esc><right>mwgk:silent! s/\v +$//<cr>:noh<cr>`wh
 " Less chording
 nnoremap ; :
 nnoremap : ;
-
-" Marks and Quotes
-noremap ' `
-noremap ` '
+" and since ';' has been remapped, let's make sure ';' and ',' are stil one
+" keystroke away
+nnoremap ' ;
+nnoremap " ,
 
 " Better Completion
+set complete=.,w,b,u,t " By deafult it includes 'i', which tells vim to look inside included files too
 set completeopt=longest,menuone
-inoremap <expr> <Tab> pumvisible() ? "<C-Y>" : "<Tab>"
-augroup close_completion_menu
-    au!
-    au InsertLeave * if pumvisible() == 0|pclose|endif
-augroup END
 
 " Unfuck my screen
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
@@ -1170,10 +1123,10 @@ nnoremap vv ^vg_
 nmap <silent> <localleader>E <Plug>SetTmuxVars
 vmap <silent> <localleader>e <Plug>SendSelectionToTmux
 
-
 " Diff mode
 nnoremap <localleader>d :windo diffthis<cr>
 nnoremap <localleader>D :windo diffoff!<cr>
+
 
 " Remove ANSI color escape codes for the edited file. This is handy when
 " piping colored text into Vim.
@@ -1189,10 +1142,13 @@ nnoremap <silent> gw :ArgWrap<cr>
 " Go back to the previous edited file with backspace
 nnoremap <BS> <C-^>
 
+"JSON prettify mappings
 nnoremap <leader>J :%!python -m json.tool<cr>
 xnoremap <leader>J :'<,'>!python -m json.tool<cr>
 
-nnoremap <leader>Z :Goyo<cr>
+" Easy expansion of the Active File Directory
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%').'/' : '%%'
+cnoremap <expr> %d getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 " Block Colors {{{
 
@@ -1221,6 +1177,22 @@ inoremap <c-l> <c-x><c-l>
 inoremap <c-f> <c-x><c-f>
 inoremap <c-space> <c-x><c-o>
 inoremap <c-@> <c-x><c-o>
+
+" }}}
+" Consistent navigation of buffers, quickfixes, locations -- borrowed from vim-unimpaired {{{
+
+" Buffers
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+" Quickfix
+nnoremap <silent> [q :cprevious<CR>zvzz:Pulse<CR>
+nnoremap <silent> ]q :cnext<CR>zvzz:Pulse<CR>
+" Older quickfix invocations
+nnoremap <silent> [Q :colder<CR>
+nnoremap <silent> ]Q :cnewer<CR>
+" Locations
+nnoremap <silent> [l :lprevious<CR>zvzz:Pulse<CR>
+nnoremap <silent> ]l :lnext<CR>zvzz:Pulse<CR>
 
 " }}}
 
@@ -1485,9 +1457,10 @@ augroup END
 let g:vim_search_pulse_disable_auto_mappings = 1
 
 " }}}
-" vim-slime {{{
+" vim-visual-star-search {{{
 
-let g:slime_target = "tmux"
+xnoremap * :<C-u>call VisualStarSearchSet('/')<CR>/<C-R>=@/<CR><CR><C-O>
+xnoremap # :<C-u>call VisualStarSearchSet('?')<CR>?<C-R>=@/<CR><CR><C-O>
 
 " }}}
 " vim-yankstack {{{

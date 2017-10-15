@@ -166,9 +166,6 @@
 [submodule ".tmux-plugins/tmux-gruvbox"]
 	path = .tmux-plugins/tmux-gruvbox
 	url = https://github.com/egel/tmux-gruvbox.git
-[submodule ".vim/bundle/goyo.vim"]
-	path = .vim/pack/bundle/start/goyo.vim
-	url = https://github.com/junegunn/goyo.vim.git
 [submodule ".tmux-plugins/tmux-fpp"]
 	path = .tmux-plugins/tmux-fpp
 	url = https://github.com/tmux-plugins/tmux-fpp
@@ -181,3 +178,6 @@
 [submodule ".vim/bundle/vim-javacomplete2"]
 	path = .vim/pack/bundle/start/vim-javacomplete2
 	url = https://github.com/artur-shaik/vim-javacomplete2.git
+[submodule ".vim/pack/bundle/start/vim-visual-star-search"]
+	path = .vim/pack/bundle/start/vim-visual-star-search
+	url = https://github.com/bronson/vim-visual-star-search.git
