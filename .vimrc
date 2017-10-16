@@ -120,8 +120,7 @@ augroup theme_customizations
             \ hi NeomakeWarningSign ctermfg=yellow ctermbg=235
 augroup END
 
-let g:gruvbox_italic=1
-colorscheme gruvbox
+colorscheme goodwolf
 
 " }}}
 " Auttogroups {{{
@@ -1111,9 +1110,6 @@ nnoremap <c-w>qa :qa<cr>
 
 " Forgot to `sudo vim ...` ?
 nnoremap <leader>! :w !sudo tee %
-
-" Move to next line after 'reindent' operation -- IntelliJ style
-nnoremap == ==j
 
 " Select (charwise) the contents of the current line, excluding indentation.
 " " Great for pasting Python lines into REPLs.

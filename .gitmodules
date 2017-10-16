@@ -55,9 +55,6 @@
 [submodule ".vim/bundle/vim-javascript"]
 	path = .vim/pack/bundle/start/vim-javascript
 	url = https://github.com/pangloss/vim-javascript.git
-[submodule ".vim/bundle/molokai"]
-	path = .vim/pack/bundle/start/molokai
-	url = https://github.com/tomasr/molokai.git
 [submodule ".vim/bundle/vim-abolish"]
 	path = .vim/pack/bundle/start/vim-abolish
 	url = https://github.com/tpope/vim-abolish.git
@@ -160,9 +157,6 @@
 [submodule ".vim/bundle/writegooder.vim"]
 	path = .vim/pack/bundle/start/writegooder.vim
 	url = https://github.com/JKirchartz/writegooder.vim.git
-[submodule ".vim/bundle/gruvbox"]
-	path = .vim/pack/bundle/start/gruvbox
-	url = https://github.com/morhetz/gruvbox.git
 [submodule ".tmux-plugins/tmux-gruvbox"]
 	path = .tmux-plugins/tmux-gruvbox
 	url = https://github.com/egel/tmux-gruvbox.git
@@ -181,3 +175,6 @@
 [submodule ".vim/pack/bundle/start/vim-visual-star-search"]
 	path = .vim/pack/bundle/start/vim-visual-star-search
 	url = https://github.com/bronson/vim-visual-star-search.git
+[submodule ".vim/pack/bundle/start/badwolf"]
+	path = .vim/pack/bundle/start/badwolf
+	url = https://github.com/sjl/badwolf.git
