@@ -109,7 +109,10 @@ let maplocalleader = "\\"
 " Color scheme {{{
 
 syntax on
+
 set background=dark
+let g:badwolf_tabline = 2
+let g:badwolf_html_link_underline = 0
 
 augroup theme_customizations
     au!
