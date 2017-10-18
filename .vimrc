@@ -1146,7 +1146,7 @@ nnoremap <leader>J :%!python -m json.tool<cr>
 xnoremap <leader>J :'<,'>!python -m json.tool<cr>
 
 " Easy expansion of the Active File Directory
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%').'/' : '%%'
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%') : '%%'
 cnoremap <expr> %d getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 " Block Colors {{{
@@ -1407,7 +1407,8 @@ let g:pymode_syntax_builtin_objs = 1
 " }}}
 " Tsuquyomi {{{
 
-let g:tsuquyomi_use_dev_node_module = 1
+" let g:tsuquyomi_use_dev_node_module = 1
+let g:tsuquyomi_use_vimproc=1
 
 " }}}
 " Supertab {{{
