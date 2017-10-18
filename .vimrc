@@ -1405,6 +1405,16 @@ let g:pymode_syntax_all = 0
 let g:pymode_syntax_builtin_objs = 1
 
 " }}}
+" Rainbow Parentheses {{{
+
+let g:rbpt_max = 1
+
+" }}}
+" tslime {{{
+
+let g:tslime_ensure_trailing_newlines = 1
+
+" }}}
 " Tsuquyomi {{{
 
 " let g:tsuquyomi_use_dev_node_module = 1
@@ -1416,11 +1426,6 @@ let g:tsuquyomi_use_vimproc=1
 let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:SuperTabLongestHighlight = 1
 let g:SuperTabCrMapping = 1
-
-" }}}
-" tslime {{{
-
-let g:tslime_ensure_trailing_newlines = 1
 
 " }}}
 " Vim-Mocha {{{
