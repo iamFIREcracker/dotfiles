@@ -22,20 +22,21 @@ function! GetJavascriptFold(lnum)
 endfunction
 
 function! PrevDefinition(lnum)
-    if getline(a:lnum) =~? '\v^\s*}\s*$'
+    if getline(a:lnum) =~? '\v^\s*}*\)*;?\s*$'
         return PrevDefinition(PrevNonBlankLine(a:lnum))
     endif
 
     let lindent = IndentLevel(a:lnum)
-    let current = a:lnum + 1
+    let current = a:lnum
 
     while current > 0
         let currentindent = IndentLevel(current)
         if currentindent < lindent
             let line = getline(current)
-            if line =~? '\v^\s*\S*\('
-                        \ || line =~? '\v^class.*'
-                        \ || line =~? '\v^function .*'
+            if line =~? '\v^\s*\S*=\S*\('
+                \ || line =~? '\v^\s*\S*\(\S*\)'
+                \ || line =~? '\vclass \S*'
+                \ || line =~? '\vfunction ?\S*'
                 return current
             endif
         endif
