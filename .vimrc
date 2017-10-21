@@ -483,6 +483,28 @@ augroup ft_csharp
 augroup END
 
 " }}}
+" Common List {{{
+
+augroup ft_commonlisp
+    au!
+
+    function! OpenLispReplSBCL() "{{{
+        call term_start("bash -c sbcl-vlime", {
+            \ "term_finish": "close",
+            \ "vertical": 1
+        \ })
+    endfunction "}}}
+
+    au FileType lisp RainbowParenthesesActivate
+    au syntax lisp RainbowParenthesesLoadRound
+
+    " Force omnicompletion (vlime's)
+    au FileType lisp inoremap <c-n> <c-x><c-o>
+
+    au FileType lisp nnoremap <buffer> <silent> <localleader>Os :call OpenLispReplSBCL()<cr>
+augroup END
+
+" }}}
 " CSS, SCSS, and LessCSS {{{
 
 augroup ft_css
@@ -1478,6 +1500,11 @@ function! YankStackAfterSetup()
 endfunction
 
 let g:yankstack_after_setup = 'YankStackAfterSetup'
+
+" }}}
+" vlime {{{
+
+set rtp+=~/my-env/opt/vlime/vim
 
 " }}}
 " Writegooder {{{

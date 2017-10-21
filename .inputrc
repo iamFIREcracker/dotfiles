@@ -11,10 +11,11 @@ set show-all-if-ambiguous on
 # Allows space to complete and expand !$ eg:
 # $ ls Projects
 # $ cd !$<space> # completes to `cd Projects`
-Space:magic-space
+# 2017-10-21: setting this somehow fucks up rlwrap, so I had to disable it
+# Space:magic-space
 
 # Invoke $EDITOR while inside a rlwrap'd command
-"\C-e": rlwrap-call-editor
+"\C-o": rlwrap-call-editor
 
 # Pipe last command to fpp with C-P
 "\C-p": "!-1 | FPP_DISABLE_PREPENDING_HOME_WITH_SLASH=1 fpp\015"
