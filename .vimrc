@@ -1450,7 +1450,7 @@ let g:SuperTabLongestHighlight = 1
 let g:SuperTabCrMapping = 1
 
 " }}}
-" Vim-Mocha {{{
+" vim-Mocha {{{
 
 let g:mocha_js_command =
             \ 'Dispatch -compiler=mocha-wrapper ' .
@@ -1458,7 +1458,7 @@ let g:mocha_js_command =
             \ ' --recursive --no-colors {spec}'
 
 " }}}
-" Vim-json {{{
+" vim-json {{{
 
 let g:vim_json_syntax_conceal = 0
 
