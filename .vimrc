@@ -1506,6 +1506,32 @@ let g:yankstack_after_setup = 'YankStackAfterSetup'
 
 set rtp+=~/my-env/opt/vlime/vim
 
+let g:vlime_window_settings = {
+        \ "sldb": {
+            \ "pos": "belowright",
+            \ "vertical": v:false
+        \ },
+        \ "xref": {
+            \ "pos": "belowright",
+            \ "size": 5,
+            \ "vertical": v:false
+        \ },
+        \ "repl": {
+            \ "pos": "belowright",
+            \ "vertical": v:false
+        \ },
+        \ "inspector": {
+            \ "pos": "belowright",
+            \ "vertical": v:false
+        \ },
+        \ "arglist": {
+            \ "pos": "topleft",
+            \ "size": 2,
+            \ "vertical": v:false
+        \ }
+    \ }
+
+
 " }}}
 " Writegooder {{{
 
