@@ -20,3 +20,7 @@ windows:
       root: ~/redis/
       panes:
         - bash start.sh
+  - kafka:
+      root: ~/workspace/connection/kafka/
+      panes:
+        - docker-compose up
