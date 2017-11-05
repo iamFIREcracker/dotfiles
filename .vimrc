@@ -398,13 +398,31 @@ inoremap # X<BS>#
 augroup ft_angular
     au!
 
+    function! CheckIfAngularProject() " {{{
+        return filereadable(".angular-cli.json")
+    endfunction " }}}
+    function! InitAngularMappings() " {{{
+        nnoremap <localleader>Ns  :Dispatch! ng serve<cr>
+        nnoremap <localleader>Ngc :Dispatch ng generate component --spec false<space>
+        nnoremap <localleader>Ngd :Dispatch ng generate directive --spec false<space>
+    endfunction " }}}
+    au VimEnter *
+                \ if CheckIfAngularProject()
+                \ | call InitAngularMappings()
+                \ | endif
 
-    au BufNewFile,BufRead *.template.html,*.tpl.html setlocal filetype=angular_template
+    au BufNewFile,BufRead *.template.html,*.tpl.html,*.component.html
+                \ if CheckIfAngularProject()
+                \ | setlocal filetype=angular_html
+                \ | endif
 
     function! DirectiveUnderCursor() " {{{
         let directive = expand('<cWORD>')
         if directive =~ '='
             let directive = split(directive, '=')[0]
+        endif
+        if directive =~ '>'
+            let directive = split(directive, '>')[0]
         endif
         let directive = substitute(directive, '<\|/\|>', '', 'g')
         return directive
@@ -428,9 +446,10 @@ augroup ft_angular
 
         let &inex = inex_save
     endfunction "}}}
-    au Filetype angular_template setlocal suffixesadd+=.js path+=**
-    au Filetype angular_template nnoremap <buffer> <C-^> :call FindDirectiveOccurrences()<cr>
-    au Filetype angular_template nnoremap <buffer> gf :call GuessDirectiveFilename()<cr>
+    au Filetype angular_html setlocal suffixesadd+=.js path+=**
+    au Filetype angular_html nnoremap <buffer> <C-^> :call FindDirectiveOccurrences()<cr>
+    au Filetype angular_html nnoremap <buffer> gf :call GuessDirectiveFilename()<cr>
+
 augroup END
 
 " }}}
@@ -483,7 +502,7 @@ augroup ft_csharp
 augroup END
 
 " }}}
-" Common List {{{
+" Common Lisp {{{
 
 augroup ft_commonlisp
     au!
@@ -599,6 +618,36 @@ augroup ft_html
     au BufNewFile,BufRead *.html setlocal filetype=htmldjango
     au FileType html,jinja,htmldjango setlocal ts=2 sw=2 sts=2
     au FileType html,jinja,htmldjango setlocal foldmethod=manual
+    au FileType html,jinja,htmldjango EmmetInstall
+
+    " Invoke emmet instead of supertab
+    au FileType html,jinja,htmldjango imap <buffer> <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+
+    function! HtmlWrap() " {{{
+        " Back up x registry
+        let old_x = @x
+
+        " Copy html element to x registry
+        normal! vi<"xy
+
+        if len(split(@x, '\n', 0)) != 1
+            " Unwrap
+            normal! vi<J
+        else
+            " Wrap
+            let @x = substitute(@x, '\v\s*(\*?\[?\(?\w+\)?\]?)\=', '\n\1\=', 'g')
+
+            " Replace selection with the modified content
+            normal! gv"xp
+
+            " Re-indent the new content
+            normal! gv=
+        endif
+
+        " Restore x registry
+        let @x = old_x
+    endfunction " }}}
+    au FileType html,jinja,htmldjango nnoremap <buffer> gw :call HtmlWrap()<cr>
 
     " Use <localleader>f to fold the current tag.
     au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>f Vatzf
@@ -931,6 +980,9 @@ augroup ft_typescript
     au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr>zvzz:Pulse<cr>
 
     au FileType typescript nnoremap <buffer> <silent> ,S :TsuRenameSymbol<cr>
+
+    " Force omnicompletion (tsu's)
+    au FileType typescript inoremap <c-n> <c-x><c-o>
 
     " Abbreviations {{{
 
@@ -1307,6 +1359,11 @@ nnoremap <leader>m :Dispatch<cr>
 " Easymotion {{{
 
 let g:EasyMotion_leader_key = '<leader>'
+
+" }}}
+" Emmet {{{
+
+let g:user_emmet_install_global = 0
 
 " }}}
 " Fugitive {{{

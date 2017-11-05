@@ -178,3 +178,6 @@
 [submodule ".vim/pack/bundle/start/badwolf"]
 	path = .vim/pack/bundle/start/badwolf
 	url = https://github.com/sjl/badwolf.git
+[submodule ".vim/pack/bundle/start/emmet-vim"]
+	path = .vim/pack/bundle/start/emmet-vim
+	url = https://github.com/mattn/emmet-vim.git
