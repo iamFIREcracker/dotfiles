@@ -195,6 +195,7 @@ eh()  { vim ~/dotfiles/.hgrc; }
 em()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX) -c 'se spell wrap nonu noru'; }
 es()  { vim ~/dotfiles/.slate; }
 et()  { vim ~/dotfiles/.tmux.conf; }
+eT()  { vim ~/.tmuxinator/$(tmux display-message -p '#S').yml; }
 ev()  { vim ~/dotfiles/.vimrc; }
 eV()  { vim ~/dotfiles/.vimperatorrc; }
 

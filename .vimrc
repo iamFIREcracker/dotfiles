@@ -705,11 +705,11 @@ augroup ft_java
     au!
 
     au FileType java setlocal omnifunc=javacomplete#Complete
-    au FileType java setlocal tabstop=4 shiftwidth=4 softtabstop=4
+    au FileType java setlocal tabstop=2 shiftwidth=2 softtabstop=2
     au FileType java setlocal foldmethod=marker foldmarker={,}
     au Filetype java setlocal textwidth=120
     au Filetype java compiler maven
-    au Filetype java let b:dispatch = 'mvn -B package install'
+    au Filetype java let b:dispatch = 'mvn -B clean test'
 augroup END
 
 " }}}

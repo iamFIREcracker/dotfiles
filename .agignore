@@ -11,3 +11,4 @@ Resources
 node_modules
 bower_components
 /.git/
+.dependenciesSources

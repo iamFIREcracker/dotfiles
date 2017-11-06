@@ -28,3 +28,5 @@ venv/
 npm-debug.log
 .DS_Store
 .vim/tmp/
+
+.dependenciesSources/
