@@ -621,7 +621,7 @@ augroup ft_html
     au FileType html,jinja,htmldjango EmmetInstall
 
     " Invoke emmet instead of supertab
-    au FileType html,jinja,htmldjango imap <buffer> <expr> <tab> emmet#expandAbbrIntelligent("✠")
+    au FileType html,jinja,htmldjango imap <buffer> <expr> <c-n> emmet#expandAbbrIntelligent("\<c-n>")
 
     function! HtmlWrap() " {{{
         " Back up x registry
@@ -655,14 +655,22 @@ augroup ft_html
     " Indent tag
     au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>= Vat=
 
-    " Use Shift-Return to turn this:
+    " Use Control-Return (✠) in insert mode to turn this:
     "     <tag>|</tag>
     "
     " into this:
     "     <tag>
     "         |
     "     </tag>
-    au FileType html,jinja,htmldjango nnoremap <buffer> <s-cr> vit<esc>a<cr><esc>vito<esc>i<cr><esc>
+    au FileType html,jinja,htmldjango inoremap <buffer> ✠ <cr><esc>ko
+    " Use Control-Return (✠) in normal mode to turn this:
+    "     <tag>something|else</tag>
+    "
+    " into this:
+    "     <tag>
+    "         |something else
+    "     </tag>
+    au FileType html,jinja,htmldjango nnoremap <buffer> ✠ <esc>vit<esc>a<cr><esc>vito<esc>i<cr><esc>
 augroup END
 
 " }}}
