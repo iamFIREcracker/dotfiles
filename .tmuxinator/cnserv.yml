@@ -1,0 +1,12 @@
+# ~/.tmuxinator/cnserv.yml
+
+name: cnserv
+root: ~/workspace/connection/services
+
+windows:
+  - kafka-rest-service:
+      layout: main-vertical
+      root: ~/workspace/connection/services/kafka-rest-service
+      panes:
+        - vim
+        - mvn exec:java -Dexec.mainClass='com.lab49.connection.kafka.Application' -Dexec.args='server'
