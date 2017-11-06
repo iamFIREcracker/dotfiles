@@ -621,7 +621,7 @@ augroup ft_html
     au FileType html,jinja,htmldjango EmmetInstall
 
     " Invoke emmet instead of supertab
-    au FileType html,jinja,htmldjango imap <buffer> <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+    au FileType html,jinja,htmldjango imap <buffer> <expr> <tab> emmet#expandAbbrIntelligent("✠")
 
     function! HtmlWrap() " {{{
         " Back up x registry
