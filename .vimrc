@@ -1274,6 +1274,9 @@ nnoremap <silent> ]Q :cnewer<CR>
 " Locations
 nnoremap <silent> [l :lprevious<CR>zvzz:Pulse<CR>
 nnoremap <silent> ]l :lnext<CR>zvzz:Pulse<CR>
+" Folds
+nnoremap <silent> [z zMzkzvzz
+nnoremap <silent> ]z zMzjzvzz
 
 " }}}
 
