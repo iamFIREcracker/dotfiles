@@ -983,6 +983,7 @@ augroup ft_typescript
     au FileType typescript setlocal ts=2 sw=2 sts=2
     au FileType typescript setlocal foldmethod=syntax
     au FileType typescript setlocal foldnestmax=3
+    au FileType typescript setlocal suffixesadd+=.ts
 
     au FileType typescript nnoremap <buffer> <silent> <C-]> :TsuDefinition<cr>zvzz:Pulse<cr>
     au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr>zvzz:Pulse<cr>
