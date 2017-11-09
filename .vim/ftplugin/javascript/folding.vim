@@ -1,11 +1,28 @@
 setlocal foldmethod=expr
 setlocal foldexpr=GetJavascriptFold(v:lnum)
 
-nnoremap <localleader>F :echo IndentLevel(PrevDefinition(line('.')))<cr>
+let s:export    = '(module\.)?export.*(\(|\{)'
+let s:class     = 'class\s+\S+\s*\{'
+let s:method    = '(if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
+let s:function  = 'function(\s+\S+)?\s*\([^)]*\)\s*\{'
+let s:router    = 'router.\S+\([^}]*\{'
 
+let s:folded_statements = [
+            \ s:export,
+            \ s:class,
+            \ s:method,
+            \ s:function,
+            \ s:router
+            \ ]
+
+let s:statements_re_bare = '\v^\s*(' . join(s:folded_statements, '|') . ')\s*$'
+let s:blankline_re       = '\v^\s*$'
 
 function! GetJavascriptFold(lnum)
-    if getline(a:lnum) =~? '\v^\s*$'
+    if getline(a:lnum) =~? s:blankline_re
+        " the level of this line is 'undefined'. Vim will interpret this as
+        " 'the foldlevel of this line is equal to the foldlevel of the line
+        " above or below it, whichever is smaller'.
         return '-1'
     endif
 
@@ -33,10 +50,7 @@ function! PrevDefinition(lnum)
         let currentindent = IndentLevel(current)
         if currentindent < lindent
             let line = getline(current)
-            if line =~? '\v^\s*\S*=\S*\('
-                \ || line =~? '\v^\s*\S*\(\S*\)'
-                \ || line =~? '\vclass \S*'
-                \ || line =~? '\vfunction ?\S*'
+            if line =~? s:statements_re_bare
                 return current
             endif
         endif
