@@ -269,14 +269,14 @@ map <tab> %
 
 " Keep search matches in the middle of the window and pulse the line when moving
 " to them.
-nnoremap n nzvzz:Pulse<cr>
-nnoremap N Nzvzz:Pulse<cr>
+nnoremap n nzvzz
+nnoremap N Nzvzz
 
 " Same when jumping around
-nnoremap g; g;zvzz:Pulse<cr>
-nnoremap g, g,zvzz:Pulse<cr>
-nnoremap gd gdzvzz:Pulse<cr>
-nnoremap gD gDzvzz:Pulse<cr>
+nnoremap g; g;zvzz
+nnoremap g, g,zvzz
+nnoremap gd gdzvzz
+nnoremap gD gDzvzz
 
 " Window resizing
 nnoremap <c-left> 5<c-w>>
@@ -348,7 +348,7 @@ vnoremap <space> za
 "
 " I use :sus for the rare times I want to actually background Vim.
 nnoremap <expr> <Plug>FocusCurrentLine 'mzzMzvzz15<c-e>`z'
-nmap <leader>z <Plug>FocusCurrentLine:Pulse<cr>
+nmap <leader>z <Plug>FocusCurrentLine
 
 function! MyFoldText() " {{{
     let line = getline(v:foldstart)
@@ -383,12 +383,15 @@ augroup END
 " Fuck you, help key.
 noremap  <F1> <nop>
 inoremap <F1> <nop>
+"
+" Stop it, hash key.
+inoremap # X<BS>#
 
 " Fuck you too, manual key.
 nnoremap K <nop>
 
-" Stop it, hash key.
-inoremap # X<BS>#
+" Save
+nnoremap S :w<cr>
 
 " }}}
 " Various filetype-specific stuff ----------------------------------------- {{{
@@ -728,9 +731,11 @@ augroup ft_javascript
 
     au FileType javascript setlocal ts=2 sw=2 sts=2
     au Filetype javascript setlocal textwidth=100
+    au FileType javascript silent! call TurnOnJavascriptFolding()
+    au FileType javascript nnoremap <buffer> <silent> <localleader>f :call UpdateJavascriptFolds()<cr>zo
 
-    au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>zvzz:Pulse<cr>
-    au FileType javascript nnoremap <buffer> <silent> gd :TernDef<cr>zvzz:Pulse<cr>
+    au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>zvzz
+    au FileType javascript nnoremap <buffer> <silent> gd :TernDef<cr>zvzz
     au FileType javascript nnoremap <buffer> <silent> <C-^> :TernRefs<cr>
 
     au Filetype javascript nnoremap <buffer> <leader>d :call RunAllSpecs()<cr>
@@ -985,8 +990,8 @@ augroup ft_typescript
     au FileType typescript setlocal foldnestmax=3
     au FileType typescript setlocal suffixesadd+=.ts
 
-    au FileType typescript nnoremap <buffer> <silent> <C-]> :TsuDefinition<cr>zvzz:Pulse<cr>
-    au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr>zvzz:Pulse<cr>
+    au FileType typescript nnoremap <buffer> <silent> <C-]> :TsuDefinition<cr>zvzz
+    au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr>zvzz
 
     au FileType typescript nnoremap <buffer> <silent> ,S :TsuRenameSymbol<cr>
 
@@ -1106,10 +1111,10 @@ nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
 " Allows you to easily replace the current word and all its occurrences.
-nnoremap <C-S> :%Subvert/
-vnoremap <C-S> :Subvert/
-nnoremap <Leader>S :%Subvert/<C-r><C-w>//cw<left><left><left>
-vnoremap <Leader>S y:%Subvert/<C-r>"//cw<left><left><left>
+nnoremap <C-S> :%s/
+vnoremap <C-S> :s/
+nnoremap <Leader>S :%s/<C-r><C-w>//cw<left><left><left>
+vnoremap <Leader>S y:%s/<C-r>"//cw<left><left><left>
 
 " Emacs bindings in command line mode
 cnoremap <C-a> <home>
@@ -1267,14 +1272,14 @@ inoremap <c-@> <c-x><c-o>
 nnoremap <silent> [b :bprevious<CR>
 nnoremap <silent> ]b :bnext<CR>
 " Quickfix
-nnoremap <silent> [q :cprevious<CR>zvzz:Pulse<CR>
-nnoremap <silent> ]q :cnext<CR>zvzz:Pulse<CR>
+nnoremap <silent> [q :cprevious<CR>zvzz
+nnoremap <silent> ]q :cnext<CR>zvzz
 " Older quickfix invocations
 nnoremap <silent> [Q :colder<CR>
 nnoremap <silent> ]Q :cnewer<CR>
 " Locations
-nnoremap <silent> [l :lprevious<CR>zvzz:Pulse<CR>
-nnoremap <silent> ]l :lnext<CR>zvzz:Pulse<CR>
+nnoremap <silent> [l :lprevious<CR>zvzz
+nnoremap <silent> ]l :lnext<CR>zvzz
 " Folds
 nnoremap <silent> [z zMzkzvzz
 nnoremap <silent> ]z zMzjzvzz
