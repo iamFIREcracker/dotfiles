@@ -54,6 +54,13 @@ set linebreak
 set dictionary=/usr/share/dict/words
 "set clipboard=unnamed
 set termguicolors
+" https://www.reddit.com/r/vim/comments/57huhd/any_idea_why_terminal_vim_isnt_correctly/
+if &term =~ '256color'
+    " Disable Background Color Erase (BCE) so that color schemes
+    " render properly when inside 256-color tmux and GNU screen.
+    set t_ut=
+endif
+
 
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
