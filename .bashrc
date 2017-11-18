@@ -35,7 +35,7 @@ HISTTIMEFORMAT='%F %T '
 # Colors
 N=$'\e[0m'
 BOLD=$'\e[1m'
-D=$'\e[1;37m'
+D=$'\e[0;37m'
 PINK=$'\e[1;35m'
 GREEN=$'\e[1;32m'
 ORANGE=$'\e[1;33m'
