@@ -1865,26 +1865,19 @@ function! UpdateManualRegexpFolds()
     " Delete all folds
     normal zE
 
-    " Move to the beginning of the file
-    normal gg
-
-    " Search matching lines
-    while search(b:manual_regexp_folding_statements_re_bare, 'cW') != 0
-        " Create fold
-        normal $zf%
-
-        " Open it
-        normal zo
-    endwhile
-
-    " Close all folds
-    normal zM
+    " Do the magic!
+    let command = ''
+    " For each line matching any of the configured regexps
+    let command.= 'g/'.b:manual_regexp_folding_statements_re_bare.'/'
+    " Move to the end of the line, create a fold with the _matching_ line
+    let command.= 'normal $zf%zo'
+    execute command
 
     " Restore cursor position
     call winrestview(manual_regexp_folding_view)
 
-    " Open fold current line
-    normal! zv
+    " Close all the folds byt the ones the current line is in
+    normal! zMzv
 endfunction
 
 function! TurnOnManualRegexpFolding()
