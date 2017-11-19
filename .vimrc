@@ -719,10 +719,28 @@ augroup END
 
 augroup ft_java
     au!
+    function! TurnOnJavaFolding() "{{{
+        let modifier     = '%(public|private|protected)*\s*'
+        let returntype   = '' " XXX to implement
+        let class        = modifier.'class%(\s+\S+)*\s*\{'
+        let method       = modifier.returntype.'%(\S*\.\S*|if|for|while|switch)@!\S+\s*\([^)]*\)\s*\{'
+        let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
+
+        let folded_statements = [
+                    \ class,
+                    \ method,
+                    \ functionwrap
+                    \ ]
+
+        let b:manual_regexp_folding_statements_re_bare = '\v^\s*%(' . join(folded_statements, '|') . ')\s*$'
+        call TurnOnManualRegexpFolding()
+    endfunction "}}}
+    au FileType java silent! call TurnOnJavaFolding()
+    au FileType java nnoremap <buffer> <localleader>F :call UpdateManualRegexpFolds()<cr>
+
 
     au FileType java setlocal omnifunc=javacomplete#Complete
     au FileType java setlocal tabstop=2 shiftwidth=2 softtabstop=2
-    au FileType java setlocal foldmethod=marker foldmarker={,}
     au Filetype java setlocal textwidth=120
     au Filetype java compiler maven
     au Filetype java let b:dispatch = 'mvn -B clean test'
@@ -1017,9 +1035,34 @@ augroup END
 augroup ft_typescript
     au!
 
+    function! TurnOnTypescriptFolding() "{{{
+        let export       = '%(module\.)?export(s)?%(\.)?.*\{'
+        let class        = 'class%(\s+\S+)*\s*\{'
+        let method       = '%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
+        let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
+        let functiondec  = 'function%(\s+\S+)?\s*\([^)]*' . functionwrap
+        let functiondef  = '%(%(const|var|let)\s)?\S+\s*\=\s*' . functiondec
+        let arrowdefwrap = '\s*[a-zA-Z0-9:]*\)\s*\=\>\s*\{'
+        let arrowdef     = '%(%(const|var|let)\s)?\S+\s*\=\s*\([^)]*' . arrowdefwrap
+
+        let folded_statements = [
+                    \ export,
+                    \ class,
+                    \ method,
+                    \ functionwrap,
+                    \ functiondec,
+                    \ functiondef,
+                    \ arrowdefwrap,
+                    \ arrowdef
+                    \ ]
+
+        let b:manual_regexp_folding_statements_re_bare = '\v^\s*%(' . join(folded_statements, '|') . ')\s*$'
+        call TurnOnManualRegexpFolding()
+    endfunction "}}}
+    au FileType typescript silent! call TurnOnTypescriptFolding()
+    au FileType typescript nnoremap <buffer> <localleader>F :call UpdateManualRegexpFolds()<cr>
+
     au FileType typescript setlocal ts=2 sw=2 sts=2
-    au FileType typescript setlocal foldmethod=syntax
-    au FileType typescript setlocal foldnestmax=3
     au FileType typescript setlocal suffixesadd+=.ts
 
     au FileType typescript nnoremap <buffer> <silent> <C-]> :TsuDefinition<cr>zvzz
