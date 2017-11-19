@@ -503,9 +503,11 @@ function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(
 # Vagrant {{{
 
 v() { vagrant "$@"; }
-vh() { v halt; }
-vs() { v ssh -- -R 5556:localhost:5556; }
-vu() { v up; }
+ve() { $EDITOR ./Vagrantfile; }
+vh() { vagrant halt; }
+vr() { vagrant reload; }
+vs() { vagrant ssh -- -R 5556:localhost:5556; }
+vu() { vagrant up; }
 
 # }}}
 vipe() {

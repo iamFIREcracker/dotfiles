@@ -274,8 +274,7 @@ noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 runtime macros/matchit.vim
 map <tab> %
 
-" Keep search matches in the middle of the window and pulse the line when moving
-" to them.
+" Keep search matches in the middle of the window
 nnoremap n nzvzz
 nnoremap N Nzvzz
 
@@ -349,7 +348,6 @@ vnoremap <space> za
 " 1. Close all folds.
 " 2. Open just the folds containing the current line.
 " 3. Move the line to a little bit (15 lines) above the center of the screen.
-" 4. Pulse the cursor line.  My eyes are bad.
 "
 " This mapping wipes out the z mark, which I never use.
 "
@@ -665,22 +663,22 @@ augroup ft_html
     " Indent tag
     au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>= Vat=
 
-    " Use Control-Return (✠) in insert mode to turn this:
+    " Use Shift-Return (✝) in insert mode to turn this:
     "     <tag>|</tag>
     "
     " into this:
     "     <tag>
     "         |
     "     </tag>
-    au FileType html,jinja,htmldjango inoremap <buffer> ✠ <cr><esc>ko
-    " Use Control-Return (✠) in normal mode to turn this:
+    au FileType html,jinja,htmldjango inoremap <buffer> ✝ <esc>cit<cr><esc>ko
+    " Use Shift-Return (✝) in normal mode to turn this:
     "     <tag>something|else</tag>
     "
     " into this:
     "     <tag>
     "         |something else
     "     </tag>
-    au FileType html,jinja,htmldjango nnoremap <buffer> ✠ <esc>vit<esc>a<cr><esc>vito<esc>i<cr><esc>
+    au FileType html,jinja,htmldjango nnoremap <buffer> ✝ <esc>vit<esc>a<cr><esc>vito<esc>i<cr><esc>
 augroup END
 
 " }}}
@@ -736,10 +734,37 @@ augroup END
 augroup ft_javascript
     au!
 
+    function! TurnOnJavascriptFolding() "{{{
+        let export       = '%(module\.)?export(s)?%(\.)?.*\{'
+        let class        = 'class%(\s+\S+)*\s*\{'
+        let method       = '%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
+        let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
+        let functiondec  = 'function%(\s+\S+)?\s*\([^)]*' . functionwrap
+        let functiondef  = '%(%(const|var|let)\s)?\S+\s*\=\s*' . functiondec
+        let arrowdefwrap = '\s*[a-zA-Z0-9:]*\)\s*\=\>\s*\{'
+        let arrowdef     = '%(%(const|var|let)\s)?\S+\s*\=\s*\([^)]*' . arrowdefwrap
+        let router       = 'router\.\S+\([^}]*\{'
+
+        let folded_statements = [
+                    \ export,
+                    \ class,
+                    \ method,
+                    \ functionwrap,
+                    \ functiondec,
+                    \ functiondef,
+                    \ arrowdefwrap,
+                    \ arrowdef,
+                    \ router
+                    \ ]
+
+        let b:manual_regexp_folding_statements_re_bare = '\v^\s*%(' . join(folded_statements, '|') . ')\s*$'
+        call TurnOnManualRegexpFolding()
+    endfunction "}}}
+    au FileType javascript silent! call TurnOnJavascriptFolding()
+    au FileType javascript nnoremap <buffer> <localleader>F :call UpdateManualRegexpFolds()<cr>
+
     au FileType javascript setlocal ts=2 sw=2 sts=2
     au Filetype javascript setlocal textwidth=100
-    au FileType javascript silent! call TurnOnJavascriptFolding()
-    au FileType javascript nnoremap <buffer> <silent> <localleader>f :call UpdateJavascriptFolds()<cr>zo
 
     au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>zvzz
     au FileType javascript nnoremap <buffer> <silent> gd :TernDef<cr>zvzz
@@ -1456,7 +1481,7 @@ let g:maven_disable_mappings = 1
 let g:neomake_open_list = 0
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_javascript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
-let g:neomake_typescript_enabled_makers = ['tslint']
+let g:neomake_typescript_enabled_makers = []
 
 " autocmd! BufRead * Neomake
 autocmd! BufWritePost * Neomake
@@ -1520,8 +1545,8 @@ let g:tslime_ensure_trailing_newlines = 1
 " }}}
 " Tsuquyomi {{{
 
-" let g:tsuquyomi_use_dev_node_module = 1
 let g:tsuquyomi_use_vimproc=1
+let g:tsuquyomi_tsserver_path=$PWD .'/node_modules/.bin/tsserver'
 
 " }}}
 " Supertab {{{
@@ -1558,11 +1583,6 @@ augroup ft_restresponse
 
     autocmd BufNewFile __REST_response__ nnoremap <buffer> q :bd<cr>
 augroup END
-
-" }}}
-" vim-search-pulse {{{
-
-let g:vim_search_pulse_disable_auto_mappings = 1
 
 " }}}
 " vim-visual-star-search {{{
@@ -1833,6 +1853,44 @@ function! s:AckLocalMotion(type) abort
     execute "normal! :Ack! --literal " . shellescape(@@) . " " . expand('%:h') . "\<cr>"
 
     let @@ = reg_save
+endfunction
+
+" }}}
+" Manual RegExp Folding {{{
+
+function! UpdateManualRegexpFolds()
+    " Save cursor position
+    let manual_regexp_folding_view = winsaveview()
+
+    " Delete all folds
+    normal zE
+
+    " Move to the beginning of the file
+    normal gg
+
+    " Search matching lines
+    while search(b:manual_regexp_folding_statements_re_bare, 'cW') != 0
+        " Create fold
+        normal $zf%
+
+        " Open it
+        normal zo
+    endwhile
+
+    " Close all folds
+    normal zM
+
+    " Restore cursor position
+    call winrestview(manual_regexp_folding_view)
+
+    " Open fold current line
+    normal! zv
+endfunction
+
+function! TurnOnManualRegexpFolding()
+    setlocal foldmethod=manual
+
+    call UpdateManualRegexpFolds()
 endfunction
 
 " }}}
