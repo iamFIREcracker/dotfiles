@@ -128,6 +128,10 @@ augroup theme_customizations
             \ syn match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$' |
             \ hi NeomakeErrorSign ctermfg=red ctermbg=235 |
             \ hi NeomakeWarningSign ctermfg=yellow ctermbg=235
+    autocmd ColorScheme goodwolf
+            \ hi! link DiffAdd diffAdded |
+            \ hi! link DiffDelete diffRemoved |
+            \ call GoodWolfHL('DiffText', 'orange', 'deepergravel', 'none')
 augroup END
 
 colorscheme goodwolf
