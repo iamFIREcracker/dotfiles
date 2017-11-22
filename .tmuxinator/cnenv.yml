@@ -7,11 +7,7 @@ windows:
   - neo4j-dev:
       root: ~/workspace/neo4j-dev/
       panes:
-        - docker neo4j-dev start
-  - neo4j:
-      root: ~/neo4j/
-      panes:
-        - fortune || bash start.sh
+        - docker start neo4j-dev && docker logs --tail 50 -f neo4j-dev
   - elasticsearch:
       root: ~/elasticsearch/
       panes:

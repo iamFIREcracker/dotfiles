@@ -386,7 +386,7 @@ function webstreaming() {
         echo_n_run ssh-blue mlandi@cduk1ionhurdb01.iontrading.com
     }
     jk() {
-        echo_n_run ssh-purple IONTRADING\\mlandi@10.101.2.196
+        echo_n_run ssh-purple IONTRADING\\mlandi@uk1ionjenkdev01.iontrading.com
     }
 
 # }}}

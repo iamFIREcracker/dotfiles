@@ -161,6 +161,7 @@ augroup END
 
 augroup cline
     au!
+    au VimEnter * set cursorline
     au WinLeave,InsertEnter * set nocursorline
     au WinEnter,InsertLeave * set cursorline
 augroup END
@@ -591,6 +592,11 @@ augroup ft_diff
     au FileType diff setlocal foldmethod=expr foldexpr=DiffFold(v:lnum)
     au Filetype diff setlocal nolist
     au Filetype diff nnoremap <buffer> q :q<cr>
+
+    " Diffs are folded by changes, so let's use [c]c to move to the
+    " next/previous fold (ie. change)
+    au Filetype diff nmap <buffer> [c [z
+    au Filetype diff nmap <buffer> ]c ]z
 augroup END
 
 " }}}
@@ -785,6 +791,7 @@ augroup ft_javascript
     au FileType javascript silent! call TurnOnJavascriptFolding()
     au FileType javascript nnoremap <buffer> <localleader>F :call UpdateManualRegexpFolds()<cr>
 
+    au FileType javascript setlocal suffixesadd+=.js
     au FileType javascript setlocal ts=2 sw=2 sts=2
     au Filetype javascript setlocal textwidth=100
 
@@ -857,6 +864,25 @@ augroup ft_markdown
     au Filetype markdown nnoremap <buffer> <localleader>2 yypVr-
     au Filetype markdown nnoremap <buffer> <localleader>3 yypVr+
     au Filetype markdown nnoremap <buffer> <localleader>4 yypVr*
+
+augroup END
+
+" }}}
+" Npm {{{
+
+augroup ft_npm
+    au!
+
+    function! CheckIfNpmProject() " {{{
+        return filereadable("package.json")
+    endfunction " }}}
+    function! InitNpmMappings() " {{{
+        nnoremap <localleader>nr  :Dispatch npm run<space>
+    endfunction " }}}
+    au VimEnter *
+                \ if CheckIfNpmProject()
+                \ | call InitNpmMappings()
+                \ | endif
 
 augroup END
 
@@ -1593,6 +1619,8 @@ let g:tslime_ensure_trailing_newlines = 1
 " Tsuquyomi {{{
 
 let g:tsuquyomi_use_vimproc=1
+let g:tsuquyomi_disable_default_mappings=1
+let g:tsuquyomi_use_dev_node_module=2
 let g:tsuquyomi_tsserver_path=$PWD .'/node_modules/.bin/tsserver'
 
 " }}}
