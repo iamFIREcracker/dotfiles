@@ -183,6 +183,8 @@ function ${wrapper_name}() {
 # }}}
 # Useful functions {{{
 
+# Quick editing {{{ 
+
 eb()  { vim ~/dotfiles/.bashrc; }
 eb1() { vim ~/my-env/opt/bunny1/b1_custom.py; }
 echo_n_run() {
@@ -191,6 +193,7 @@ echo_n_run() {
 }
 eg()  { vim ~/dotfiles/.gitconfig; }
 ej()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX) -c 'se spell wrap nonu noru ft=jira'; }
+eJ()  { vim ~/Dropbox/journal/$(date '+%Y-%m').md; }
 eh()  { vim ~/dotfiles/.hgrc; }
 em()  { vim $(mktemp ${TMPDIR-/tmp}/message.XXXXXX) -c 'se spell wrap nonu noru'; }
 es()  { vim ~/dotfiles/.slate; }
@@ -198,6 +201,8 @@ et()  { vim ~/dotfiles/.tmux.conf; }
 eT()  { vim ~/.tmuxinator/$(tmux display-message -p '#S').yml; }
 ev()  { vim ~/dotfiles/.vimrc; }
 eV()  { vim ~/dotfiles/.vimperatorrc; }
+
+# }}}
 
 function ..() {    cd ../"$@"; }
 function ...() {   cd ../../"$@"; }
