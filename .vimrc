@@ -786,6 +786,8 @@ augroup ft_javascript
         let arrowdefwrap = '\s*[a-zA-Z0-9:]*\)\s*\=\>\s*\{'
         let arrowdef     = '%(%(const|var|let)\s)?\S+\s*\=\s*\([^)]*' . arrowdefwrap
         let router       = 'router\.\S+\([^}]*\{'
+        let mocha_descr  = 'describe\([^}]*\{'
+        let mocha_it     = 'it\([^}]*\{'
 
         let folded_statements = [
                     \ export,
@@ -796,7 +798,9 @@ augroup ft_javascript
                     \ functiondef,
                     \ arrowdefwrap,
                     \ arrowdef,
-                    \ router
+                    \ router,
+                    \ mocha_descr,
+                    \ mocha_it
                     \ ]
 
         let b:manual_regexp_folding_statements_re_bare = '\v^\s*%(' . join(folded_statements, '|') . ')\s*$'
