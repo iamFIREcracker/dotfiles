@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+EXT=${1-.txt}
+
+# Mac OS's mktemp would not let append a file extension (Xs would not be
+# replaced), so we have to hack around that by running `mktemp` twice:
+#
+# https://stackoverflow.com/a/44510605/348524
+TMP_FILE=$(mktemp ${TMPDIR-/tmp}/message.XXXXXX)
+TMP_FILE_WITH_EXT=$(mktemp "${TMP_FILE}${EXT}")
+rm ${TMP_FILE}
+echo ${TMP_FILE_WITH_EXT}

@@ -1206,12 +1206,11 @@ augroup END
 " Quick editing ----------------------------------------------------------- {{{
 
 nnoremap <leader>eb :vsplit ~/.bashrc<cr>
-nnoremap <leader>eh :vsplit ~/.hgrc<cr>
 nnoremap <leader>eg :vsplit ~/.gitconfig<cr>
+nnoremap <leader>eh :vsplit ~/.hgrc<cr>
+nnoremap <leader>em :vsplit <C-R>=system('tempfile')<cr><cr>
 nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>ee :vsplit .eslintrc<cr>
-nnoremap <leader>et :vsplit .tern-project<cr>
 
 " }}}
 " Quick reload ------------------------------------------------------------ {{{
