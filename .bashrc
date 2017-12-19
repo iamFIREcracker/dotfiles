@@ -195,7 +195,7 @@ eg()  { vim ~/dotfiles/.gitconfig; }
 ej()  { vim $(tempfile .jira); }
 eJ()  { vim ~/Dropbox/journal/$(date '+%Y-%m').md; }
 eh()  { vim ~/dotfiles/.hgrc; }
-em()  { vim $(tempfile); }
+em()  { vim $(tempfile "$@" ); }
 es()  { vim ~/dotfiles/.slate; }
 et()  { vim ~/dotfiles/.tmux.conf; }
 eT()  { vim ~/.tmuxinator/$(tmux display-message -p '#S').yml; }
@@ -472,10 +472,11 @@ function strip-colors() { perl -pe 's/\e\[?.*?[\@-~]//g'; }
 # }}}
 function sum() { awk '{s+=$1}END{print s}'; }
 function ta() {
-    tmux list-sessions; 
-    echo -n "? "
-    read sessionname
-    [ -n "$sessionname" ] && tmux attach -t "$sessionname"
+    tmux list-sessions && {
+        echo -n "? "
+        read sessionname
+        [ -n "$sessionname" ] && tmux attach -t "$sessionname"
+    }
 }
 # tac {{{
 if hash gtac 2>/dev/null; then

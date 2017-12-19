@@ -381,8 +381,8 @@ function! MyFoldText() " {{{
     let windowwidth = winwidth(0) - nucolwidth - 3
     let foldedlinecount = v:foldend - v:foldstart
 
-" expand tabs into spaces
-    let onetab = strpart(' ', 0, &tabstop)
+    " expand tabs into spaces
+    let onetab = strpart('          ', 0, &tabstop)
     let line = substitute(line, '\t', onetab, 'g')
 
     let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
@@ -1294,14 +1294,6 @@ nnoremap J mzJ`z
 " Split line (sister to [J]oin lines)
 " The normal use of S is covered by cc, so don't worry about shadowing it.
 nnoremap S i<cr><esc><right>mwgk:silent! s/\v +$//<cr>:noh<cr>`wh
-
-" Less chording
-nnoremap ; :
-nnoremap : ;
-" and since ';' has been remapped, let's make sure ';' and ',' are stil one
-" keystroke away
-nnoremap ' ;
-nnoremap " ,
 
 " Better Completion
 set complete=.,w,b,u,t " By deafult it includes 'i', which tells vim to look inside included files too

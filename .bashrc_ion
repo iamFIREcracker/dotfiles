@@ -385,6 +385,12 @@ function webstreaming() {
     cnintdb() {
         echo_n_run ssh-blue mlandi@cduk1ionhurdb01.iontrading.com
     }
+    cnl() {
+        echo_n_run ssh vagrant@10.100.192.100 -i ~/.vagrant.d/insecure_private_key
+    }
+    cnldb() {
+        echo_n_run ssh vagrant@10.100.192.101 -i ~/.vagrant.d/insecure_private_key
+    }
     jk() {
         echo_n_run ssh-purple IONTRADING\\mlandi@uk1ionjenkdev01.iontrading.com
     }
