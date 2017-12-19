@@ -1,8 +1,0 @@
-name: ionrouter
-root: ~/
-
-windows:
-  - router:
-      root: /vagrant/router_m106p4/
-      panes:
-        - ./mkvrouter_m106p4.sh
