@@ -94,6 +94,9 @@ export PYTHONSTARTUP="~/.pythonrc.py"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # }}}
+
+[ -f ~/.env.properties ] && export $(cat ~/.env.properties | grep -v ^# | xargs)
+
 # }}}
 # Extra {{{
 
