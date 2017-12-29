@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-FORCE=1
+FORCE=0
 for i; do
     if [ "$i" == '--force' ]; then
-        FORCE=0
+        FORCE=1
     fi
 done
 
@@ -16,7 +16,7 @@ set -e
 set -x
 
 function ensure_link {
-    test $FORCE -eq 0 && remove "$HOME/$2"
+    test $FORCE -eq 1 && remove "$HOME/$2"
     test -L "$HOME/$2" || create_link "$WORKDIR/$1" "$HOME/$2"
 }
 
@@ -26,7 +26,7 @@ function create_link {
 }
 
 function ensure_dir {
-    test $FORCE -eq 0 && remove "$HOME/$1"
+    test $FORCE -eq 1 && remove "$HOME/$1"
     test -d "$HOME/$1" || create_dir "$HOME/$1"
 }
 
@@ -54,7 +54,7 @@ function create_dir {
         echo "Missing command: make"
     else
         cd .vim/pack/bundle/start/vimproc.vim/
-        test $FORCE -eq 0 && make clean
+        test $FORCE -eq 1 && make clean
         make
     fi
 )
@@ -64,7 +64,7 @@ function create_dir {
         echo "Missing command: npm"
     else
         cd .vim/pack/bundle/start/tern_for_vim/
-        test $FORCE -eq 0 && rm -rf node_modules
+        test $FORCE -eq 1 && rm -rf node_modules
         npm install
     fi
 )
@@ -74,7 +74,7 @@ function create_dir {
         echo "Missing command: npm"
     else
         cd .vim/pack/bundle/start/tsuquyomi/
-        test $FORCE -eq 0 && rm -rf node_modules
+        test $FORCE -eq 1 && rm -rf node_modules
         npm install
     fi
 )
@@ -82,6 +82,8 @@ function create_dir {
 (
     if ! which mvn 2>/dev/null; then
         echo "Missing command: mvn"
+    elif ! which javac 2>/dev/null; then
+        echo "Missing command: javac"
     else
         cd .vim/pack/bundle/start/vim-javacomplete2/libs/javavi/
         mvn compile
