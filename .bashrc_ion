@@ -391,6 +391,9 @@ function webstreaming() {
     cnldb() {
         echo_n_run ssh vagrant@10.100.192.101 -i ~/.vagrant.d/insecure_private_key
     }
+    cnlprov() {
+        echo_n_run ssh vagrant@10.100.192.99 -i ~/.vagrant.d/insecure_private_key
+    }
     jk() {
         echo_n_run ssh-purple IONTRADING\\mlandi@uk1ionjenkdev01.iontrading.com
     }
@@ -442,7 +445,7 @@ pimatlanw01-rsync-webcandidate() {
     pimatlanw01-rsync "${1%/}" workspace/web-candidates/
 }
 pimatlanw01linux() {
-    echo_n_run ssh -R 5556:localhost:5556 -p 10022 vagrant@PIMATLANW01.iontrading.com
+    echo_n_run ssh -R 5556:localhost:5556 -p 10022 vagrant@PIMATLANW01.iontrading.com -i ~/.vagrant.d/insecure_private_key
 }
 
 # }}}

@@ -212,7 +212,8 @@ eg()  { vim ~/dotfiles/.gitconfig; }
 ej()  { vim $(tempfile .jira); }
 eJ()  { vim ~/Dropbox/journal/$(date '+%Y-%m').md; }
 eh()  { vim ~/dotfiles/.hgrc; }
-em()  { vim $(tempfile "$@" ); }
+em()  { eM .mail; }
+eM()  { vim $(tempfile "$@" ); }
 es()  { vim ~/dotfiles/.slate; }
 et()  { vim ~/dotfiles/.tmux.conf; }
 eT()  { vim ~/.tmuxinator/$(tmux display-message -p '#S').yml; }

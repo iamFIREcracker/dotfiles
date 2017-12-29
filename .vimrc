@@ -1208,7 +1208,7 @@ augroup END
 nnoremap <leader>eb :vsplit ~/.bashrc<cr>
 nnoremap <leader>eg :vsplit ~/.gitconfig<cr>
 nnoremap <leader>eh :vsplit ~/.hgrc<cr>
-nnoremap <leader>em :vsplit <C-R>=system('tempfile')<cr><cr>
+nnoremap <leader>em :vsplit <C-R>=system('tempfile .mail')<cr><cr>
 nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
