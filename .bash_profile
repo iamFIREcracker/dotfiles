@@ -26,6 +26,7 @@ test -d /usr/local/opt/node@6/bin && export PATH="/usr/local/opt/node@6/bin:$PAT
 test -d /usr/local/sbin           && export PATH="/usr/local/sbin:$PATH"
 test -d ~/bin                     && export PATH="~/bin:$PATH"
 test -d ~/npm/bin                 && export PATH="~/npm/bin:$PATH"
+test -d ~/rubygems/bin            && export PATH="~/rubygems/bin:$PATH"
 test -d ~/opt/PathPicker          && export PATH="~/opt/PathPicker:$PATH"
 test -d ~/opt/cb                  && export PATH="~/opt/cb:$PATH"
 test -d ~/opt/tmux                && export PATH="~/opt/tmux:${PATH}"

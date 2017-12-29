@@ -54,13 +54,18 @@ alias :qa=exit
 # }}}
 # Environment variables {{{
 
+# General {{{
+
 export HISTCONTROL=erasedups
 export HISTSIZE=10000
 export EDITOR="vim"
 export PAGER="/usr/bin/less"
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu nornu noma' -\""
 export HGEDITOR="~/bin/hgeditor"
+# Enable proper symlinking on Windows7
+CYGWIN=winsymlinks:nativestrict
 
+# }}}
 # Java et al. {{{
 
 if [ -z "$JAVA_HOME" ]; then
@@ -87,6 +92,11 @@ headless_java() {
 }
 
 # }}}
+# Ruby {{{
+
+export GEM_HOME=~/rubygems
+
+# }}}
 # Python {{{
 
 export PYTHONPATH="~/lib/python:$PYTHONPATH"
@@ -95,7 +105,11 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # }}}
 
-[ -f ~/.env.properties ] && export $(cat ~/.env.properties | grep -v ^# | xargs)
+if [ -f ~/.env.properties ]; then
+    set -a # export all variables created next
+    source ~/.env.properties
+    set +a # stop exporting
+fi
 
 # }}}
 # Extra {{{
