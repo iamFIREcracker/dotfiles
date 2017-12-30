@@ -33,8 +33,3 @@ windows:
       root: ~/workspace/connection/client/
       panes:
         - n run styleguide
-  - system:
-      layout: main-vertical
-      root: ~/workspace/connection/system/
-      panes:
-        - vim

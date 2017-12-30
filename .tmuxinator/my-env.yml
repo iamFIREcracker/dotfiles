@@ -1,5 +1,4 @@
 name: my-env
-root: ~/
 
 windows:
   - my-env:
@@ -8,9 +7,5 @@ windows:
         - g st
   - dotfiles:
       root: ~/dotfiles
-      panes:
-        - g st
-  - cb:
-      root: ~/opt/cb
       panes:
         - g st
