@@ -5,3 +5,5 @@ home/.vim/.netrwhist
 home/opt/nativefied-apps/*-x64
 home/bin/mux
 home/bin/tmuxinator
+tags*
+.vim/.netrwhist
