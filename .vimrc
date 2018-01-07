@@ -129,6 +129,8 @@ augroup theme_customizations
             \ hi NeomakeErrorSign ctermfg=red ctermbg=235 |
             \ hi NeomakeWarningSign ctermfg=yellow ctermbg=235
     autocmd ColorScheme goodwolf
+            \ hi! link javascriptTemplateDelim javascriptTemplateString |
+            \ hi! link javascriptTemplateVar javascriptTemplateString |
             \ hi! link DiffAdd diffAdded |
             \ hi! link DiffDelete diffRemoved |
             \ call GoodWolfHL('DiffText', 'orange', 'deepergravel', 'none')
@@ -1501,7 +1503,7 @@ let g:user_emmet_install_global = 0
 
 let g:fugitive_github_domains = ['github.banksimple.com']
 
-nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gd :Shell git diff <C-R>=expand('%')<cr><cr>
 nnoremap <leader>gD :Shell git diff<cr>
 nnoremap <leader>gp :Gpush<cr>
 nnoremap <leader>gs :Gstatus<cr>
@@ -1512,8 +1514,8 @@ nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gco :Gcheckout<cr>
 nnoremap <leader>gci :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
-nnoremap <leader>gr :Git ra<cr>
-nnoremap <leader>gR :Gremove<cr>
+nnoremap <leader>gr :Git ra <C-R>=expand('%')<cr><cr>
+nnoremap <leader>gR :Git ra<cr>
 nnoremap <leader>gl :Shell git ll<cr>
 nnoremap <leader>gi :Shell git ind<cr>
 
@@ -1830,7 +1832,13 @@ function! s:Shell(command)
     let bufName = g:ShellOutputBufferName . substitute(a:command, ' ', '_', '')
     let shl_bufnum = bufnr(bufName)
     if shl_bufnum == -1
-        " open a new shell buffer
+        " open a new shell buffer:
+        "
+        "   exe "vnew +wincmd\<space>L " . bufName
+        "
+        " I cannot manage to get the new split to the topmost right,
+        " so I will work around that by hooking into the BufReadPost
+        "
         exe "vnew " . bufName
     else
         " Shell buffer is already created. Check whether it is open
@@ -1866,6 +1874,7 @@ augroup ft_shelloutput
     autocmd BufNewFile __Shell_Output__* setlocal noswapfile
     autocmd BufNewFile __Shell_Output__* setlocal buflisted
     autocmd BufNewFile __Shell_Output__* nnoremap <buffer> q :bd<cr>
+    autocmd BufReadPost __Shell_Output__* wincmd L
 augroup END
 
 " }}}

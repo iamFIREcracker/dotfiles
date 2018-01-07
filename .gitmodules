@@ -181,3 +181,6 @@
 [submodule ".vim/pack/bundle/start/vim-js-indent"]
 	path = .vim/pack/bundle/start/vim-js-indent
 	url = https://github.com/gavocanov/vim-js-indent.git
+[submodule ".vim/pack/bundle/start/vim-javascript-syntax"]
+	path = .vim/pack/bundle/start/vim-javascript-syntax
+	url = https://github.com/jelera/vim-javascript-syntax.git
