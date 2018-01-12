@@ -125,7 +125,6 @@
     }; f"
 
     ra = "!f() { \
-        local need_stash; \
         cd ${GIT_PREFIX:-.}; \
         git add -p -- $@; \
     }; f"
