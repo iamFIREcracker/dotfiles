@@ -110,31 +110,14 @@
     }; f"
 
     r = "!f() { \
-        local need_stash; \
-        cd ${GIT_PREFIX:-.}; \
-        git add -p -- $@ && git commit -m 'WIP'; \
-        if [ $? -ne 0 ]; then \
-            git reset -q; \
-            return; \
-        fi; \
-        need_stash=$(git st); \
-        [ -n \"$need_stash\" ] && git stash save; \
-        git rollback; \
-        git commit -v || git reset -q; \
-        [ -n \"$need_stash\" ] && git stash pop; \
+        git add -p -- $@; \
     }; f"
-
-    ra = "!f() { \
+    R = "!f() { \
         cd ${GIT_PREFIX:-.}; \
         git add -p -- $@; \
     }; f"
 
-    rb = "!f() { \
-        local need_stash=$(git st); \
-        [ -n \"$need_stash\" ] && git stash save; \
-        git rebase --interactive $@; \
-        [ -n \"$need_stash\" ] && git stash pop; \
-    }; f"
+    rb = rebase --interactive
 
     rollback = reset --soft HEAD^
     unfuck-merge = reset --hard HEAD

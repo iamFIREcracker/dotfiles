@@ -1512,8 +1512,8 @@ nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gco :Gcheckout<cr>
 nnoremap <leader>gci :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
-nnoremap <leader>gr :Git add -p -- <C-R>=expand('%')<cr><cr>
-nnoremap <leader>gR :Git ra<cr>
+nnoremap <leader>gr :Git r <C-R>=fnameescape(expand('%'))<cr><cr>
+nnoremap <leader>gR :Git R<cr>
 nnoremap <leader>gl :Shell git ll<cr>
 nnoremap <leader>gi :Shell git ind<cr>
 
