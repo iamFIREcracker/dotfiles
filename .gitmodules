@@ -15,7 +15,7 @@
 	url = https://github.com/rodjek/vim-puppet.git
 [submodule ".vim/bundle/rainbow_parentheses.vim"]
 	path = .vim/pack/bundle/start/rainbow_parentheses.vim
-	url = https://github.com/eapache/rainbow_parentheses.vim.git
+	url = https://github.com/iamFIREcracker/rainbow_parentheses.vim.git
 [submodule ".vim/bundle/vim-surround"]
 	path = .vim/pack/bundle/start/vim-surround
 	url = https://github.com/tpope/vim-surround.git

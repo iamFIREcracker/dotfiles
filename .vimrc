@@ -129,8 +129,6 @@ augroup theme_customizations
             \ hi NeomakeErrorSign ctermfg=red ctermbg=235 |
             \ hi NeomakeWarningSign ctermfg=yellow ctermbg=235
     autocmd ColorScheme goodwolf
-            \ hi! link javascriptTemplateDelim javascriptTemplateString |
-            \ hi! link javascriptTemplateVar javascriptTemplateString |
             \ hi! link DiffAdd diffAdded |
             \ hi! link DiffDelete diffRemoved |
             \ call GoodWolfHL('DiffText', 'orange', 'deepergravel', 'none')
