@@ -744,8 +744,9 @@ augroup END
 augroup ft_java
     au!
     function! TurnOnJavaFolding() "{{{
-        let modifier     = '%(public|private|protected)*\s*'
-        let returntype   = '' " XXX to implement
+        let modifier     = '%(public|private|protected)+\s*'
+        let static       = '%(static\s*)*\s*'
+        let returntype   = '\S+\s*
         let class        = modifier.'class%(\s+\S+)*\s*\{'
         let method       = modifier.returntype.'%(\S*\.\S*|if|for|while|switch)@!\S+\s*\([^)]*\)\s*\{'
         let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
@@ -762,12 +763,20 @@ augroup ft_java
     au FileType java silent! call TurnOnJavaFolding()
     au FileType java nnoremap <buffer> <localleader>F :call UpdateManualRegexpFolds()<cr>
 
-
     au FileType java setlocal omnifunc=javacomplete#Complete
     au FileType java setlocal tabstop=2 shiftwidth=2 softtabstop=2
     au Filetype java setlocal textwidth=120
     au Filetype java compiler maven
     au Filetype java let b:dispatch = 'mvn -B clean test'
+
+    " Abbreviations {{{
+
+    au FileType java call MakeSpacelessBufferIabbrev('if',      'if (HERE)')
+    au FileType java call MakeSpacelessBufferIabbrev('rt',      'return HERE;')
+    au FileType java call MakeSpacelessBufferIabbrev('for',     'for (HERE) {}<left><cr>')
+    au FileType java call MakeSpacelessBufferIabbrev('println', 'System.out.println(HERE);')
+
+    " }}}
 augroup END
 
 " }}}
