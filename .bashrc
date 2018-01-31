@@ -385,9 +385,9 @@ function math() {
 # maven {{{
 
 function m() {
-    mvn --batch-mode --threads 1.0C "$@" | mcolorify
+    mvn --batch-mode --threads 1.0C "$@" | mvn-colorify
 }
-function mcolorify() {
+function mvn-colorify() {
     sed --unbuffered \
         -e "s/Tests run: \([^,]*\), Failures: \([^,]*\), Errors: \([^,]*\), Skipped: \([^,]*\)/${GREEN}Tests run: \1${D}, Failures: ${ORANGE}\2${D}, Errors: ${RED}\3${D}, Skipped: ${CYAN}\4${D}/g" \
         -e "s/\[INFO\] \(--- .* ---\)/$BOLD\1$N/g" \
@@ -480,7 +480,7 @@ function sb() { . ~/.bashrc; }
 if hash gsed 2>/dev/null; then
     _sed=gsed
 elif hash sed 2>/dev/null; then
-    _sed=sed
+    _sed=$(which sed)
 fi
 function sed() {
     ${_sed} "$@"
