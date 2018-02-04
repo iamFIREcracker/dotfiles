@@ -131,6 +131,7 @@ augroup theme_customizations
     autocmd ColorScheme goodwolf
             \ hi! link DiffAdd diffAdded |
             \ hi! link DiffDelete diffRemoved |
+            \ hi! link level2c level1c |
             \ call GoodWolfHL('DiffText', 'orange', 'deepergravel', 'none')
 augroup END
 
@@ -769,6 +770,7 @@ augroup ft_java
     au Filetype java compiler maven
     au Filetype java let b:dispatch = 'mvn -B clean test'
 
+    au FileType java let b:rbpt_max=2
     au FileType java RainbowParenthesesActivate
     au syntax java RainbowParenthesesLoadRound
     au syntax java RainbowParenthesesLoadSquare
