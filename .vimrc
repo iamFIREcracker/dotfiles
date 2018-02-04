@@ -1309,8 +1309,15 @@ vnoremap <leader>y :<c-u>call g:FuckingCopyTheTextPlease()<cr>
 nnoremap <leader>y VV:<c-u>call g:FuckingCopyTheTextPlease()<cr>
 nnoremap <leader>Y :<c-u>call g:FuckingCopyAllTheTextPlease()<cr>
 
-nnoremap <leader>p :set paste<CR>:read !cb<CR>:set nopaste<CR><leader>V=
-nnoremap <leader>P O<esc>:set paste<CR>:read !cb<CR>:set nopaste<CR>kdd
+function! g:FuckingPasteTheTextPlease()
+    let view = winsaveview()
+    set paste
+    execute 'read !cb'
+    set nopaste
+    call winrestview(view)
+endfunction
+
+nnoremap <leader>p :<c-u>call g:FuckingPasteTheTextPlease()<cr><leader>V=
 
 " Select pasted stuff
 nnoremap <leader>V V`]
