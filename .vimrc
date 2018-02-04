@@ -1561,15 +1561,7 @@ augroup ft_shell_g_ll
 
     autocmd BufReadPost __Shell_Output__git_ll :silent call RemoveAnsiColor()
     autocmd BufReadPost __Shell_Output__git_ll setlocal filetype=gitrebase
-    function! GitRebase() "{{{
-        setlocal keywordprg=git\ rebase\ --interactive
-        Git shelve
-        normal! j " Move to the next commit
-        normal! K " Do rebase
-        Git unshelve
-        Shell git ll
-    endfunction "}}}
-    autocmd BufReadPost __Shell_Output__git_ll nnoremap <buffer> R :call GitRebase()<CR>:Shell git ll<cr>
+    autocmd BufReadPost __Shell_Output__git_ll nnoremap <buffer> R :!git rb <C-R>=split(getline('.'))[0]<CR>^1<CR>:Shell git ll<cr>
 augroup END
 
 " }}}
