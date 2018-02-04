@@ -747,7 +747,7 @@ augroup ft_java
     function! TurnOnJavaFolding() "{{{
         let modifier     = '%(public|private|protected)+\s*'
         let static       = '%(static\s*)*\s*'
-        let returntype   = '\S+\s*
+        let returntype   = '\S+\s*'
         let class        = modifier.'class%(\s+\S+)*\s*\{'
         let method       = modifier.returntype.'%(\S*\.\S*|if|for|while|switch)@!\S+\s*\([^)]*\)\s*\{'
         let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
@@ -1979,7 +1979,9 @@ function! UpdateManualRegexpFolds()
     " For each line matching any of the configured regexps
     let command.= 'g/'.b:manual_regexp_folding_statements_re_bare.'/'
     " Move to the end of the line, create a fold with the _matching_ line
-    let command.= 'normal $zf%zo'
+    " It's better to use 'g_' and not '$', as the former would stop to the last
+    " non-blank char
+    let command.= 'normal g_zf%zo'
     execute command
 
     " Restore cursor position
