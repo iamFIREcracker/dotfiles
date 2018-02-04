@@ -769,6 +769,11 @@ augroup ft_java
     au Filetype java compiler maven
     au Filetype java let b:dispatch = 'mvn -B clean test'
 
+    au FileType java RainbowParenthesesActivate
+    au syntax java RainbowParenthesesLoadRound
+    au syntax java RainbowParenthesesLoadSquare
+    au syntax java RainbowParenthesesLoadBrace
+
     " Abbreviations {{{
 
     au FileType java call MakeSpacelessBufferIabbrev('if',      'if (HERE)')
@@ -1521,8 +1526,8 @@ nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gco :Gcheckout<cr>
 nnoremap <leader>gci :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
-nnoremap <leader>gr :Git r <C-R>=fnameescape(expand('%'))<cr><cr>
-nnoremap <leader>gR :Git R<cr>
+nnoremap <leader>gr :!git r <C-R>=fnameescape(expand('%'))<cr><cr>
+nnoremap <leader>gR :!git R<cr>
 nnoremap <leader>gl :Shell git ll<cr>
 nnoremap <leader>gi :Shell git ind<cr>
 
@@ -1839,14 +1844,7 @@ function! s:Shell(command)
     let bufName = g:ShellOutputBufferName . substitute(a:command, ' ', '_', '')
     let shl_bufnum = bufnr(bufName)
     if shl_bufnum == -1
-        " open a new shell buffer:
-        "
-        "   exe "vnew +wincmd\<space>L " . bufName
-        "
-        " I cannot manage to get the new split to the topmost right,
-        " so I will work around that by hooking into the BufReadPost
-        "
-        exe "vnew " . bufName
+        exe "botright vnew " . bufName
     else
         " Shell buffer is already created. Check whether it is open
         " in one of the windows
@@ -1859,7 +1857,7 @@ function! s:Shell(command)
             endif
         else
             " Create a new shell buffer
-            exe "vsplit +buffer" . shl_bufnum
+            exe "botright vsplit +buffer" . shl_bufnum
         endif
     endif
 
@@ -1881,7 +1879,6 @@ augroup ft_shelloutput
     autocmd BufNewFile __Shell_Output__* setlocal noswapfile
     autocmd BufNewFile __Shell_Output__* setlocal buflisted
     autocmd BufNewFile __Shell_Output__* nnoremap <buffer> q :bd<cr>
-    autocmd BufReadPost __Shell_Output__* wincmd L
 augroup END
 
 " }}}

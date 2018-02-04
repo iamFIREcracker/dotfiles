@@ -214,6 +214,7 @@ eJ()  { vim ~/Dropbox/journal/$(date '+%Y-%m').md; }
 eh()  { vim ~/dotfiles/.hgrc; }
 em()  { eM .mail; }
 eM()  { vim $(tempfile "$@" ); }
+eR()  { vim ~/Dropbox/rest; }
 es()  { vim ~/dotfiles/.slate; }
 et()  { vim ~/dotfiles/.tmux.conf; }
 eT()  { vim ~/.tmuxinator/$(tmux display-message -p '#S').yml; }
