@@ -997,8 +997,19 @@ augroup END
 augroup ft_rest
     au!
 
+    function! GetRestFold(lnum)
+        if getline(a:lnum) =~? '\v^(GET|POST|PUT|DELETE)\s'
+            return 1
+        endif
+        if getline(a:lnum) =~? '\v^--\s*'
+            return 0
+        endif
+
+        return '='
+    endfunction
+
+    au FileType rest setlocal foldmethod=expr foldexpr=GetRestFold(v:lnum)
     au FileType rest setlocal ts=2 sw=2 sts=2
-    au Filetype rest setlocal foldmethod=marker foldmarker={{{,}}}
     au Filetype rest nnoremap <buffer> <localleader>1 yypVr=
 augroup END
 
