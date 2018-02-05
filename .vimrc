@@ -1853,7 +1853,10 @@ command! -complete=shellcmd -nargs=+ Shell call s:Shell(<q-args>)
 
 function! s:Shell(command)
     " Check whether the shell buffer is already created
-    let bufName = g:ShellOutputBufferName . substitute(a:command, ' ', '_', '')
+    let bufName = g:ShellOutputBufferName . a:command
+    let bufName = substitute(bufName, ' ',  '_', 'g')
+    let bufName = substitute(bufName, '\~', '_tilde_', 'g')
+    let bufName = substitute(bufName, '/',  '_slash_', 'g')
     let shl_bufnum = bufnr(bufName)
     if shl_bufnum == -1
         exe "botright vnew " . bufName

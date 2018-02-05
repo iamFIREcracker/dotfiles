@@ -25,7 +25,7 @@ elif [ -f tsconfig.json ]; then
 fi
 
 
-# Java/Maven
+# Maven
 if [ -f pom.xml ]; then
     #unzip $JAVA_HOME/src.zip -d .dependenciesSources
 
@@ -40,6 +40,12 @@ if [ -f pom.xml ]; then
     mv tags tags1
 fi
 
+# Java
+if [ -f Main.java ]; then
+    ${CTAGS} --language-force=java --exclude=*.jar -R .
+
+    mv tags tags1
+fi
 
 # Python
 if [ -f requirements.txt ]; then
