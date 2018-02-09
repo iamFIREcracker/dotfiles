@@ -829,13 +829,6 @@ augroup ft_javascript
     au FileType javascript setlocal ts=2 sw=2 sts=2
     au Filetype javascript setlocal textwidth=100
 
-    au FileType javascript nnoremap <buffer> <silent> <C-]> :TernDef<cr>zvzz
-    au FileType javascript nnoremap <buffer> <silent> gd :TernDef<cr>zvzz
-    au FileType javascript nnoremap <buffer> <silent> <C-^> :TernRefs<cr>
-
-    au Filetype javascript nnoremap <buffer> <leader>d :call RunAllSpecs()<cr>
-    au Filetype javascript nnoremap <buffer> <localleader>t :call RunNearestSpec()<cr>
-
     au FileType javascript RainbowParenthesesActivate
     au syntax javascript RainbowParenthesesLoadRound
     au syntax javascript RainbowParenthesesLoadSquare
@@ -1927,10 +1920,7 @@ nnoremap <leader>W :call ToggleDiffWhitespace()<CR>
 " Note: If the text covered by a motion contains a newline it won't work.  Ack
 " searches line-by-line.
 
-" nnoremap <silent> <leader>A :set opfunc=<SID>AckMotion<CR>g@
-" vnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
-" xnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
-"
+nnoremap <silent> <C-^> :Ack! '\b<c-r><c-w>\b'<cr>
 nnoremap <silent> <leader>* :Ack! '\b<c-r><c-w>\b'<cr>
 vnoremap <silent> <leader>* :<C-U>call <SID>AckMotion(visualmode())<CR>
 xnoremap <silent> <leader>* :<C-U>call <SID>AckMotion(visualmode())<CR>

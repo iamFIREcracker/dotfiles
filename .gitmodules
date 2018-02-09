@@ -111,9 +111,6 @@
 [submodule ".vim/bundle/splice.vim"]
 	path = .vim/pack/bundle/start/splice.vim
 	url = https://github.com/sjl/splice.vim.git
-[submodule ".vim/bundle/tern_for_vim"]
-	path = .vim/pack/bundle/start/tern_for_vim
-	url = https://github.com/ternjs/tern_for_vim.git
 [submodule ".vim/bundle/delimitMate"]
 	path = .vim/pack/bundle/start/delimitMate
 	url = https://github.com/Raimondi/delimitMate.git

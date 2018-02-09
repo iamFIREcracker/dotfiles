@@ -63,16 +63,6 @@ function create_dir {
     if ! which npm 2>/dev/null; then
         echo "Missing command: npm"
     else
-        cd .vim/pack/bundle/start/tern_for_vim/
-        test $FORCE -eq 1 && rm -rf node_modules
-        npm install
-    fi
-)
-
-(
-    if ! which npm 2>/dev/null; then
-        echo "Missing command: npm"
-    else
         cd .vim/pack/bundle/start/tsuquyomi/
         test $FORCE -eq 1 && rm -rf node_modules
         npm install
