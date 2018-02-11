@@ -1,3 +1,7 @@
+# Git conflicts
+###############
+*.orig
+
 # Tag files
 ###########
 tags
