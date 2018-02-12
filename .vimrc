@@ -747,10 +747,10 @@ augroup ft_java
     function! TurnOnJavaFolding() "{{{
         let modifier     = '%(public|private|protected)+\s*'
         let static       = '%(static\s*)*\s*'
-        let returntype   = '\S+\s*'
+        let returntype   = '%(,\s|\S)+\s*'
         let class        = modifier.'class%(\s+\S+)*\s*\{'
-        let method       = modifier.returntype.'%(\S*\.\S*|if|for|while|switch)@!\S+\s*\([^)]*\)\s*\{'
-        let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
+        let method       = modifier.static.returntype.'%(\S*\.\S*|if|for|while|switch)@![a-zA-Z0-9]+\s*\([^)]*\)\s*\{'
+        let functionwrap = '\s*\S*\s[a-zA-Z]*\)\s*\{'
 
         let folded_statements = [
                     \ class,
@@ -776,11 +776,14 @@ augroup ft_java
     au syntax java RainbowParenthesesLoadSquare
     au syntax java RainbowParenthesesLoadBrace
 
+    " au FileType java inoremap <c-n> <c-x><c-o>
+
     " Abbreviations {{{
 
     au FileType java call MakeSpacelessBufferIabbrev('if',      'if (HERE)')
     au FileType java call MakeSpacelessBufferIabbrev('rt',      'return HERE;')
     au FileType java call MakeSpacelessBufferIabbrev('for',     'for (HERE) {}<left><cr>')
+    au FileType java call MakeSpacelessBufferIabbrev('while',   'while (HERE) {}<left><cr>')
     au FileType java call MakeSpacelessBufferIabbrev('println', 'System.out.println(HERE);')
 
     " }}}
