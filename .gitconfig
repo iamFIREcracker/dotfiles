@@ -118,7 +118,7 @@
     }; f"
 
     rb = "!f() { \
-        local need_stash=$(git st); \
+        need_stash=$(git st); \
         [ -n \"$need_stash\" ] && git stash save; \
         git rebase --interactive $@; \
         [ -n \"$need_stash\" ] && git stash pop; \
