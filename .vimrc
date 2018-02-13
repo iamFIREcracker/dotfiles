@@ -80,7 +80,7 @@ set wildignore+=*.DS_Store                       " OSX bullshit
 set wildignore+=*.pyc                            " Python byte code
 set wildignore+=*.orig                           " Merge resolution files
 set wildignore+=*/node_modules/*                 " npm
-
+set wildignore+=*.class                          " java
 " Clojure/Leiningen
 set wildignore+=classes
 "set wildignore+=lib
@@ -762,7 +762,7 @@ augroup ft_java
         call TurnOnManualRegexpFolding()
     endfunction "}}}
     au FileType java silent! call TurnOnJavaFolding()
-    au FileType java nnoremap <buffer> <localleader>F :call UpdateManualRegexpFolds()<cr>
+    au FileType java silent! call RefreshManualRegexpFolding()
 
     au FileType java setlocal omnifunc=javacomplete#Complete
     au FileType java setlocal tabstop=2 shiftwidth=2 softtabstop=2
@@ -826,7 +826,7 @@ augroup ft_javascript
         call TurnOnManualRegexpFolding()
     endfunction "}}}
     au FileType javascript silent! call TurnOnJavascriptFolding()
-    au FileType javascript nnoremap <buffer> <localleader>F :call UpdateManualRegexpFolds()<cr>
+    au FileType javascript silent! call RefreshManualRegexpFolding()
 
     au FileType javascript setlocal suffixesadd+=.js
     au FileType javascript setlocal ts=2 sw=2 sts=2
@@ -1131,7 +1131,7 @@ augroup ft_typescript
         call TurnOnManualRegexpFolding()
     endfunction "}}}
     au FileType typescript silent! call TurnOnTypescriptFolding()
-    au FileType typescript nnoremap <buffer> <localleader>F :call UpdateManualRegexpFolds()<cr>
+    au FileType typescript silent! call RefreshManualRegexpFolding()
 
     au FileType typescript setlocal ts=2 sw=2 sts=2
     au FileType typescript setlocal suffixesadd+=.ts
@@ -1990,6 +1990,10 @@ endfunction
 function! TurnOnManualRegexpFolding()
     setlocal foldmethod=manual
 
+    call UpdateManualRegexpFolds()
+endfunction
+
+function! RefreshManualRegexpFolding()
     call UpdateManualRegexpFolds()
 endfunction
 
