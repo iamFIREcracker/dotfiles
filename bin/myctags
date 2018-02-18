@@ -40,13 +40,6 @@ if [ -f pom.xml ]; then
     mv tags tags1
 fi
 
-# Java
-if [ -f Main.java ]; then
-    ${CTAGS} --language-force=java --exclude=*.jar -R .
-
-    mv tags tags1
-fi
-
 # Python
 if [ -f requirements.txt ]; then
     ${CTAGS} --exclude=build --exclude=dist -R . && sed -i.bak -E -e '/^[^    ]+      [^      ]+.py   .+v$/d'
@@ -68,6 +61,13 @@ if [ -f package.json ]; then
     ${FIND} . -type f -iregex .*\.js$ \
         -not -path "./node_modules/*" -and -not -path "./bower_components/*" \
         -exec jsctags {} -f \; | sed '/^$/d' | sort > tags
+
+    mv tags tags1
+fi
+
+# Java
+if [ -n "$(find . -name '*.java')" ]; then
+    ${CTAGS} --language-force=java --exclude=*.jar -R .
 
     mv tags tags1
 fi

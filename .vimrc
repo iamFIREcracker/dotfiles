@@ -132,6 +132,7 @@ augroup theme_customizations
             \ hi! link DiffAdd diffAdded |
             \ hi! link DiffDelete diffRemoved |
             \ hi! link level2c level1c |
+            \ hi! link javaDocTags Comment |
             \ call GoodWolfHL('DiffText', 'orange', 'deepergravel', 'none')
 augroup END
 
@@ -414,9 +415,6 @@ inoremap # X<BS>#
 
 " Fuck you too, manual key.
 nnoremap K <nop>
-
-" Save
-nnoremap S :w<cr>
 
 " }}}
 " Various filetype-specific stuff ----------------------------------------- {{{
@@ -745,10 +743,12 @@ augroup END
 augroup ft_java
     au!
     function! TurnOnJavaFolding() "{{{
+        " let modifier     = '%(public|private|protected)?\s*'
         let modifier     = '%(public|private|protected)+\s*'
-        let static       = '%(static\s*)*\s*'
+        let static       = '%(static\s*)?\s*'
         let returntype   = '%(,\s|\S)+\s*'
         let class        = modifier.'class%(\s+\S+)*\s*\{'
+        " XXX it doesn't look like the following ignores if/for/while/switch statements correctly...
         let method       = modifier.static.returntype.'%(\S*\.\S*|if|for|while|switch)@![a-zA-Z0-9]+\s*\([^)]*\)\s*\{'
         let functionwrap = '\s*\S*\s[a-zA-Z]*\)\s*\{'
 
@@ -1258,8 +1258,8 @@ xnoremap & :&&<CR>
 " Allows you to easily replace the current word and all its occurrences.
 nnoremap <C-S> :%s/
 vnoremap <C-S> :s/
-nnoremap <Leader>S :%s/<C-r><C-w>//cw<left><left><left>
-vnoremap <Leader>S y:%s/<C-r>"//cw<left><left><left>
+nnoremap <Leader>S :%s/<C-r><C-w>//c<left><left>
+vnoremap <Leader>S y:%s/<C-r>"//c<left><left>
 
 " Emacs bindings in command line mode
 cnoremap <C-a> <home>
@@ -1381,6 +1381,18 @@ xnoremap <leader>J :'<,'>!python -m json.tool<cr>
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%') : '%%'
 cnoremap <expr> %d getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
+" Quickfix navigation
+nnoremap <silent> <left> :cprevious<CR>zvzz
+nnoremap <silent> <right> :cnext<CR>zvzz
+
+" Locations navigation
+nnoremap <silent> <up> :lprevious<CR>zvzz
+nnoremap <silent> <down> :lnext<CR>zvzz
+
+" Folds
+nnoremap <silent> [z zMzkzvzz
+nnoremap <silent> ]z zMzjzvzz
+
 " Block Colors {{{
 
 let g:blockcolor_state = 0
@@ -1410,25 +1422,6 @@ inoremap <c-space> <c-x><c-o>
 inoremap <c-@> <c-x><c-o>
 
 " }}}
-" Consistent navigation of buffers, quickfixes, locations -- borrowed from vim-unimpaired {{{
-
-" Buffers
-nnoremap <silent> [b :bprevious<CR>
-nnoremap <silent> ]b :bnext<CR>
-" Quickfix
-nnoremap <silent> [q :cprevious<CR>zvzz
-nnoremap <silent> ]q :cnext<CR>zvzz
-" Older quickfix invocations
-nnoremap <silent> [Q :colder<CR>
-nnoremap <silent> ]Q :cnewer<CR>
-" Locations
-nnoremap <silent> [l :lprevious<CR>zvzz
-nnoremap <silent> ]l :lnext<CR>zvzz
-" Folds
-nnoremap <silent> [z zMzkzvzz
-nnoremap <silent> ]z zMzjzvzz
-
-" }}}
 
 " }}}
 " CTags ------------------------------------------------------------------- {{{
@@ -1447,7 +1440,7 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 
 nnoremap <leader>a :Ack!<space>
 nnoremap <localleader>a :Ack!  %:h<left><left><left><left>
-let g:ackprg = 'ag --hidden --smart-case --nogroup --nocolor --column'
+let g:ackprg = 'ag --vimgrep --hidden --smart-case --nogroup --nocolor --column'
 
 " }}}
 " Airline {{{
@@ -1543,6 +1536,8 @@ nnoremap <leader>gco :Gcheckout<cr>
 nnoremap <leader>gci :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
 nnoremap <leader>gr :!git r <C-R>=fnameescape(expand('%'))<cr><cr>
+nnoremap <leader>gs :!git shelve<cr>
+nnoremap <leader>gS :!git unshelve<cr>
 nnoremap <leader>gR :!git R<cr>
 nnoremap <leader>gl :Shell git ll<cr>
 nnoremap <leader>gi :Shell git ind<cr>

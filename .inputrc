@@ -2,9 +2,10 @@
 set editing-mode vi
 
 # Customize PS1 depending on mode (insert, command)
-#set show-mode-in-prompt on
-#set vi-ins-mode-string "" Does not work
-#set vi-cmd-mode-string "!" Does not work
+set show-mode-in-prompt on
+# set vi-ins-mode-string "\1\e[1;96m\2+\1\e[0m\2"
+set vi-ins-mode-string "+"
+set vi-cmd-mode-string ":"
 
 # Display matches for ambiguous patterns at first tab press
 set show-all-if-ambiguous on

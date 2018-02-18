@@ -637,9 +637,9 @@ venv_ps1() {
 
 actual_prompt() {
     if [[ $EXITVAL == 0 ]]; then
-        echo -n "> "
+        echo -n " > "
     else
-        echo -n "$EXITVAL > "
+        echo -n " $EXITVAL > "
     fi
 }
 
