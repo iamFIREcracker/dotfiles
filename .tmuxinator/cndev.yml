@@ -4,6 +4,11 @@ name: cndev
 root: ~/workspace/connection
 
 windows:
+  - tunnels:
+    panes:
+      - while true; do ssh -vv mlandi@cnint -L 1433:172.20.10.78:1433 -N; done
+      - while true; do ssh -vv mlandi@cnint -L 8443:labcentral01.lab49.com:8443 -N; done
+
   - api:
       layout: main-vertical
       root: ~/workspace/connection/api-gateway/
@@ -32,4 +37,5 @@ windows:
       layout: main-vertical
       root: ~/workspace/connection/client/
       panes:
+        - vim -c 'cd src/connection-ui'
         - n run styleguide

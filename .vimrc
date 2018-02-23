@@ -610,6 +610,8 @@ augroup ft_diff
     " next/previous fold (ie. change)
     au Filetype diff nmap <buffer> [c [z
     au Filetype diff nmap <buffer> ]c ]z
+    au Filetype diff nmap <buffer> <down> ]z
+    au Filetype diff nmap <buffer> <up> [z
 augroup END
 
 " }}}
@@ -848,6 +850,9 @@ augroup ft_javascript
     au FileType javascript call MakeSpacelessBufferIabbrev('dolog', 'do(console.log)')
     au FileType javascript call MakeSpacelessBufferIabbrev('maplog', 'map(e => console.log(e) \|\| e)')
     au FileType javascript call MakeSpacelessBufferIabbrev('thenlog', 'then(e => console.log(e) \|\| e)')
+    au FileType javascript call MakeSpacelessBufferIabbrev('desc', "describe('HERE', () => {});<left><left><left><cr>")
+    au FileType javascript call MakeSpacelessBufferIabbrev('befeach', "beforeEach(() => {});<left><left><left><cr>")
+    au FileType javascript call MakeSpacelessBufferIabbrev('itt', "it('HERE', () => {});<left><left><left><cr>")
 
     " }}}
 augroup END
@@ -1232,6 +1237,7 @@ nnoremap <leader>eb :vsplit ~/.bashrc<cr>
 nnoremap <leader>eg :vsplit ~/.gitconfig<cr>
 nnoremap <leader>eh :vsplit ~/.hgrc<cr>
 nnoremap <leader>em :vsplit <C-R>=system('tempfile .mail')<cr><cr>
+nnoremap <leader>eR :vsplit ~/Dropbox/rest<cr>
 nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
@@ -1471,7 +1477,7 @@ let ctrlp_filter_greps = "".
     \ "jar|class|swp|swo|log|so|o|pyc|jpe?g|png|gif|mo|po" .
     \ ")$' | " .
     \ "egrep -v '^(\\./)?(" .
-    \ "deploy/|classes/|libs/|deploy/vendor/|.git/|.hg/|.svn/|.*migrations/|node_modules/" .
+    \ "deploy/|classes/|libs/|deploy/vendor/|.git/|.hg/|.svn/|node_modules/" .
     \ ")'"
 
 let my_ctrlp_user_command = "" .
@@ -1527,6 +1533,7 @@ let g:fugitive_github_domains = ['github.banksimple.com']
 nnoremap <leader>gd :Shell git diff <C-R>=expand('%')<cr><cr>
 nnoremap <leader>gD :Shell git diff<cr>
 nnoremap <leader>gp :Gpush<cr>
+nnoremap <leader>gP :!git p -f<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>ga :Gadd<cr>
@@ -1536,8 +1543,6 @@ nnoremap <leader>gco :Gcheckout<cr>
 nnoremap <leader>gci :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
 nnoremap <leader>gr :!git r <C-R>=fnameescape(expand('%'))<cr><cr>
-nnoremap <leader>gs :!git shelve<cr>
-nnoremap <leader>gS :!git unshelve<cr>
 nnoremap <leader>gR :!git R<cr>
 nnoremap <leader>gl :Shell git ll<cr>
 nnoremap <leader>gi :Shell git ind<cr>
