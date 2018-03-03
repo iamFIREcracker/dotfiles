@@ -349,9 +349,9 @@ noremap <leader>v <C-w>v
 " }}}
 " Highlight word {{{
 
-nnoremap <silent> <leader>h1 :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
-nnoremap <silent> <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
-nnoremap <silent> <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
+nnoremap <silent> <leader>h1 :execute 'match InterestingWord1 /\<<c-r>=expand("<cword>")<cr>\>/'<cr>
+nnoremap <silent> <leader>h2 :execute '2match InterestingWord2 /\<<c-r>=expand("<cword>")<cr>\>/'<cr>
+nnoremap <silent> <leader>h3 :execute '3match InterestingWord3 /\<<c-r>=expand("<cword>")<cr>\>/'<cr>
 
 " }}}
 
@@ -1264,7 +1264,7 @@ xnoremap & :&&<CR>
 " Allows you to easily replace the current word and all its occurrences.
 nnoremap <C-S> :%s/
 vnoremap <C-S> :s/
-nnoremap <Leader>S :%s/<C-r><C-w>//c<left><left>
+nnoremap <Leader>S :%s/<C-r>=expand("<cword>")<cr>//c<left><left>
 vnoremap <Leader>S y:%s/<C-r>"//c<left><left>
 
 " Emacs bindings in command line mode
@@ -1923,12 +1923,12 @@ nnoremap <leader>W :call ToggleDiffWhitespace()<CR>
 " Note: If the text covered by a motion contains a newline it won't work.  Ack
 " searches line-by-line.
 
-nnoremap <silent> <C-^> :Ack! '\b<c-r><c-w>\b'<cr>
-nnoremap <silent> <leader>* :Ack! '\b<c-r><c-w>\b'<cr>
+nnoremap <silent> <C-^> :Ack! '\b<c-r>=expand("<cword>")<cr>\b'<cr>
+nnoremap <silent> <leader>* :Ack! '\b<c-r>=expand("<cword>")<cr>\b'<cr>
 vnoremap <silent> <leader>* :<C-U>call <SID>AckMotion(visualmode())<CR>
 xnoremap <silent> <leader>* :<C-U>call <SID>AckMotion(visualmode())<CR>
 
-nnoremap <silent> <localleader>* :Ack! '\b<c-r><c-w>\b' %:h<CR>
+nnoremap <silent> <localleader>* :Ack! '\b<c-r>=expand("<cword>")<cr>\b' %:h<CR>
 vnoremap <silent> <localleader>* :<C-U>call <SID>AckLocalMotion(visualmode())<CR>
 xnoremap <silent> <localleader>* :<C-U>call <SID>AckLocalMotion(visualmode())<CR>
 
