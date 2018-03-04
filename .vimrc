@@ -133,6 +133,9 @@ augroup theme_customizations
             \ hi! link DiffDelete diffRemoved |
             \ hi! link level2c level1c |
             \ hi! link javaDocTags Comment |
+            \ hi! link shDerefSimple Comment |
+            \ hi! link shDerefVar Comment |
+            \ hi! link PreProc Comment |
             \ call GoodWolfHL('DiffText', 'orange', 'deepergravel', 'none')
 augroup END
 
