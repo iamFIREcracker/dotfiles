@@ -24,18 +24,19 @@ if [ -z "$JAVA_HOME" ]; then
 fi
 
 if [[ -z $TMUX ]]; then
-    test -d /usr/local/opt/node@6/bin && export PATH="/usr/local/opt/node@6/bin:$PATH"
-    test -d /usr/local/sbin           && export PATH="/usr/local/sbin:$PATH"
-    test -d /usr/sbin                 && export PATH="/usr/sbin:$PATH"
-    test -d /home/mlandi/perl5/bin    && export PATH="/home/mlandi/perl5/bin$:$PATH"
-    test -d ~/bin                     && export PATH="$HOME/bin:$PATH"
-    test -d ~/npm/bin                 && export PATH="$HOME/npm/bin:$PATH"
-    test -d ~/rubygems/bin            && export PATH="$HOME/rubygems/bin:$PATH"
-    test -d ~/opt/PathPicker          && export PATH="$HOME/opt/PathPicker:$PATH"
-    test -d ~/opt/cb                  && export PATH="$HOME/opt/cb:$PATH"
-    test -d ~/opt/tmux                && export PATH="$HOME/opt/tmux:$PATH"
-    test -n "$JAVA_HOME"              && export PATH="$JAVA_HOME/bin:${PATH}"
-    test -n "$M2_HOME"                && export PATH="$M2_HOME/bin:${PATH}"
+    test -d /usr/sbin                      && export PATH="/usr/sbin:$PATH"
+    test -d /usr/local/sbin                && export PATH="/usr/local/sbin:$PATH"
+    test -d /usr/local/opt/node@6/bin      && export PATH="/usr/local/opt/node@6/bin:$PATH"
+    test -d /usr/local/opt/python@2/bin    && export PATH="/usr/local/opt/python@2/bin:$PATH"
+    test -n "$JAVA_HOME"                   && export PATH="$JAVA_HOME/bin:$PATH"
+    test -n "$M2_HOME"                     && export PATH="$M2_HOME/bin:$PATH"
+    test -d ~/bin                          && export PATH="$HOME/bin:$PATH"
+    test -d ~/perl5/bin                    && export PATH="$HOME/perl5/bin$:$PATH"
+    test -d ~/npm/bin                      && export PATH="$HOME/npm/bin:$PATH"
+    test -d ~/rubygems/bin                 && export PATH="$HOME/rubygems/bin:$PATH"
+    test -d ~/opt/PathPicker               && export PATH="$HOME/opt/PathPicker:$PATH"
+    test -d ~/opt/cb                       && export PATH="$HOME/opt/cb:$PATH"
+    test -d ~/opt/tmux                     && export PATH="$HOME/opt/tmux:$PATH"
 
     # do the same with MANPATH
     if [ -d ~/man ]; then
