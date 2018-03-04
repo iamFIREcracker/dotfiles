@@ -43,9 +43,6 @@
 [submodule ".vim/bundle/vim-dispatch"]
 	path = .vim/pack/bundle/start/vim-dispatch
 	url = https://github.com/tpope/vim-dispatch.git
-[submodule ".vim/bundle/vim-scaladoc"]
-	path = .vim/pack/bundle/start/vim-scaladoc
-	url = https://github.com/sjl/vim-scaladoc.git
 [submodule ".vim/bundle/vim-scala"]
 	path = .vim/pack/bundle/start/vim-scala
 	url = https://github.com/sjl/vim-scala.git
@@ -114,10 +111,6 @@
 [submodule ".vim/bundle/delimitMate"]
 	path = .vim/pack/bundle/start/delimitMate
 	url = https://github.com/Raimondi/delimitMate.git
-[submodule ".vim/bundle/omnisharp-vim"]
-	path = .vim/pack/bundle/start/omnisharp-vim
-	url = https://github.com/OmniSharp/omnisharp-vim.git
-	ignore = dirty
 [submodule ".vim/bundle/robotframework-vim"]
 	path = .vim/pack/bundle/start/robotframework-vim
 	url = https://github.com/mfukar/robotframework-vim.git

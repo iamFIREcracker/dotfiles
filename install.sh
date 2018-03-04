@@ -40,14 +40,14 @@ function create_dir {
     mkdir -p $1
 }
 
-(
-    cd .vim/pack/bundle/start/omnisharp-vim/server
-    if which xbuild 2>/dev/null; then
-        xbuild
-    elif which msbuild.exe 2>/dev/null; then
-        msbuild.exe
-    fi
-)
+# (
+#     cd .vim/pack/bundle/start/omnisharp-vim/server
+#     if which xbuild 2>/dev/null; then
+#         xbuild
+#     elif which msbuild.exe 2>/dev/null; then
+#         msbuild.exe
+#     fi
+# )
 
 (
     if ! which make 2>/dev/null; then
