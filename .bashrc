@@ -68,14 +68,7 @@ CYGWIN=winsymlinks:nativestrict
 # }}}
 # Java et al. {{{
 
-if [ -z "$JAVA_HOME" ]; then
-    if [ -f /usr/libexec/java_home ]; then
-        export JAVA_HOME=$(/usr/libexec/java_home)
-    fi
-fi
-test -n "$JAVA_HOME" && export PATH="$JAVA_HOME/bin:${PATH}"
-test -n "$M2_HOME" && export PATH="$M2_HOME/bin:${PATH}"
-export MAVEN_OPTS="-Xmx512M -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+export MAVEN_OPTS="-Xmx2048m -Xss2M -XX:ReservedCodeCacheSize=128m -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 export _JAVA_OPTIONS="-Djava.awt.headless=true"
 
 headed_java() {
@@ -99,7 +92,6 @@ export GEM_HOME=~/rubygems
 # }}}
 # Python {{{
 
-export PYTHONPATH="~/lib/python:$PYTHONPATH"
 export PYTHONSTARTUP="~/.pythonrc.py"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 

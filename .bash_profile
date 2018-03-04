@@ -17,30 +17,43 @@ fi
 # the default umask is set in /etc/login.defs
 umask 022
 
-# include .bashrc if it exists
-if [ -f ~/.bashrc ]; then
-    source ~/.bashrc
+if [ -z "$JAVA_HOME" ]; then
+    if [ -f /usr/libexec/java_home ]; then
+        export JAVA_HOME=$(/usr/libexec/java_home)
+    fi
 fi
 
-test -d /usr/local/opt/node@6/bin && export PATH="/usr/local/opt/node@6/bin:$PATH"
-test -d /usr/local/sbin           && export PATH="/usr/local/sbin:$PATH"
-test -d ~/bin                     && export PATH="~/bin:$PATH"
-test -d ~/npm/bin                 && export PATH="~/npm/bin:$PATH"
-test -d ~/rubygems/bin            && export PATH="~/rubygems/bin:$PATH"
-test -d ~/opt/PathPicker          && export PATH="~/opt/PathPicker:$PATH"
-test -d ~/opt/cb                  && export PATH="~/opt/cb:$PATH"
-test -d ~/opt/tmux                && export PATH="~/opt/tmux:${PATH}"
+if [[ -z $TMUX ]]; then
+    test -d /usr/local/opt/node@6/bin && export PATH="/usr/local/opt/node@6/bin:$PATH"
+    test -d /usr/local/sbin           && export PATH="/usr/local/sbin:$PATH"
+    test -d /usr/sbin                 && export PATH="/usr/sbin:$PATH"
+    test -d /home/mlandi/perl5/bin    && export PATH="/home/mlandi/perl5/bin$:$PATH"
+    test -d ~/bin                     && export PATH="$HOME/bin:$PATH"
+    test -d ~/npm/bin                 && export PATH="$HOME/npm/bin:$PATH"
+    test -d ~/rubygems/bin            && export PATH="$HOME/rubygems/bin:$PATH"
+    test -d ~/opt/PathPicker          && export PATH="$HOME/opt/PathPicker:$PATH"
+    test -d ~/opt/cb                  && export PATH="$HOME/opt/cb:$PATH"
+    test -d ~/opt/tmux                && export PATH="$HOME/opt/tmux:$PATH"
+    test -n "$JAVA_HOME"              && export PATH="$JAVA_HOME/bin:${PATH}"
+    test -n "$M2_HOME"                && export PATH="$M2_HOME/bin:${PATH}"
 
-# do the same with MANPATH
-if [ -d ~/man ]; then
-    MANPATH=~/man:"${MANPATH}"
-    export MANPATH
+    # do the same with MANPATH
+    if [ -d ~/man ]; then
+        MANPATH="$HOME/man:$MANPATH"
+        export MANPATH
+    fi
+
+    test -d ~/lib/python              && export PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
 fi
-
 
 if [ -z "${LANG}" ]; then
     LANG=en_US.UTF-8
     export LANG
+fi
+
+if [ -z "${LC_ALL}" ]; then
+    LC_ALL=$LANG
+    export LC_ALL
 fi
 
 if [ -z "${MM_CHARSET}" ]; then
@@ -48,8 +61,8 @@ if [ -z "${MM_CHARSET}" ]; then
     export MM_CHARSET
 fi
 
-if [ -z "${LC_ALL}" ]; then
-    LC_ALL=$LANG
-    export LC_ALL
+# include .bashrc if it exists
+if [ -f ~/.bashrc ]; then
+    source ~/.bashrc
 fi
 
