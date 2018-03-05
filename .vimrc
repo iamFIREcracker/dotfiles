@@ -1450,6 +1450,7 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 nnoremap <leader>a :Ack!<space>
 nnoremap <localleader>a :Ack!  %:h<left><left><left><left>
 let g:ackprg = 'ag --vimgrep --hidden --smart-case --nogroup --nocolor --column'
+let g:ack_use_async = 1
 
 " }}}
 " Airline {{{
