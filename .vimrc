@@ -876,7 +876,9 @@ augroup ft_json
     au!
 
     au FileType json setlocal ts=2 sw=2 sts=2
-    au FileType json setlocal foldnestmax=99
+    au FileType json setlocal foldmethod=marker
+    au FileType json setlocal foldmarker={,}
+    au FileType json setlocal foldnestmax=2
 augroup END
 
 " }}}
@@ -1144,6 +1146,7 @@ augroup ft_typescript
     au FileType typescript setlocal ts=2 sw=2 sts=2
     au FileType typescript setlocal suffixesadd+=.ts
 
+    au Filetype typescript nnoremap <buffer> <C-^> :TsuReferences<cr>zvzz
     au FileType typescript nnoremap <buffer> <silent> <C-]> :TsuDefinition<cr>zvzz
     au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr>zvzz
 
@@ -1548,7 +1551,7 @@ nnoremap <leader>gci :Gcommit<cr>
 nnoremap <leader>gm :Gmove<cr>
 nnoremap <leader>gr :!git r <C-R>=fnameescape(expand('%'))<cr><cr>
 nnoremap <leader>gR :!git R<cr>
-nnoremap <leader>gl :Shell git ll<cr>
+nnoremap <leader>gl :Shell git pl<cr>
 nnoremap <leader>gi :Shell git ind<cr>
 
 augroup ft_fugitive
@@ -1556,12 +1559,14 @@ augroup ft_fugitive
 
     au BufNewFile,BufRead .git/index setlocal nolist
 augroup END
-augroup ft_shell_g_ll
+augroup ft_shell_g_pl
     au!
 
-    autocmd BufReadPost __Shell_Output__git_ll :silent call RemoveAnsiColor()
-    autocmd BufReadPost __Shell_Output__git_ll setlocal filetype=gitrebase
-    autocmd BufReadPost __Shell_Output__git_ll nnoremap <buffer> R :!git rb <C-R>=split(getline('.'))[0]<CR>^1<CR>:Shell git ll<cr>
+    autocmd BufReadPost __Shell_Output__git_pl*  :silent call RemoveAnsiColor()
+    autocmd BufReadPost __Shell_Output__git_pl*  setlocal filetype=gitrebase
+    autocmd BufReadPost __Shell_Output__git_pl   nnoremap <buffer> R :!git rb <C-R>=split(getline('.'))[0]<CR>^1<CR>:Shell git pl<cr>
+    autocmd BufReadPost __Shell_Output__git_pll  nnoremap <buffer> R :!git rb <C-R>=split(getline('.'))[0]<CR>^1<CR>:Shell git pll<cr>
+    autocmd BufReadPost __Shell_Output__git_plll nnoremap <buffer> R :!git rb <C-R>=split(getline('.'))[0]<CR>^1<CR>:Shell git plll<cr>
 augroup END
 
 " }}}
