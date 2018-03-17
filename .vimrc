@@ -422,6 +422,23 @@ nnoremap K <nop>
 " }}}
 " Various filetype-specific stuff ----------------------------------------- {{{
 
+" https://www.reddit.com/r/vim/comments/3hwall/how_to_close_vim_when_last_buffer_is_deleted/cub629z/
+function! CloseOnLast()
+    let cnt = 0
+
+    for i in range(0, bufnr("$"))
+        if buflisted(i)
+            let cnt += 1
+        endif
+    endfor
+
+    if cnt <= 1
+        q
+    else
+        bw
+    endif
+ endfunction
+
 " Angular {{{
 
 augroup ft_angular
@@ -642,7 +659,7 @@ augroup END
 augroup ft_eslintrc
     au!
 
-    au BufNewFile,BufRead .eslintrc nnoremap <buffer> q :bd<cr>
+    au BufNewFile,BufRead .eslintrc nnoremap <buffer> q :call CloseOnLast()<cr>
 augroup END
 
 " }}}
@@ -994,7 +1011,7 @@ augroup ft_quickfix
     au!
 
     au Filetype qf setlocal colorcolumn=0 nolist nocursorline nowrap
-    au FileType qf nnoremap <buffer> q :bd<cr>
+    au FileType qf nnoremap <buffer> q :call CloseOnLast()<cr>
 augroup END
 
 " }}}
@@ -1194,7 +1211,7 @@ augroup END
 augroup ft_ternproject
     au!
 
-    au BufNewFile,BufRead .tern-project nnoremap <buffer> q :bd<cr>
+    au BufNewFile,BufRead .tern-project nnoremap <buffer> q :call CloseOnLast()<cr>
 augroup END
 
 " }}}
@@ -1206,7 +1223,7 @@ augroup ft_vim
     au FileType vim setlocal foldmethod=marker
     au FileType help setlocal textwidth=78
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
-    au BufEnter *.txt if &ft == 'help' | nnoremap <buffer> q :bd<cr> | endif
+    au BufEnter *.txt if &ft == 'help' | nnoremap <buffer> q :call CloseOnLast()<cr> | endif
 augroup END
 
 " }}}
@@ -1694,7 +1711,7 @@ let g:vrc_trigger = '<localleader>e'
 augroup ft_restresponse
     au!
 
-    autocmd BufNewFile __REST_response__ nnoremap <buffer> q :bd<cr>
+    autocmd BufNewFile __REST_response__ nnoremap <buffer> q :call CloseOnLast()<cr>
 augroup END
 
 " }}}
@@ -1896,7 +1913,7 @@ augroup ft_shelloutput
     autocmd BufNewFile __Shell_Output__* setlocal bufhidden=hide
     autocmd BufNewFile __Shell_Output__* setlocal noswapfile
     autocmd BufNewFile __Shell_Output__* setlocal buflisted
-    autocmd BufNewFile __Shell_Output__* nnoremap <buffer> q :bd<cr>
+    autocmd BufNewFile __Shell_Output__* nnoremap <buffer> q :call CloseOnLast()<cr>
 augroup END
 
 " }}}

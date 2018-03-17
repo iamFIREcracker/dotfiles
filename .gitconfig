@@ -69,10 +69,13 @@
     pl   = !git pretty-log -18
     pll  = !git pretty-log -36
     plll = !git pretty-log -72
-    l    = "!f() { vim -c 'execute \"Shell git pl\" | only'; }; f"
-    l    = "!f() { vim -c 'execute \"Shell git pl\" | only'; }; f"
-    ll   = "!f() { vim -c 'execute \"Shell git pll\" | only'; }; f"
-    lll  = "!f() { vim -c 'execute \"Shell git plll\" | only'; }; f"
+    lv   = "!f() { \
+        cmd=\"Shell git p$1\"; \
+        vim -c \"execute '$cmd' | bdelete 1\"; \
+    }; f"
+    l    = !git lv l
+    ll   = !git lv ll
+    lll  = !git lv lll
 
     gl   = log -12 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(by %an)%Creset%C(yellow bold)%d%Creset%n'
     gll  = log -24 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
