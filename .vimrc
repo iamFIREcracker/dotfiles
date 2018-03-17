@@ -1433,6 +1433,11 @@ inoremap <c-f> <c-x><c-f>
 inoremap <c-space> <c-x><c-o>
 inoremap <c-@> <c-x><c-o>
 
+inoremap <expr> <Esc>  pumvisible() ? "\<C-e>" : "\<Esc>"
+imap <expr> <CR>       pumvisible() ? "\<C-y>" : "<Plug>delimitMateCR"
+imap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+imap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+
 " }}}
 
 " }}}
@@ -1662,13 +1667,6 @@ let g:tsuquyomi_use_vimproc=1
 let g:tsuquyomi_disable_default_mappings=1
 let g:tsuquyomi_use_dev_node_module=2
 let g:tsuquyomi_tsserver_path=$PWD .'/node_modules/.bin/tsserver'
-
-" }}}
-" Supertab {{{
-
-let g:SuperTabDefaultCompletionType = "<c-n>"
-let g:SuperTabLongestHighlight = 1
-let g:SuperTabCrMapping = 1
 
 " }}}
 " vim-Mocha {{{

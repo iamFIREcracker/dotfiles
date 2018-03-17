@@ -155,9 +155,6 @@
 [submodule ".vim/pack/bundle/start/vim-projectionist"]
 	path = .vim/pack/bundle/start/vim-projectionist
 	url = https://github.com/tpope/vim-projectionist.git
-[submodule ".vim/pack/bundle/start/supertab"]
-	path = .vim/pack/bundle/start/supertab
-	url = https://github.com/ervandew/supertab.git
 [submodule ".vim/pack/bundle/start/emmet-vim"]
 	path = .vim/pack/bundle/start/emmet-vim
 	url = https://github.com/mattn/emmet-vim.git
