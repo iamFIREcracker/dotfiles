@@ -781,7 +781,7 @@ augroup ft_java
     au syntax java RainbowParenthesesLoadSquare
     au syntax java RainbowParenthesesLoadBrace
 
-    " au FileType java inoremap <c-n> <c-x><c-o>
+    au FileType java inoremap <c-n> <c-x><c-o>
 
     " Abbreviations {{{
 
