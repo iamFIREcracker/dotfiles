@@ -55,10 +55,6 @@
 [submodule ".vim/bundle/vim-vinegar"]
 	path = .vim/pack/bundle/start/vim-vinegar
 	url = https://github.com/tpope/vim-vinegar.git
-[submodule ".vim/bundle/titanium-vim"]
-	path = .vim/pack/bundle/start/titanium-vim
-	url = https://github.com/pekepeke/titanium-vim.git
-	ignore = dirty
 [submodule ".vim/bundle/vitality.vim"]
 	path = .vim/pack/bundle/start/vitality.vim
 	url = https://github.com/sjl/vitality.vim.git
@@ -111,9 +107,6 @@
 [submodule ".vim/bundle/delimitMate"]
 	path = .vim/pack/bundle/start/delimitMate
 	url = https://github.com/Raimondi/delimitMate.git
-[submodule ".vim/bundle/robotframework-vim"]
-	path = .vim/pack/bundle/start/robotframework-vim
-	url = https://github.com/mfukar/robotframework-vim.git
 [submodule ".vim/bundle/vim-git"]
 	path = .vim/pack/bundle/start/vim-git
 	url = https://github.com/tpope/vim-git.git
