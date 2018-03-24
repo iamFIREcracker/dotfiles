@@ -789,8 +789,6 @@ augroup ft_java
     au FileType java setlocal omnifunc=javacomplete#Complete
     au FileType java setlocal tabstop=2 shiftwidth=2 softtabstop=2
     au Filetype java setlocal textwidth=120
-    au Filetype java compiler maven
-    au Filetype java let b:dispatch = 'mvn -B clean test'
 
     au FileType java let b:rbpt_max=2
     au FileType java RainbowParenthesesActivate
@@ -922,6 +920,26 @@ augroup ft_markdown
     au Filetype markdown nnoremap <buffer> <localleader>3 yypVr+
     au Filetype markdown nnoremap <buffer> <localleader>4 yypVr*
 
+augroup END
+
+" }}}
+" Maven {{{
+
+augroup ft_mvn
+    au!
+
+    function! CheckIfMvnProject() " {{{
+        return filereadable("pom.xml")
+    endfunction " }}}
+    function! InitMvnMappings() " {{{
+        nnoremap <localleader>m  :Dispatch mvn -B <space>
+    endfunction " }}}
+    au VimEnter *
+                \ if CheckIfMvnProject()
+                \ | call InitMvnMappings()
+                \ | compiler maven
+                \ | let dispatch = 'mvn -B clean test'
+                \ | endif
 augroup END
 
 " }}}
@@ -1095,8 +1113,6 @@ augroup ft_scala
     au FileType scala setlocal tabstop=2 shiftwidth=2 softtabstop=2
     au Filetype scala setlocal foldmethod=marker foldmarker={,}
     au Filetype scala setlocal textwidth=100
-    au Filetype scala compiler maven
-    au Filetype scala let b:dispatch = 'mvn -B package install'
     au Filetype scala nnoremap <buffer> <localleader>s mz:%!sort-scala-imports<cr>`z
     au Filetype scala nnoremap <buffer> M :call scaladoc#Search(expand("<cword>"))<cr>
     au Filetype scala vnoremap <buffer> M "ry:call scaladoc#Search(@r)<cr>
