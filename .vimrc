@@ -1696,10 +1696,11 @@ let g:tslime_ensure_trailing_newlines = 1
 " }}}
 " Tsuquyomi {{{
 
-let g:tsuquyomi_use_vimproc=1
 let g:tsuquyomi_disable_default_mappings=1
 let g:tsuquyomi_use_dev_node_module=2
 let g:tsuquyomi_tsserver_path=$PWD .'/node_modules/.bin/tsserver'
+let g:tsuquyomi_use_quickfix_for_references = 1
+let g:tsuquyomi_disable_quickfix = 1
 
 " }}}
 " vim-Mocha {{{
