@@ -486,6 +486,9 @@ function serve-this() { python -m SimpleHTTPServer "$@"; }
 function strip-colors() { perl -pe 's/\e\[?.*?[\@-~]//g'; }
 
 # }}}
+function sleeplees() {
+    pmset -g assertions | egrep '(PreventUserIdleSystemSleep|PreventUserIdleDisplaySleep)'
+}
 function sum() { awk '{s+=$1}END{print s}'; }
 function ta() {
     tmux list-sessions && {
