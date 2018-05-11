@@ -1845,9 +1845,6 @@ if has('gui_running')
     " Different cursors for different modes.
     set guicursor=n-v-c:block-Cursor-blinkon0
     set guicursor+=i-c:ver20-Cursor
-else
-    " Mouse support
-    set mouse=a
 endif
 
 " }}}
