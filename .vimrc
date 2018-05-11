@@ -64,16 +64,6 @@ endif
 " Because Vim doesn't like
 " pasting that works.
 
-let &t_SI .= "\<Esc>[?2004h"
-let &t_EI .= "\<Esc>[?2004l"
-
-inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-
-function! XTermPasteBegin()
-    set pastetoggle=<Esc>[201~
-    set paste
-    return ""
-endfunction
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
 
@@ -1478,10 +1468,31 @@ inoremap <c-f> <c-x><c-f>
 inoremap <c-space> <c-x><c-o>
 inoremap <c-@> <c-x><c-o>
 
-inoremap <expr> <Esc>  pumvisible() ? "\<C-e>" : "\<Esc>"
+" Better bindings when the completion menu is open {{{
+
+" if empty('&t_BE')
+"     inoremap <expr> <Esc>  pumvisible() ? "\<C-e>" : "\<Esc>"
+" else
+"     augroup bracketed_paste
+"         au!
+
+"         " Thanks: https://github.com/ryanpcmcquen/fix-vim-pasting
+"         function! XTermPasteBegin()
+"             set pastetoggle=<Esc>[201~
+"             set paste
+"             return ""
+"         endfunction
+"         au VimEnter * inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+"         au VimEnter * inoremap <special> <expr> <Esc>  pumvisible() ? "\<C-e>" : "\<Esc>"
+"     augroup END
+" endif
+
 imap <expr> <CR>       pumvisible() ? "\<C-y>" : "<Plug>delimitMateCR"
 imap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 imap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+
+" }}}
 
 " }}}
 
