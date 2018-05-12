@@ -565,10 +565,14 @@ augroup ft_commonlisp
     au FileType lisp RainbowParenthesesActivate
     au syntax lisp RainbowParenthesesLoadRound
 
+    au FileType lisp let b:delimitMate_quotes = "\""
+
     " Force omnicompletion (vlime's)
     au FileType lisp inoremap <c-n> <c-x><c-o>
 
-    au FileType lisp nnoremap <buffer> <silent> <localleader>Os :call OpenLispReplSBCL()<cr>
+    au FileType lisp nnoremap <buffer> <silent> <localleader>O :call OpenLispReplSBCL()<cr>
+    au FileType lisp nmap <buffer> <silent> <C-S> <localleader>st
+    au FileType lisp xmap <buffer> <silent> <C-S> <localleader>s
 augroup END
 
 " }}}
@@ -953,8 +957,16 @@ augroup ft_npm
     function! CheckIfNpmProject() " {{{
         return filereadable("package.json")
     endfunction " }}}
+    function! OpenNodeRepl() "{{{
+        call term_start("bash -c node-rlwrap", {
+                    \ "term_finish": "close",
+                    \ "vertical": 1
+                    \ })
+    endfunction "}}}
     function! InitNpmMappings() " {{{
         nnoremap <localleader>nr  :Dispatch npm run<space>
+
+        nnoremap <silent> <localleader>O :call OpenNodeRepl()<cr>
     endfunction " }}}
     au VimEnter *
                 \ if CheckIfNpmProject()
@@ -1303,8 +1315,6 @@ nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
 " Allows you to easily replace the current word and all its occurrences.
-nnoremap <C-S> :%s/
-vnoremap <C-S> :s/
 nnoremap <Leader>S :%s/<C-r>=expand("<cword>")<cr>//c<left><left>
 vnoremap <Leader>S y:%s/<C-r>"//c<left><left>
 
