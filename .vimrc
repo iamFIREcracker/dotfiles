@@ -792,6 +792,7 @@ augroup ft_java
     au FileType java silent! call TurnOnJavaFolding()
     au FileType java silent! call RefreshManualRegexpFolding()
 
+    au FileType java call maven#SetupMavenEnv()
     au FileType java setlocal omnifunc=javacomplete#Complete
     au FileType java setlocal tabstop=2 shiftwidth=2 softtabstop=2
     au Filetype java setlocal textwidth=120
@@ -935,7 +936,7 @@ augroup ft_mvn
     au!
 
     function! CheckIfMvnProject() " {{{
-        return filereadable("pom.xml")
+        return filereadable("pom.xml") && !filereadable('package.json')
     endfunction " }}}
     function! InitMvnMappings() " {{{
         nnoremap <localleader>m  :Dispatch mvn -B <space>
@@ -1657,7 +1658,9 @@ let g:jk_jumps_minimum_lines = 2
 " }}}
 " Maven {{{
 
-let g:maven_disable_mappings = 1
+let g:maven_auto_chdir = 0
+let g:maven_keymaps = 0
+let g:maven_auto_buffer_setup = 0
 
 " }}}
 " Neomake {{{

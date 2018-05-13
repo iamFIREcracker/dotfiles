@@ -69,7 +69,7 @@
 	url = https://github.com/tpope/vim-rails.git
 [submodule ".vim/bundle/vim-maven-plugin"]
 	path = .vim/pack/bundle/start/vim-maven-plugin
-	url = https://github.com/sjl/vim-maven-plugin.git
+	url = git@github.com:iamFIREcracker/vim-maven-plugin.git
 [submodule ".vim/bundle/vim-jade"]
 	path = .vim/pack/bundle/start/vim-jade
 	url = https://github.com/digitaltoad/vim-jade.git
