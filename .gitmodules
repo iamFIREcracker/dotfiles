@@ -93,7 +93,7 @@
 	url = https://github.com/Shougo/vimproc.vim.git
 [submodule ".vim/bundle/tsuquyomi"]
 	path = .vim/pack/bundle/start/tsuquyomi
-	url = https://github.com/Quramy/tsuquyomi.git
+	url = git@github.com:iamFIREcracker/tsuquyomi.git
 	ignore = dirty
 [submodule ".vim/bundle/vim-less"]
 	path = .vim/pack/bundle/start/vim-less
