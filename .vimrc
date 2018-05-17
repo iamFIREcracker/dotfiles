@@ -1660,7 +1660,9 @@ let g:jk_jumps_minimum_lines = 2
 
 let g:maven_auto_chdir = 0
 let g:maven_keymaps = 0
-let g:maven_auto_buffer_setup = 0
+let g:maven_ignore_globs = [
+            \ '*.js'
+            \ ]
 
 " }}}
 " Neomake {{{
