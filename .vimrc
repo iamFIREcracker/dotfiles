@@ -1304,7 +1304,7 @@ nnoremap <leader>sv :let stay_sourcevimrc_view = winsaveview()<cr>:source $MYVIM
 " Convenience mappings ---------------------------------------------------- {{{
 
 " Clean trailing whitespace
-nnoremap <leader>w :%s/\s\+$//<cr>:let @/=''<cr>
+nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 
 " Change case
 nnoremap <C-u> gUiw
