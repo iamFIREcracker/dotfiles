@@ -802,7 +802,6 @@ augroup ft_java
     au FileType java silent! call TurnOnJavaFolding()
     au FileType java silent! call RefreshManualRegexpFolding()
 
-    au FileType java call maven#SetupMavenEnv()
     au FileType java setlocal omnifunc=javacomplete#Complete
     au FileType java setlocal tabstop=2 shiftwidth=2 softtabstop=2
     au Filetype java setlocal textwidth=120
