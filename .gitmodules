@@ -167,3 +167,9 @@
 [submodule ".vim/pack/bundle/start/vim-colors-plain"]
 	path = .vim/pack/bundle/start/vim-colors-plain
 	url = https://github.com/andreypopp/vim-colors-plain.git
+[submodule ".vim/pack/bundle/start/fugitive-gitlab.vim"]
+	path = .vim/pack/bundle/start/fugitive-gitlab.vim
+	url = https://github.com/shumphrey/fugitive-gitlab.vim.git
+[submodule ".vim/pack/bundle/start/vim-rhubarb"]
+	path = .vim/pack/bundle/start/vim-rhubarb
+	url = https://github.com/tpope/vim-rhubarb.git

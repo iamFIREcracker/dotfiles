@@ -572,6 +572,11 @@ augroup ft_commonlisp
         \ })
     endfunction "}}}
 
+    function! SetLispWords() "{{{
+        setlocal lispwords+=with-gensyms
+        setlocal lispwords+=once-only
+    endfunction "}}}
+
     au FileType lisp RainbowParenthesesActivate
     au syntax lisp RainbowParenthesesLoadRound
 
@@ -1617,7 +1622,8 @@ let g:user_emmet_install_global = 0
 " }}}
 " Fugitive {{{
 
-let g:fugitive_github_domains = ['github.banksimple.com']
+let g:fugitive_github_domains = []
+let g:fugitive_gitlab_domains = ['gitlabdev01.iontrading.com']
 
 nnoremap <leader>gd :Shell git diff <C-R>=expand('%')<cr><cr>
 nnoremap <leader>gD :Shell git diff<cr>
