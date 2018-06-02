@@ -1623,7 +1623,7 @@ let g:user_emmet_install_global = 0
 " Fugitive {{{
 
 let g:fugitive_github_domains = []
-let g:fugitive_gitlab_domains = ['gitlabdev01.iontrading.com']
+let g:fugitive_gitlab_domains = ['https://gitlabdev01.iontrading.com']
 
 nnoremap <leader>gd :Shell git diff <C-R>=expand('%')<cr><cr>
 nnoremap <leader>gD :Shell git diff<cr>

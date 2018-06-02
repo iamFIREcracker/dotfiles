@@ -162,3 +162,9 @@
 
 [difftool]
   prompt = false
+
+[web]
+    browser = br
+
+[browser "br"]
+	cmd = br

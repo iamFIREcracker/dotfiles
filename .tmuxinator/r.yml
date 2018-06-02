@@ -1,5 +1,6 @@
-name: remote-clipboard
+name: r
 root: ~/
 
 windows:
   - cb: cb --listen
+  - br: br --listen
