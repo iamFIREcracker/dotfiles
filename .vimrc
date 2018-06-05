@@ -1642,9 +1642,12 @@ nnoremap <leader>gR :!git R<cr>
 nnoremap <leader>gl :Shell git pl<cr>
 nnoremap <leader>gi :Shell git ind<cr>
 
+
+
 augroup ft_fugitive
     au!
 
+    au User Fugitive command! -bar -nargs=1 Browse silent! exe '!git web--browse' shellescape(<q-args>, 1)
     au BufNewFile,BufRead .git/index setlocal nolist
 augroup END
 augroup ft_shell_g_pl

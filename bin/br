@@ -21,7 +21,7 @@ while True:
         break
     input += data
 process = subprocess.Popen(['$0', input], stdin=subprocess.PIPE)
-process.poll()
+process.wait()
 print('Open: ' + input)
 s.close()
 END

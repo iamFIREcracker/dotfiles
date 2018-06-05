@@ -2,5 +2,9 @@ name: r
 root: ~/
 
 windows:
+  - b1:
+      root: ~/opt/bunny1
+      panes:
+        - venv/bin/python b1_custom.py --host localhost
   - cb: cb --listen
   - br: br --listen

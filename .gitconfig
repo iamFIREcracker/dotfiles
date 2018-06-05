@@ -167,4 +167,4 @@
     browser = br
 
 [browser "br"]
-	cmd = br
+    cmd = br
