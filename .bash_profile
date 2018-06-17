@@ -36,6 +36,7 @@ if [[ -z $TMUX ]]; then
     test -d ~/rubygems/bin                 && export PATH="$HOME/rubygems/bin:$PATH"
     test -d ~/opt/PathPicker               && export PATH="$HOME/opt/PathPicker:$PATH"
     test -d ~/opt/cb                       && export PATH="$HOME/opt/cb:$PATH"
+    test -d ~/opt/br                       && export PATH="$HOME/opt/br:$PATH"
     test -d ~/opt/tmux                     && export PATH="$HOME/opt/tmux:$PATH"
 
     # do the same with MANPATH
