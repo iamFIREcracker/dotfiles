@@ -1466,6 +1466,22 @@ nnoremap <silent> <down> :lnext<CR>zvzz
 nnoremap <silent> [z zMzkzvzz
 nnoremap <silent> ]z zMzjzvzz
 
+" Open to the selected URL {{{
+
+function! g:FuckingOpenTheUrlPlease()
+    let view = winsaveview()
+    let old_z = @z
+    normal! gv"zy
+    let url = @z
+    echom url
+    call system('br '.url)
+    let @z = old_z
+    call winrestview(view)
+endfunction
+
+vnoremap <leader>O :<c-u>call g:FuckingOpenTheUrlPlease()<cr>
+
+" }}}
 " Block Colors {{{
 
 let g:blockcolor_state = 0

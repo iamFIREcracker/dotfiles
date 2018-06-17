@@ -249,6 +249,7 @@ function collapse() { sed -e 's/  */ /g'; }
 function cols() { collapse | cuts -f "$@"; }
 function cuts() { cut -d' ' "$@"; }
 function de() { deactivate; }
+function ungron() { gron --ungron "$@"; }
 function uniqdiff() {
     local input=/tmp/uniqdiff_all.$$
     trap "kill -TERM $PID; rm '${input}'" TERM INT
