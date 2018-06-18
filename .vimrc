@@ -61,9 +61,6 @@ if &term =~ '256color'
     set t_ut=
 endif
 
-" Because Vim doesn't like
-" pasting that works.
-
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
 
