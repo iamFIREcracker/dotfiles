@@ -45,7 +45,7 @@ RED=$'\e[1;31m'
 # }}}
 # Vim mode {{{
 
-set -o vi
+# set -o vi
 
 # I give up
 alias :q=exit
@@ -54,6 +54,11 @@ alias :qa=exit
 # }}}
 # Environment variables {{{
 
+# FZF {{{
+
+export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+
+# }}}
 # General {{{
 
 export HISTCONTROL=erasedups
@@ -633,9 +638,9 @@ venv_ps1() {
 
 actual_prompt() {
     if [[ $EXITVAL == 0 ]]; then
-        echo -n " > "
+        echo -n "> "
     else
-        echo -n " $EXITVAL > "
+        echo -n "$EXITVAL > "
     fi
 }
 

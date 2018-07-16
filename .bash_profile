@@ -38,6 +38,7 @@ if [[ -z $TMUX ]]; then
     test -d ~/opt/cb                       && export PATH="$HOME/opt/cb:$PATH"
     test -d ~/opt/br                       && export PATH="$HOME/opt/br:$PATH"
     test -d ~/opt/tmux                     && export PATH="$HOME/opt/tmux:$PATH"
+    test -d ~/.vim/pack/bundle/start/fzf   && export PATH="$HOME/.vim/pack/bundle/start/fzf/bin:$PATH"
 
     # do the same with MANPATH
     if [ -d ~/man ]; then

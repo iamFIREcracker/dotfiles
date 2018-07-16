@@ -1,15 +1,16 @@
-# Enable vi editing mode
-set editing-mode vi
-
 # Enable bracketed-paste: https://cirw.in/blog/bracketed-paste
 set enable-bracketed-paste on
+
+# Enable vi editing mode
+# set editing-mode vi
 # Customize PS1 depending on mode (insert, command)
-$if Bash
-    set show-mode-in-prompt on
-    # set vi-ins-mode-string "\1\e[1;96m\2+\1\e[0m\2"
-    set vi-ins-mode-string "+"
-    set vi-cmd-mode-string ":"
-$endif
+# $if Bash
+#     set show-mode-in-prompt on
+#     # set vi-ins-mode-string "\1\e[1;96m\2+\1\e[0m\2"
+#     set vi-ins-mode-string "+"
+#     set vi-cmd-mode-string ":"
+# $endif
+
 # Display matches for ambiguous patterns at first tab press
 set show-all-if-ambiguous on
 # Allows space to complete and expand !$ eg:

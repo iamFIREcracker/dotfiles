@@ -1,5 +1,5 @@
 [submodule ".vim/bundle/ctrlp.vim"]
-	path = .vim/pack/bundle/start/ctrlp.vim
+	path = .vim/pack/bundle/opt/ctrlp.vim
 	url = https://github.com/ctrlpvim/ctrlp.vim.git
 [submodule ".vim/bundle/gundo.vim"]
 	path = .vim/pack/bundle/start/gundo.vim
@@ -173,3 +173,12 @@
 [submodule ".vim/pack/bundle/start/vim-rhubarb"]
 	path = .vim/pack/bundle/start/vim-rhubarb
 	url = https://github.com/tpope/vim-rhubarb.git
+[submodule ".vim/pack/bundle/start/vim-parinfer"]
+	path = .vim/pack/bundle/start/vim-parinfer
+	url = https://github.com/bhurlow/vim-parinfer.git
+[submodule ".vim/pack/bundle/start/parinfer-rust"]
+	path = .vim/pack/bundle/start/parinfer-rust
+	url = https://github.com/eraserhd/parinfer-rust.git
+[submodule ".vim/pack/bundle/start/fzf"]
+	path = .vim/pack/bundle/start/fzf
+	url = https://github.com/junegunn/fzf.git
