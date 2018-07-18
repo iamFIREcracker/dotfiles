@@ -1336,7 +1336,8 @@ cnoremap <C-a> <home>
 cnoremap <C-e> <end>
 cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
-cnoremap <C-d> <Delete>
+" https://vi.stackexchange.com/a/7794
+cnoremap <expr> <C-d> (getcmdpos() == len(getcmdline()) + 1 ? '<C-d>' : '<Del>')
 cnoremap <M-b> <S-Left>
 cnoremap <M-f> <S-Right>
 cnoremap <M-d> <S-right><Delete>
@@ -1740,6 +1741,19 @@ let g:netrw_bufsettings="noma nomod nonu nobl nowrap ro rnu"
 " OmniSharp {{{
 
 let g:OmniSharp_selector_ui = 'ctrlp'
+
+" }}}
+" Projectionist {{{
+
+let g:projectionist_heuristics = {
+    \ "group_vars/&roles/": {
+    \   "roles/*/": {"type": "role"},
+    \   "roles/*/defaults/main.yml": {"type": "defaults"},
+    \   "roles/*/files/": {"type": "files"},
+    \   "roles/*/tasks/main.yml": {"type": "tasks"},
+    \   "roles/*/templates/": {"type": "templates"},
+    \   "roles/*/vars/": {"type": "vars"}
+    \ }}
 
 " }}}
 " Python-Mode {{{
