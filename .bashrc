@@ -403,7 +403,24 @@ function mvn-colorify() {
 }
 
 # }}}
-function n() { npm "$@"; }
+# Node.js/NPM {{{
+
+if hash winpty 2>/dev/null; then
+    _node='winpty node'
+elif hash tac 2>/dev/null; then
+    _node=node
+fi
+node() { ${_node} "$@"; }
+
+if hash winpty 2>/dev/null; then
+    _npm='winpty npm.cmd'
+elif hash tac 2>/dev/null; then
+    _npm=npm
+fi
+npm() { ${_npm} "$@"; }
+n() { npm "$@"; }
+
+# }}}
 function median() { percentile 50; }
 function o() { open "$@"; }
 function oo() { open .; }
@@ -533,12 +550,13 @@ function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plu
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
 # Vagrant {{{
 
+if hash winpty 2>/dev/null; then
+    _vagrant='winpty vagrant'
+elif hash tac 2>/dev/null; then
+    _vagrant=vagrant
+fi
+vagrant() { ${_vagrant} "$@"; }
 v() { vagrant "$@"; }
-ve() { $EDITOR ./Vagrantfile; }
-vh() { vagrant halt; }
-vr() { vagrant reload; }
-vs() { vagrant ssh -- -R 5556:localhost:5556; }
-vu() { vagrant up; }
 
 # }}}
 vipe() {
