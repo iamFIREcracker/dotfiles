@@ -80,11 +80,19 @@ function create_dir {
     fi
 )
 
+(
+    if ! which cargo 2>/dev/null; then
+        echo "Missing command: cargo"
+    else
+        cd .vim/pack/bundle/start/parinfer-rust/
+        cargo build --release
+    fi
+)
+
 test -z "$OS_WIN" && ensure_dir ".titanium"
 
 
                      ensure_link "bin"                    "bin"
-                     ensure_link "lib"                    "lib"
                      ensure_link ".agignore"              ".agignore"
                      ensure_link ".bash_profile"          ".bash_profile"
                      ensure_link ".bashrc"                ".bashrc"
