@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 set -e
-NODE_NO_READLINE=1 rlwrap -I -m @ -M .js -a ___ -O '^>' -p BLUE -q '"' node
+NODE_NO_READLINE=1 rlwrap -I -m@ -M.js -a___ -O'^>' -pBLUE -q'"' node

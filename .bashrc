@@ -253,6 +253,46 @@ function cleancodes() { sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"; }
 function collapse() { sed -e 's/  */ /g'; }
 function cols() { collapse | cuts -f "$@"; }
 function cuts() { cut -d' ' "$@"; }
+# Dockerfile templates {{{
+
+function Dockerfile-ng() {
+    cat <<EOF >> Dockerfile
+FROM node:8.11.3-alpine
+
+WORKDIR /usr/src/app
+
+COPY package.json package.json
+RUN npm install
+RUN npm install @angular-devkit/core
+
+ADD . ./
+
+EXPOSE 4200
+CMD npm start
+EOF
+    echo 'created Dockerfile...'
+    cat Dockerfile
+    echo 'build with:'
+    echo 'docker build -t web-exercise .'
+    echo 'run with:'
+    echo 'docker run -it --rm -p 4200:4200 --name web-exercise web-exercise'
+}
+function Dockerfile-tomcat() {
+    cat <<EOF >> Dockerfile
+FROM tomcat:8-jre8
+
+# Copy to images tomcat path
+ADD target/BE-ION.war /usr/local/tomcat/webapps/
+EOF
+    echo 'created Dockerfile...'
+    cat Dockerfile
+    echo 'build with:'
+    echo 'docker build -t web-exercise-tomcat .'
+    echo 'run with:'
+    echo 'docker run -it --rm -p 8080:8080 --name web-exercise-tomcat web-exercise-tomcat'
+}
+
+# }}}
 function de() { deactivate; }
 function ungron() { gron --ungron "$@"; }
 function uniqdiff() {
