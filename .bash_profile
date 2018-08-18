@@ -34,11 +34,7 @@ if [[ -z $TMUX ]]; then
     test -d ~/perl5/bin                    && export PATH="$HOME/perl5/bin$:$PATH"
     test -d ~/npm/bin                      && export PATH="$HOME/npm/bin:$PATH"
     test -d ~/rubygems/bin                 && export PATH="$HOME/rubygems/bin:$PATH"
-    test -d ~/opt/PathPicker               && export PATH="$HOME/opt/PathPicker:$PATH"
-    test -d ~/opt/cb                       && export PATH="$HOME/opt/cb:$PATH"
-    test -d ~/opt/br                       && export PATH="$HOME/opt/br:$PATH"
     test -d ~/opt/tmux                     && export PATH="$HOME/opt/tmux:$PATH"
-    test -d ~/.vim/pack/bundle/start/fzf   && export PATH="$HOME/.vim/pack/bundle/start/fzf/bin:$PATH"
     test -d ~/opt/winpty/build/            && export PATH="$HOME/opt/winpty/build:$PATH"
 
     # do the same with MANPATH
