@@ -162,9 +162,6 @@ macro index *u      '<tag-pattern>~U<enter>'    "Select unread messages"
 macro index \,a       "<limit>" "filter messages"
 macro index \,<space> "<limit>all\n" "show all messages (undo limit)"
 
-# Search with notmuch
-macro index \,A "<enter-command>unset wait_key<enter><shell-escape>mutt-notmuch-py -G ~/.mail/search<enter><change-folder-readonly>~/.mail/search<enter>" "search mail (using notmuch)"
-
 # }}}
 # Pager {{{
 
