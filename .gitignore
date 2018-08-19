@@ -1,9 +1,7 @@
-home/.vim/tmp
+.mutt/cache/
+.mutt/temp/
 .ropeproject/
-home/opt/bunny1/venv/
-home/.vim/.netrwhist
-home/opt/nativefied-apps/*-x64
-home/bin/mux
-home/bin/tmuxinator
-tags*
+.vim/.netrwbook
 .vim/.netrwhist
+.vim/tmp
+tags*

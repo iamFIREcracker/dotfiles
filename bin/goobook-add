@@ -1,0 +1,39 @@
+#!/bin/bash -e
+
+NAME=
+EMAIL=
+for i; do
+    if [ "$i" == '-h' ]; then
+        cat <<EOF
+usage:
+
+$(basename $0) 'Matteo Landi' matteo@matteolandi.net"
+$(basename $0) Matteo Landi matteo@matteolandi.net"
+EOF
+        exit 0
+    elif [ -n "$NAME" -a -n "$EMAIL" ]; then
+        echo "Garbage data found after email address..."
+        exit -1
+    elif [[ $i == *@* ]]; then
+        EMAIL=$i
+    elif [ -z "$EMAIL" ]; then
+        if [ -z "$NAME" ]; then
+            NAME=$i
+        else
+            NAME="$NAME $i"
+        fi
+    fi
+done
+
+# `goobook add` expects an email message as input, and creates a new account by
+# extracting the information from the 'From: ' header.
+#
+# Let's create then a dummy email message, and feed into `goobook add`
+goobook add <<EOF
+From: ${NAME} <${EMAIL}>
+To: unused
+Subject: unused
+
+unused
+EOF
+goobook reload

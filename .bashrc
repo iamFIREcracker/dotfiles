@@ -443,6 +443,16 @@ function mvn-colorify() {
 }
 
 # }}}
+# mutt {{{
+
+function mutt() {
+    (cd ~/Desktop && "$(which mutt)" "$@")
+}
+function mutt-ml() {
+    (cd ~/Desktop && mutt -F "~/Dropbox/mutt/matteo-matteolandi-net.muttrc" "$@")
+}
+
+# }}}
 # Node.js/NPM {{{
 
 if hash winpty 2>/dev/null; then

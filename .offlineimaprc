@@ -1,28 +1,40 @@
 [general]
 # NOTE: cronjob calls the quiet UI with -u
-ui = ttyui
-accounts = GMail
+ui = TTYUI
+accounts = MatteoLandi
+pythonfile = ~/.mutt/offlineimap.py
+fsync = False
 
-[Account GMail]
-localrepository = Gmail-Local
-remoterepository = Gmail-Remote
+[Account MatteoLandi]
+localrepository = MatteoLandi-Local
+remoterepository = MatteoLandi-Remote
+postsynchook = notmuch new
 
-[Repository Gmail-Local]
+[Repository MatteoLandi-Local]
 type = Maildir
 localfolders = ~/.mail/matteo-matteolandi.net
+nametrans = lambda folder: {'drafts':  '[Gmail]/Drafts',
+                            'sent':    '[Gmail]/Sent Mail',
+                            'flagged': '[Gmail]/Starred',
+                            'trash':   '[Gmail]/Trash',
+                            'archive': '[Gmail]/All Mail',
+                            }.get(folder, folder)
 
-[Repository Gmail-Remote]
+[Repository MatteoLandi-Remote]
+ssl = True
+sslcacertfile = /usr/local/etc/openssl/cert.pem
+maxconnections = 1
 type = Gmail 
-remoteuser = landimatte@gmail.com
-remotepass = PASSWORD
-realdelete = no
-
-# line breaks added for readability
-nametrans = lambda folder: re.sub('.*Spam$', 'spam', 
-    re.sub('.*Drafts$', 'drafts', 
-    re.sub('.*Sent Mail$', 'sent', 
-    re.sub('.*Starred$', 'flagged', 
-    re.sub('.*Trash$', 'trash', 
-    re.sub('.*All Mail$', 'archive', folder))))))
-
+remoteuser = matteo@matteolandi.net
+remotepasseval = get_keychain_pass(account="matteo@matteolandi.net", server="imap.gmail.com")
+# realdelete = no
+nametrans = lambda folder: {'[Gmail]/Drafts':    'drafts',
+                            '[Gmail]/Sent Mail': 'sent',
+                            '[Gmail]/Starred':   'flagged',
+                            '[Gmail]/Trash':     'trash',
+                            '[Gmail]/All Mail':  'archive',
+                            }.get(folder, folder)
+folderfilter = lambda folder: folder not in ['[Gmail]/Important',
+                                             '[Gmail]/Spam',
+                                             ]
 # vim: ft=cfg tw=0

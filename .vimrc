@@ -920,7 +920,10 @@ augroup END
 augroup ft_mail
     au!
 
-    au Filetype mail setlocal spell
+    " format=flowed -- https://rinzewind.org/blog-en/2017/a-small-trick-for-sending-flowed-mail-in-mutt-with-vim.html
+    au FileType mail setlocal textwidth=72 formatoptions=watqc nojs nosmartindent
+    " since f=f is enabled, we might as well highlight lines with trailing whitespaces
+    au FileType mail match ErrorMsg '\s\+$'
 augroup END
 
 " }}}
@@ -958,6 +961,17 @@ augroup ft_mvn
                 \ | compiler maven
                 \ | let dispatch = 'mvn -B clean test'
                 \ | endif
+augroup END
+
+" }}}
+" Mutt {{{
+
+augroup ft_muttrc
+    au!
+
+    au BufRead,BufNewFile *.muttrc set ft=muttrc
+
+    au FileType muttrc setlocal foldmethod=marker foldmarker={{{,}}}
 augroup END
 
 " }}}
