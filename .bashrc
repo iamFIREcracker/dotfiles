@@ -448,9 +448,6 @@ function mvn-colorify() {
 function mutt() {
     (cd ~/Desktop && "$(which mutt)" "$@")
 }
-function mutt-ml() {
-    (cd ~/Desktop && mutt -F "~/Dropbox/mutt/matteo-matteolandi-net.muttrc" "$@")
-}
 
 # }}}
 # Node.js/NPM {{{

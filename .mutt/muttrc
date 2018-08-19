@@ -158,10 +158,6 @@ macro index *u      '<tag-pattern>~U<enter>'    "Select unread messages"
 # macro index *s      '<tag-pattern>~F<enter>'    "Select starred messages"
 # macro index *t      '<tag-pattern>! ~F<enter>'  "Select unstarred messages"
 
-# Sync email
-macro index O "<shell-escape>offlineimap<enter>"           "run offlineimap to sync all mail"
-macro index o "<shell-escape>offlineimap -qf INBOX<enter>" "run offlineimap to sync inbox"
-
 # Limit/Unlimit (show all)
 macro index \,a       "<limit>" "filter messages"
 macro index \,<space> "<limit>all\n" "show all messages (undo limit)"
@@ -197,6 +193,7 @@ macro index,pager   gi      '<change-folder>=INBOX<enter>' "Go to inbox"
 macro index,pager   gt      '<change-folder>=sent<enter>'
 macro index,pager   gd      '<change-folder>=drafts<enter>'
 macro index,pager   ga      '<change-folder>=archive<enter>'
+macro index,pager   g\#     '<change-folder>=trash<enter>'
 macro index,pager   gl      '<change-folder>?<toggle-mailboxes>' "Go to 'Label'"
 
 # Select, mark as read, unread, undo

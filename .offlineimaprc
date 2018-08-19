@@ -1,7 +1,7 @@
 [general]
 # NOTE: cronjob calls the quiet UI with -u
 ui = TTYUI
-accounts = MatteoLandi
+accounts = MatteoLandi, IONGroup
 pythonfile = ~/.mutt/offlineimap.py
 fsync = False
 
@@ -27,7 +27,7 @@ maxconnections = 1
 type = Gmail 
 remoteuser = matteo@matteolandi.net
 remotepasseval = get_keychain_pass(account="matteo@matteolandi.net", server="imap.gmail.com")
-# realdelete = no
+realdelete = no
 nametrans = lambda folder: {'[Gmail]/Drafts':    'drafts',
                             '[Gmail]/Sent Mail': 'sent',
                             '[Gmail]/Starred':   'flagged',
@@ -37,4 +37,47 @@ nametrans = lambda folder: {'[Gmail]/Drafts':    'drafts',
 folderfilter = lambda folder: folder not in ['[Gmail]/Important',
                                              '[Gmail]/Spam',
                                              ]
+
+[Account IONGroup]
+localrepository = IONGroup-Local
+remoterepository = IONGroup-Remote
+postsynchook = notmuch new
+
+[Repository IONGroup-Local]
+type = Maildir
+localfolders = ~/.mail/matteo.landi-iongroup.com
+nametrans = lambda folder: {'drafts':  'Drafts',
+                            'sent':    'Sent Items',
+                            'flagged': 'Starred',
+                            'trash':   'Deleted Items',
+                            'archive': 'Archive',
+                            }.get(folder, folder)
+
+[Repository IONGroup-Remote]
+ssl = True
+sslcacertfile = /usr/local/etc/openssl/cert.pem
+maxconnections = 1
+type = IMAP
+remotehost = outlook.office365.com
+remoteuser = matteo.landi@iongroup.com
+remotepasseval = get_keychain_pass(account="matteo.landi@iongroup.com", server="outlook.office365.com")
+realdelete = no
+nametrans = lambda folder: {'Drafts':        'drafts',
+                            'Sent Items':    'sent',
+                            'Starred':       'flagged',
+                            'Deleted Items': 'trash',
+                            'Archive':       'archive',
+                            }.get(folder, folder)
+folderfilter = lambda folder: folder in ['INBOX',
+                                         'Drafts',
+                                         'Sent Items',
+                                         'Starred',
+                                         'Deleted Items',
+                                         'Archive',
+                                         '!!needs-action',
+                                         '!needs-action',
+                                         '*needed-soon',
+                                         '?awaits-reply',
+                                         '>delegated'
+                                        ]
 # vim: ft=cfg tw=0
