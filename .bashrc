@@ -1,5 +1,9 @@
-# Bash {{{
+# Platform {{{
 
+OS_WIN=$(uname -s | grep CYGWIN)
+
+# }}}
+# Bash {{{
 
 if [[ $- == *i* ]]; then
     # Abort piped command ASAP
@@ -423,6 +427,15 @@ function math() {
 # }}}
 # maven {{{
 
+
+function mvn() {
+    if [ -z ${OS_WIN} ]; then
+        winpty "$(cygpath -u $M2_HOME/bin)" "$@"
+    else
+        $(which mvn) "$@"
+    fi
+}
+
 function m() {
     mvn --batch-mode --threads 1.0C "$@" | mvn-colorify
 }
@@ -454,14 +467,14 @@ function mutt() {
 
 if hash winpty 2>/dev/null; then
     _node='winpty node'
-elif hash tac 2>/dev/null; then
+else
     _node=node
 fi
 node() { ${_node} "$@"; }
 
 if hash winpty 2>/dev/null; then
     _npm='winpty npm.cmd'
-elif hash tac 2>/dev/null; then
+else
     _npm=npm
 fi
 npm() { ${_npm} "$@"; }
@@ -599,7 +612,7 @@ function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(
 
 if hash winpty 2>/dev/null; then
     _vagrant='winpty vagrant'
-elif hash tac 2>/dev/null; then
+else
     _vagrant=vagrant
 fi
 vagrant() { ${_vagrant} "$@"; }

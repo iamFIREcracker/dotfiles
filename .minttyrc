@@ -8,6 +8,7 @@ BoldAsColour=yes
 FontSmoothing=full
 Rows=71
 CursorColour=0,175,255
+ZoomFontWithWindow=false
 # ForegroundColour=235,219,178
 # BackgroundColour=29,32,33
 # CursorColour=253,157,79

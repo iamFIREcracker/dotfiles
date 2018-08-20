@@ -6,6 +6,6 @@ windows:
       panes:
         - g st
   - dotfiles:
-      root: ~/dotfiles
+      root: ~/my-env/dotfiles
       panes:
         - g st

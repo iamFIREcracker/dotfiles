@@ -365,47 +365,6 @@ function webstreaming() {
 # }}}
 # Hosts {{{
 
-# Connection {{{ 
-
-    cn() {
-        echo_n_run ssh-red mlandi@cpuk1ionhurap01.iontrading.com
-    }
-    cndb() {
-        echo_n_run ssh-red mlandi@cpuk1ionhurdb01.iontrading.com
-    }
-    cnuat() {
-        echo_n_run ssh-green mlandi@cuuk1ionhurap01.iontrading.com
-    }
-    cnuatdb() {
-        echo_n_run ssh-green mlandi@cuuk1ionhurdb01.iontrading.com
-    }
-    cnint() {
-        echo_n_run ssh-blue mlandi@cduk1ionhurap01.iontrading.com
-    }
-    cnintdb() {
-        echo_n_run ssh-blue mlandi@cduk1ionhurdb01.iontrading.com
-    }
-    cnl() {
-        echo_n_run ssh vagrant@10.100.192.100 -i ~/.vagrant.d/insecure_private_key
-    }
-    cnldb() {
-        echo_n_run ssh vagrant@10.100.192.101 -i ~/.vagrant.d/insecure_private_key
-    }
-    cnlprov() {
-        echo_n_run ssh vagrant@10.100.192.99 -i ~/.vagrant.d/insecure_private_key
-    }
-    jk() {
-        echo_n_run ssh-purple IONTRADING\\mlandi@uk1ionjenkdev01.iontrading.com
-    }
-
-# }}}
-# QST {{{
-
-qst_prod() {
-    s mlandi@cpuk1ionqstap01.iontrading.com
-}
-
-# }}}
 # OMS {{{
 
 lndct01() { s ion@lnd-ct-01.iontrading.com; }
@@ -433,19 +392,6 @@ dsondra() {
 delhiqa() {
     sshs delhi_qa@192.168.46.176 \
         -t "cd BIMI_FX; bash --login"
-}
-
-pimatlanw01() {
-    echo_n_run ssh -R 5556:localhost:5556 mlandi@PIMATLANW01.iontrading.com
-}
-pimatlanw01-rsync() {
-    rsync -avz -e "ssh -p10022" "$1" vagrant@pimatlanw01:"$2"
-}
-pimatlanw01-rsync-webcandidate() {
-    pimatlanw01-rsync "${1%/}" workspace/web-candidates/
-}
-pimatlanw01linux() {
-    echo_n_run ssh -R 5556:localhost:5556 -p 10022 vagrant@PIMATLANW01.iontrading.com -i ~/.vagrant.d/insecure_private_key
 }
 
 # }}}
