@@ -78,6 +78,9 @@ folderfilter = lambda folder: folder in ['INBOX',
                                          '!needs-action',
                                          '*needed-soon',
                                          '?awaits-reply',
-                                         '>delegated'
+                                         '>delegated',
+                                         'gitlab',
+                                         'connection-notifications',
+                                         'yammer'
                                         ]
 # vim: ft=cfg tw=0
