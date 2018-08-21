@@ -1,4 +1,4 @@
-if hash open; then
+if hash open 2>/dev/null; then
     open "$@"
 else
     cygstart "$@"

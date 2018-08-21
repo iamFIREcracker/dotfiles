@@ -210,10 +210,11 @@ echo_n_run() {
     "$@"
 }
 eg()  { vim ~/dotfiles/.gitconfig; }
+ei()  { vim ~/Dropbox/ideas.md; }
 ej()  { vim $(tempfile .jira); }
 eJ()  { vim ~/Dropbox/journal/$(date '+%Y-%m').md; }
 eh()  { vim ~/dotfiles/.hgrc; }
-em()  { eM .mail; }
+em()  { vim ~/dotfiles/.muttrc; }
 eM()  { vim $(tempfile "$@" ); }
 eR()  { vim ~/Dropbox/rest; }
 es()  { vim ~/dotfiles/.slate; }
