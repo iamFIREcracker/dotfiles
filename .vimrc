@@ -920,10 +920,14 @@ augroup END
 augroup ft_mail
     au!
 
-    " format=flowed -- https://rinzewind.org/blog-en/2017/a-small-trick-for-sending-flowed-mail-in-mutt-with-vim.html
-    au FileType mail setlocal textwidth=72 formatoptions=watqc nojs nosmartindent
-    " since f=f is enabled, we might as well highlight lines with trailing whitespaces
-    au FileType mail match ErrorMsg '\s\+$'
+    function! EnableFormatFlowed() " {{{ https://rinzewind.org/blog-en/2017/a-small-trick-for-sending-flowed-mail-in-mutt-with-vim.html
+        setlocal textwidth=72
+        setlocal formatoptions=watqc
+        setlocal nojs
+        setlocal nosmartindent
+        ErrorMsg '\s\+$'
+    endfunction " }}}
+    au FileType mail call EnableFormatFlowed()
 augroup END
 
 " }}}
@@ -1312,14 +1316,14 @@ augroup END
 " }}}
 " Quick editing ----------------------------------------------------------- {{{
 
-nnoremap <leader>eb :vsplit ~/.bashrc<cr>
-nnoremap <leader>eg :vsplit ~/.gitconfig<cr>
-nnoremap <leader>eh :vsplit ~/.hgrc<cr>
-nnoremap <leader>em :vsplit <C-R>=system('tempfile .mail')<cr><cr>
+nnoremap <leader>eb :vsplit ~/dotfiles/.bashrc<cr>
+nnoremap <leader>eg :vsplit ~/dotfiles/.gitconfig<cr>
+nnoremap <leader>eh :vsplit ~/dotfiles/.hgrc<cr>
+nnoremap <leader>em :vsplit ~/dotfiles/.muttrc<cr>
 nnoremap <leader>eM :vsplit <C-R>=system('tempfile .')<left><left>
 nnoremap <leader>eR :vsplit ~/Dropbox/rest<cr>
-nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>et :vsplit ~/dotfiles/.tmux.conf<cr>
+nnoremap <leader>ev :vsplit ~/dotfiles/.vimrc<cr>
 
 " }}}
 " Quick reload ------------------------------------------------------------ {{{
