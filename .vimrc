@@ -1495,28 +1495,8 @@ function! g:FuckingOpenTheUrlPlease()
     call winrestview(view)
 endfunction
 
+nnoremap <leader>O viW:<c-u>call g:FuckingOpenTheUrlPlease()<cr>
 vnoremap <leader>O :<c-u>call g:FuckingOpenTheUrlPlease()<cr>
-
-" }}}
-" Block Colors {{{
-
-let g:blockcolor_state = 0
-function! BlockColor() " {{{
-    if g:blockcolor_state
-        let g:blockcolor_state = 0
-        call matchdelete(77880)
-        call matchdelete(77881)
-        call matchdelete(77882)
-        call matchdelete(77883)
-    else
-        let g:blockcolor_state = 1
-        call matchadd("BlockColor1", '^ \{4}.*', 1, 77880)
-        call matchadd("BlockColor2", '^ \{8}.*', 2, 77881)
-        call matchadd("BlockColor3", '^ \{12}.*', 3, 77882)
-        call matchadd("BlockColor4", '^ \{16}.*', 4, 77883)
-    endif
-endfunction " }}}
-nnoremap <leader>B :call BlockColor()<cr>
 
 " }}}
 " Insert Mode Completion {{{
