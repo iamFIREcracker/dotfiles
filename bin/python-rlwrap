@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+set -e
+rlwrap -I -m@ -M.py -a___ -O'^>>>' -pBLUE -q'"' python

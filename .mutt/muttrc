@@ -42,7 +42,9 @@ set use_from             # respect the From: address the editor sends back
 set sleep_time=0 # don't take for fucking ever to switch folders
 
 set mailcap_path="~/.mutt/mailcap"
-set implicit_autoview=yes                # Load in pager if setting in .mailcap says 'copiousoutput'.
+
+alternative_order text/plain text/html  # View html only when no text version is available
+set implicit_autoview=yes               # Load in pager if setting in .mailcap says 'copiousoutput'.
 
 set text_flowed=yes # format=flowed -- https://joeclark.org/ffaq.html
 

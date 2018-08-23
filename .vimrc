@@ -1054,6 +1054,13 @@ augroup ft_python
 
     au FileType python let b:delimitMate_nesting_quotes = ['"']
 
+    function! OpenPythonRepl() "{{{
+        call term_start("bash -c python-rlwrap", {
+                    \ "term_finish": "close",
+                    \ "vertical": 1
+                    \ })
+    endfunction "}}}
+    au FileType python nnoremap <silent> <localleader>O :call OpenPythonRepl()<cr>
     au FileType python RainbowParenthesesActivate
     au syntax python RainbowParenthesesLoadRound
     au syntax python RainbowParenthesesLoadSquare

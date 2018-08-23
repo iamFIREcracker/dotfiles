@@ -21,3 +21,4 @@ pp = !"$HG" update production; "$HG" merge develop; "$HG" cmm; "$HG" p; "$HG" up
 pu = pull -u
 stq = st -q
 ignore = !echo $@ >> .hgignore
+show = log --patch --rev
