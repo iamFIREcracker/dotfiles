@@ -1,0 +1,10 @@
+if [ -d ~/opt/keyring/venv/Scripts/ ]; then
+  if [ "$1" != "get" ]; then
+      # Use `winpty` for all the interactive commands
+      winpty "$(cygpath -u ~/opt/keyring/venv/Scripts/keyring.exe)" "$@"
+    else
+      "$(cygpath -u ~/opt/keyring/venv/Scripts/keyring.exe)" "$@"
+    fi
+else
+    ~/opt/keyring/venv/bin/keyring "$@"
+fi
