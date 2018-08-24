@@ -71,8 +71,7 @@ export EDITOR="vim"
 export PAGER="/usr/bin/less"
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu nornu noma' -\""
 export HGEDITOR="~/bin/hgeditor"
-# Enable proper symlinking on Windows7
-CYGWIN=winsymlinks:nativestrict
+export BROWSER=br
 
 # }}}
 # Java et al. {{{
@@ -214,7 +213,7 @@ ei()  { vim ~/Dropbox/ideas.md; }
 ej()  { vim $(tempfile .jira); }
 eJ()  { vim ~/Dropbox/journal/$(date '+%Y-%m').md; }
 eh()  { vim ~/dotfiles/.hgrc; }
-em()  { vim ~/dotfiles/.muttrc; }
+em()  { vim ~/.muttrc; }
 eM()  { vim $(tempfile "$@" ); }
 eR()  { vim ~/Dropbox/rest; }
 es()  { vim ~/dotfiles/.slate; }

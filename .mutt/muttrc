@@ -145,8 +145,10 @@ bind index q        quit
 bind index \`       shell-escape
 bind index g        noop
 bind index <tab>    sync-mailbox
-bind index k        previous-entry
-bind index j        next-entry
+bind index k        previous-thread
+bind index j        next-thread
+bind index K        previous-entry
+bind index J        next-entry
 bind index gg       first-entry
 bind index G        last-entry
 bind index p        recall-message
@@ -186,40 +188,57 @@ bind index,pager c  mail
 bind index,pager r  reply
 bind index,pager a  group-reply
 
-# go-to
-macro index,pager   gi      '<change-folder>=INBOX<enter>' "Go to inbox"
+# Go-to {{{
+
+macro index,pager   gi      '<change-folder>=INBOX<enter>'
 # macro index,pager   gs      '<change-folder>=flagged<enter>' "Go to 'Starred'"
 macro index,pager   gt      '<change-folder>=sent<enter>'
 macro index,pager   gd      '<change-folder>=drafts<enter>'
 macro index,pager   ga      '<change-folder>=archive<enter>'
 macro index,pager   g\#     '<change-folder>=trash<enter>'
-macro index,pager   gl      '<change-folder>?<toggle-mailboxes>' "Go to 'Label'"
 
-# Select, mark as read, unread, undo
-macro index         x       '<tag-thread>' "Select conversation"
-bind pager          x       noop
+# switch to specific label
+# the trailing '/' is for start searching on the screen
+macro index,pager   gl      '<change-folder>?<toggle-mailboxes>/'
+
+# }}}
+
+# Select a thread
+macro index         x       '<tag-thread><previous-thread>' "Select conversation"
+macro pager         x       'q*nx'                          "Select conversation"
+
+# Select a message
+macro index         X       '<tag-message><previous-entry>' "Select conversation"
+macro pager         X       'q*nx'                          "Select conversation"
+
+# Mark as read
 macro index         I       '<tag-prefix><clear-flag>N' "Mark as read"
-macro pager         I       '<clear-flag>N<exit>' "Mark as read"
-macro index         U       '<tag-prefix><set-flag>N' "Mark as unread"
-macro pager         U       '<set-flag>N<exit>' "Mark as unread"
+macro pager         I       'q*nxUI*n'                  "Mark as read"
+
+# Mark as unread
+macro index         U       '<tag-prefix><set-flag>N'   "Mark as unread"
+macro pager         U       'q*nxU*n'                   "Mark as unread"
+
+# Undo delete
 macro index,pager   z       '<tag-prefix><undelete-message>' "Undo"
+macro pager         z       'q*nxz*n'                        "Undo"
 
 # star, spam
 # macro index,pager   s       '<flag-message>' "Star message"
 macro index         !       '<tag-prefix><save-message>=spam<enter>' "Report spam"
-macro pager         !       'q*nx!' "Report spam"
+macro pager         !       'q*nx!*n' "Report spam"
 
 # archive
 macro index         e       '<tag-prefix><save-message>=archive<enter>' "Archive conversation"
-macro pager         e       'q*nxe' "Archive conversation"
+macro pager         e       'q*nxe*n' "Archive conversation"
 
 # delete threads
-macro index         \#      '<delete-pattern>~T<enter>' "Delete conversation"
-macro pager         \#      'q*nx#' "Delete conversation"
+macro index         \#      '<tag-prefix><delete-message>' "Delete conversation"
+macro pager         \#      'q*nx#*n' "Delete conversation"
 
 # label
 macro index         l       '<tag-prefix><copy-message>?<toggle-mailboxes>' "label conversation"
-macro pager         l       'q*nxl' "label conversation"
+macro pager         l       'q*nxl*n' "label conversation"
 
 # }}}
 # Compose {{{

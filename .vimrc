@@ -1326,7 +1326,7 @@ augroup END
 nnoremap <leader>eb :vsplit ~/dotfiles/.bashrc<cr>
 nnoremap <leader>eg :vsplit ~/dotfiles/.gitconfig<cr>
 nnoremap <leader>eh :vsplit ~/dotfiles/.hgrc<cr>
-nnoremap <leader>em :vsplit ~/dotfiles/.muttrc<cr>
+nnoremap <leader>em :vsplit ~/.muttrc<cr>
 nnoremap <leader>eM :vsplit <C-R>=system('tempfile .')<left><left>
 nnoremap <leader>eR :vsplit ~/Dropbox/rest<cr>
 nnoremap <leader>et :vsplit ~/dotfiles/.tmux.conf<cr>
