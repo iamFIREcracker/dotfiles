@@ -15,6 +15,10 @@ set -u
 set -e
 set -x
 
+function error {
+    echo -e "\e[01;31m$@\e[0m"
+}
+
 function ensure_link {
     test $FORCE -eq 1 && remove "$HOME/$2"
     test -L "$HOME/$2" || create_link "$WORKDIR/$1" "$HOME/$2"
@@ -40,18 +44,9 @@ function create_dir {
     mkdir -p $1
 }
 
-# (
-#     cd .vim/pack/bundle/start/omnisharp-vim/server
-#     if which xbuild 2>/dev/null; then
-#         xbuild
-#     elif which msbuild.exe 2>/dev/null; then
-#         msbuild.exe
-#     fi
-# )
-
 (
     if ! which make 2>/dev/null; then
-        echo "Missing command: make"
+        error "Missing command: make"
     else
         cd .vim/pack/bundle/start/vimproc.vim/
         test $FORCE -eq 1 && make clean
@@ -61,19 +56,21 @@ function create_dir {
 
 (
     if ! which npm 2>/dev/null; then
-        echo "Missing command: npm"
+        error "Missing command: npm"
     else
         cd .vim/pack/bundle/start/tsuquyomi/
         test $FORCE -eq 1 && rm -rf node_modules
-        npm install
+        if [ ! -d node_modules ]; then
+            npm install
+        fi
     fi
 )
 
 (
     if ! which mvn 2>/dev/null; then
-        echo "Missing command: mvn"
+        error "Missing command: mvn"
     elif ! which javac 2>/dev/null; then
-        echo "Missing command: javac"
+        error "Missing command: javac"
     else
         cd .vim/pack/bundle/start/vim-javacomplete2/libs/javavi/
         mvn compile
@@ -82,7 +79,7 @@ function create_dir {
 
 (
     if ! which cargo 2>/dev/null; then
-        echo "Missing command: cargo"
+        error "Missing command: cargo"
     else
         cd .vim/pack/bundle/start/parinfer-rust/
         cargo build --release

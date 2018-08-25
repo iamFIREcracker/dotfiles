@@ -545,18 +545,6 @@ augroup ft_c
 augroup END
 
 " }}}
-" C# {{{
-
-augroup ft_csharp
-    au!
-    au FileType cs setlocal foldmethod=marker foldmarker={,}
-    au FileType cs setlocal ts=4 sts=4 sw=4 noexpandtab
-
-    au FileType cs nnoremap <c-]> :OmniSharpGotoDefinition<cr>
-    au FileType cs nnoremap <C-^> :OmniSharpFindUsages<cr>
-augroup END
-
-" }}}
 " Common Lisp {{{
 
 augroup ft_commonlisp
