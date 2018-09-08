@@ -235,8 +235,8 @@ macro index         \#      '<tag-prefix><delete-message>' "Delete conversation"
 macro pager         \#      'q*nx#*n' "Delete conversation"
 
 # label
-macro index         l       '<tag-prefix><copy-message>?<toggle-mailboxes>' "label conversation"
-macro pager         l       'q*nxl*n' "label conversation"
+macro index         l       '<tag-prefix><copy-message>?<toggle-mailboxes>/' "label conversation"
+macro pager         l       'q*nxl' "label conversation"
 
 # }}}
 # Compose {{{
