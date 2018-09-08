@@ -1785,6 +1785,15 @@ let g:tsuquyomi_use_quickfix_for_references = 1
 let g:tsuquyomi_disable_quickfix = 1
 
 " }}}
+" vim-goobook {{{
+
+if has('win32unix')
+    let g:goobookprg="aadbook"
+else
+    let g:goobookprg="goobook"
+endif
+
+" }}}
 " vim-Mocha {{{
 
 let g:mocha_js_command =
