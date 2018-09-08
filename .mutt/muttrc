@@ -14,8 +14,6 @@ set editor = "vim -c 'normal! }' -c 'redraw'"
 # }}}
 # Contacts {{{
 
-# Use the OS X address book
-set query_command = "goobook query %s"
 bind editor <Tab> complete-query
 bind editor ^T    complete
 

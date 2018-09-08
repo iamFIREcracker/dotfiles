@@ -913,7 +913,7 @@ augroup ft_mail
         setlocal formatoptions=watqc
         setlocal nojs
         setlocal nosmartindent
-        ErrorMsg '\s\+$'
+        match ErrorMsg '\s\+$'
     endfunction " }}}
     au FileType mail call EnableFormatFlowed()
 augroup END
