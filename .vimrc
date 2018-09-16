@@ -1099,6 +1099,7 @@ augroup END
 augroup ft_rst
     au!
 
+    au Filetype rst setlocal formatlistpat+=\\\|^[-*+]\\s\\+
     au Filetype rst nnoremap <buffer> <localleader>1 yypVr=
     au Filetype rst nnoremap <buffer> <localleader>2 yypVr-
     au Filetype rst nnoremap <buffer> <localleader>3 yypVr~
