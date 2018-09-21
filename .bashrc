@@ -52,6 +52,7 @@ RED=$'\e[1;31m'
 # set -o vi
 
 # I give up
+alias :e=vim
 alias :q=exit
 alias :qa=exit
 
@@ -211,7 +212,7 @@ echo_n_run() {
 eg()  { vim ~/dotfiles/.gitconfig; }
 ei()  { vim ~/Dropbox/ideas.md; }
 ej()  { vim $(tempfile .jira); }
-eJ()  { vim ~/Dropbox/journal/$(date '+%Y-%m').md; }
+eJ()  { vim ~/journal/$(date '+%Y-%m').md; }
 eh()  { vim ~/dotfiles/.hgrc; }
 em()  { vim ~/.muttrc; }
 eM()  { vim $(tempfile "$@" ); }
