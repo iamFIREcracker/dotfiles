@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [ -f /etc/hosts ]; then
+    sudo vim -u NONE /etc/hosts
+else 
+    cygstart --action=runas vim -u NONE /cygdrive/c/Windows/System32/drivers/etc/hosts
+fi
