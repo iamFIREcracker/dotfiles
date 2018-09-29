@@ -194,6 +194,7 @@ macro index,pager   gt      '<change-folder>=sent<enter>'
 macro index,pager   gd      '<change-folder>=drafts<enter>'
 macro index,pager   ga      '<change-folder>=archive<enter>'
 macro index,pager   g\#     '<change-folder>=trash<enter>'
+macro index,pager   g!      '<change-folder>=spam<enter>'
 
 # switch to specific label
 # the trailing '/' is for start searching on the screen

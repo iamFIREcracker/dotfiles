@@ -18,6 +18,7 @@ nametrans = lambda folder: {'drafts':  '[Gmail]/Drafts',
                             'flagged': '[Gmail]/Starred',
                             'trash':   '[Gmail]/Trash',
                             'archive': '[Gmail]/All Mail',
+                            'spam':    '[Gmail]/Spam',
                             }.get(folder, folder)
 
 [Repository MatteoLandi-Remote]
@@ -33,9 +34,9 @@ nametrans = lambda folder: {'[Gmail]/Drafts':    'drafts',
                             '[Gmail]/Starred':   'flagged',
                             '[Gmail]/Trash':     'trash',
                             '[Gmail]/All Mail':  'archive',
+                            '[Gmail]/Spam':      'spam',
                             }.get(folder, folder)
 folderfilter = lambda folder: folder not in ['[Gmail]/Important',
-                                             '[Gmail]/Spam',
                                              ]
 
 [Account IONGroup]
