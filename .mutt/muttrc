@@ -20,7 +20,7 @@ bind editor ^T    complete
 # }}}
 # Basic Options {{{
 
-# source ~/.mutt/colors.muttrc
+source ~/.mutt/colors.muttrc
 
 set wait_key = no        # shut up, mutt
 set mbox_type = Maildir  # mailbox type
@@ -203,12 +203,12 @@ macro index,pager   gl      '<change-folder>?<toggle-mailboxes>/'
 # }}}
 
 # Select a thread
-macro index         x       '<tag-thread><previous-thread>' "Select conversation"
-macro pager         x       'q*nx'                          "Select conversation"
+macro index         x       '<tag-thread>' "Select conversation"
+macro pager         x       'q*nx'         "Select conversation"
 
 # Select a message
-macro index         X       '<tag-message><previous-entry>' "Select conversation"
-macro pager         X       'q*nx'                          "Select conversation"
+macro index         X       '<tag-message>' "Select conversation"
+macro pager         X       'q*nx'          "Select conversation"
 
 # Mark as read
 macro index         I       '<tag-prefix><clear-flag>N' "Mark as read"

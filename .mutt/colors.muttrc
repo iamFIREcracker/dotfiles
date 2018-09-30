@@ -1,55 +1,23 @@
 # general-doesn't-fit stuff
-color status	color4		color233	# Menu and frame
-color normal	color252	color233
-color error		color7		color1		# Error message in the bottom
-color tilde		color235	color233	# `~' padding lines at the bottom of messages
-color markers	color235	color233	# '+' markers, leading long lines
+color tilde			color243	default		# `~' padding lines at the bottom of messages
+color indicator		default		color235	# Current entry
+color error brightcolor15 color196
+color search brightcolor16 color221
 
 # index stuff
-color indicator	color255		color235				# Current entry
-color tree		color7			color233				# Thread `->' symbol
-color index		brightcolor7	color233	'~N'		# new
-color index		color3			color233	'~F'		# flagged
-color index		brightcolor3	color233	'~N ~F'		# new and flagged
-color index		color4			color233	'~T'		# tagged
-color index		brightcolor4	color233	'~N ~T'		# new and tagged
-color index		color5			color233	'~D'		# deleted
-color index		brightcolor5	color233	'~N ~D'		# new and deleted
+color index		brightcolor7	default		'~N'		# new
+color index		color240		default		'~D'		# deleted
+color index		brightcolor7	default		'~T'		# tagged
 
-# header stuff
-color hdrdefault	color248		color233
-color header		brightcolor2	color233	"^Subject"
-
-# url, email and web stuff
-color body color6 color233 "(finger|ftp|http|https|news|telnet)://[^ >]*"
-color body color6 color233 "<URL:[^ ]*>"
-color body color6 color233 "www\\.[-.a-z0-9]+\\.[a-z][a-z][a-z]?([-_./~a-z0-9]+)?"
-color body color6 color233 "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
-# diff body
-color body brightcolor7	color233	"^(Modified|Added): .*"
-color body brightcolor7	color233	"^[=]*"
-color body color1		color233	"^[-]{1}.*"
-color body brightcolor1	color233    "^[-]{3}[ \t].*"
-color body color2		color233	"^[+]{1}.*"
-color body brightcolor2	color233	"^[+]{1,3}[ \t].*"
-color body brightcolor7	color233	"^diff .*"
-color body brightcolor3	color233	"^@@.*"
-# misc
-color body brightcolor3	color233	"(^| )\\*[-a-z0-9*]+\\*[,.?]?[ \n]"
-color body brightcolor4	color233	"(^| )_[-a-z0-9_]+_[,.?]?[ \n]"
-
-# misc body stuff
-color attachment    color4 color233
-color signature     color244 color233
+# headers
+color hdrdefault	color245		default
+color header		brightcolor214	default "^(Subject): "
+color signature		color243		default
+color attachment	brightcolor211	default
 
 # quote levels
-color quoted    color240    color233
-color quoted1   color3      color233
-color quoted2   color240    color233
-color quoted3   color3      color233
-color quoted4   color240    color233
-color quoted5   color3      color233
-color quoted6   color240    color233
-color quoted7   color3      color233
-color quoted8   color240    color233
-color quoted9   color3      color233
+color quoted color243 default
+color quoted1 color211 default
+color quoted2 color222 default
+color quoted3 color214 default
+color quoted4 color154 default
