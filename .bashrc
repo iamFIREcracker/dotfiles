@@ -205,23 +205,21 @@ function ${wrapper_name}() {
 
 eb()  { vim ~/dotfiles/.bashrc; }
 eb1() { vim ~/my-env/opt/bunny1/b1_custom.py; }
-echo_n_run() {
-    echo "$@"
-    "$@"
-}
-eg()  { vim ~/dotfiles/.gitconfig; }
-ei()  { vim ~/Dropbox/ideas.md; }
-ej()  { vim $(tempfile .jira); }
 eJ()  { vim ~/journal/$(date '+%Y-%m').md; }
-eh()  { vim ~/dotfiles/.hgrc; }
-em()  { vim ~/.muttrc; }
 eM()  { vim $(tempfile "$@" ); }
 eR()  { vim ~/Dropbox/rest; }
+eT()  { vim ~/.tmuxinator/$(tmux display-message -p '#S').yml; }
+eV()  { vim ~/dotfiles/.vimperatorrc; }
+eg()  { vim ~/dotfiles/.gitconfig; }
+eh()  { vim ~/dotfiles/.hgrc; }
+ei()  { vim ~/Dropbox/ideas.md; }
+ej()  { vim $(tempfile .jira); }
+ek() { vim ~/my-env/Windows/AutoHotkey/KeyMappings.ahk; }
+em()  { vim ~/.muttrc; }
 es()  { vim ~/dotfiles/.slate; }
 et()  { vim ~/dotfiles/.tmux.conf; }
-eT()  { vim ~/.tmuxinator/$(tmux display-message -p '#S').yml; }
 ev()  { vim ~/dotfiles/.vimrc; }
-eV()  { vim ~/dotfiles/.vimperatorrc; }
+
 
 # }}}
 
@@ -231,6 +229,10 @@ function ....() {  cd ../../../"$@"; }
 function .....() { cd ../../../../"$@"; }
 
 
+echo_n_run() {
+    echo "$@"
+    "$@"
+}
 
 function -() {
     if [ $# == 1 ]; then
