@@ -462,7 +462,7 @@ function mvn-colorify() {
 # mutt {{{
 
 function mutt() {
-    (cd ~/Desktop && "$(which mutt)" "$@")
+    (cd ~/Downloads && "$(which mutt)" "$@")
 }
 
 # }}}

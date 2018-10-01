@@ -1,5 +1,5 @@
 if [ -d ~/opt/aadbook/venv/Scripts/ ]; then
-  if [ "$1" != "query" ]; then
+  if [ "$1" == "authenticate" ]; then
       # Use `winpty` for all the interactive commands
       winpty "$(cygpath -u ~/opt/aadbook/venv/Scripts/aadbook.exe)" "$@"
     else

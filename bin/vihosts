@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-if [ -f /etc/hosts ]; then
-    sudo vim -u NONE /etc/hosts
-else 
+OS_WIN=$(uname -s | grep CYGWIN)
+
+if [ -n "$OS_WIN" ]; then
     cygstart --action=runas vim -u NONE /cygdrive/c/Windows/System32/drivers/etc/hosts
+else
+    sudo vim -u NONE /etc/hosts
 fi
