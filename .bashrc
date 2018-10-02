@@ -432,7 +432,7 @@ function math() {
 
 
 function mvn() {
-    if [ -z ${OS_WIN} ]; then
+    if [ -n "${OS_WIN}" ]; then
         winpty "$(cygpath -u $M2_HOME/bin)" "$@"
     else
         $(which mvn) "$@"
