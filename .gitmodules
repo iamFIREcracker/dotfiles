@@ -178,7 +178,7 @@
 	url = https://github.com/junegunn/fzf.git
 [submodule ".vim/pack/bundle/start/vim-goobook"]
 	path = .vim/pack/bundle/start/vim-goobook
-	url = git@github.com:iamFIREcracker/vim-goobook.git
+	url = https://github.com/afwlehmann/vim-goobook.git
 [submodule ".tmux-plugins/tmux-urlview"]
 	path = .tmux-plugins/tmux-urlview
 	url = https://github.com/tmux-plugins/tmux-urlview.git
