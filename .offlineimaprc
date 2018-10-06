@@ -1,7 +1,7 @@
 [general]
 # NOTE: cronjob calls the quiet UI with -u
 ui = TTYUI
-accounts = MatteoLandi, IONGroup
+accounts = MatteoLandi
 pythonfile = ~/.mutt/offlineimap.py
 fsync = False
 
@@ -23,7 +23,7 @@ nametrans = lambda folder: {'drafts':  '[Gmail]/Drafts',
 
 [Repository MatteoLandi-Remote]
 ssl = True
-sslcacertfile = /usr/local/etc/openssl/cert.pem
+sslcacertfile = ~/.certs/cacert.pem
 maxconnections = 1
 type = Gmail 
 remoteuser = matteo@matteolandi.net
@@ -39,49 +39,4 @@ nametrans = lambda folder: {'[Gmail]/Drafts':    'drafts',
 folderfilter = lambda folder: folder not in ['[Gmail]/Important',
                                              ]
 
-[Account IONGroup]
-localrepository = IONGroup-Local
-remoterepository = IONGroup-Remote
-postsynchook = notmuch --config ~/.mutt/.notmuch-config-iongroup new
-
-[Repository IONGroup-Local]
-type = Maildir
-localfolders = ~/.mail/matteo.landi-iongroup.com
-nametrans = lambda folder: {'drafts':  'Drafts',
-                            'sent':    'Sent Items',
-                            'flagged': 'Starred',
-                            'trash':   'Deleted Items',
-                            'archive': 'Archive',
-                            }.get(folder, folder)
-
-[Repository IONGroup-Remote]
-ssl = True
-sslcacertfile = /etc/ssl/certs/ca-bundle.crt
-maxconnections = 1
-type = IMAP
-remotehost = outlook.office365.com
-remoteuser = matteo.landi@iongroup.com
-remotepasseval = get_keychain_pass(service="outlook.office365.com", account="matteo.landi@iongroup.com", )
-realdelete = no
-nametrans = lambda folder: {'Drafts':        'drafts',
-                            'Sent Items':    'sent',
-                            'Starred':       'flagged',
-                            'Deleted Items': 'trash',
-                            'Archive':       'archive',
-                            }.get(folder, folder)
-folderfilter = lambda folder: folder in ['INBOX',
-                                         'Drafts',
-                                         'Sent Items',
-                                         'Starred',
-                                         'Deleted Items',
-                                         'Archive',
-                                         '!!needs-action',
-                                         '!needs-action',
-                                         '*needed-soon',
-                                         '?awaits-reply',
-                                         '>delegated',
-                                         'gitlab',
-                                         'connection-notifications',
-                                         'yammer'
-                                        ]
 # vim: ft=cfg tw=0

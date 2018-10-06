@@ -1,0 +1,1 @@
+mutt-notmuch-py --notmuch-config=~/.mutt/.notmuch-config-iongroup "$@"

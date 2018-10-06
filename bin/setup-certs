@@ -1,0 +1,16 @@
+#!/usr/bin/env bash -ex
+
+mkdir -p ~/.certs
+
+for f in /etc/ssl/certs/ca-bundle.crt /usr/local/etc/openssl/cert.pem ; do
+    if [ -f "$f" ]; then
+        ln -sf "$f" ~/.certs/cacert.pem
+        break
+    fi
+done
+for f in /etc/ssl/cert.pem ; do
+    if [ -f "$f" ]; then
+        ln -sf "$f" ~/.certs/cert.pem
+        break
+    fi
+done

@@ -464,6 +464,7 @@ function mvn-colorify() {
 function mutt() {
     (cd ~/Downloads && "$(which mutt)" "$@")
 }
+function mutt-work() { mutt -F ~/.muttrc.work; }
 
 # }}}
 # Node.js/NPM {{{
