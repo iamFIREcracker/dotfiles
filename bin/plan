@@ -1,0 +1,34 @@
+#!/usr/bin/env bash -e
+
+EDITOR=${EDITOR?Need EDITOR set}
+PLAN=${PLAN:-~/.plan}
+
+if hash gsed 2>/dev/null; then
+    _SED=gsed
+elif hash sed 2>/dev/null; then
+    _SED=$(which sed)
+fi
+
+function sed() {
+    "$_SED" "$@"
+}
+
+function cat_plain_content() {
+    sed '0,/^--- /d' "$PLAN"
+}
+
+if [ $# -eq 0 ]; then
+    $EDITOR "$PLAN"
+fi
+
+for i; do
+    if [ "$i" == "completed" ]; then
+        cat_plain_content | grep '^\* '
+    elif [ "$i" == "discarded" ]; then
+        cat_plain_content | grep '^-[^-]'
+    elif [ "$i" == "open" ]; then
+        cat_plain_content | grep '^[^*+-=\|]'
+    elif [ "$i" == "cat" ]; then
+        cat "$PLAN"
+    fi
+done

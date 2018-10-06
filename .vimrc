@@ -1004,6 +1004,16 @@ augroup ft_pentadactyl
 augroup END
 
 " }}}
+" plan {{{
+
+augroup ft_plan
+    au!
+
+    au FileType plan setlocal wrap foldmethod=syntax
+    au FileType plan nnoremap <localleader>o o= <C-R>=strftime("%Y-%m-%d")<CR>===================================<cr>
+augroup END
+
+" }}}
 " PHP {{{
 
 augroup ft_php
