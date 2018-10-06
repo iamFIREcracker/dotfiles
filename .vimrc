@@ -1009,7 +1009,8 @@ augroup END
 augroup ft_plan
     au!
 
-    au FileType plan setlocal wrap foldmethod=syntax
+    au FileType plan setlocal wrap
+    au FileType plan nnoremap <buffer> q :call CloseOnLast()<cr>
     au FileType plan nnoremap <localleader>o o= <C-R>=strftime("%Y-%m-%d")<CR>===================================<cr>
 augroup END
 

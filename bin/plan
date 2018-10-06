@@ -22,7 +22,19 @@ if [ $# -eq 0 ]; then
 fi
 
 for i; do
-    if [ "$i" == "completed" ]; then
+    if [ "$i" == "--help" ]; then
+        cat <<EOF
+usage: plan {completed,discarded,open,cat}
+
+Edit and filter .plan file.
+
+positional arguments:
+  {completed,discarded,open,cat}
+
+optional argument:
+  --help               show this help message and exit
+EOF
+    elif [ "$i" == "completed" ]; then
         cat_plain_content | grep '^\* '
     elif [ "$i" == "discarded" ]; then
         cat_plain_content | grep '^-[^-]'

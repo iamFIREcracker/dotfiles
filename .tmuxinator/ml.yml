@@ -1,6 +1,6 @@
-# ~/.tmuxinator/matteolandi.yml
+# ~/.tmuxinator/ml.yml
 
-name: matteolandi
+name: ml
 root: ~/Workspace/matteolandi.net/
 
 windows:
