@@ -13,8 +13,23 @@ function sed() {
     "$_SED" "$@"
 }
 
-function cat_plain_content() {
-    sed '0,/^--- /d' "$PLAN"
+function cat_plan_content() {
+    sed -n '/^=/,$p' "$PLAN"
+}
+
+function help() {
+    cat <<EOF
+usage: plan [-h]
+            {completed,discarded,open,cat}
+
+Edit and filter .plan file.
+
+positional arguments:
+{completed,discarded,open,cat}
+
+optional argument:
+-h, --help               show this help message and exit
+EOF
 }
 
 if [ $# -eq 0 ]; then
@@ -23,24 +38,18 @@ fi
 
 for i; do
     if [ "$i" == "--help" ]; then
-        cat <<EOF
-usage: plan {completed,discarded,open,cat}
-
-Edit and filter .plan file.
-
-positional arguments:
-  {completed,discarded,open,cat}
-
-optional argument:
-  --help               show this help message and exit
-EOF
+        help
+    elif [ "$i" == "-h" ]; then
+        help
     elif [ "$i" == "completed" ]; then
-        cat_plain_content | grep '^\* '
+        cat_plan_content | grep '^[*+]'
     elif [ "$i" == "discarded" ]; then
-        cat_plain_content | grep '^-[^-]'
+        cat_plan_content | grep '^-'
     elif [ "$i" == "open" ]; then
-        cat_plain_content | grep '^[^*+-=\|]'
+        cat_plan_content | grep '^[^*+-=\|]'
     elif [ "$i" == "cat" ]; then
         cat "$PLAN"
+    else
+        exit -1
     fi
 done
