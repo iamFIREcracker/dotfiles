@@ -40,11 +40,11 @@ HISTTIMEFORMAT='%F %T '
 N=$'\e[0m'
 BOLD=$'\e[1m'
 D=$'\e[0;37m'
-PINK=$'\e[1;35m'
-GREEN=$'\e[1;32m'
-ORANGE=$'\e[1;33m'
-CYAN=$'\e[1;36m'
-RED=$'\e[1;31m'
+PINK=$'\e[0;35m'
+GREEN=$'\e[0;32m'
+ORANGE=$'\e[0;33m'
+CYAN=$'\e[0;36m'
+RED=$'\e[0;31m'
 
 # }}}
 # Vim mode {{{
@@ -488,7 +488,8 @@ n() { npm "$@"; }
 function median() { percentile 50; }
 function o() { open "$@"; }
 function oo() { open .; }
-function p() { ping "$@"; }
+function p() { plan "$@"; }
+function pw() { plan-work "$@"; }
 function percentile() { awk "{ a[i++]=\$0; } END { print a[int(i*$1/100)]; }"; }
 function pip() {
     if [ -n "$VIRTUAL_ENV" ]; then
