@@ -826,12 +826,12 @@ augroup ft_javascript
         let class        = 'class%(\s+\S+)*\s*\{'
         let method       = '%(static )?%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
         let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
-        let functiondec  = 'function%(\s+\S+)?\s*\([^)]*' . functionwrap
+        let functiondec  = '%(async )?function%(\s+\S+)?\s*\([^)]*' . functionwrap
         let functiondef  = '%(%(const|var|let)\s)?\S+\s*\=\s*' . functiondec
         let arrowdefwrap = '\s*[a-zA-Z0-9:]*\)\s*\=\>\s*\{'
         let arrowdef     = '%(%(const|var|let)\s)?\S+\s*\=\s*\([^)]*' . arrowdefwrap
         let router       = 'router\.\S+\([^}]*\{'
-        let mocha_descr  = 'describe\([^}]*\{'
+        let mocha_descr  = 'describe%(\.only)?\([^}]*\{'
         let mocha_it     = 'it\([^}]*\{'
 
         let folded_statements = [
@@ -870,7 +870,7 @@ augroup ft_javascript
     au FileType javascript call MakeSpacelessBufferIabbrev('afn',  'function(HERE)')
     au FileType javascript call MakeSpacelessBufferIabbrev('rt',   'return HERE;')
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log(HERE);')
-    au FileType javascript call MakeSpacelessBufferIabbrev('pclog', 'console.log(require("util").inspect(HERE,{showHidden:false,depth:null}));')
+    au FileType javascript call MakeSpacelessBufferIabbrev('pclog', 'console.log(JSON.stringify(HERE,null,2));')
     au FileType javascript call MakeSpacelessBufferIabbrev('dolog', 'do(console.log)')
     au FileType javascript call MakeSpacelessBufferIabbrev('maplog', 'map(e => console.log(e) \|\| e)')
     au FileType javascript call MakeSpacelessBufferIabbrev('thenlog', 'then(e => console.log(e) \|\| e)')
@@ -1713,7 +1713,8 @@ let g:maven_ignore_globs = [
 let g:neomake_open_list = 0
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_javascript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
-let g:neomake_typescript_enabled_makers = []
+let g:neomake_typescript_enabled_makers = ['tslint']
+let g:neomake_typescript_tslint_exe = $PWD .'/node_modules/.bin/tslint'
 
 " autocmd! BufRead * Neomake
 autocmd! BufWritePost * Neomake

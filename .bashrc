@@ -472,14 +472,14 @@ function mutt-work() { mutt -F ~/.muttrc.work; }
 if hash winpty 2>/dev/null; then
     _node='winpty node'
 else
-    _node=node
+    _node=$(which node)
 fi
 node() { ${_node} "$@"; }
 
 if hash winpty 2>/dev/null; then
     _npm='winpty npm.cmd'
 else
-    _npm=npm
+    _npm=$(which npm)
 fi
 npm() { ${_npm} "$@"; }
 n() { npm "$@"; }
@@ -561,7 +561,7 @@ function sb() { . ~/.bashrc; }
 
 if hash gsed 2>/dev/null; then
     _sed=gsed
-elif hash sed 2>/dev/null; then
+else
     _sed=$(which sed)
 fi
 function sed() {
@@ -589,7 +589,7 @@ function ta() {
 # tac {{{
 if hash gtac 2>/dev/null; then
     _tac=gtac
-elif hash tac 2>/dev/null; then
+else
     _tac=$(which tac)
 fi
 function tac() {
@@ -619,7 +619,7 @@ function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(
 if hash winpty 2>/dev/null; then
     _vagrant='winpty vagrant'
 else
-    _vagrant=vagrant
+    _vagrant=$(which vagrant)
 fi
 vagrant() { ${_vagrant} "$@"; }
 v() { vagrant "$@"; }
