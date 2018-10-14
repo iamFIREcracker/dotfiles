@@ -916,6 +916,7 @@ augroup ft_mail
         match ErrorMsg '\s\+$'
     endfunction " }}}
     au FileType mail call EnableFormatFlowed()
+    au FileType mail setlocal nobackup noswapfile nowritebackup
 augroup END
 
 " }}}

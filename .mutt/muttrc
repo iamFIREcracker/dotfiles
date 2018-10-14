@@ -47,6 +47,19 @@ set implicit_autoview=yes               # Load in pager if setting in .mailcap s
 set text_flowed=yes # format=flowed -- https://joeclark.org/ffaq.html
 
 # }}}
+# SSL {{{
+
+set ssl_force_tls=yes
+set ssl_starttls=yes
+set ssl_use_sslv2=no
+set ssl_use_sslv3=no
+set ssl_use_tlsv1=no
+set ssl_use_tlsv1_1=no
+set ssl_use_tlsv1_2=yes
+set ssl_verify_dates=yes
+set ssl_verify_host=yes
+
+# }}}
 # Sidebar Patch {{{
 
 set sidebar_divider_char   = '│'
@@ -131,8 +144,6 @@ hdr_order from: to: cc: date: subject:  # and in this order
 
 set sendmail_wait = 0 # no please don't silently fail, email is important
 unset record
-
-# source ~/Dropbox/mutt/matteo-matteolandi-net.muttrc
 
 # }}}
 # Key Bindings {{{
@@ -239,10 +250,15 @@ macro pager         \#      'q*nx#*n' "Delete conversation"
 macro index         l       '<tag-prefix><copy-message>?<toggle-mailboxes>/' "label conversation"
 macro pager         l       'q*nxl' "label conversation"
 
+# move
+macro index         m       '<tag-prefix><save-message>?<toggle-mailboxes>/' "move conversation"
+macro pager         m       'q*nxl' "move conversation"
+
 # }}}
 # Compose {{{
 
 bind compose p postpone-message
+bind compose P pgp-menu
 
 # }}}
 # Attachment {{{
@@ -255,9 +271,4 @@ bind attach <return> view-mailcap
 
 macro index,pager V "|vim -c 'setlocal ft=mail' -c 'setlocal buftype=nofile' -<enter>"              "open in vim"
 
-# }}}
-
-# }}}
-# Local Settings {{{
-    # source `FILE=$HOME/.mutt-local; if [ ! -s "$FILE" ]; then FILE=/dev/null;fi;echo "$FILE"`
 # }}}

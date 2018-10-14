@@ -86,8 +86,7 @@ function create_dir {
     fi
 )
 
-test -z "$OS_WIN" && ensure_dir ".titanium"
-
+                     ensure_dir ".gnupg"
 
                      ensure_link "bin"                    "bin"
                      ensure_link ".agignore"              ".agignore"
@@ -116,3 +115,4 @@ test -n "$OS_MAC" && ensure_link ".slate"                 ".slate"
                      ensure_link ".vim"                   ".vim"
                      ensure_link ".vimfx"                 ".vimfx"
                      ensure_link ".vimrc"                 ".vimrc"
+                     ensure_link ".gnupg/gpg.conf"        ".gnupg/gpg.conf"
