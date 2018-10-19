@@ -824,7 +824,7 @@ augroup ft_javascript
     function! TurnOnJavascriptFolding() "{{{
         let export       = '%(module\.)?export(s)?%(\.)?.*\{'
         let class        = 'class%(\s+\S+)*\s*\{'
-        let method       = '%(static )?%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
+        let method       = '%(static |async )?%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
         let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
         let functiondec  = '%(async )?function%(\s+\S+)?\s*\([^)]*' . functionwrap
         let functiondef  = '%(%(const|var|let)\s)?\S+\s*\=\s*' . functiondec
@@ -1204,9 +1204,9 @@ augroup ft_typescript
     function! TurnOnTypescriptFolding() "{{{
         let export       = '%(module\.)?export(s)?%(\.)?.*\{'
         let class        = 'class%(\s+\S+)*\s*\{'
-        let method       = '%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
+        let method       = '%(async )?%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
         let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
-        let functiondec  = 'function%(\s+\S+)?\s*\([^)]*' . functionwrap
+        let functiondec  = '%(async )?function%(\s+\S+)?\s*\([^)]*' . functionwrap
         let functiondef  = '%(%(const|var|let)\s)?\S+\s*\=\s*' . functiondec
         let arrowdefwrap = '\s*[a-zA-Z0-9:]*\)\s*\=\>\s*\{'
         let arrowdef     = '%(%(const|var|let)\s)?\S+\s*\=\s*\([^)]*' . arrowdefwrap

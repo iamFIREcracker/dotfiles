@@ -482,6 +482,7 @@ else
     _npm=$(which npm)
 fi
 npm() { ${_npm} "$@"; }
+
 n() { npm "$@"; }
 
 # }}}
