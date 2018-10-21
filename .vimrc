@@ -1497,7 +1497,6 @@ function! g:FuckingOpenTheUrlPlease()
     let old_z = @z
     normal! gv"zy
     let url = @z
-    echom url
     call system('br '.url)
     let @z = old_z
     call winrestview(view)
@@ -1557,8 +1556,6 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 
 " Ack {{{
 
-nnoremap <leader>a :Ack!<space>
-nnoremap <localleader>a :Ack!  %:h<left><left><left><left>
 let g:ackprg = 'ag --vimgrep --hidden --smart-case --nogroup --nocolor --column'
 let g:ack_use_async = 1
 
@@ -2055,7 +2052,7 @@ endfunc
 nnoremap <leader>W :call ToggleDiffWhitespace()<CR>
 
 " }}}
-" Ack motions {{{
+" Ack operator {{{
 
 " Motions to Ack for things.  Works with pretty much everything, including:
 "
@@ -2066,14 +2063,10 @@ nnoremap <leader>W :call ToggleDiffWhitespace()<CR>
 " Note: If the text covered by a motion contains a newline it won't work.  Ack
 " searches line-by-line.
 
-nnoremap <silent> <C-^> :Ack! '\b<c-r>=expand("<cword>")<cr>\b'<cr>
-nnoremap <silent> <leader>* :Ack! '\b<c-r>=expand("<cword>")<cr>\b'<cr>
-vnoremap <silent> <leader>* :<C-U>call <SID>AckMotion(visualmode())<CR>
-xnoremap <silent> <leader>* :<C-U>call <SID>AckMotion(visualmode())<CR>
-
-nnoremap <silent> <localleader>* :Ack! '\b<c-r>=expand("<cword>")<cr>\b' %:h<CR>
-vnoremap <silent> <localleader>* :<C-U>call <SID>AckLocalMotion(visualmode())<CR>
-xnoremap <silent> <localleader>* :<C-U>call <SID>AckLocalMotion(visualmode())<CR>
+nnoremap <silent> <leader>a :set opfunc=<SID>OperatorAckGlobal<CR>g@
+xnoremap <silent> <leader>a :<C-U>call <SID>OperatorAckGlobal(visualmode())<CR>
+nnoremap <silent> <localleader>a :set opfunc=<SID>OperatorAckLocal<CR>g@
+xnoremap <silent> <localleader>a :<C-U>call <SID>OperatorAckLocal(visualmode())<CR>
 
 function! s:CopyMotionForType(type)
     if a:type ==# 'v'
@@ -2083,25 +2076,45 @@ function! s:CopyMotionForType(type)
     endif
 endfunction
 
-function! s:AckMotion(type) abort
+function! s:OperatorAck(type, add_word_boundaries, current_dir_only) abort
     let reg_save = @@
 
     call s:CopyMotionForType(a:type)
 
-    execute "normal! :Ack! --literal " . shellescape(@@) . "\<cr>"
+    let pattern = shellescape(@@)
+    if a:add_word_boundaries
+        let pattern = shellescape('\b'.@@.'\b')
+    endif
+
+    let location = ''
+    if a:current_dir_only
+        let location = expand('%:h')
+    endif
+
+    execute "normal! :Ack! " . pattern . " " . location . "\<cr>"
 
     let @@ = reg_save
 endfunction
 
-function! s:AckLocalMotion(type) abort
-    let reg_save = @@
-
-    call s:CopyMotionForType(a:type)
-
-    execute "normal! :Ack! --literal " . shellescape(@@) . " " . expand('%:h') . "\<cr>"
-
-    let @@ = reg_save
+function! s:OperatorAckGlobal(type, ...) abort
+    let add_word_boundaries = get(a:, 1, 1)
+    call s:OperatorAck(a:type, add_word_boundaries, 0)
 endfunction
+
+function! s:OperatorAckLocal(type, ...) abort
+    let add_word_boundaries = get(a:, 1, 1)
+    call s:OperatorAck(a:type, add_word_boundaries, 1)
+endfunction
+
+nnoremap <silent> <leader>* viw:<C-U>call <SID>OperatorAckGlobal(visualmode())<CR>
+xnoremap <silent> <leader>* :<C-U>call <SID>OperatorAckGlobal(visualmode())<CR>
+nnoremap <silent> g<leader>* viw:<C-U>call <SID>OperatorAckGlobal(visualmode(), 0)<CR>
+xnoremap <silent> g<leader>* :<C-U>call <SID>OperatorAckGlobal(visualmode(), 0)<CR>
+
+nnoremap <silent> <localleader>* viw:<C-U>call <SID>OperatorAckLocal(visualmode())<CR>
+xnoremap <silent> <localleader>* :<C-U>call <SID>OperatorAckLocal(visualmode())<CR>
+nnoremap <silent> g<localleader>* viw:<C-U>call <SID>OperatorAckLocal(visualmode(), 0)<CR>
+xnoremap <silent> g<localleader>* :<C-U>call <SID>OperatorAckLocal(visualmode(), 0)<CR>
 
 " }}}
 " Manual RegExp Folding {{{
@@ -2138,6 +2151,50 @@ endfunction
 
 function! RefreshManualRegexpFolding()
     call UpdateManualRegexpFolds()
+endfunction
+
+" }}}
+" Numbers {{{
+
+" Motion for numbers.  Great for CSS.  Lets you do things like this:
+"
+" margin-top: 200px; -> daN -> margin-top: px;
+"              ^                          ^
+" TODO: Handle floats.
+
+onoremap N :<c-u>call <SID>NumberTextObject(0)<cr>
+xnoremap N :<c-u>call <SID>NumberTextObject(0)<cr>
+onoremap aN :<c-u>call <SID>NumberTextObject(1)<cr>
+xnoremap aN :<c-u>call <SID>NumberTextObject(1)<cr>
+onoremap iN :<c-u>call <SID>NumberTextObject(1)<cr>
+xnoremap iN :<c-u>call <SID>NumberTextObject(1)<cr>
+
+function! s:NumberTextObject(whole)
+    let num = '\v[0-9]'
+
+    " If the current char isn't a number, walk forward.
+    while getline('.')[col('.') - 1] !~# num
+        normal! l
+    endwhile
+
+    " Now that we're on a number, start selecting it.
+    normal! v
+
+    " If the char after the cursor is a number, select it.
+    while getline('.')[col('.')] =~# num
+        normal! l
+    endwhile
+
+    " If we want an entire word, flip the select point and walk.
+    if a:whole
+        normal! o
+
+        while col('.') > 1 && getline('.')[col('.') - 2] =~# num
+            normal! h
+        endwhile
+
+        normal! o
+    endif
 endfunction
 
 " }}}
