@@ -358,6 +358,16 @@ noremap <C-k>  <C-w>k
 noremap <C-l>  <C-w>l
 noremap <leader>v <C-w>v
 
+if has('terminal')
+    " Exit terminal mode like, seamlessly
+    tnoremap <Esc> <C-\><C-N>
+    tnoremap <C-v><Esc> <Esc>
+
+    " Let C-W work as expected
+    tnoremap <C-W> <C-W>.
+    tnoremap <localleader>w <C-W>>
+endif
+
 " }}}
 " Highlight word {{{
 
