@@ -94,6 +94,7 @@ function create_dir {
                      ensure_link ".bashrc"                ".bashrc"
                      ensure_link ".bashrc_ion"            ".bashrc_ion"
                      ensure_link ".ctags"                 ".ctags"
+                     ensure_link ".editorconfig"          ".editorconfig"
                      ensure_link ".gitconfig"             ".gitconfig"
                      ensure_link ".gitignore_global"      ".gitignore_global"
                      ensure_link ".hgignore"              ".hgignore"

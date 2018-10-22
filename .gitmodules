@@ -182,3 +182,6 @@
 [submodule ".tmux-plugins/tmux-urlview"]
 	path = .tmux-plugins/tmux-urlview
 	url = https://github.com/tmux-plugins/tmux-urlview.git
+[submodule ".vim/pack/bundle/start/vim-editorconfig"]
+	path = .vim/pack/bundle/start/vim-editorconfig
+	url = https://github.com/sgur/vim-editorconfig.git

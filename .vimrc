@@ -589,7 +589,6 @@ augroup ft_css
 
     au BufNewFile,BufRead *.less setlocal filetype=less
 
-    au FileType less,css,scss setlocal ts=2 sw=2 sts=2
     au Filetype less,css,scss setlocal foldmethod=marker
     au Filetype less,css,scss setlocal foldmarker={,}
     au Filetype less,css,scss setlocal omnifunc=csscomplete#CompleteCSS
@@ -681,7 +680,6 @@ augroup ft_html
     au!
 
     au BufNewFile,BufRead *.html setlocal filetype=htmldjango
-    au FileType html,jinja,htmldjango setlocal ts=2 sw=2 sts=2
     au FileType html,jinja,htmldjango setlocal foldmethod=manual
     au FileType html,jinja,htmldjango EmmetInstall
 
@@ -763,15 +761,6 @@ augroup ft_gruntion
 augroup end
 
 " }}}
-" Jade {{{
-
-augroup ft_jade
-    au!
-
-    au FileType jade setlocal tabstop=2 shiftwidth=2 softtabstop=2
-augroup END
-
-" }}}
 " Java {{{
 
 augroup ft_java
@@ -799,8 +788,6 @@ augroup ft_java
     au FileType java silent! call RefreshManualRegexpFolding()
 
     au FileType java setlocal omnifunc=javacomplete#Complete
-    au FileType java setlocal tabstop=2 shiftwidth=2 softtabstop=2
-    au Filetype java setlocal textwidth=120
 
     au FileType java let b:rbpt_max=2
     au FileType java RainbowParenthesesActivate
@@ -861,8 +848,6 @@ augroup ft_javascript
     au FileType javascript silent! call RefreshManualRegexpFolding()
 
     au FileType javascript setlocal suffixesadd+=.js
-    au FileType javascript setlocal ts=2 sw=2 sts=2
-    au Filetype javascript setlocal textwidth=100
 
     au FileType javascript RainbowParenthesesActivate
     au syntax javascript RainbowParenthesesLoadRound
@@ -902,7 +887,6 @@ augroup END
 augroup ft_json
     au!
 
-    au FileType json setlocal ts=2 sw=2 sts=2
     au FileType json setlocal foldmethod=marker
     au FileType json setlocal foldmarker={,}
     au FileType json setlocal foldnestmax=2
@@ -1182,9 +1166,7 @@ augroup ft_scala
         call winrestview(view)
     endfunction
 
-    au FileType scala setlocal tabstop=2 shiftwidth=2 softtabstop=2
     au Filetype scala setlocal foldmethod=marker foldmarker={,}
-    au Filetype scala setlocal textwidth=100
     au Filetype scala nnoremap <buffer> <localleader>s mz:%!sort-scala-imports<cr>`z
     au Filetype scala nnoremap <buffer> M :call scaladoc#Search(expand("<cword>"))<cr>
     au Filetype scala vnoremap <buffer> M "ry:call scaladoc#Search(@r)<cr>
@@ -1248,7 +1230,6 @@ augroup ft_typescript
     au FileType typescript silent! call TurnOnTypescriptFolding()
     au FileType typescript silent! call RefreshManualRegexpFolding()
 
-    au FileType typescript setlocal ts=2 sw=2 sts=2
     au FileType typescript setlocal suffixesadd+=.ts
 
     au Filetype typescript nnoremap <buffer> <C-^> :TsuReferences<cr>zvzz
@@ -1320,7 +1301,6 @@ augroup END
 augroup ft_xml
     au!
 
-    au FileType xml setlocal ts=2 sw=2 sts=2
     au FileType xml setlocal foldmethod=manual
 
     " Use <localleader>f to fold the current tag.
@@ -1328,15 +1308,6 @@ augroup ft_xml
 
     " Indent tag
     au FileType xml nnoremap <buffer> <localleader>= Vat=
-augroup END
-
-" }}}
-" YAML {{{
-
-augroup ft_yaml
-    au!
-
-    au FileType yaml setlocal ts=2 sw=2 sts=2
 augroup END
 
 " }}}
@@ -1829,6 +1800,14 @@ let g:tsuquyomi_use_quickfix_for_references = 1
 let g:tsuquyomi_disable_quickfix = 1
 
 " }}}
+" vim-editorconfig {{{
+
+let g:editorconfig_verbose = 1
+let g:editorconfig_blacklist = {
+    \ 'filetype': ['git.*', 'fugitive'],
+    \ 'pattern': ['\.un~$']}
+
+" }}}
 " vim-goobook {{{
 
 let g:goobookprg="goobook"
@@ -1956,6 +1935,8 @@ if has('gui_running')
 endif
 
 " }}}
+" Plugins wannabe --------------------------------------------------------- {{{
+
 " Highlight Word {{{
 "
 " This mini-plugin provides a few mappings for highlighting words temporarily.
@@ -2225,5 +2206,7 @@ function! s:NumberTextObject(whole)
         normal! o
     endif
 endfunction
+
+" }}}
 
 " }}}
