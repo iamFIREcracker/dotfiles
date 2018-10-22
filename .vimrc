@@ -918,6 +918,17 @@ augroup END
 augroup ft_mail
     au!
 
+    function! EnableMailProfile() " {{{
+        let first_line = getline('1')
+        if first_line =~? '\vFrom:.*\<matteo\@matteolandi.net\>'
+            doautocmd User MailProfilePersonal
+        else
+            doautocmd User MailProfileWork
+        endif
+    endfunction " }}}
+    au FileType mail call EnableMailProfile()
+    au FileType mail setlocal nobackup noswapfile nowritebackup
+
     function! EnableFormatFlowed() " {{{ https://rinzewind.org/blog-en/2017/a-small-trick-for-sending-flowed-mail-in-mutt-with-vim.html
         setlocal textwidth=72
         setlocal formatoptions=watqc
@@ -925,8 +936,10 @@ augroup ft_mail
         setlocal nosmartindent
         match ErrorMsg '\s\+$'
     endfunction " }}}
-    au FileType mail call EnableFormatFlowed()
-    au FileType mail setlocal nobackup noswapfile nowritebackup
+    au User MailProfilePersonal call EnableFormatFlowed()
+    au User MailProfilePersonal let b:goobookprg='goobook'
+    au User MailProfileWork setlocal tw=0 wrap
+    au User MailProfileWork let b:goobookprg='aadbook'
 augroup END
 
 " }}}
@@ -1808,11 +1821,7 @@ let g:tsuquyomi_disable_quickfix = 1
 " }}}
 " vim-goobook {{{
 
-if has('win32unix')
-    let g:goobookprg="aadbook"
-else
-    let g:goobookprg="goobook"
-endif
+let g:goobookprg="goobook"
 
 " }}}
 " vim-Mocha {{{
