@@ -173,6 +173,9 @@
 [submodule ".vim/pack/bundle/start/vim-rhubarb"]
 	path = .vim/pack/bundle/start/vim-rhubarb
 	url = https://github.com/tpope/vim-rhubarb.git
+[submodule ".vim/pack/bundle/start/vim-parinfer"]
+	path = .vim/pack/bundle/start/vim-parinfer
+	url = https://github.com/bhurlow/vim-parinfer.git
 [submodule ".vim/pack/bundle/start/fzf"]
 	path = .vim/pack/bundle/start/fzf
 	url = https://github.com/junegunn/fzf.git
