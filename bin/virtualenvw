@@ -1,4 +1,4 @@
-if hash cygpath &2>/dev/null; then
+if hash cygpath 2> /dev/null; then
     "$(cygpath -u C:\\Python27\\Scripts\\virtualenv)" "$@"
 else
     virtualenv "$@"
