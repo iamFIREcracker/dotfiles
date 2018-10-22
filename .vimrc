@@ -339,7 +339,7 @@ nnoremap Vat vatV
 nnoremap Vab vabV
 nnoremap VaB vaBV
 
-"" Smarcase for */# -- and don't automatically jump around {{{
+" Smarcase for */# -- and don't automatically jump around {{{
 
 nnoremap * :let stay_star_view = winsaveview()<cr>/\<<C-R>=expand('<cword>')<CR>\><CR>:call winrestview(stay_star_view)<cr>
 nnoremap # :let stay_star_view = winsaveview()<cr>?\<<C-R>=expand('<cword>')<CR>\><CR>:call winrestview(stay_star_view)<cr>
@@ -358,6 +358,9 @@ noremap <C-k>  <C-w>k
 noremap <C-l>  <C-w>l
 noremap <leader>v <C-w>v
 
+" }}}
+" Some terminal mappings {{{
+
 if has('terminal')
     " Exit terminal mode like, seamlessly
     tnoremap <Esc> <C-\><C-N>
@@ -367,13 +370,6 @@ if has('terminal')
     tnoremap <C-W> <C-W>.
     tnoremap <localleader>w <C-W>>
 endif
-
-" }}}
-" Highlight word {{{
-
-nnoremap <silent> <leader>h1 :execute 'match InterestingWord1 /\<<c-r>=expand("<cword>")<cr>\>/'<cr>
-nnoremap <silent> <leader>h2 :execute '2match InterestingWord2 /\<<c-r>=expand("<cword>")<cr>\>/'<cr>
-nnoremap <silent> <leader>h3 :execute '3match InterestingWord3 /\<<c-r>=expand("<cword>")<cr>\>/'<cr>
 
 " }}}
 
@@ -1035,7 +1031,8 @@ augroup ft_plan
 
     au FileType plan setlocal wrap
     au FileType plan nnoremap <buffer> q :call CloseOnLast()<cr>
-    au FileType plan nnoremap <localleader>n o= <C-R>=strftime("%Y-%m-%d")<CR><CR>
+    au FileType plan nnoremap <localleader>n Go<CR>= <C-R>=strftime("%Y-%m-%d")<CR><CR>
+    au FileType plan nnoremap <localleader>o :silent lgrep '^\?' %<cr>:lopen<cr>:redraw!<cr>
 augroup END
 
 " }}}
@@ -1347,12 +1344,13 @@ augroup END
 " }}}
 " Quick editing ----------------------------------------------------------- {{{
 
+nnoremap <leader>eM :vsplit <C-R>=system('tempfile .')<left><left>
+nnoremap <leader>eR :vsplit ~/Dropbox/rest<cr>
 nnoremap <leader>eb :vsplit ~/dotfiles/.bashrc<cr>
 nnoremap <leader>eg :vsplit ~/dotfiles/.gitconfig<cr>
 nnoremap <leader>eh :vsplit ~/dotfiles/.hgrc<cr>
 nnoremap <leader>em :vsplit ~/.muttrc<cr>
-nnoremap <leader>eM :vsplit <C-R>=system('tempfile .')<left><left>
-nnoremap <leader>eR :vsplit ~/Dropbox/rest<cr>
+nnoremap <leader>ep :vsplit ~/.plan<cr>
 nnoremap <leader>et :vsplit ~/dotfiles/.tmux.conf<cr>
 nnoremap <leader>ev :vsplit ~/dotfiles/.vimrc<cr>
 
@@ -1780,6 +1778,18 @@ let g:projectionist_heuristics = {
     \   "roles/*/tasks/main.yml": {"type": "tasks"},
     \   "roles/*/templates/": {"type": "templates"},
     \   "roles/*/vars/": {"type": "vars"}
+    \ },
+    \ "pom.xml": {
+    \   "src/main/java/*.java": {
+    \     "alternate": "src/test/java/{}Test.java",
+    \     "type": "source"
+    \   },
+    \   "src/test/java/*Test.java": {
+    \     "alternate": "src/main/java/{}.java",
+    \     "type": "test"
+    \   },
+    \   "*.java": {"dispatch": "javac {file}" },
+    \   "*": {"make": "mvn"}
     \ }}
 
 " }}}

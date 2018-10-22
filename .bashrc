@@ -217,6 +217,7 @@ ej()  { vim $(tempfile .jira); }
 ek() { vim ~/my-env/Windows/AutoHotkey/KeyMappings.ahk; }
 em()  { vim ~/.muttrc; }
 es()  { vim ~/dotfiles/.slate; }
+eS()  { vim ~/.ssh/config; }
 et()  { vim ~/dotfiles/.tmux.conf; }
 ev()  { vim ~/dotfiles/.vimrc; }
 
