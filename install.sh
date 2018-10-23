@@ -77,15 +77,6 @@ function create_dir {
     fi
 )
 
-(
-    if ! which cargo 2>/dev/null; then
-        error "Missing command: cargo"
-    else
-        cd .vim/pack/bundle/start/parinfer-rust/
-        cargo build --release
-    fi
-)
-
                      ensure_dir ".gnupg"
 
                      ensure_link "bin"                    "bin"

@@ -368,7 +368,7 @@ if has('terminal')
 
     " Let C-W work as expected
     tnoremap <C-W> <C-W>.
-    tnoremap <localleader>w <C-W>>
+    tnoremap <localleader>w <C-W>
 endif
 
 " }}}
