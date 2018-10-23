@@ -364,11 +364,20 @@ noremap <leader>v <C-w>v
 if has('terminal')
     " Exit terminal mode like, seamlessly
     tnoremap <Esc> <C-\><C-N>
-    tnoremap <C-v><Esc> <Esc>
 
-    " Let C-W work as expected
-    tnoremap <C-W> <C-W>.
-    tnoremap <localleader>w <C-W>
+    " Easy buffer navigation
+    tnoremap <C-h>  <C-w>h
+    tnoremap <C-j>  <C-w>j
+    tnoremap <C-k>  <C-w>k
+    tnoremap <C-l>  <C-w>l
+
+    " Verbatim
+    tnoremap <C-v><Esc> <Esc>
+    tnoremap <C-v><C-h> <C-h>
+    tnoremap <C-v><C-j> <C-j>
+    tnoremap <C-v><C-k> <C-k>
+    tnoremap <C-v><C-l> <C-l>
+    tnoremap <C-v><C-w> <C-W>.
 endif
 
 " }}}
@@ -460,7 +469,7 @@ augroup ft_angular
     au!
 
     function! CheckIfAngularProject() " {{{
-        return filereadable(".angular-cli.json")
+        return filereadable(".angular-cli.json") || filereadable('angular.json')
     endfunction " }}}
     function! InitAngularMappings() " {{{
         nnoremap <localleader>Ns  :Dispatch! ng serve<cr>
@@ -766,8 +775,7 @@ augroup end
 augroup ft_java
     au!
     function! TurnOnJavaFolding() "{{{
-        " let modifier     = '%(public|private|protected)?\s*'
-        let modifier     = '%(public|private|protected)+\s*'
+        let modifier     = '%(public|private|protected)?\s*'
         let static       = '%(static\s*)?\s*'
         let returntype   = '%(,\s|\S)+\s*'
         let class        = modifier.'class%(\s+\S+)*\s*\{'
