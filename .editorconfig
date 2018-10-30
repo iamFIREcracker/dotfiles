@@ -11,10 +11,7 @@ tab_width = 2
 [*.java]
 max_line_length = 120
 
-[*.{js,ts}]
-max_line_length = 100
-
-[*.scala]
+[*.{js,scala,ts}]
 max_line_length = 100
 
 [Makefile]

@@ -135,8 +135,8 @@ augroup theme_customizations
 
     autocmd ColorScheme *
             \ syn match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$' |
-            \ hi NeomakeErrorSign ctermfg=red ctermbg=235 |
-            \ hi NeomakeWarningSign ctermfg=yellow ctermbg=235
+            \ hi NeomakeErrorSign ctermfg=196 ctermbg=232 guifg=#ff2c4b guibg=#141413 |
+            \ hi NeomakeWarningSign ctermfg=214 ctermbg=232 guifg=#ffa724 guibg=#141413
     autocmd ColorScheme goodwolf
             \ hi! link DiffAdd diffAdded |
             \ hi! link DiffDelete diffRemoved |
@@ -145,13 +145,15 @@ augroup theme_customizations
             \ hi! link shDerefSimple Comment |
             \ hi! link shDerefVar Comment |
             \ hi! link PreProc Comment |
+            \ hi! link javaScriptEmbed javaScriptStringT |
             \ call GoodWolfHL('DiffText', 'orange', 'deepergravel', 'none')
 augroup END
 
+let g:badwolf_darkgutter = 1
 colorscheme goodwolf
 
 " }}}
-" Auttogroups {{{
+" Autogroups {{{
 
 " Save when losing focus {{{
 
@@ -475,6 +477,7 @@ augroup ft_angular
         nnoremap <localleader>Ns  :Dispatch! ng serve<cr>
         nnoremap <localleader>Ngc :Dispatch ng generate component --spec false<space>
         nnoremap <localleader>Ngd :Dispatch ng generate directive --spec false<space>
+        nnoremap <localleader>Ngs :Dispatch ng generate service --spec false<space>
     endfunction " }}}
     au VimEnter *
                 \ if CheckIfAngularProject()
@@ -994,7 +997,9 @@ augroup ft_npm
                     \ })
     endfunction "}}}
     function! InitNpmMappings() " {{{
+        nnoremap <localleader>ni  :Dispatch npm install --save<space>
         nnoremap <localleader>nr  :Dispatch npm run<space>
+        nnoremap <localleader>nn  :Dispatch npm<space>
 
         nnoremap <silent> <localleader>O :call OpenNodeRepl()<cr>
     endfunction " }}}
@@ -1024,6 +1029,8 @@ augroup ft_plan
     au FileType plan setlocal wrap
     au FileType plan nnoremap <buffer> q :call CloseOnLast()<cr>
     au FileType plan nnoremap <localleader>n Go<CR>= <C-R>=strftime("%Y-%m-%d")<CR><CR>
+    au FileType plan inoremap <localleader>n = <C-R>=strftime("%Y-%m-%d")<CR><CR>
+    au FileType plan inoremap <C-v><localleader>n \n
     au FileType plan nnoremap <localleader>o :silent lgrep '^\?' %<cr>:lopen<cr>:redraw!<cr>
 augroup END
 
@@ -1214,7 +1221,7 @@ augroup ft_typescript
     function! TurnOnTypescriptFolding() "{{{
         let export       = '%(module\.)?export(s)?%(\.)?.*\{'
         let class        = 'class%(\s+\S+)*\s*\{'
-        let method       = '%(async )?%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
+        let method       = '%(async )?%(private )?%(%(get|set) )?%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
         let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
         let functiondec  = '%(async )?function%(\s+\S+)?\s*\([^)]*' . functionwrap
         let functiondef  = '%(%(const|var|let)\s)?\S+\s*\=\s*' . functiondec
@@ -1336,7 +1343,7 @@ nnoremap <leader>ev :vsplit ~/dotfiles/.vimrc<cr>
 " }}}
 " Quick reload ------------------------------------------------------------ {{{
 
-nnoremap <leader>sv :let stay_sourcevimrc_view = winsaveview()<cr>:source $MYVIMRC<cr>:call winrestview(stay_sourcevimrc_view)<cr>
+nnoremap <leader>sv :let stay_sourcevimrc_view = winsaveview()<cr>:source $MYVIMRC<cr>:e<cr>:call winrestview(stay_sourcevimrc_view)<cr>
 
 " }}}
 " Convenience mappings ---------------------------------------------------- {{{
@@ -1556,6 +1563,7 @@ nnoremap <silent> <c-w>f :vertical wincmd f<cr>
 
 " Ack {{{
 
+nnoremap <leader>A :Ack!<space>
 let g:ackprg = 'ag --vimgrep --hidden --smart-case --nogroup --nocolor --column'
 let g:ack_use_async = 1
 
