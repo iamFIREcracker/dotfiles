@@ -91,10 +91,6 @@
 [submodule ".vim/bundle/vimproc.vim"]
 	path = .vim/pack/bundle/start/vimproc.vim
 	url = https://github.com/Shougo/vimproc.vim.git
-[submodule ".vim/bundle/tsuquyomi"]
-	path = .vim/pack/bundle/start/tsuquyomi
-	url = git@github.com:iamFIREcracker/tsuquyomi.git
-	ignore = dirty
 [submodule ".vim/bundle/vim-less"]
 	path = .vim/pack/bundle/start/vim-less
 	url = https://github.com/genoma/vim-less.git
@@ -188,3 +184,6 @@
 [submodule ".vim/pack/bundle/start/vim-editorconfig"]
 	path = .vim/pack/bundle/start/vim-editorconfig
 	url = https://github.com/sgur/vim-editorconfig.git
+[submodule ".vim/pack/bundle/start/vim-lsp"]
+	path = .vim/pack/bundle/start/vim-lsp
+	url = git@github.com:iamFIREcracker/vim-lsp.git

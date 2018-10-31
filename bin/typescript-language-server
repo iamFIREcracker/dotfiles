@@ -1,0 +1,1 @@
+$(pwd)/node_modules/.bin/typescript-language-server "$@"

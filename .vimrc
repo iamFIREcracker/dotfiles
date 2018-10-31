@@ -136,7 +136,9 @@ augroup theme_customizations
     autocmd ColorScheme *
             \ syn match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$' |
             \ hi NeomakeErrorSign ctermfg=196 ctermbg=232 guifg=#ff2c4b guibg=#141413 |
-            \ hi NeomakeWarningSign ctermfg=214 ctermbg=232 guifg=#ffa724 guibg=#141413
+            \ hi NeomakeWarningSign ctermfg=214 ctermbg=232 guifg=#ffa724 guibg=#141413 |
+            \ hi link LspErrorText NeomakeErrorSign |
+            \ hi link LspWarningText NeomakeWarningSign
     autocmd ColorScheme goodwolf
             \ hi! link DiffAdd diffAdded |
             \ hi! link DiffDelete diffRemoved |
@@ -1247,13 +1249,13 @@ augroup ft_typescript
 
     au FileType typescript setlocal suffixesadd+=.ts
 
-    au Filetype typescript nnoremap <buffer> <C-^> :TsuReferences<cr>zvzz
-    au FileType typescript nnoremap <buffer> <silent> <C-]> :TsuDefinition<cr>zvzz
-    au FileType typescript nnoremap <buffer> <silent> gd :TsuDefinition<cr>zvzz
+    au Filetype typescript nnoremap <buffer> <C-^> :LspReferences<cr>
+    au FileType typescript nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
+    au FileType typescript nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
+    au FileType typescript nnoremap <buffer> <silent> ,S :LspRename<cr>
+    au FileType typescript nnoremap <buffer> <silent> ✠ :LspCodeAction<cr>
+    au FileType typescript setlocal omnifunc=lsp#complete
 
-    au FileType typescript nnoremap <buffer> <silent> ,S :TsuRenameSymbol<cr>
-
-    " Force omnicompletion (tsu's)
     au FileType typescript inoremap <c-n> <c-x><c-o>
 
     " Abbreviations {{{
@@ -1719,7 +1721,7 @@ let g:maven_ignore_globs = [
 let g:neomake_open_list = 0
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_javascript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
-let g:neomake_typescript_enabled_makers = ['tslint']
+let g:neomake_typescript_enabled_makers = []
 let g:neomake_typescript_tslint_exe = $PWD .'/node_modules/.bin/tslint'
 
 " autocmd! BufRead * Neomake
@@ -1807,15 +1809,6 @@ let g:rbpt_max = 1
 let g:tslime_ensure_trailing_newlines = 1
 
 " }}}
-" Tsuquyomi {{{
-
-let g:tsuquyomi_disable_default_mappings=1
-let g:tsuquyomi_use_dev_node_module=2
-let g:tsuquyomi_tsserver_path=$PWD .'/node_modules/.bin/tsserver'
-let g:tsuquyomi_use_quickfix_for_references = 1
-let g:tsuquyomi_disable_quickfix = 1
-
-" }}}
 " vim-editorconfig {{{
 
 let g:editorconfig_verbose = 1
@@ -1827,6 +1820,30 @@ let g:editorconfig_blacklist = {
 " vim-goobook {{{
 
 let g:goobookprg="goobook"
+
+" }}}
+" vim-lsp {{{
+
+
+let g:lsp_diagnostics_use_loclist = 1
+" let g:lsp_log_verbose = 1
+" let g:lsp_log_file = expand('~/vim-lsp.log')
+
+let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+
+let g:lsp_signs_error = {'text': '●'}
+let g:lsp_signs_warning = {'text': '●' }
+let g:lsp_signs_hint = {'text': '●' }
+
+if executable('typescript-language-server')
+  au User lsp_setup call lsp#register_server({
+        \ 'name': 'typescript-language-server',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
+        \ 'whitelist': ['typescript'],
+        \ })
+endif
 
 " }}}
 " vim-Mocha {{{
