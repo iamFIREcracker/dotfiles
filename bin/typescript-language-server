@@ -1,1 +1,12 @@
-$(pwd)/node_modules/.bin/typescript-language-server "$@"
+#!/usr/bin/env bash
+
+set -e
+
+TLS=~/opt/typescript-language-server/node_modules/.bin/typescript-language-server
+WD=$(pwd)
+
+if [ -f "$WD/node_modules/.bin/typescript-language-server" ]; then
+  TLS="$WD/node_modules/.bin/typescript-language-server"
+fi
+
+$TLS "$@"
