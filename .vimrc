@@ -2124,9 +2124,10 @@ function! s:OperatorAck(type, add_word_boundaries, current_dir_only) abort
 
     call s:CopyMotionForType(a:type)
 
-    let pattern = shellescape(@@)
+    let escaped = escape(@@, '#')
+    let pattern = shellescape(escaped)
     if a:add_word_boundaries
-        let pattern = shellescape('\b'.@@.'\b')
+        let pattern = shellescape('\b'.escaped.'\b')
     endif
 
     let location = ''
