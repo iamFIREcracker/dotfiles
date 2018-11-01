@@ -19,7 +19,7 @@ function! GetPlanFold(lnum)
 endfunction
 
 function! IndentLevel(lnum)
-    if getline(a:lnum) =~? '\v^\= '
+    if getline(a:lnum) =~? '\v^\# '
         return 0
     endif
     return 1

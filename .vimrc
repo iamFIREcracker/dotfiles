@@ -1030,8 +1030,8 @@ augroup ft_plan
 
     au FileType plan setlocal wrap
     au FileType plan nnoremap <buffer> q :call CloseOnLast()<cr>
-    au FileType plan nnoremap <localleader>n Go<CR>= <C-R>=strftime("%Y-%m-%d")<CR><CR>
-    au FileType plan inoremap <localleader>n = <C-R>=strftime("%Y-%m-%d")<CR><CR>
+    au FileType plan nnoremap <localleader>n Go<CR>= <C-R>#strftime("%Y-%m-%d")<CR><CR>
+    au FileType plan inoremap <localleader>n # <C-R>=strftime("%Y-%m-%d")<CR><CR>
     au FileType plan inoremap <C-v><localleader>n \n
     au FileType plan nnoremap <localleader>o :silent lgrep '^\?' %<cr>:lopen<cr>:redraw!<cr>
 augroup END
@@ -1254,6 +1254,7 @@ augroup ft_typescript
     au FileType typescript nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
     au FileType typescript nnoremap <buffer> <silent> ,S :LspRename<cr>
     au FileType typescript nnoremap <buffer> <silent> ✠ :LspCodeAction<cr>
+    au FileType typescript nnoremap <buffer> <silent> K :LspHover<cr>
     au FileType typescript setlocal omnifunc=lsp#complete
 
     au FileType typescript inoremap <c-n> <c-x><c-o>
