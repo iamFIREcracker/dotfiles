@@ -55,18 +55,6 @@ function create_dir {
 )
 
 (
-    if ! which npm 2>/dev/null; then
-        error "Missing command: npm"
-    else
-        cd .vim/pack/bundle/start/tsuquyomi/
-        test $FORCE -eq 1 && rm -rf node_modules
-        if [ ! -d node_modules ]; then
-            npm install
-        fi
-    fi
-)
-
-(
     if ! which mvn 2>/dev/null; then
         error "Missing command: mvn"
     elif ! which javac 2>/dev/null; then
