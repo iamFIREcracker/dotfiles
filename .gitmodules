@@ -15,7 +15,7 @@
 	url = https://github.com/rodjek/vim-puppet.git
 [submodule ".vim/bundle/rainbow_parentheses.vim"]
 	path = .vim/pack/bundle/start/rainbow_parentheses.vim
-	url = https://github.com/iamFIREcracker/rainbow_parentheses.vim.git
+	url = git@github.com:iamFIREcracker/rainbow_parentheses.vim.git
 [submodule ".vim/bundle/vim-surround"]
 	path = .vim/pack/bundle/start/vim-surround
 	url = https://github.com/tpope/vim-surround.git
@@ -123,7 +123,7 @@
 	url = https://github.com/neomake/neomake.git
 [submodule ".vim/bundle/vim-yankstack"]
 	path = .vim/pack/bundle/start/vim-yankstack
-	url = https://github.com/iamFIREcracker/vim-yankstack.git
+	url = git@github.com:iamFIREcracker/vim-yankstack.git
 [submodule ".vim/bundle/writegooder.vim"]
 	path = .vim/pack/bundle/start/writegooder.vim
 	url = https://github.com/JKirchartz/writegooder.vim.git
