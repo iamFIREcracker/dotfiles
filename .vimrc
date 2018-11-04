@@ -862,6 +862,16 @@ augroup ft_javascript
 
     au FileType javascript setlocal suffixesadd+=.js
 
+    au Filetype javascript nnoremap <buffer> <C-^> :LspReferences<cr>
+    au FileType javascript nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
+    au FileType javascript nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
+    au FileType javascript nnoremap <buffer> <silent> ,S :LspRename<cr>
+    au FileType javascript nnoremap <buffer> <silent> ✠ :LspCodeAction<cr>
+    au FileType javascript nnoremap <buffer> <silent> K :LspHover<cr>
+    au FileType javascript setlocal omnifunc=lsp#complete
+
+    au FileType javascript inoremap <c-n> <c-x><c-o>
+
     au FileType javascript RainbowParenthesesActivate
     au syntax javascript RainbowParenthesesLoadRound
     au syntax javascript RainbowParenthesesLoadSquare
@@ -1030,7 +1040,7 @@ augroup ft_plan
 
     au FileType plan setlocal wrap
     au FileType plan nnoremap <buffer> q :call CloseOnLast()<cr>
-    au FileType plan nnoremap <localleader>n Go<CR>= <C-R>#strftime("%Y-%m-%d")<CR><CR>
+    au FileType plan nnoremap <localleader>n Go<CR># <C-R>=strftime("%Y-%m-%d")<CR><CR><BS><BS>
     au FileType plan inoremap <localleader>n # <C-R>=strftime("%Y-%m-%d")<CR><CR>
     au FileType plan inoremap <C-v><localleader>n \n
     au FileType plan nnoremap <localleader>o :silent lgrep '^\?' %<cr>:lopen<cr>:redraw!<cr>
@@ -1258,6 +1268,11 @@ augroup ft_typescript
     au FileType typescript setlocal omnifunc=lsp#complete
 
     au FileType typescript inoremap <c-n> <c-x><c-o>
+
+    au FileType typescript RainbowParenthesesActivate
+    au syntax typescript RainbowParenthesesLoadRound
+    au syntax typescript RainbowParenthesesLoadSquare
+    au syntax typescript RainbowParenthesesLoadBrace
 
     " Abbreviations {{{
 
@@ -1720,7 +1735,7 @@ let g:maven_ignore_globs = [
 " Neomake {{{
 
 let g:neomake_open_list = 0
-let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_javascript_enabled_makers = []
 let g:neomake_javascript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
 let g:neomake_typescript_enabled_makers = []
 let g:neomake_typescript_tslint_exe = $PWD .'/node_modules/.bin/tslint'
@@ -1830,7 +1845,7 @@ let g:lsp_diagnostics_use_loclist = 1
 " let g:lsp_log_verbose = 1
 " let g:lsp_log_file = expand('~/vim-lsp.log')
 
-let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_signs_enabled = 1           " enable signs
 let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 
 let g:lsp_signs_error = {'text': '●'}
@@ -1840,9 +1855,17 @@ let g:lsp_signs_hint = {'text': '●' }
 if executable('typescript-language-server')
   au User lsp_setup call lsp#register_server({
         \ 'name': 'typescript-language-server',
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
+        \ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+        \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
         \ 'whitelist': ['typescript'],
+        \ })
+endif
+if executable('js-langserver')
+  au User lsp_setup call lsp#register_server({
+        \ 'name': 'js-langserver',
+        \ 'cmd': { server_info->[&shell, &shellcmdflag, 'js-langserver --stdio']},
+        \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.tern-project'))},
+        \ 'whitelist': ['javascript']
         \ })
 endif
 
