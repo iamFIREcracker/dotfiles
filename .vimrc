@@ -1735,12 +1735,12 @@ let g:maven_ignore_globs = [
 " Neomake {{{
 
 let g:neomake_open_list = 0
-let g:neomake_javascript_enabled_makers = []
+let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_javascript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
-let g:neomake_typescript_enabled_makers = []
+let g:neomake_typescript_enabled_makers = ['tslint']
 let g:neomake_typescript_tslint_exe = $PWD .'/node_modules/.bin/tslint'
 
-" autocmd! BufRead * Neomake
+autocmd! BufRead * Neomake
 autocmd! BufWritePost * Neomake
 
 let g:neomake_error_sign = {
@@ -1840,13 +1840,13 @@ let g:goobookprg="goobook"
 " }}}
 " vim-lsp {{{
 
-
-let g:lsp_diagnostics_use_loclist = 1
 " let g:lsp_log_verbose = 1
 " let g:lsp_log_file = expand('~/vim-lsp.log')
 
-let g:lsp_signs_enabled = 1           " enable signs
+let g:lsp_diagnostics_enabled = 0     " disable diagnostics
 let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+let g:lsp_diagnostics_use_loclist = 1 " use loc-list instead of quickfix for errors/warnings
+let g:lsp_signs_enabled = 1           " enable signs
 
 let g:lsp_signs_error = {'text': '●'}
 let g:lsp_signs_warning = {'text': '●' }
