@@ -631,6 +631,30 @@ augroup ft_css
 augroup END
 
 " }}}
+" DadBod {{{
+
+augroup ft_dadbod
+    au!
+
+    function! DadbodInit() abort
+        let line = getline(".")
+
+        if line =~ ';DB '
+            execute line[1:]
+            echo 'Loaded: ' . line[1:]
+        else
+            echohl ErrorMsg
+            echo 'Line not starting with `;DB `: ' . line
+            echohl NONE
+        endif
+    endfunction
+
+    au BufNewFile,BufRead *.db* nnoremap <buffer> <silent> <localleader>cc :call DadbodInit()<cr>
+    au BufNewFile,BufRead *.db* nmap <buffer> <silent> <C-S> vap:DB w:db<cr>
+    au BufNewFile,BufRead *.db* xmap <buffer> <silent> <C-S> :DB w:db<cr>
+augroup END
+
+" }}}
 " Diff {{{
 
 augroup ft_diff
@@ -884,6 +908,7 @@ augroup ft_javascript
     au FileType javascript call MakeSpacelessBufferIabbrev('afn',  'function(HERE)')
     au FileType javascript call MakeSpacelessBufferIabbrev('rt',   'return HERE;')
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log(HERE);')
+    au FileType javascript call MakeSpacelessBufferIabbrev('cerr', 'console.error(HERE);')
     au FileType javascript call MakeSpacelessBufferIabbrev('pclog', 'console.log(JSON.stringify(HERE,null,2));')
     au FileType javascript call MakeSpacelessBufferIabbrev('dolog', 'do(console.log)')
     au FileType javascript call MakeSpacelessBufferIabbrev('maplog', 'map(e => console.log(e) \|\| e)')
@@ -1302,7 +1327,7 @@ augroup ft_typescript
     au FileType typescript call MakeSpacelessBufferIabbrev('require', 'NOPENOPENOPE')
 
     au FileType typescript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
-    au FileType typescript call MakeSpacelessBufferIabbrev('console', 'NOPENOPENOPE')
+    au FileType javascript call MakeSpacelessBufferIabbrev('cerr', 'console.error(HERE);')
 
     " }}}
 augroup END

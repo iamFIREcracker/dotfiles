@@ -187,3 +187,6 @@
 [submodule ".vim/pack/bundle/start/vim-lsp"]
 	path = .vim/pack/bundle/start/vim-lsp
 	url = git@github.com:iamFIREcracker/vim-lsp.git
+[submodule ".vim/pack/bundle/start/vim-dadbod"]
+	path = .vim/pack/bundle/start/vim-dadbod
+	url = https://github.com/tpope/vim-dadbod.git
