@@ -71,7 +71,6 @@ function create_dir {
                      ensure_link ".agignore"              ".agignore"
                      ensure_link ".bash_profile"          ".bash_profile"
                      ensure_link ".bashrc"                ".bashrc"
-                     ensure_link ".bashrc_ion"            ".bashrc_ion"
                      ensure_link ".ctags"                 ".ctags"
                      ensure_link ".editorconfig"          ".editorconfig"
                      ensure_link ".gitconfig"             ".gitconfig"

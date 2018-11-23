@@ -280,9 +280,10 @@ call MakeSpacelessIabbrev('bbm/', 'http://bitbucket.org/iamFIREcracker/')
 call MakeSpacelessIabbrev('gh/',  'http://github.com/')
 call MakeSpacelessIabbrev('ghm/', 'http://github.com/iamFIREcracker/')
 
-inoreabbr ml@ matteo@matteolandi.net
+inoreabbr Mateo Matteo
 inoreabbr lenght length
 inoreabbr mainteinance maintainance
+inoreabbr ml@ matteo@matteolandi.net
 
 " }}}
 " Searching and movement -------------------------------------------------- {{{
@@ -1864,7 +1865,7 @@ let g:rbpt_max = 1
 
 let g:editorconfig_verbose = 1
 let g:editorconfig_blacklist = {
-    \ 'filetype': ['git.*', 'fugitive'],
+    \ 'filetype': ['git.*', 'fugitive', 'mail'],
     \ 'pattern': ['\.un~$']}
 
 " }}}
