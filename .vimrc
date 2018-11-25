@@ -1693,6 +1693,7 @@ let g:user_emmet_install_global = 0
 let g:fugitive_github_domains = []
 let g:fugitive_gitlab_domains = ['https://gitlabdev01.iontrading.com']
 
+nnoremap <leader>gcbb :!git cbb<cr>
 nnoremap <leader>gd :Shell git diff <C-R>=expand('%')<cr><cr>
 nnoremap <leader>gD :Shell git diff<cr>
 nnoremap <leader>gp :Gpush<cr>
