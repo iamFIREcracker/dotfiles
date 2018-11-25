@@ -27,5 +27,17 @@ highlight link planEntryContinuation String
 syntax match planEntryQuote        /\v^    .*/  containedin=planEntry contained
 highlight link planEntryQuote String
 
+syntax match planEntryNamedLink        /\v\[[^]]*]\([^)]*\)/  containedin=planEntry,planEntryCompleted contained
+highlight link planEntryNamedLink String
+
+syntax match planEntryUnamedLink        /\v\<[^>]+\>/  containedin=planEntry contained
+highlight link planEntryUnamedLink String
+
+syntax match planEntryUnamedLink        /\v\<[^>]+\>/  containedin=planEntry contained
+highlight link planEntryUnamedLink String
+
+syntax match planEntryInlineCode /\v`[^`]+`/ containedin=planEntry contained
+highlight link planEntryInlineCode String
+
 syntax region planEntryCode start=/\v```/ end=/\v```/ containedin=planEntry contained
 highlight link planEntryCode String
