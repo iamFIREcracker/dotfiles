@@ -367,7 +367,8 @@ noremap <leader>v <C-w>v
 
 if has('terminal')
     " Exit terminal mode like, seamlessly
-    tnoremap <Esc> <C-\><C-N>
+    " this completely fucks up REPLs..
+    " tnoremap <Esc> <C-\><C-N>
 
     " Easy buffer navigation
     tnoremap <C-h>  <C-w>h
@@ -593,6 +594,8 @@ augroup ft_commonlisp
     au FileType lisp nnoremap <buffer> <silent> <localleader>O :call OpenLispReplSBCL()<cr>
     au FileType lisp nmap <buffer> <silent> <C-S> <localleader>st
     au FileType lisp xmap <buffer> <silent> <C-S> <localleader>s
+
+    au FileType lisp nmap <buffer> <silent> K <localleader>ddo
 augroup END
 
 " }}}
