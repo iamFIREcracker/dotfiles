@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
 
 set -e
-NODE_NO_READLINE=1 rlwrap -I -m@ -M.js -a___ -O'^>' -pBLUE -q'"' node
+NODE_NO_READLINE=1 rlwrap \
+  --pass-sigint-as-sigterm \
+  --multi-line=@ \
+  --multi-line-ext .js \
+  --only-cook '^>' \
+  --prompt-colour=blue \
+  --quote-characters='"' \
+  --histsize 1000 \
+  --history-filename "$HOME/.rlwrap-node-history" \
+  -- node

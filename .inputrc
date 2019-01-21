@@ -20,7 +20,15 @@ set show-all-if-ambiguous on
 # Space:magic-space
 
 # Invoke $EDITOR while inside a rlwrap'd command
-"\C-o": rlwrap-call-editor
+$if sbcl
+  "\C-x\C-e": rlwrap-call-editor
+$endif
+$if python
+  "\C-x\C-e": rlwrap-call-editor
+$endif
+$if node
+  "\C-x\C-e": rlwrap-call-editor
+$endif
 
 # Pipe last command to fpp with C-P
 "\C-p": "!-1 | FPP_DISABLE_PREPENDING_HOME_WITH_SLASH=1 fpp\015"

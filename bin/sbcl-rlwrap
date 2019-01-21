@@ -1,3 +1,10 @@
 #!/usr/bin/env bash
 
-rlwrap --histsize 1000 --history-filename "$HOME/.rlwrap-lisp-history" -O '^\* ' -p BLUE -- ros -L sbcl run -l ~/.sbclrc -- --dynamic-space-size 4000 "$@"
+rlwrap \
+  --multi-line=@ \
+  --multi-line-ext .lisp \
+  --only-cook '^\*' \
+  --prompt-colour=blue \
+  --histsize 1000 \
+  --history-filename "$HOME/.rlwrap-lisp-history" \
+  -- sbcl --dynamic-space-size 4000 --load ~/.sbclrc "$@"

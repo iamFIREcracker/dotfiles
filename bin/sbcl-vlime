@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 set -e
-sbcl-rlwrap --eval "(load \"~/opt/vlime/lisp/start-vlime.lisp\")" "$@"
+sbcl-rlwrap --load "${HOME}/opt/vlime/lisp/start-vlime.lisp" "$@"
