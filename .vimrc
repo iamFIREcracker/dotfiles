@@ -2169,6 +2169,8 @@ function! s:CopyMotionForType(type)
         silent execute "normal! `<" . a:type . "`>y"
     elseif a:type ==# 'char'
         silent execute "normal! `[v`]y"
+    elseif a:type == 'line'
+        silent execute "normal! '[V']y"
     endif
 endfunction
 
@@ -2293,6 +2295,34 @@ function! s:NumberTextObject(whole)
         normal! o
     endif
 endfunction
+
+" }}}
+" SendToTerminal {{{
+
+function! s:ConnectToTerminal() abort
+
+endfunction
+
+function! s:SendToTerminal(data) abort
+    if g:stt_buffnr <= 0 || !bufexists(g:stt_buffnr)
+        echom "Error: No terminal"
+    else
+        let keys = substitute(a:data, '\n$', '', '')
+        call term_sendkeys(g:stt_buffnr, keys . "\<cr>")
+        echo "Sent " . len(keys) . " chars -> " . bufname(g:stt_buffnr)
+    endif
+endfunction
+
+function! s:SendSelectionToTerminal(type) abort
+    let reg_save = @@
+
+    call s:CopyMotionForType(a:type)
+    call s:SendToTerminal(@@)
+
+    let @@ = reg_save
+endfunction
+
+xnoremap <silent> <C-S> :<C-U>call <SID>SendSelectionToTerminal(visualmode())<CR>
 
 " }}}
 
