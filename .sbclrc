@@ -1,0 +1,5 @@
+(setf *print-escape* t
+      *print-circle* t
+      *print-pretty* t)
+
+(load "~/quicklisp/setup.lisp")
