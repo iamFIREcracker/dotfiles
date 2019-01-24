@@ -580,11 +580,47 @@ augroup ft_commonlisp
 
     function! SetLispWords() "{{{
         setlocal lispwords+=with-gensyms
-        setlocal lispwords+=once-only
+        setlocal lispwords+=define-problem
+        setlocal lispwords+=dorange
+        setlocal lispwords+=dovector
     endfunction "}}}
+
+    function! SelectToplevelLispForm() "{{{
+        execute "normal 99[(v%"
+    endfunction "}}}
+
+    function! SelectLispExpression() "{{{
+        execute "normal [(v%"
+    endfunction "}}}
+
+    function! IndentToplevelLispForm() "{{{
+      let view = winsaveview()
+
+      call SelectToplevelLispForm()
+      execute "normal! ="
+
+      call winrestview(view)
+    endfunction "}}}
+
+    au FileType lisp call SetLispWords()
+
+    au FileType lisp setlocal iskeyword+=!,?,%,-
+
+    " Weirdly, you have to set nolisp for (the correctly working) indentexpr to work.
+    " If lisp (the vim option) is set, then it overrules indentexpr.
+    " Since an indentexpr is set by vlime (and working!) it would be great to add nolisp to the default configuration, I guess.
+    " https://github.com/l04m33/vlime/issues/26#issuecomment-343761050
+    au FileType lisp setlocal nolisp
 
     au FileType lisp RainbowParenthesesActivate
     au syntax lisp RainbowParenthesesLoadRound
+
+    " Fix windows:
+    " - <c-w>j: select window below -- Vlime Connection
+    " - <c-w>J: move it to the far bottom (and expand horizontally)
+    " - <c-w>k: select window above --  the actual lisp buffer
+    " - <c-w>H: move it to the far right (and expand vertically)
+    au FileType lisp nnoremap <buffer> <localleader>W <c-w>j<c-w>J<c-w>k<c-w>H
 
     au FileType lisp let b:delimitMate_quotes = "\""
 
@@ -592,6 +628,7 @@ augroup ft_commonlisp
     au FileType lisp inoremap <c-n> <c-x><c-o>
 
     au FileType lisp nnoremap <buffer> <silent> <localleader>O :call OpenLispReplSBCL()<cr>
+    au FileType lisp nnoremap <buffer> <silent> gI :call IndentToplevelLispForm()<cr>
     au FileType lisp nmap <buffer> <silent> <C-S> <localleader>st
     au FileType lisp xmap <buffer> <silent> <C-S> <localleader>s
 
