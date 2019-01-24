@@ -687,25 +687,6 @@ augroup ft_diff
 augroup END
 
 " }}}
-" Erlang {{{
-
-augroup ft_erlang
-    au!
-
-    " Send to tmux with localleader e
-    au FileType erlang nnoremap <buffer> <silent> <localleader>e :let erlang_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(erlang_tslime_view)<cr>
-
-    " Abbreviations {{{
-
-    au FileType erlang call MakeSpacelessBufferIabbrev('mod',  '-module().<left><left>')
-    au FileType erlang call MakeSpacelessBufferIabbrev('cpl',  '-compile().<left><left>')
-    au FileType erlang call MakeSpacelessBufferIabbrev('rec',  'receive<cr>end.<up><end>')
-    au FileType erlang call MakeSpacelessBufferIabbrev('aft',  'after  -><left><left><left>')
-
-    " }}}
-augroup END
-
-" }}}
 " Eslintrc {{{
 
 augroup ft_eslintrc
@@ -1108,9 +1089,6 @@ augroup ft_python
     " override this in a normal way, could you?
     au FileType python if exists("python_space_error_highlight") | unlet python_space_error_highlight | endif
 
-    " Send to tmux with localleader e
-    au FileType python nnoremap <buffer> <silent> <localleader>e :let python_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(python_tslime_view)<cr>
-
     au FileType python let b:delimitMate_nesting_quotes = ['"']
 
     function! OpenPythonRepl() "{{{
@@ -1178,26 +1156,6 @@ augroup ft_rst
 augroup END
 
 " }}}
-" Robot {{{
-
-augroup ft_robot
-    au!
-
-    au FileType robot setlocal noexpandtab
-
-augroup END
-
-" }}}
-" Ruby {{{
-
-augroup ft_ruby
-    au!
-
-    " Send to tmux with localleader e
-    au FileType ruby nnoremap <buffer> <silent> <localleader>e :let ruby_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(ruby_tslime_view)<cr>
-augroup END
-
-" }}}
 " Scala {{{
 augroup ft_scala
     au!
@@ -1227,20 +1185,6 @@ augroup ft_scala
     au Filetype scala vnoremap <buffer> M "ry:call scaladoc#Search(@r)<cr>
     au Filetype scala nnoremap <buffer> <localleader>t :call DispatchMavenTest()<cr>
     ")]
-augroup END
-
-" }}}
-" SQL {{{
-
-augroup ft_sql
-    au!
-
-    au FileType sql setlocal foldmethod=marker
-    au FileType sql setlocal foldmarker={{{,}}}
-    "
-    " Send to tmux with localleader e
-    au FileType sql nnoremap <buffer> <silent> <localleader>e :let sql_tslime_view = winsaveview()<cr>vip"ry:call SendToTmux(@r)<cr>:call winrestview(sql_tslime_view)<cr>
-
 augroup END
 
 " }}}
@@ -1497,12 +1441,8 @@ nnoremap <c-w>qa :qa<cr>
 nnoremap <leader>! :w !sudo tee %
 
 " Select (charwise) the contents of the current line, excluding indentation.
-" " Great for pasting Python lines into REPLs.
+" Great for pasting Python lines into REPLs.
 nnoremap vv ^vg_
-
-" TSlime general
-nmap <silent> <localleader>E <Plug>SetTmuxVars
-vmap <silent> <localleader>e <Plug>SendSelectionToTmux
 
 " Diff mode
 nnoremap <localleader>d :windo diffthis<cr>
@@ -1919,7 +1859,7 @@ let g:vrc_include_response_header = 1
 let g:vrc_resolve_to_ipv4 = 1
 let g:vrc_ssl_secure = 1
 let g:vrc_allow_get_request_body = 1
-let g:vrc_trigger = '<localleader>e'
+let g:vrc_trigger = '<C-S>'
 
 augroup ft_restresponse
     au!
@@ -2299,21 +2239,16 @@ endfunction
 " }}}
 " SendToTerminal {{{
 
-function! s:ConnectToTerminal() abort
-
-endfunction
-
 function! s:SendToTerminal(data) abort
     if g:stt_buffnr <= 0 || !bufexists(g:stt_buffnr)
-        echom "Error: No terminal"
+        error "No terminal selected"
     else
         let keys = substitute(a:data, '\n$', '', '')
         call term_sendkeys(g:stt_buffnr, keys . "\<cr>")
-        echo "Sent " . len(keys) . " chars -> " . bufname(g:stt_buffnr)
     endif
 endfunction
 
-function! s:SendSelectionToTerminal(type) abort
+function! SendSelectionToTerminal(type) abort
     let reg_save = @@
 
     call s:CopyMotionForType(a:type)
@@ -2322,7 +2257,8 @@ function! s:SendSelectionToTerminal(type) abort
     let @@ = reg_save
 endfunction
 
-xnoremap <silent> <C-S> :<C-U>call <SID>SendSelectionToTerminal(visualmode())<CR>
+nnoremap \cc :buffers<CR>:let g:stt_buffnr=
+xnoremap <silent> <C-S> :<C-U>call SendSelectionToTerminal(visualmode())<CR>
 
 " }}}
 

@@ -94,9 +94,6 @@
 [submodule ".vim/bundle/vim-less"]
 	path = .vim/pack/bundle/start/vim-less
 	url = https://github.com/genoma/vim-less.git
-[submodule ".vim/bundle/vim-erlang-omnicomplete"]
-	path = .vim/pack/bundle/start/vim-erlang-omnicomplete
-	url = https://github.com/vim-erlang/vim-erlang-omnicomplete.git
 [submodule ".vim/bundle/splice.vim"]
 	path = .vim/pack/bundle/start/splice.vim
 	url = https://github.com/sjl/splice.vim.git
@@ -136,9 +133,6 @@
 [submodule ".vim/bundle/commentary.vim"]
 	path = .vim/pack/bundle/start/commentary.vim
 	url = https://github.com/tpope/vim-commentary.git
-[submodule ".vim/pack/plugins/start/tslime.vim"]
-	path = .vim/pack/bundle/start/tslime.vim
-	url = https://github.com/jgdavey/tslime.vim
 [submodule ".vim/bundle/vim-javacomplete2"]
 	path = .vim/pack/bundle/start/vim-javacomplete2
 	url = https://github.com/artur-shaik/vim-javacomplete2.git
