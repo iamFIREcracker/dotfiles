@@ -1118,7 +1118,7 @@ augroup END
 augroup ft_python
     au!
 
-    let b:tslime_ensure_trailing_newlines = 2
+    let b:stt_trailing_new_lines = 2
 
     au FileType python setlocal define=^\s*\\(def\\\\|class\\)
 
@@ -1127,6 +1127,10 @@ augroup ft_python
     au FileType python if exists("python_space_error_highlight") | unlet python_space_error_highlight | endif
 
     au FileType python let b:delimitMate_nesting_quotes = ['"']
+
+    au FileType python nmap \cc <Plug>ConnectToTerminal
+    au FileType python nmap <C-S> vap<Plug>SendSelectionToTerminal
+    au FileType python xmap <C-S> <Plug>SendSelectionToTerminal
 
     function! OpenPythonRepl() "{{{
         call term_start("bash -c python-rlwrap", {
@@ -1826,11 +1830,6 @@ let g:pymode_syntax_builtin_objs = 1
 let g:rbpt_max = 1
 
 " }}}
-" tslime {{{
-
-let g:tslime_ensure_trailing_newlines = 1
-
-" }}}
 " vim-editorconfig {{{
 
 let g:editorconfig_verbose = 1
@@ -2144,10 +2143,10 @@ xnoremap <silent> <localleader>a :<C-U>call <SID>OperatorAckLocal(visualmode())<
 function! s:CopyMotionForType(type)
     if a:type ==# 'v'
         silent execute "normal! `<" . a:type . "`>y"
+    elseif a:type ==# 'V'
+        silent execute "normal! `<" . a:type . "`>y"
     elseif a:type ==# 'char'
         silent execute "normal! `[v`]y"
-    elseif a:type == 'line'
-        silent execute "normal! '[V']y"
     endif
 endfunction
 
@@ -2276,16 +2275,30 @@ endfunction
 " }}}
 " SendToTerminal {{{
 
+let g:stt_trailing_new_lines = 1
+
 function! s:SendToTerminal(data) abort
     if g:stt_buffnr <= 0 || !bufexists(g:stt_buffnr)
         error "No terminal selected"
     else
         let keys = substitute(a:data, '\n$', '', '')
-        call term_sendkeys(g:stt_buffnr, keys . "\<cr>")
+
+        if exists('b:stt_trailing_new_lines')
+          let trailing_new_lines = b:stt_trailing_new_lines
+        elseif exists('g:stt_trailing_new_lines')
+          let trailing_new_lines = g:stt_trailing_new_lines
+        endif
+
+        while trailing_new_lines > 0
+          let keys = keys . "\<CR>"
+          let trailing_new_lines = trailing_new_lines - 1
+        endwhile
+
+        call term_sendkeys(g:stt_buffnr, keys)
     endif
 endfunction
 
-function! SendSelectionToTerminal(type) abort
+function! s:SendSelectionToTerminal(type) abort
     let reg_save = @@
 
     call s:CopyMotionForType(a:type)
@@ -2294,8 +2307,8 @@ function! SendSelectionToTerminal(type) abort
     let @@ = reg_save
 endfunction
 
-nnoremap \cc :buffers<CR>:let g:stt_buffnr=
-xnoremap <silent> <C-S> :<C-U>call SendSelectionToTerminal(visualmode())<CR>
+nnoremap <expr> <Plug>ConnectToTerminal ':buffers<CR>:let g:stt_buffnr='
+xnoremap <expr> <Plug>SendSelectionToTerminal ':<C-U>call <SID>SendSelectionToTerminal(visualmode())<CR>'
 
 " }}}
 
