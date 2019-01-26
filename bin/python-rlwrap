@@ -9,5 +9,5 @@ NODE_NO_READLINE=1 rlwrap \
   --prompt-colour=blue \
   --quote-characters='"' \
   --histsize 1000 \
-  --history-filename "$HOME/.rlwrap-node-history" \
+  --history-filename "$HOME/.rlwrap-python-history" \
   -- python
