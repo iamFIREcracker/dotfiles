@@ -571,6 +571,9 @@ augroup END
 augroup ft_commonlisp
     au!
 
+    au BufNewFile,BufRead *.sbclrc setlocal filetype=lisp
+    au BufNewFile,BufRead *.asd setlocal filetype=lisp
+
     function! OpenLispReplSBCL() "{{{
         call term_start("bash -c sbcl-vlime", {
             \ "term_finish": "close",
@@ -602,6 +605,23 @@ augroup ft_commonlisp
       call winrestview(view)
     endfunction "}}}
 
+    function! QuickloadLispSystem() " {{{
+        let systems = split(system('ls -1 *.asd | grep -v test | cut -d. -f1 | uniq')) " its fine
+        if len(systems) == 0
+            echom "Could not find any .asd files..."
+            return
+        elseif len(systems) > 1
+            echom "Found too many any .asd files..."
+            return
+        endif
+
+        call SendToTerminal("(ql:quickload :" . systems[0] . ")\n")
+    endfunction " }}}
+
+    function! QuickloadLispPrompt() " {{{
+        call SendToTerminal("(ql:quickload :" . input("? ") . ")\n")
+    endfunction " }}}
+
     au FileType lisp call SetLispWords()
 
     au FileType lisp setlocal iskeyword+=!,?,%,-
@@ -629,6 +649,9 @@ augroup ft_commonlisp
 
     au FileType lisp nnoremap <buffer> <silent> <localleader>O :call OpenLispReplSBCL()<cr>
     au FileType lisp nnoremap <buffer> <silent> gI :call IndentToplevelLispForm()<cr>
+    au FileType lisp nnoremap <buffer> <silent> <localleader>q :call QuickloadLispSystem()<cr>
+    au FileType lisp nnoremap <buffer> <silent> <localleader>Q :call QuickloadLispPrompt()<cr>
+
     au FileType lisp nmap <buffer> <silent> <C-S> <localleader>st
     au FileType lisp xmap <buffer> <silent> <C-S> <localleader>s
 
@@ -2277,9 +2300,19 @@ endfunction
 
 let g:stt_trailing_new_lines = 1
 
-function! s:SendToTerminal(data) abort
-    if g:stt_buffnr <= 0 || !bufexists(g:stt_buffnr)
-        error "No terminal selected"
+function! s:FindTerminal() abort
+    let terminals = filter(range(1, bufnr('$')), "getbufvar(v:val, '&buftype') == 'terminal'")
+    if len(terminals) > 0
+      let g:stt_buffnr = terminals[0]
+      return g:stt_buffnr
+    endif
+endfunction
+
+function! SendToTerminal(data) abort
+    if !exists('g:stt_buffnr') && !s:FindTerminal()
+        echom "No terminal selected"
+    elseif !bufexists(g:stt_buffnr)
+        echom "Terminal buffer does not exist: " . g:stt_buffnr
     else
         let keys = substitute(a:data, '\n$', '', '')
 
@@ -2302,7 +2335,7 @@ function! s:SendSelectionToTerminal(type) abort
     let reg_save = @@
 
     call s:CopyMotionForType(a:type)
-    call s:SendToTerminal(@@)
+    call SendToTerminal(@@)
 
     let @@ = reg_save
 endfunction
