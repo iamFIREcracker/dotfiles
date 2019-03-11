@@ -1,0 +1,11 @@
+# ~/.tmuxinator/aoc.yml
+
+name: aoc
+root: ~/Workspace/adventofcode/
+
+windows:
+  - root:
+      layout: main-vertical
+      root: ~/Workspace/adventofcode/
+      panes:
+        - vim package.lisp

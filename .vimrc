@@ -584,6 +584,8 @@ augroup ft_commonlisp
     function! SetLispWords() "{{{
         setlocal lispwords+=with-gensyms
         setlocal lispwords+=define-problem
+        setlocal lispwords+=recursively
+        setlocal lispwords+=gathering
         setlocal lispwords+=dorange
         setlocal lispwords+=dovector
     endfunction "}}}
@@ -625,6 +627,7 @@ augroup ft_commonlisp
     au FileType lisp call SetLispWords()
 
     au FileType lisp setlocal iskeyword+=!,?,%,-
+    au FileType lisp setlocal suffixesadd+=.lisp
 
     " Weirdly, you have to set nolisp for (the correctly working) indentexpr to work.
     " If lisp (the vim option) is set, then it overrules indentexpr.
@@ -651,6 +654,9 @@ augroup ft_commonlisp
     au FileType lisp nnoremap <buffer> <silent> gI :call IndentToplevelLispForm()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>q :call QuickloadLispSystem()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>Q :call QuickloadLispPrompt()<cr>
+    au FileType lisp nnoremap <buffer> <silent> <localleader>s :call SendBuffer()<cr>
+    au FileType lisp nmap gs :call SelectToplevelLispForm()<CR><Plug>SendSelectionToTerminal
+    au FileType lisp xmap gs <Plug>SendSelectionToTerminal
 
     au FileType lisp nmap <buffer> <silent> <C-S> <localleader>st
     au FileType lisp xmap <buffer> <silent> <C-S> <localleader>s
@@ -1526,6 +1532,7 @@ nnoremap <silent> gw :ArgWrap<cr>
 
 " Go back to the previous edited file with backspace
 nnoremap <BS> <C-^>
+nnoremap <C-^> <Nop>
 
 "JSON prettify mappings
 nnoremap <leader>J :%!python -m json.tool<cr>
@@ -2340,8 +2347,15 @@ function! s:SendSelectionToTerminal(type) abort
     let @@ = reg_save
 endfunction
 
+function! s:ClearSendToTerminalConnection() abort
+    if exists('g:stt_buffnr')
+      unlet g:stt_buffnr
+    endif
+endfunction
+
 nnoremap <expr> <Plug>ConnectToTerminal ':buffers<CR>:let g:stt_buffnr='
 xnoremap <expr> <Plug>SendSelectionToTerminal ':<C-U>call <SID>SendSelectionToTerminal(visualmode())<CR>'
+command! STTClear call s:ClearSendToTerminalConnection()
 
 " }}}
 
