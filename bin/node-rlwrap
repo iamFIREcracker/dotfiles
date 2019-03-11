@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
 NODE_NO_READLINE=1 rlwrap \
   --pass-sigint-as-sigterm \
   --multi-line=@ \
