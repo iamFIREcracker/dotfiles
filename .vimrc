@@ -1047,7 +1047,7 @@ augroup ft_mvn
         return filereadable("pom.xml") && !filereadable('package.json')
     endfunction " }}}
     function! InitMvnMappings() " {{{
-        nnoremap <localleader>m  :Dispatch mvn -B <space>
+        nnoremap <localleader>m  :Dispatch mvn -B<space>
     endfunction " }}}
     au VimEnter *
                 \ if CheckIfMvnProject()
