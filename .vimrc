@@ -583,6 +583,7 @@ augroup ft_commonlisp
     endfunction "}}}
 
     function! SetLispWords() "{{{
+        setlocal lispwords+=define-modify-macro
         setlocal lispwords+=with-gensyms
         setlocal lispwords+=define-problem
         setlocal lispwords+=recursively
@@ -1466,7 +1467,8 @@ function! g:FuckingCopyAllTheTextPlease()
     call winrestview(view)
 endfunction
 
-vnoremap <leader>y :<c-u>call g:FuckingCopyTheTextPlease()<cr>
+xnoremap <leader>y :<c-u>call g:FuckingCopyTheTextPlease()<cr>
+xmap <leader>d <leader>y<leader>Vd
 nnoremap <leader>y VV:<c-u>call g:FuckingCopyTheTextPlease()<cr>
 nnoremap <leader>Y :<c-u>call g:FuckingCopyAllTheTextPlease()<cr>
 
@@ -1479,6 +1481,7 @@ function! g:FuckingPasteTheTextPlease()
 endfunction
 
 nnoremap <leader>p :<c-u>call g:FuckingPasteTheTextPlease()<cr><leader>V=
+nnoremap <leader>P O<esc>:<c-u>call g:FuckingPasteTheTextPlease()<cr><leader>V=
 
 " Select pasted stuff
 nnoremap <leader>V V`]
@@ -1554,6 +1557,10 @@ nnoremap <silent> <down> :lnext<CR>zvzz
 " Folds
 nnoremap <silent> [z zMzkzvzz
 nnoremap <silent> ]z zMzjzvzz
+
+" Macros
+nnoremap Q @q
+nnoremap <Leader>q :let @t = 'let @q = "' . @q<CR>:<C-f>o<ESC>"tp$a"<Esc>
 
 " Open to the selected URL {{{
 
