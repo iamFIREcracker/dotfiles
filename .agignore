@@ -1,7 +1,8 @@
-tags.*
-.*\.log
-.*\.min\.js
-.*\.js\.map
+/tags/
+*\.log
+*\.min\.js
+*\.js\.map
+*\.orig
 build
 dist
 obj

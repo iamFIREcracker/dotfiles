@@ -938,6 +938,9 @@ augroup ft_javascript
 
     au FileType javascript setlocal suffixesadd+=.js
 
+    au FileType javascript nmap \cc <Plug>ConnectToTerminal
+    au FileType javascript nmap <C-S> vap<Plug>SendSelectionToTerminal
+    au FileType javascript xmap <C-S> <Plug>SendSelectionToTerminal
     au Filetype javascript nnoremap <buffer> <C-^> :LspReferences<cr>
     au FileType javascript nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
     au FileType javascript nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
@@ -961,7 +964,7 @@ augroup ft_javascript
     au FileType javascript call MakeSpacelessBufferIabbrev('rt',   'return HERE;')
     au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log(HERE);')
     au FileType javascript call MakeSpacelessBufferIabbrev('cerr', 'console.error(HERE);')
-    au FileType javascript call MakeSpacelessBufferIabbrev('pclog', 'console.log(JSON.stringify(HERE,null,2));')
+    au FileType javascript call MakeSpacelessBufferIabbrev('pclog', 'console.log(JSON.stringify(HERE, null, 2));')
     au FileType javascript call MakeSpacelessBufferIabbrev('dolog', 'do(console.log)')
     au FileType javascript call MakeSpacelessBufferIabbrev('maplog', 'map(e => console.log(e) \|\| e)')
     au FileType javascript call MakeSpacelessBufferIabbrev('thenlog', 'then(e => console.log(e) \|\| e)')

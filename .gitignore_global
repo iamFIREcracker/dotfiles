@@ -6,7 +6,7 @@
 
 # Tag files
 ###########
-tags
+/tags/
 
 # Electron
 *-darwin-x64

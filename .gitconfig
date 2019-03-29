@@ -60,7 +60,8 @@
         git com && git up && git mo \"${@}\" && git push && git push origin :\"${@}\" && git bd \"${@}\";\
     }; f"
 
-    peek = "!f() { git fetch && git diff HEAD..FETCH_HEAD | vim -c 'set ft=diff' -R -; }; f"
+    peek = "!f() { git fetch && git log HEAD..FETCH_HEAD; }; f"
+    peekd = "!f() { git fetch && git diff HEAD..FETCH_HEAD | vim -c 'set ft=diff' -R -; }; f"
     pretty-log = "!f() { \
         if [ \"$(git currentbranch)\" != \"master\" ]; then \
             args=master..; \
