@@ -70,7 +70,6 @@ export HISTCONTROL=erasedups
 export HISTSIZE=10000
 export EDITOR="vim"
 export PAGER="/usr/bin/less"
-export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu nornu noma' -\""
 export HGEDITOR="~/bin/hgeditor"
 export BROWSER=br
 
