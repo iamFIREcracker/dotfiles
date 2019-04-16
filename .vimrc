@@ -587,6 +587,7 @@ augroup ft_commonlisp
         setlocal lispwords+=with-gensyms
         setlocal lispwords+=define-problem
         setlocal lispwords+=recursively
+        setlocal lispwords+=-><
         setlocal lispwords+=gathering
         setlocal lispwords+=dorange
         setlocal lispwords+=dovector
@@ -1993,6 +1994,12 @@ let g:vlime_window_settings = {
         \ }
     \ }
 
+augroup CustomVlimeInputBuffer
+    autocmd!
+    autocmd FileType vlime_input inoremap <silent> <buffer> <tab> <c-r>=vlime#plugin#VlimeKey("tab")<cr>
+    autocmd FileType vlime_input setlocal omnifunc=vlime#plugin#CompleteFunc
+    autocmd FileType vlime_input setlocal indentexpr=vlime#plugin#CalcCurIndent()
+augroup end
 
 " }}}
 " Writegooder {{{
