@@ -162,7 +162,7 @@ colorscheme goodwolf
 augroup auto_save
     au!
 
-    au FocusLost * :wa
+    au FocusLost * :silent wa
 augroup END
 
 " }}}
