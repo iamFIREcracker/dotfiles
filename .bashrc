@@ -26,10 +26,10 @@ if [[ $- == *i* ]]; then
 fi
 
 # Avoid duplicate entries
-HISTCONTROL="erasedups:ignoreboth"
+HISTCONTROL="erasedups:ignoreboth:ignorespace"
 
 # Don't record some commands
-export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:hs:clear:*fpp"
+export HISTIGNORE="&:exit:ls:bg:fg:history:hs:clear:*fpp"
 
 # Use standard ISO 8601 timestamp
 # %F equivalent to %Y-%m-%d

@@ -74,7 +74,7 @@ macro index,pager <up>     '<sidebar-prev><sidebar-open>' "Prev mailbox (and ope
 # bind index,pager <right>  sidebar-open
 
 set mail_check_stats
-set sidebar_format = "%B %> %S "
+set sidebar_format = "%B %> %N/%S "
 
 # }}}
 # Status Bar {{{
