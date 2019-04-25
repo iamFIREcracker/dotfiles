@@ -1937,6 +1937,7 @@ let g:vrc_resolve_to_ipv4 = 1
 let g:vrc_ssl_secure = 1
 let g:vrc_allow_get_request_body = 1
 let g:vrc_trigger = '<C-S>'
+let g:vrc_horizontal_split = 1
 
 augroup ft_restresponse
     au!

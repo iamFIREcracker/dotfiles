@@ -202,24 +202,25 @@ function ${wrapper_name}() {
 
 # Quick editing {{{ 
 
-eb()  { vim ~/dotfiles/.bashrc; }
-eb1() { vim ~/my-env/opt/bunny1/b1_custom.py; }
+eD()  { vim ${DB_SCRIPTS_DIR}; }
 eJ()  { vim ~/journal/$(date '+%Y-%m').md; }
 eM()  { vim $(tempfile "$@" ); }
-eR()  { vim ~/Dropbox/rest; }
+eP()  { vim ${PLAN_DIR}; }
+eR()  { vim ${REST_SCRIPTS_DIR}; }
+eS()  { vim ~/.ssh/config; }
 eT()  { vim ~/.tmuxinator/$(tmux display-message -p '#S').yml; }
 eV()  { vim ~/dotfiles/.vimperatorrc; }
+eb()  { vim ~/dotfiles/.bashrc; }
+eb1() { vim ~/my-env/opt/bunny1/b1_custom.py; }
 eg()  { vim ~/dotfiles/.gitconfig; }
 eh()  { vim ~/dotfiles/.hgrc; }
 ei()  { vim ~/Dropbox/ideas.md; }
 ej()  { vim $(tempfile .jira); }
-ek() { vim ~/my-env/Windows/AutoHotkey/KeyMappings.ahk; }
+ek()  { vim ~/my-env/Windows/AutoHotkey/KeyMappings.ahk; }
 em()  { vim ~/.muttrc; }
 es()  { vim ~/dotfiles/.slate; }
-eS()  { vim ~/.ssh/config; }
 et()  { vim ~/dotfiles/.tmux.conf; }
 ev()  { vim ~/dotfiles/.vimrc; }
-
 
 # }}}
 
@@ -312,6 +313,7 @@ function uniqdiff() {
 function uniqdiff1() { uniqdiff --skip-fields 1; }
 function edit-pasteboard() { cb | vipe | cb; }
 function from() { tac "$1" | sed "/$2/q" | tac; }
+function fucking-clear() {  printf '\033\143'; }
 function fucking-kill-nfsd() {
     # https://github.com/hashicorp/vagrant/issues/8103
     sudo sh -c "> /etc/exports"
@@ -502,7 +504,7 @@ function pip() {
 function pipf() { pip freeze > requirements.txt; }
 function pipir() { pip install -r requirements.txt; }
 function pip-sys() { $(which pip) "$@"; }
-function plan-work() { PLAN=~/.plan.work plan "$@"; }
+function plan-work() { PLAN=${PLAN_DIR}/.plan.work plan "$@"; }
 function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n | gc "${1-.}"; }
 function psa { ps aux | grep '${@}'; }
 function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collapse | cuts -f 2,11-; }
@@ -722,24 +724,25 @@ venv_ps1() {
 }
 
 actual_prompt() {
-    if [[ $EXITVAL == 0 ]]; then
+    local exit=$1
+
+    if [[ $exit -eq 0 ]]; then
         echo -n "> "
     else
-        echo -n "$EXITVAL > "
+        echo -n "$exit > "
     fi
 }
 
 # Inspired by: https://gist.github.com/3083586
 prompt_command() {
-    EXITVAL=$?
-    PS1=$(actual_prompt)
+    local actual=$(actual_prompt $?)
 
     z --add `pwd`
 
     # Record each line as it gets issued
     history -a
 
-    echo -e "\n${PINK}${USER}${D} at ${ORANGE}${HOSTNAME}${D} in ${GREEN}${PWD}${D} $(rcs_ps1) $(venv_ps1)"
+    export PS1="\n${PINK}${USER}${D} at ${ORANGE}${HOSTNAME}${D} in ${GREEN}${PWD}${D} $(rcs_ps1) $(venv_ps1)\n${actual}"
 }
 
 
