@@ -57,7 +57,7 @@
 	url = https://github.com/tpope/vim-vinegar.git
 [submodule ".vim/bundle/vitality.vim"]
 	path = .vim/pack/bundle/start/vitality.vim
-	url = https://github.com/sjl/vitality.vim.git
+	url = https://github.com/iamFIREcracker/vitality.vim.git
 [submodule ".vim/bundle/AnsiEsc.vim"]
 	path = .vim/pack/bundle/start/AnsiEsc.vim
 	url = https://github.com/sjl/AnsiEsc.vim.git
