@@ -4,9 +4,6 @@
 [submodule ".vim/bundle/matchit"]
 	path = .vim/pack/bundle/start/matchit
 	url = https://github.com/Kris2k/matchit.git
-[submodule ".vim/bundle/nose.vim"]
-	path = .vim/pack/bundle/start/nose.vim
-	url = https://github.com/vim-scripts/nose.vim.git
 [submodule ".vim/bundle/vim-puppet"]
 	path = .vim/pack/bundle/start/vim-puppet
 	url = https://github.com/rodjek/vim-puppet.git
@@ -40,12 +37,6 @@
 [submodule ".vim/bundle/vim-dispatch"]
 	path = .vim/pack/bundle/start/vim-dispatch
 	url = https://github.com/tpope/vim-dispatch.git
-[submodule ".vim/bundle/vim-scala"]
-	path = .vim/pack/bundle/start/vim-scala
-	url = https://github.com/sjl/vim-scala.git
-[submodule ".vim/bundle/vim-colors-solarized"]
-	path = .vim/pack/bundle/start/vim-colors-solarized
-	url = https://github.com/altercation/vim-colors-solarized.git
 [submodule ".vim/bundle/vim-abolish"]
 	path = .vim/pack/bundle/start/vim-abolish
 	url = https://github.com/tpope/vim-abolish.git
@@ -61,24 +52,15 @@
 [submodule ".vim/bundle/Dockerfile.vim"]
 	path = .vim/pack/bundle/start/Dockerfile.vim
 	url = https://github.com/ekalinin/Dockerfile.vim
-[submodule ".vim/bundle/vim-rails"]
-	path = .vim/pack/bundle/start/vim-rails
-	url = https://github.com/tpope/vim-rails.git
 [submodule ".vim/bundle/vim-maven-plugin"]
 	path = .vim/pack/bundle/start/vim-maven-plugin
 	url = https://github.com/mikelue/vim-maven-plugin.git
-[submodule ".vim/bundle/vim-jade"]
-	path = .vim/pack/bundle/start/vim-jade
-	url = https://github.com/digitaltoad/vim-jade.git
 [submodule ".vim/bundle/vim-airline"]
 	path = .vim/pack/bundle/start/vim-airline
 	url = https://github.com/bling/vim-airline.git
 [submodule ".vim/bundle/vim-fugitive"]
 	path = .vim/pack/bundle/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
-[submodule ".vim/bundle/vim-mocha"]
-	path = .vim/pack/bundle/start/vim-mocha
-	url = https://github.com/geekjuice/vim-mocha
 [submodule ".vim/bundle/vim-json"]
 	path = .vim/pack/bundle/start/vim-json
 	url = https://github.com/elzr/vim-json.git
@@ -121,9 +103,6 @@
 [submodule ".vim/bundle/writegooder.vim"]
 	path = .vim/pack/bundle/start/writegooder.vim
 	url = https://github.com/JKirchartz/writegooder.vim.git
-[submodule ".tmux-plugins/tmux-gruvbox"]
-	path = .tmux-plugins/tmux-gruvbox
-	url = https://github.com/egel/tmux-gruvbox.git
 [submodule ".tmux-plugins/tmux-fpp"]
 	path = .tmux-plugins/tmux-fpp
 	url = https://github.com/tmux-plugins/tmux-fpp
@@ -151,9 +130,6 @@
 [submodule ".vim/pack/bundle/start/async.vim"]
 	path = .vim/pack/bundle/start/async.vim
 	url = https://github.com/prabirshrestha/async.vim.git
-[submodule ".vim/pack/bundle/start/vim-colors-plain"]
-	path = .vim/pack/bundle/start/vim-colors-plain
-	url = https://github.com/andreypopp/vim-colors-plain.git
 [submodule ".vim/pack/bundle/start/fugitive-gitlab.vim"]
 	path = .vim/pack/bundle/start/fugitive-gitlab.vim
 	url = https://github.com/shumphrey/fugitive-gitlab.vim.git

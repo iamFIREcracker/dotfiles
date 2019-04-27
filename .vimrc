@@ -1872,14 +1872,6 @@ if executable('js-langserver')
 endif
 
 " }}}
-" vim-Mocha {{{
-
-let g:mocha_js_command =
-            \ 'Dispatch -compiler=mocha-wrapper ' .
-            \ fnameescape(globpath(&runtimepath, 'compiler/mocha-wrapper.py')) .
-            \ ' --recursive --no-colors {spec}'
-
-" }}}
 " vim-json {{{
 
 let g:vim_json_syntax_conceal = 0
