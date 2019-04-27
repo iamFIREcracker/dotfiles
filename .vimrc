@@ -1647,51 +1647,6 @@ let g:airline_powerline_fonts = 1
 let g:argwrap_tail_comma_braces='[{'
 
 " }}}
-" Ctrl-P {{{
-
-"let g:ctrlp_jump_to_buffer = 0
-"let g:ctrlp_working_path_mode = 0
-"let g:ctrlp_match_window = 'bottom,order:btt,max:20'
-"
-"let g:ctrlp_prompt_mappings = {
-"\ 'PrtSelectMove("j")':   ['<c-j>'],
-"\ 'PrtSelectMove("k")':   ['<c-k>'],
-"\ 'PrtHistory(-1)':       ['<c-n>'],
-"\ 'PrtHistory(1)':        ['<c-p>']
-"\ }
-"
-"let ctrlp_filter_greps = "".
-"    \ "egrep -iv '\\.(" .
-"    \ "jar|class|swp|swo|log|so|o|pyc|jpe?g|png|gif|mo|po" .
-"    \ ")$' | " .
-"    \ "egrep -v '^(\\./)?(" .
-"    \ "deploy/|classes/|libs/|deploy/vendor/|.git/|.hg/|.svn/|node_modules/" .
-"    \ ")'"
-"
-"let my_ctrlp_user_command = "" .
-"    \ "ag %s -l --nocolor -g '' | " .
-"    \ ctrlp_filter_greps
-"
-"let my_ctrlp_git_command = "" .
-"    \ "cd %s && git ls-files | " .
-"    \ ctrlp_filter_greps
-"
-"let my_ctrlp_svn_command = "" .
-"    \ "cd %s && svn ls -R | " .
-"    \ ctrlp_filter_greps
-"
-"let g:ctrlp_user_command = {
-"\ 'types': {
-"    \ 1: ['.git', my_ctrlp_git_command],
-"    \ 2: ['.svn', my_ctrlp_svn_command],
-"\ },
-"\ 'fallback': my_ctrlp_user_command
-"\ }
-"
-"nnoremap <C-P> :CtrlP<cr>
-"nnoremap Ř :CtrlPRoot<cr>
-
-" }}}
 " delimitMate {{{
 
 let delimitMate_expand_cr = 1
