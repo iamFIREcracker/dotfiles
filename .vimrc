@@ -1568,18 +1568,8 @@ nnoremap <Leader>q :let @t = 'let @q = "' . @q<CR>:<C-f>o<ESC>"tp$a"<Esc>
 
 " Open to the selected URL {{{
 
-function! g:FuckingOpenTheUrlPlease()
-    let view = winsaveview()
-    let old_z = @z
-    normal! gv"zy
-    let url = @z
-    call system('br '.url)
-    let @z = old_z
-    call winrestview(view)
-endfunction
-
-nnoremap <leader>O viW:<c-u>call g:FuckingOpenTheUrlPlease()<cr>
-vnoremap <leader>O :<c-u>call g:FuckingOpenTheUrlPlease()<cr>
+nnoremap <leader>u :w !urlview<cr>
+xnoremap <leader>u :w !urlview<cr>
 
 " }}}
 " Insert Mode Completion {{{

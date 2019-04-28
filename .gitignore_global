@@ -38,3 +38,5 @@ npm-debug.log
 
 .dependenciesSources/
 *.retry
+
+.svn
