@@ -1566,12 +1566,6 @@ nnoremap <silent> ]z zMzjzvzz
 nnoremap Q @q
 nnoremap <Leader>q :let @t = 'let @q = "' . @q<CR>:<C-f>o<ESC>"tp$a"<Esc>
 
-" Open to the selected URL {{{
-
-nnoremap <leader>u :w !urlview<cr>
-xnoremap <leader>u :w !urlview<cr>
-
-" }}}
 " Insert Mode Completion {{{
 
 inoremap <c-l> <c-x><c-l>
@@ -2312,6 +2306,53 @@ endfunction
 nnoremap <expr> <Plug>ConnectToTerminal ':buffers<CR>:let g:stt_buffnr='
 xnoremap <expr> <Plug>SendSelectionToTerminal ':<C-U>call <SID>SendSelectionToTerminal(visualmode())<CR>'
 command! STTClear call s:ClearSendToTerminalConnection()
+
+" }}}
+" SendToUrlview {{{
+
+function! s:SendSelectionToUrlview() abort " {{{
+    silent execute "'<,'> write !urlview"
+endfunction "}}}
+xnoremap <expr> <Plug>SendSelectionToUrlview ':<C-U>call <SID>SendSelectionToUrlview()<CR>'
+
+function! s:SendScreenToUrlview() abort " {{{
+    " Save screen
+    let view = winsaveview()
+
+    " Ripped from [vim-glance](https://github.com/arzg/vim-glance/blob/master/autoload/glance.vim)
+    " Scrolloff conflicts with the mapping, so we set it to zero after saving
+    " its value (for future restoration)
+    let s:scrolloffsave = &scrolloff
+    set scrolloff=0
+
+    " Select the content of the visible screen
+    execute "normal! VHoL\<Esc>"
+    call s:SendSelectionToUrlview()
+
+    " Restore scrolloff
+    let &scrolloff = s:scrolloffsave
+
+    " Restore screen
+    call winrestview(view)
+endfunction "}}}
+nnoremap <expr> <Plug>SendScreenToUrlview ':<C-U>call <SID>SendScreenToUrlview()<CR>'
+
+function! s:SendBufferToUrlview() abort " {{{
+    " Save screen
+    let view = winsaveview()
+
+    " Select the content of the visible screen
+    execute "normal! VggoG\<Esc>"
+    call s:SendSelectionToUrlview()
+
+    " Restore screen
+    call winrestview(view)
+endfunction "}}}
+nnoremap <expr> <Plug>SendBufferToUrlview ':<C-U>call <SID>SendBufferToUrlview()<CR>'
+
+nmap <leader>u <Plug>SendScreenToUrlview
+nmap <leader>U <Plug>SendBufferToUrlview
+xmap <leader>u <Plug>SendSelectionToUrlview
 
 " }}}
 
