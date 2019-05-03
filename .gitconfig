@@ -127,7 +127,7 @@
     }; f"
 
     rb = "!f() { \
-        need_stash=$(git st); \
+        need_stash=$(git st | grep -v '^.?'); \
         [ -n \"$need_stash\" ] && git stash save; \
         git rebase --interactive $@; \
         [ -n \"$need_stash\" ] && git stash pop; \
@@ -145,7 +145,6 @@
         git config core.fscache true; \
         git config core.autocrlf true; \
         git config core.filemode false; \
-        git config gc.auto 256; \
     }; f"
 
     save = !git add -A && git commit -m 'SAVEPOINT'
