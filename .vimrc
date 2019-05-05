@@ -591,6 +591,7 @@ augroup ft_commonlisp
         setlocal lispwords+=gathering
         setlocal lispwords+=dorange
         setlocal lispwords+=dovector
+        setlocal lispwords+=ppcre:register-groups-bind
     endfunction "}}}
 
     function! SelectToplevelLispForm() "{{{

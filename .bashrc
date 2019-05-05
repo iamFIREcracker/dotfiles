@@ -25,8 +25,10 @@ if [[ $- == *i* ]]; then
     stty susp undef
 fi
 
-# Avoid duplicate entries
-HISTCONTROL="erasedups:ignoreboth:ignorespace"
+# Avoid duplicate entries, and skip entries with a leading whitespace
+export HISTCONTROL="erasedups:ignoreboth:ignorespace"
+
+export HISTSIZE=10000
 
 # Don't record some commands
 export HISTIGNORE="&:exit:ls:bg:fg:history:hs:clear:*fpp"
@@ -66,8 +68,6 @@ export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
 # }}}
 # General {{{
 
-export HISTCONTROL=erasedups
-export HISTSIZE=10000
 export EDITOR="vim"
 export PAGER="/usr/bin/less"
 export HGEDITOR="~/bin/hgeditor"
