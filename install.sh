@@ -44,32 +44,6 @@ function create_dir {
     mkdir -p $1
 }
 
-(
-    cd .vim/pack/bundle/start/vimproc.vim/
-    test $FORCE -eq 1 && make clean
-    make
-)
-
-(
-    cd .vim/pack/bundle/start/vim-javacomplete2/libs/javavi/
-    mvn compile
-)
-
-(
-    cd .vim/pack/bundle/start/fzf
-    # the install script checks if `fzf' ware already installed
-    # and if found, would symlink it to ./bin
-    #
-    # the problem is, I have a wrapper for `fzf' under ~/bin, so
-    # I want the `install' script to download the binary (instead
-    # of symlinking my wrapper...lol) I have to make sure ~/bin
-    # is not covered by `$PATH'
-    test $FORCE -eq 1 && rm bin/fzf
-    if [ ! -f bin/fzf ]; then
-        PATH=/bin:/usr/bin ./install --bin
-    fi
-)
-
                      ensure_dir ".gnupg"
 
                      ensure_link "bin"                    "bin"
@@ -102,3 +76,30 @@ test -n "$OS_MAC" && ensure_link ".slate"                 ".slate"
                      ensure_link ".vimfx"                 ".vimfx"
                      ensure_link ".vimrc"                 ".vimrc"
                      ensure_link ".gnupg/gpg.conf"        ".gnupg/gpg.conf"
+
+(
+    cd .vim/pack/bundle/start/vimproc.vim/
+    test $FORCE -eq 1 && make clean
+    make
+)
+
+(
+    cd .vim/pack/bundle/start/vim-javacomplete2/libs/javavi/
+    mvn compile
+)
+
+(
+    cd .vim/pack/bundle/start/fzf
+    # the install script checks if `fzf' ware already installed
+    # and if found, would symlink it to ./bin
+    #
+    # the problem is, I have a wrapper for `fzf' under ~/bin, so
+    # I want the `install' script to download the binary (instead
+    # of symlinking my wrapper...lol) I have to make sure ~/bin
+    # is not covered by `$PATH'
+    test $FORCE -eq 1 && rm bin/fzf
+    if [ ! -f bin/fzf ]; then
+        PATH=/bin:/usr/bin ./install --bin
+    fi
+)
+
