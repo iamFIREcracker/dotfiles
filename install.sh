@@ -9,7 +9,7 @@ done
 
 WORKDIR="$(pwd)"
 OS_MAC=$(uname -s | grep Darwin)
-OS_WIN=$(uname -s | grep CYGWIN)
+OS_WIN=$(uname -rs | grep -e CYGWIN -e Microsoft)
 
 set -u
 set -e
@@ -45,23 +45,28 @@ function create_dir {
 }
 
 (
-    if ! which make 2>/dev/null; then
-        error "Missing command: make"
-    else
-        cd .vim/pack/bundle/start/vimproc.vim/
-        test $FORCE -eq 1 && make clean
-        make
-    fi
+    cd .vim/pack/bundle/start/vimproc.vim/
+    test $FORCE -eq 1 && make clean
+    make
 )
 
 (
-    if ! which mvn 2>/dev/null; then
-        error "Missing command: mvn"
-    elif ! which javac 2>/dev/null; then
-        error "Missing command: javac"
-    else
-        cd .vim/pack/bundle/start/vim-javacomplete2/libs/javavi/
-        mvn compile
+    cd .vim/pack/bundle/start/vim-javacomplete2/libs/javavi/
+    mvn compile
+)
+
+(
+    cd .vim/pack/bundle/start/fzf
+    # the install script checks if `fzf' ware already installed
+    # and if found, would symlink it to ./bin
+    #
+    # the problem is, I have a wrapper for `fzf' under ~/bin, so
+    # I want the `install' script to download the binary (instead
+    # of symlinking my wrapper...lol) I have to make sure ~/bin
+    # is not covered by `$PATH'
+    test $FORCE -eq 1 && rm bin/fzf
+    if [ ! -f bin/fzf ]; then
+        PATH=/bin:/usr/bin ./install --bin
     fi
 )
 
