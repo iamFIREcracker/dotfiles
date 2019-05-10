@@ -8,6 +8,11 @@ windows:
       panes:
         - while true; do ssh -vv mlandi@cnint -L 1433:10.140.65.181:1433 -N; done
         - while true; do ssh -vv mlandi@cnint -L 8443:labcentral01.lab49.com:8443 -N; done
+  - docs:
+      layout: main-vertical
+      root: ~/workspace/connection/docs/
+      panes:
+        - vim
   - api:
       layout: main-vertical
       root: ~/workspace/connection/api-gateway/
@@ -33,8 +38,19 @@ windows:
         - vim
         - n run start
         - echo n run styleguide
-  - qsearch-api:
+  - automation-tests:
       layout: main-vertical
+      root: ~/workspace/connection/automation-tests/
+      panes:
+        - vim
+        - echo n run test-local
+  - integration:
+      layout: main-vertical
+      root: ~/workspace/connection/services/connection-integration/
+      panes:
+        - vim
+  - qsearch-api:
+      layout: main-horizontal
       root: ~/workspace/connection/qst/elastic-qsearch/
       panes:
         - vim
@@ -51,3 +67,8 @@ windows:
       panes:
         - vim
         - echo mvn exec:java -Dexec.mainClass='com.lab49.connection.kafka.Application' -Dexec.args='server'
+  - ansible:
+      layout: main-vertical
+      root: ~/workspace/connection/system/ansible
+      panes:
+        - vim

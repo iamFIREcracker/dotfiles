@@ -151,6 +151,8 @@
     restore = reset HEAD~1 --mixed
 
     cbb = !git currentbranch | cb
+
+    when-merged = "!f() { git log $1..${2-master} --ancestry-path --merges; }; f"
 [pull]
     ff = only
 

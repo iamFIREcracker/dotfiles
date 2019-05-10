@@ -15,7 +15,7 @@
 (cg:define-guesser git-b-git-checkout
     ;; XXX would be nice if we could define a documentation like
     ;; argument, that we could then parse and maybe run tests against
-    ("^\\*?\\s+([^ ]+)\\s+([a-f0-9]{7,9})\\s(.*)" (branch commit rest))
+    ("^\\*?\\s+([^ ]+)\\s+([a-f0-9]{7,10})\\s(.*)" (branch commit rest))
   (format NIL "git checkout '~a' # ~a -> ~a" branch commit rest))
 
 (cg:define-guesser git-branch-delete
