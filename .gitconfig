@@ -75,9 +75,9 @@
         cmd=\"Shell git p$1\"; \
         vim -c \"execute '$cmd' | bdelete 1\"; \
     }; f"
-    l    = !git lv l
-    ll   = !git lv ll
-    lll  = !git lv lll
+    l    = !git pl
+    ll   = !git pll
+    lll  = !git plll
 
     gl   = log -12 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(by %an)%Creset%C(yellow bold)%d%Creset%n'
     gll  = log -24 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
