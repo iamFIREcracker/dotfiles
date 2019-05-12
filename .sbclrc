@@ -5,6 +5,21 @@
   (when (probe-file quicklisp-init)
     (load quicklisp-init)))
 
+;;; Thanks steve -- https://bitbucket.org/sjl/dotfiles/src/a92fa44e6833545d391b32a3611e8fdeccd0f5a2/sbclrc#lines-6
+(defvar *last-package* nil)
+(defvar *cached-prompt* nil)
+(defun package-prompt (stream)
+  (when (not (eq *last-package* *package*))
+    (setf *cached-prompt*
+          (format nil "~%[SBCL] ~A> "
+                  (or (first (package-nicknames *package*))
+                      (package-name *package*))))
+    (setf *last-package* *package*))
+  (terpri)
+  (princ *cached-prompt* stream))
+
+(setf sb-int:*repl-prompt-fun* #'package-prompt)
+(setf sb-debug:*debug-beginner-help-p* nil)
 (setf *print-escape* t
       *print-circle* t
       *print-pretty* t)
