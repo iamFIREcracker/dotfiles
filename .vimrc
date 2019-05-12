@@ -575,11 +575,26 @@ augroup ft_commonlisp
     au BufNewFile,BufRead *.sbclrc setlocal filetype=lisp
     au BufNewFile,BufRead *.asd setlocal filetype=lisp
 
+    function! HighlightLispRepl() "{{{
+        " set syntax=lisp
+        syn match replPrompt /\v^\[([a-z A-Z])+\] [-._a-zA-Z0-9]+\>/
+        syn match replComment /\v^;.*/
+
+        " syn match replResult /\v^#\<[^>]+\>$/
+        hi def link replResult Debug
+        hi def link replComment Comment
+    endfunction "}}}
+
+    function! InitializeLispRepl() "{{{
+        call HighlightLispRepl()
+    endfunction "}}}
+
     function! OpenLispReplSBCL() "{{{
         call term_start("bash -c sbcl-vlime", {
             \ "term_finish": "close",
             \ "vertical": 1
         \ })
+        call InitializeLispRepl()
     endfunction "}}}
 
     function! SetLispWords() "{{{
