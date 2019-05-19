@@ -15,6 +15,10 @@
 (cg:define-guesser git-b-git-delete
     ;; How many times have you run `git branch -v` looking for _gone_ branches,
     ;; and then run `git branch -d` to clean up your local repo?
+    ;;
+    ;; * master    b8f0d88 [behind 1] Merge pull request #3 from iamFIREcracker/add-verbose-flag
+    ;;   travis-ci c3f7128 [gone] Download Linux binary when on WSL
+    ;;
     ("^\\*?\\s+([^ ]+)\\s+([a-f0-9]{7,9})\\s(\\[gone]\\s*.*)" (branch commit rest))
   (format NIL "git branch -d '~a' # ~a -> ~a" branch commit rest))
 
@@ -27,8 +31,25 @@
 (cg:define-guesser git-branch-delete
     ;; Sometimes, when deleting a branch, `git` refuses to delete it and spits
     ;; out a lot of text suggesting to use `git branch -D ..` instead.
+    ;;
+    ;; error: The branch 'travis-ci' is not fully merged.
+    ;; If you are sure you want to delete it, run 'git branch -D travis-ci'.
     ("'(git branch -D [^ ]+)'" (git-cmd))
   (format NIL "~a" git-cmd))
+
+(cg:define-guesser git-pull-git-branch-set-upstream
+    ;; There is no tracking information for the current branch.
+    ;; Please specify which branch you want to merge with.
+    ;; See git-pull(1) for details.
+    ;;
+    ;;     git pull <remote> <branch>
+    ;;
+    ;; If you wish to set tracking information for this branch you can do so with:
+    ;;
+    ;;     git branch --set-upstream-to=origin/<branch> travis-ci
+    ;;
+    ("(git branch --set-upstream-to=origin/)<branch> ([^'\" ]+)" (git-cmd branch))
+  (format NIL "~a~a" git-cmd branch))
 
 (cg:define-guesser git-l-git-show
     ("^([a-f0-9]{7,10}) (.*)" (commit rest))
