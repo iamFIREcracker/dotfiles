@@ -1690,6 +1690,7 @@ nnoremap <leader>gm :Gmove<cr>
 nnoremap <leader>gr :!git r <C-R>=fnameescape(expand('%'))<cr><cr>
 nnoremap <leader>gR :!git R<cr>
 nnoremap <leader>gl :Shell git pl<cr>
+nnoremap <leader>gL :Shell git plll<cr>
 nnoremap <leader>gi :Shell git ind<cr>
 
 
