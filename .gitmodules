@@ -103,9 +103,6 @@
 [submodule ".vim/bundle/writegooder.vim"]
 	path = .vim/pack/bundle/start/writegooder.vim
 	url = https://github.com/JKirchartz/writegooder.vim.git
-[submodule ".tmux-plugins/tmux-fpp"]
-	path = .tmux-plugins/tmux-fpp
-	url = https://github.com/tmux-plugins/tmux-fpp
 [submodule ".vim/bundle/commentary.vim"]
 	path = .vim/pack/bundle/start/commentary.vim
 	url = https://github.com/tpope/vim-commentary.git
@@ -145,9 +142,6 @@
 [submodule ".vim/pack/bundle/start/vim-goobook"]
 	path = .vim/pack/bundle/start/vim-goobook
 	url = git@github.com:iamFIREcracker/vim-goobook.git
-[submodule ".tmux-plugins/tmux-urlview"]
-	path = .tmux-plugins/tmux-urlview
-	url = https://github.com/tmux-plugins/tmux-urlview.git
 [submodule ".vim/pack/bundle/start/vim-editorconfig"]
 	path = .vim/pack/bundle/start/vim-editorconfig
 	url = https://github.com/sgur/vim-editorconfig.git
@@ -157,3 +151,6 @@
 [submodule ".vim/pack/bundle/start/vim-dadbod"]
 	path = .vim/pack/bundle/start/vim-dadbod
 	url = https://github.com/tpope/vim-dadbod.git
+[submodule ".tmux-plugins/tmux-external-pipe"]
+	path = .tmux-plugins/tmux-externalpipe
+	url = git@github.com:iamFIREcracker/tmux-externalpipe.git
