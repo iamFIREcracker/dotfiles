@@ -57,7 +57,15 @@
 
 (cg:define-guesser git-log-git-show
     ("^commit ([a-f0-9]{40})" (commit))
-  (format NIL "git show '~a'" commit ))
+  (format NIL "git show '~a'" commit))
+
+(cg:define-guesser git-status-staged-git-reset
+    ("M. (.*)" (file))
+  (format NIL "git reset '~a'" file))
+
+(cg:define-guesser git-status-untracked-git-add
+    ("\\?\\? (.*)" (file))
+  (format NIL "git add '~a'" file))
 
 (cg:define-guesser kill-kill9
     ;; Have you have run `kill $PID` only to discover the process got stuck
