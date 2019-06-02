@@ -573,11 +573,6 @@ function sed() {
 
 #}}}
 function serve-this() { python -m SimpleHTTPServer "$@"; }
-# strip colors {{{
-
-function strip-colors() { perl -pe 's/\e\[?.*?[\@-~]//g'; }
-
-# }}}
 function sleeplees() {
     pmset -g assertions | egrep '(PreventUserIdleSystemSleep|PreventUserIdleDisplaySleep)'
 }
