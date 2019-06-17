@@ -33,7 +33,7 @@ $endif
 # Pipe last command to fpp with C-P
 "\C-p": "!-1 | FPP_DISABLE_PREPENDING_HOME_WITH_SLASH=1 fpp\015"
 # Pipe last command to cg with C-Enter -- my terminal generates ✠ on C-Enter
-"✠": "!-1 | strip-escapes | cg-fzf\015"
+"✠": "!-1 2>&1 | strip-escapes | cg-fzf\015"
 # Resume suspended program with C-Z
 "\C-z": "fg\015"
 

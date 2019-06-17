@@ -81,23 +81,16 @@
     ("^[AM]. (.*)" (file))
   (format NIL "git reset '~a'" file))
 
-(cg:define-guesser git-st-untracked-git-add
+(cg:define-guesser git-st-untracked
     ;; > g st
     ;; A  ../client/package-lock.json
     ;; A  modules/objective-reindexer/index.js
     ;;  M modules/static-files/routes/static-files.js
     ;; ?? ../qst/elastic-qsearch/tags
     ("\\?\\? (.*)" (file))
-  (format NIL "git add '~a'" file))
-
-(cg:define-guesser git-st-untracked-rm
-    ;; > g st
-    ;; A  ../client/package-lock.json
-    ;; A  modules/objective-reindexer/index.js
-    ;;  M modules/static-files/routes/static-files.js
-    ;; ?? ../qst/elastic-qsearch/tags
-    ("\\?\\? (.*)" (file))
-  (format NIL "rm '~a'" file))
+  (list
+    (format NIL "git add '~a'" file)
+    (format NIL "rm '~a'" file)))
 
 (cg:define-guesser kill-kill9
     ;; Have you have run `kill $PID` only to discover the process got stuck
@@ -115,13 +108,21 @@
     ("^(\\w+)\\s+([0-9]+)\\s+(\\w+)\\s+(\\w+)" (command pid user fd))
   (format NIL "kill '~a' # FD ~a locked by ~a (~a)" pid fd command user))
 
-(cg:define-guesser prompt-cb
+(cg:define-guesser prompt
+    ;; This parses my Bash prompt:
+    ;;
+    ;; matteolandi at hairstyle.local in /Users/matteolandi/my-env/opt/cg on master!?
+    ;;
+    ;; and suggests commands to:
+    ;;
+    ;; - copy current branch to the clipboard
+    ;; - `git checkout` the branch
+    ;; - `git mr` (remotely merge) the branch
     ("^[^ ]+ at [^ ]+ in [^ ]+ on ([^ !?]+)" (branch))
-  (format NIL "echo '~a' | cb" branch))
-
-(cg:define-guesser prompt-git-checkout
-    ("^[^ ]+ at [^ ]+ in [^ ]+ on ([^ !?]+)" (branch))
-  (format NIL "git checkout '~a'" branch))
+  (list
+    (format NIL "echo '~a' | cb" branch)
+    (format NIL "git checkout '~a'" branch)
+    (format NIL "git mr '~a'" branch)))
 
 (cg:define-guesser psg-kill
     ("^([0-9]+)\\s+(.+)" (pid command))
