@@ -6,7 +6,7 @@ root: ~/workspace/connection
 windows:
   - tunnels:
       panes:
-        - while true; do ssh -vv mlandi@cnint -L 1433:10.140.65.181:1433 -N; done
+        - while true; do ssh -vv mlandi@cnint -L 1433:10.140.65.111:1433 -N; done
         - while true; do ssh -vv mlandi@cnint -L 8443:labcentral01.lab49.com:8443 -N; done
   - docs:
       layout: main-vertical
