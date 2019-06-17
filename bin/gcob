@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -ex
+
+branch=$(cb | sed "s/[]: \"'[]/-/g" | sed "s/--*/-/g")
+echo "git cob story/${branch}"

@@ -63,13 +63,41 @@
     ("^commit ([a-f0-9]{40})" (commit))
   (format NIL "git show '~a'" commit))
 
-(cg:define-guesser git-status-staged-git-reset
-    ("M. (.*)" (file))
+(cg:define-guesser git-st-modified-git-add
+    ;; > g st
+    ;; A  ../client/package-lock.json
+    ;; A  modules/objective-reindexer/index.js
+    ;;  M modules/static-files/routes/static-files.js
+    ;; ?? ../qst/elastic-qsearch/tags
+    ("^.M (.*)" (file))
+  (format NIL "git add '~a'" file))
+
+(cg:define-guesser git-st-staged-git-reset
+    ;; > g st
+    ;; A  ../client/package-lock.json
+    ;; A  modules/objective-reindexer/index.js
+    ;;  M modules/static-files/routes/static-files.js
+    ;; ?? ../qst/elastic-qsearch/tags
+    ("^[AM]. (.*)" (file))
   (format NIL "git reset '~a'" file))
 
-(cg:define-guesser git-status-untracked-git-add
+(cg:define-guesser git-st-untracked-git-add
+    ;; > g st
+    ;; A  ../client/package-lock.json
+    ;; A  modules/objective-reindexer/index.js
+    ;;  M modules/static-files/routes/static-files.js
+    ;; ?? ../qst/elastic-qsearch/tags
     ("\\?\\? (.*)" (file))
   (format NIL "git add '~a'" file))
+
+(cg:define-guesser git-st-untracked-rm
+    ;; > g st
+    ;; A  ../client/package-lock.json
+    ;; A  modules/objective-reindexer/index.js
+    ;;  M modules/static-files/routes/static-files.js
+    ;; ?? ../qst/elastic-qsearch/tags
+    ("\\?\\? (.*)" (file))
+  (format NIL "rm '~a'" file))
 
 (cg:define-guesser kill-kill9
     ;; Have you have run `kill $PID` only to discover the process got stuck
@@ -98,3 +126,7 @@
 (cg:define-guesser psg-kill
     ("^([0-9]+)\\s+(.+)" (pid command))
   (format NIL "kill '~a' # ~a " pid command))
+
+(cg:define-guesser rm-rmr
+    ("rm: cannot remove '([^']+)': Is a directory" (directory))
+  (format NIL "rm -r '~a'" directory))
