@@ -573,6 +573,7 @@ augroup ft_commonlisp
     au!
 
     au BufNewFile,BufRead *.sbclrc setlocal filetype=lisp
+    au BufNewFile,BufRead *.cgrc setlocal filetype=lisp
     au BufNewFile,BufRead *.asd setlocal filetype=lisp
 
     function! HighlightLispRepl() "{{{

@@ -12,6 +12,16 @@
      (url))
   (format NIL "br '~a' " url))
 
+(cg:define-guesser gcob
+    ("(git cob [^ ]+)" (git-cmd))
+  (format NIL "~a" git-cmd))
+
+(cg:define-guesser git-b-git-checkout
+    ;; Parses `git branch -v`'s output and suggests you to switch to one of the
+    ;; local branches
+    ("^\\*?\\s+([^ ]+)\\s+([a-f0-9]{7,10})\\s(.*)" (branch commit rest))
+  (format NIL "git checkout '~a' # ~a -> ~a" branch commit rest))
+
 (cg:define-guesser git-b-git-delete
     ;; How many times have you run `git branch -v` looking for _gone_ branches,
     ;; and then run `git branch -d` to clean up your local repo?
@@ -21,12 +31,6 @@
     ;;
     ("^\\*?\\s+([^ ]+)\\s+([a-f0-9]{7,9})\\s(\\[gone]\\s*.*)" (branch commit rest))
   (format NIL "git branch -d '~a' # ~a -> ~a" branch commit rest))
-
-(cg:define-guesser git-b-git-checkout
-    ;; Parses `git branch -v`'s output and suggests you to switch to one of the
-    ;; local branches
-    ("^\\*?\\s+([^ ]+)\\s+([a-f0-9]{7,10})\\s(.*)" (branch commit rest))
-  (format NIL "git checkout '~a' # ~a -> ~a" branch commit rest))
 
 (cg:define-guesser git-branch-delete
     ;; Sometimes, when deleting a branch, `git` refuses to delete it and spits
@@ -75,9 +79,21 @@
     ("kill ([0-9]+)" (pid))
   (format NIL "kill -9 '~a'" pid))
 
+(cg:define-guesser npm-run
+    ("(n\(pm)? run [^ ]+)" (npm-cmd))
+  (format NIL "~a " npm-cmd))
+
 (cg:define-guesser ports-kill
     ("^(\\w+)\\s+([0-9]+)\\s+(\\w+)\\s+(\\w+)" (command pid user fd))
   (format NIL "kill '~a' # FD ~a locked by ~a (~a)" pid fd command user))
+
+(cg:define-guesser prompt-cb
+    ("^[^ ]+ at [^ ]+ in [^ ]+ on ([^ !?]+)" (branch))
+  (format NIL "echo '~a' | cb" branch))
+
+(cg:define-guesser prompt-git-checkout
+    ("^[^ ]+ at [^ ]+ in [^ ]+ on ([^ !?]+)" (branch))
+  (format NIL "git checkout '~a'" branch))
 
 (cg:define-guesser psg-kill
     ("^([0-9]+)\\s+(.+)" (pid command))
