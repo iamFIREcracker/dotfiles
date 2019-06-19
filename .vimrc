@@ -1,12 +1,12 @@
 " Preamble ---------------------------------------------------------------- {{{
 
-set nocompatible
 filetype off
 filetype plugin indent on
 
 " }}}
 " Basic options ----------------------------------------------------------- {{{
 set encoding=utf-8
+set nomodeline
 set modelines=0
 set mouse=a
 set autoindent
@@ -87,7 +87,7 @@ set wildignore+=classes
 " }}}
 " Tabs, spaces, wrapping {{{
 
-set tabstop=4
+set tabstop=8
 set shiftwidth=4
 set softtabstop=4
 set expandtab
@@ -474,10 +474,10 @@ function! CloseOnLast()
 augroup ft_angular
     au!
 
-    function! CheckIfAngularProject() " {{{
+    function! CheckIfAngularProject() abort " {{{
         return filereadable(".angular-cli.json") || filereadable('angular.json')
     endfunction " }}}
-    function! InitAngularMappings() " {{{
+    function! InitAngularMappings() abort " {{{
         nnoremap <localleader>Ns  :Dispatch! ng serve<cr>
         nnoremap <localleader>Ngc :Dispatch ng generate component --spec false<space>
         nnoremap <localleader>Ngd :Dispatch ng generate directive --spec false<space>
@@ -493,7 +493,7 @@ augroup ft_angular
                 \ | setlocal filetype=angular_html
                 \ | endif
 
-    function! DirectiveUnderCursor() " {{{
+    function! DirectiveUnderCursor() abort " {{{
         let directive = expand('<cWORD>')
         if directive =~ '='
             let directive = split(directive, '=')[0]
@@ -504,15 +504,15 @@ augroup ft_angular
         let directive = substitute(directive, '<\|/\|>', '', 'g')
         return directive
     endfunction " }}}
-    function! FindDirectiveOccurrences() " {{{
+    function! FindDirectiveOccurrences() abort " {{{
         let directive = DirectiveUnderCursor()
 
         exe "normal! :Ack! --literal " . directive . "\<cr>"
     endfunction "}}}
-    function! GuessDirectiveFilename() " {{{
+    function! GuessDirectiveFilename() abort " {{{
         let inex_save = &inex
 
-        function! FilenameOfDirectiveUnderCursor() " {{{
+        function! FilenameOfDirectiveUnderCursor() abort " {{{
             let directive = DirectiveUnderCursor()
             let filename = substitute(directive, '-', '', 'g')
             return filename
@@ -546,7 +546,7 @@ augroup ft_blogger
 
     " Markdown the current file, prepare it for Blogger, and finally copy it to
     " clipboard
-    function! GenerateTransformAndCopy() " {{{
+    function! GenerateTransformAndCopy() abort " {{{
         !markdown %
             \ | sed
             \       -e "s:\(</*h\)1\(>\):\14\2:g"
@@ -576,7 +576,7 @@ augroup ft_commonlisp
     au BufNewFile,BufRead *.cgrc setlocal filetype=lisp
     au BufNewFile,BufRead *.asd setlocal filetype=lisp
 
-    function! HighlightLispRepl() "{{{
+    function! HighlightLispRepl() abort " {{{
         " set syntax=lisp
         syn match replPrompt /\v^\[([a-z A-Z])+\] [-._a-zA-Z0-9]+\>/
         syn match replComment /\v^;.*/
@@ -586,11 +586,11 @@ augroup ft_commonlisp
         hi def link replComment Comment
     endfunction "}}}
 
-    function! InitializeLispRepl() "{{{
+    function! InitializeLispRepl() abort "{{{
         call HighlightLispRepl()
     endfunction "}}}
 
-    function! OpenLispReplSBCL() "{{{
+    function! OpenLispReplSBCL() abort "{{{
         call term_start("bash -c sbcl-vlime", {
             \ "term_finish": "close",
             \ "vertical": 1
@@ -598,7 +598,7 @@ augroup ft_commonlisp
         call InitializeLispRepl()
     endfunction "}}}
 
-    function! SetLispWords() "{{{
+    function! SetLispWords() abort "{{{
         setlocal lispwords+=define-modify-macro
         setlocal lispwords+=with-gensyms
         setlocal lispwords+=define-problem
@@ -610,15 +610,15 @@ augroup ft_commonlisp
         setlocal lispwords+=ppcre:register-groups-bind
     endfunction "}}}
 
-    function! SelectToplevelLispForm() "{{{
+    function! SelectToplevelLispForm() abort "{{{
         execute "normal 99[(v%"
     endfunction "}}}
 
-    function! SelectLispExpression() "{{{
+    function! SelectLispExpression() abort "{{{
         execute "normal [(v%"
     endfunction "}}}
 
-    function! IndentToplevelLispForm() "{{{
+    function! IndentToplevelLispForm() abort "{{{
       let view = winsaveview()
 
       call SelectToplevelLispForm()
@@ -627,7 +627,7 @@ augroup ft_commonlisp
       call winrestview(view)
     endfunction "}}}
 
-    function! QuickloadLispSystem() " {{{
+    function! QuickloadLispSystem() abort "{{{
         let systems = split(system('ls -1 *.asd | grep -v test | cut -d. -f1 | uniq')) " its fine
         if len(systems) == 0
             echom "Could not find any .asd files..."
@@ -640,7 +640,7 @@ augroup ft_commonlisp
         call SendToTerminal("(ql:quickload :" . systems[0] . ")\n")
     endfunction " }}}
 
-    function! QuickloadLispPrompt() " {{{
+    function! QuickloadLispPrompt() abort "{{{
         call SendToTerminal("(ql:quickload :" . input("? ") . ")\n")
     endfunction " }}}
 
@@ -749,7 +749,7 @@ augroup END
 augroup ft_diff
     au!
 
-    function! DiffFold(lnum)
+    function! DiffFold(lnum) abort
         let line = getline(a:lnum)
         if line =~ '^\(diff\|---\|+++\|@@\) '
             return 0
@@ -794,7 +794,7 @@ augroup ft_html
     " Invoke emmet instead of supertab
     au FileType html,jinja,htmldjango imap <buffer> <expr> <c-n> emmet#expandAbbrIntelligent("\<c-n>")
 
-    function! HtmlWrap() " {{{
+    function! HtmlWrap() abort "{{{
         " Back up x registry
         let old_x = @x
 
@@ -850,7 +850,7 @@ augroup END
 augroup ft_gruntion
     au!
 
-    function! DetectGruntIon()
+    function! DetectGruntIon() abort
         let moduleinfo = join([getcwd(), 'moduleInfo.ts'], '/')
         if filereadable(moduleinfo)
             " Override default dispatch command
@@ -873,7 +873,7 @@ augroup end
 
 augroup ft_java
     au!
-    function! TurnOnJavaFolding() "{{{
+    function! TurnOnJavaFolding() abort "{{{
         let modifier     = '%(public|private|protected)?\s*'
         let static       = '%(static\s*)?\s*'
         let returntype   = '%(,\s|\S)+\s*'
@@ -921,7 +921,7 @@ augroup END
 augroup ft_javascript
     au!
 
-    function! TurnOnJavascriptFolding() "{{{
+    function! TurnOnJavascriptFolding() abort "{{{
         let export       = '%(module\.)?export(s)?%(\.)?.*\{'
         let class        = 'class%(\s+\S+)*\s*\{'
         let method       = '%(static |async )?%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
@@ -1019,7 +1019,7 @@ augroup END
 augroup ft_mail
     au!
 
-    function! EnableMailProfile() " {{{
+    function! EnableMailProfile() abort "{{{
         let first_line = getline('1')
         if first_line =~? '\vFrom:.*\<matteo\@matteolandi.net\>'
             doautocmd User MailProfilePersonal
@@ -1030,16 +1030,15 @@ augroup ft_mail
     au FileType mail call EnableMailProfile()
     au FileType mail setlocal nobackup noswapfile nowritebackup
 
-    function! EnableFormatFlowed() " {{{ https://rinzewind.org/blog-en/2017/a-small-trick-for-sending-flowed-mail-in-mutt-with-vim.html
+    function! EnableFormatFlowed() abort "{{{ https://rinzewind.org/blog-en/2017/a-small-trick-for-sending-flowed-mail-in-mutt-with-vim.html
         setlocal textwidth=72
         setlocal formatoptions=watqc
         setlocal nojs
-        setlocal nosmartindent
         match ErrorMsg '\s\+$'
     endfunction " }}}
     au User MailProfilePersonal call EnableFormatFlowed()
     au User MailProfilePersonal let b:goobookprg='goobook'
-    au User MailProfileWork setlocal tw=0 wrap
+    au User MailProfileWork setlocal textwidth=0 wrap
     au User MailProfileWork let b:goobookprg='aadbook'
 augroup END
 
@@ -1066,10 +1065,10 @@ augroup END
 augroup ft_mvn
     au!
 
-    function! CheckIfMvnProject() " {{{
+    function! CheckIfMvnProject() abort "{{{
         return filereadable("pom.xml") && !filereadable('package.json')
     endfunction " }}}
-    function! InitMvnMappings() " {{{
+    function! InitMvnMappings() abort "{{{
         nnoremap <localleader>m  :Dispatch mvn -B<space>
     endfunction " }}}
     au VimEnter *
@@ -1086,7 +1085,7 @@ augroup END
 augroup ft_muttrc
     au!
 
-    au BufRead,BufNewFile *.muttrc set ft=muttrc
+    au BufRead,BufNewFile *.muttrc set filetype=muttrc
 
     au FileType muttrc setlocal foldmethod=marker foldmarker={{{,}}}
 augroup END
@@ -1097,16 +1096,16 @@ augroup END
 augroup ft_npm
     au!
 
-    function! CheckIfNpmProject() " {{{
+    function! CheckIfNpmProject() abort "{{{
         return filereadable("package.json")
     endfunction " }}}
-    function! OpenNodeRepl() "{{{
+    function! OpenNodeRepl() abort "{{{
         call term_start("bash -c node-rlwrap", {
                     \ "term_finish": "close",
                     \ "vertical": 1
                     \ })
     endfunction "}}}
-    function! InitNpmMappings() " {{{
+    function! InitNpmMappings() abort "{{{
         nnoremap <localleader>ni  :Dispatch npm install --save<space>
         nnoremap <localleader>nr  :Dispatch npm run<space>
         nnoremap <localleader>nn  :Dispatch npm<space>
@@ -1184,7 +1183,7 @@ augroup ft_python
     au FileType python nmap <C-S> vap<Plug>SendSelectionToTerminal
     au FileType python xmap <C-S> <Plug>SendSelectionToTerminal
 
-    function! OpenPythonRepl() "{{{
+    function! OpenPythonRepl() abort "{{{
         call term_start("bash -c python-rlwrap", {
                     \ "term_finish": "close",
                     \ "vertical": 1
@@ -1219,7 +1218,7 @@ augroup END
 augroup ft_rest
     au!
 
-    function! GetRestFold(lnum)
+    function! GetRestFold(lnum) abort
         if getline(a:lnum) =~? '\v^(GET|POST|PUT|DELETE)\s'
             return 1
         endif
@@ -1231,7 +1230,7 @@ augroup ft_rest
     endfunction
 
     au FileType rest setlocal foldmethod=expr foldexpr=GetRestFold(v:lnum)
-    au FileType rest setlocal ts=2 sw=2 sts=2
+    au FileType rest setlocal shiftwidth=2 softtabstop=2 expandtab
     au Filetype rest nnoremap <buffer> <localleader>1 yypVr=
 augroup END
 
@@ -1253,7 +1252,7 @@ augroup END
 augroup ft_scala
     au!
 
-    function! DispatchMavenTest()
+    function! DispatchMavenTest() abort
         let view = winsaveview()
         let zreg = @z
 
@@ -1295,7 +1294,7 @@ augroup END
 augroup ft_typescript
     au!
 
-    function! TurnOnTypescriptFolding() "{{{
+    function! TurnOnTypescriptFolding() abort "{{{
         let export       = '%(module\.)?export(s)?%(\.)?.*\{'
         let class        = 'class%(\s+\S+)*\s*\{'
         let method       = '%(async )?%(private )?%(%(get|set) )?%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
@@ -1599,7 +1598,7 @@ inoremap <c-@> <c-x><c-o>
 "         au!
 
 "         " Thanks: https://github.com/ryanpcmcquen/fix-vim-pasting
-"         function! XTermPasteBegin()
+"         function! XTermPasteBegin() abort
 "             set pastetoggle=<Esc>[201~
 "             set paste
 "             return ""
@@ -1749,8 +1748,12 @@ let g:neomake_javascript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
 let g:neomake_typescript_enabled_makers = ['tslint']
 let g:neomake_typescript_tslint_exe = $PWD .'/node_modules/.bin/tslint'
 
-autocmd! BufRead * Neomake
-autocmd! BufWritePost * Neomake
+augroup neomake_neomake
+    au!
+
+    autocmd BufRead * Neomake
+    autocmd BufWritePost * Neomake
+augroup END
 
 let g:neomake_error_sign = {
     \ 'text': '●',
