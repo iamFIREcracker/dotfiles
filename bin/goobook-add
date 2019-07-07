@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+
+set -ex
 
 NAME=
 EMAIL=
@@ -7,15 +9,15 @@ for i; do
         cat <<EOF
 usage:
 
-$(basename $0) 'Matteo Landi' matteo@matteolandi.net"
-$(basename $0) Matteo Landi matteo@matteolandi.net"
+$(basename $0) 'Matteo Landi' matteo@matteolandi.net
+$(basename $0) Matteo Landi matteo@matteolandi.net
 EOF
         exit 0
     elif [ -n "$NAME" -a -n "$EMAIL" ]; then
         echo "Garbage data found after email address..."
         exit -1
     elif [[ $i == *@* ]]; then
-        EMAIL=$i
+        EMAIL=$(echo "$i" | tr -d '<>')
     elif [ -z "$EMAIL" ]; then
         if [ -z "$NAME" ]; then
             NAME=$i
