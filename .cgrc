@@ -13,7 +13,7 @@
   (format NIL "br '~a' " url))
 
 (cg:define-guesser gcob
-    ("(git cob [^ ]+)" (git-cmd))
+    ("(git cob [^ ']+)" (git-cmd))
   (format NIL "~a" git-cmd))
 
 (cg:define-guesser git-b-git-checkout
@@ -29,7 +29,7 @@
     ;; * master    b8f0d88 [behind 1] Merge pull request #3 from iamFIREcracker/add-verbose-flag
     ;;   travis-ci c3f7128 [gone] Download Linux binary when on WSL
     ;;
-    ("^\\*?\\s+([^ ]+)\\s+([a-f0-9]{7,9})\\s(\\[gone]\\s*.*)" (branch commit rest))
+    ("^\\*?\\s+([^ ]+)\\s+([a-f0-9]{7,10})\\s(\\[gone]\\s*.*)" (branch commit rest))
   (format NIL "git branch -d '~a' # ~a -> ~a" branch commit rest))
 
 (cg:define-guesser git-branch-delete
@@ -55,22 +55,26 @@
     ("(git branch --set-upstream-to=origin/)<branch> ([^'\" ]+)" (git-cmd branch))
   (format NIL "~a~a" git-cmd branch))
 
-(cg:define-guesser git-l-git-show
+(cg:define-guesser git-l
     ("^([a-f0-9]{7,10}) (.*)" (commit rest))
-  (format NIL "git show '~a' # ~a" commit rest))
+  (list
+    (format NIL "git show '~a' # ~a" commit rest)
+    (format NIL "echo '~a' | cb # ~a" commit rest)))
 
 (cg:define-guesser git-log-git-show
     ("^commit ([a-f0-9]{40})" (commit))
   (format NIL "git show '~a'" commit))
 
-(cg:define-guesser git-st-modified-git-add
+(cg:define-guesser git-st-modified
     ;; > g st
     ;; A  ../client/package-lock.json
     ;; A  modules/objective-reindexer/index.js
     ;;  M modules/static-files/routes/static-files.js
     ;; ?? ../qst/elastic-qsearch/tags
     ("^.M (.*)" (file))
-  (format NIL "git add '~a'" file))
+  (list
+    (format NIL "git add '~a'" file)
+    (format NIL "git co '~a'" file)))
 
 (cg:define-guesser git-st-staged-git-reset
     ;; > g st
