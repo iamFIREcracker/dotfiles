@@ -3,7 +3,7 @@
     ;; you just run was not found inside PATH.
     ;; This guesser looks looks for that suggestion.
     ("(sudo apt install [^ ]+)" (apt-cmd))
-  (format NIL "~a " apt-cmd))
+  (format NIL "~a" apt-cmd))
 
 (cg:define-guesser br
     ;; Poor's urlview!
@@ -11,6 +11,13 @@
     ("((?i)\\b((?:[a-z][\\w-]+:(?:/{1,3}|[a-z0-9%])|www\\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’])))"
      (url))
   (format NIL "br '~a' " url))
+
+(cg:define-guesser dmesg-sudo-dmesg
+    ;; > dmesg
+    ;; Unable to obtain kernel buffer: Operation not permitted
+    ;; usage: sudo dmesg
+    ("usage: (sudo dmesg)" (sudo-cmd))
+  (format NIL "~a" sudo-cmd))
 
 (cg:define-guesser gcob
     ("(git cob [^ ']+)" (git-cmd))

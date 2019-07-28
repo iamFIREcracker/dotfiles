@@ -38,10 +38,12 @@ if [[ -z $TMUX ]]; then
     test -d ~/opt/winpty/build/            && export PATH="$HOME/opt/winpty/build:$PATH"
 
     # do the same with MANPATH
-    if [ -d ~/man ]; then
-        MANPATH="$HOME/man:$MANPATH"
-        export MANPATH
+    if [ -z "$MANPATH" ]; then
+        MANPATH=$(man -w)
     fi
+    test -d ~/man                                    && export MANPATH="$HOME/man:$MANPATH"
+    test -d ~/.vim/pack/bundle/start/fzf/man/        && export MANPATH="$HOME/.vim/pack/bundle/start/fzf/man:$MANPATH"
+    test -d ~/opt/PathPicker/debian/usr/share/man/   && export MANPATH="$HOME/opt/PathPicker/debian/usr/share/man/:$MANPATH"
 
     test -d ~/lib/python              && export PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
 fi
