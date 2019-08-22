@@ -78,7 +78,7 @@
     ;; A  modules/objective-reindexer/index.js
     ;;  M modules/static-files/routes/static-files.js
     ;; ?? ../qst/elastic-qsearch/tags
-    ("^.M (.*)" (file))
+    ("^.M (.*)\\s*" (file))
   (list
     (format NIL "git add '~a'" file)
     (format NIL "git co '~a'" file)))
@@ -89,7 +89,7 @@
     ;; A  modules/objective-reindexer/index.js
     ;;  M modules/static-files/routes/static-files.js
     ;; ?? ../qst/elastic-qsearch/tags
-    ("^[AM]. (.*)" (file))
+    ("^[AM]. (.*)\\s*" (file))
   (format NIL "git reset '~a'" file))
 
 (cg:define-guesser git-st-untracked
@@ -98,7 +98,7 @@
     ;; A  modules/objective-reindexer/index.js
     ;;  M modules/static-files/routes/static-files.js
     ;; ?? ../qst/elastic-qsearch/tags
-    ("\\?\\? (.*)" (file))
+    ("\\?\\? (.*)\\s*" (file))
   (list
     (format NIL "git add '~a'" file)
     (format NIL "rm '~a'" file)))
