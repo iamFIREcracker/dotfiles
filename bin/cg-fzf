@@ -1,1 +1,12 @@
-~/opt/cg/fzf/cg-fzf "$@"
+#!/usr/bin/env bash
+
+cg-fzft() {
+  local commands
+
+  IFS=$'\n' commands=($(cg | fzf-tmux --no-sort --multi --exit-0))
+  for cmd in ${commands[@]}; do
+    echo $cmd
+    bash -c "$cmd"
+  done
+}
+cg-fzft

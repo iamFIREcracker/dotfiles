@@ -38,8 +38,10 @@ if [[ -z $TMUX ]]; then
     test -d ~/opt/winpty/build/            && export PATH="$HOME/opt/winpty/build:$PATH"
 
     # do the same with MANPATH
-    if [ -z "$MANPATH" ]; then
-        MANPATH=$(man -w)
+    if [ -d ~/man ]; then
+        MANPATH="$HOME/man:$MANPATH"
+        MANPATH="$HOME/.vim/pack/bundle/start/fzf/man:$MANPATH"
+        export MANPATH
     fi
     test -d ~/man                                    && export MANPATH="$HOME/man:$MANPATH"
     test -d ~/.vim/pack/bundle/start/fzf/man/        && export MANPATH="$HOME/.vim/pack/bundle/start/fzf/man:$MANPATH"

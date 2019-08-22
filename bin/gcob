@@ -3,4 +3,4 @@
 set -ex
 
 branch=$(cb | tr -d '\r' | sed "s/[]: \"'[()]/-/g" | sed "s/--*/-/g" | sed "s/-$//")
-echo "git cob story/${branch}"
+echo "git cob story/${branch}" | cg-fzf
