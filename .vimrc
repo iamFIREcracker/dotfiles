@@ -838,22 +838,22 @@ augroup ft_html
     " Indent tag
     au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>= Vat=
 
-    " Use Shift-Return (✝) in insert mode to turn this:
+    " Use Shift-Return (Ø) in insert mode to turn this:
     "     <tag>|</tag>
     "
     " into this:
     "     <tag>
     "         |
     "     </tag>
-    au FileType html,jinja,htmldjango inoremap <buffer> ✝ <esc>cit<cr><esc>ko
-    " Use Shift-Return (✝) in normal mode to turn this:
+    au FileType html,jinja,htmldjango inoremap <buffer> Ø <esc>cit<cr><esc>ko
+    " Use Shift-Return (Ø) in normal mode to turn this:
     "     <tag>something|else</tag>
     "
     " into this:
     "     <tag>
     "         |something else
     "     </tag>
-    au FileType html,jinja,htmldjango nnoremap <buffer> ✝ <esc>vit<esc>a<cr><esc>vito<esc>i<cr><esc>
+    au FileType html,jinja,htmldjango nnoremap <buffer> Ø <esc>vit<esc>a<cr><esc>vito<esc>i<cr><esc>
 augroup END
 
 " }}}
@@ -975,7 +975,7 @@ augroup ft_javascript
     au FileType javascript nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
     au FileType javascript nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
     au FileType javascript nnoremap <buffer> <silent> ,S :LspRename<cr>
-    au FileType javascript nnoremap <buffer> <silent> ✠ :LspCodeAction<cr>
+    au FileType javascript nnoremap <buffer> <silent> ◊ :LspCodeAction<cr>
     au FileType javascript nnoremap <buffer> <silent> K :LspHover<cr>
     au FileType javascript setlocal omnifunc=lsp#complete
 
@@ -1339,7 +1339,7 @@ augroup ft_typescript
     au FileType typescript nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
     au FileType typescript nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
     au FileType typescript nnoremap <buffer> <silent> ,S :LspRename<cr>
-    au FileType typescript nnoremap <buffer> <silent> ✠ :LspCodeAction<cr>
+    au FileType typescript nnoremap <buffer> <silent> ◊ :LspCodeAction<cr>
     au FileType typescript nnoremap <buffer> <silent> K :LspHover<cr>
     au FileType typescript setlocal omnifunc=lsp#complete
 
@@ -1498,8 +1498,8 @@ set completeopt=longest,menuone
 " Unfuck my screen
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 
-" Quickreturn -- on my terminal, C-CR generates ✠
-inoremap ✠ <esc>A<cr>
+" Quickreturn -- on my terminal, C-CR generates ◊
+inoremap ◊ <esc>A<cr>
 
 
 " Toggle [I]nvisible Characters
