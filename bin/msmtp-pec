@@ -1,0 +1,1 @@
+msmtp -C ~/Dropbox/mutt/landimatte-pec.it.msmtprc -d "$@"

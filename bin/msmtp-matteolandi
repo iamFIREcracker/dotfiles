@@ -1,0 +1,1 @@
+msmtp -C ~/Dropbox/mutt/matteo-matteolandi.net.msmtprc -a matteolandi "$@"

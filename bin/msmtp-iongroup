@@ -1,0 +1,1 @@
+msmtp -C ~/Dropbox/mutt/matteo.landi-iongroup.com.msmtprc -a iongroup "$@"

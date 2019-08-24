@@ -463,10 +463,12 @@ function mvn-colorify() {
 # }}}
 # mutt {{{
 
-function mutt() {
+function muttw() {
     (cd ~/Downloads && "$(which mutt)" "$@")
 }
-function mutt-work() { mutt -F ~/.muttrc.work; }
+function mutt()      { muttw -F ~/Dropbox/mutt/matteo-matteolandi.net.muttrc; }
+function mutt-work() { muttw -F ~/Dropbox/mutt/matteo.landi-iongroup.com.muttrc; }
+function mutt-pec()  { muttw -F ~/Dropbox/mutt/landimatte-pec.it.muttrc; }
 
 # }}}
 # Node.js/NPM {{{
