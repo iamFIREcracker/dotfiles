@@ -73,6 +73,7 @@ test -n "$OS_MAC" && ensure_link ".slate"                 ".slate"
                      ensure_link ".vim"                   ".vim"
                      ensure_link ".vimfx"                 ".vimfx"
                      ensure_link ".vimrc"                 ".vimrc"
+                     ensure_link ".w3m"                   ".w3m"
                      ensure_link ".gnupg/gpg.conf"        ".gnupg/gpg.conf"
 
 (

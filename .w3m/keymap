@@ -1,0 +1,5 @@
+keymap  q       EXIT
+keymap  H       PREV
+keymap  L       NEXT
+keymap  C-U     PREV_PAGE
+keymap  C-D     NEXT_PAGE
