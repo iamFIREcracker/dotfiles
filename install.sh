@@ -84,7 +84,10 @@ test -n "$OS_MAC" && ensure_link ".slate"                 ".slate"
 
 (
     cd .vim/pack/bundle/start/vim-javacomplete2/libs/javavi/
-    mvn compile
+    test $FORCE -eq 1 && mvn clean
+    if [ ! -d target ]; then
+        mvn compile
+    fi
 )
 
 (
