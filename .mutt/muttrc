@@ -62,19 +62,19 @@ set ssl_verify_host=yes
 # }}}
 # Sidebar Patch {{{
 
-set sidebar_divider_char   = '│'
-set sidebar_visible = yes
-set sidebar_width   = 25
-color sidebar_new color221 color233
-# color sidebar_highlight brightcolor39 color233
-# color sidebar_indicator brightcolor7 color233
+# set sidebar_divider_char   = '│'
+# set sidebar_visible = yes
+# set sidebar_width   = 25
+# color sidebar_new color221 color233
+# # color sidebar_highlight brightcolor39 color233
+# # color sidebar_indicator brightcolor7 color233
 
-macro index,pager <down>   '<sidebar-next><sidebar-open>' "Next mailbox (and open it)"
-macro index,pager <up>     '<sidebar-prev><sidebar-open>' "Prev mailbox (and open it)"
-# bind index,pager <right>  sidebar-open
+# macro index,pager <down>   '<sidebar-next><sidebar-open>' "Next mailbox (and open it)"
+# macro index,pager <up>     '<sidebar-prev><sidebar-open>' "Prev mailbox (and open it)"
+# # bind index,pager <right>  sidebar-open
 
-set mail_check_stats
-set sidebar_format = "%B %> %N/%S "
+# set mail_check_stats
+# set sidebar_format = "%B %> %N/%S "
 
 # }}}
 # Status Bar {{{
@@ -156,8 +156,8 @@ bind index g        noop
 macro index <tab>   '<sync-mailbox><refresh>'
 bind index k        previous-thread
 bind index j        next-thread
-bind index K        previous-entry
-bind index J        next-entry
+bind index <prev>   previous-entry
+bind index <down>   next-entry
 bind index gg       first-entry
 bind index G        last-entry
 bind index p        recall-message
@@ -205,7 +205,7 @@ macro index,pager   gt      '<change-folder>=sent<enter>'
 macro index,pager   gd      '<change-folder>=drafts<enter>'
 macro index,pager   ga      '<change-folder>=archive<enter>'
 macro index,pager   g\#     '<change-folder>=trash<enter>'
-macro index,pager   g!      '<change-folder>=spam<enter>'
+macro index,pager   g@      '<change-folder>=spam<enter>'
 
 # switch to specific label
 # the trailing '/' is for start searching on the screen
@@ -235,8 +235,8 @@ macro pager         z       'q*nxz*n'                        "Undo"
 
 # star, spam
 # macro index,pager   s       '<flag-message>' "Star message"
-macro index         !       '<tag-prefix><save-message>=spam<enter>' "Report spam"
-macro pager         !       'q*nx!*n' "Report spam"
+macro index         @       '<tag-prefix><save-message>=spam<enter>' "Report spam"
+macro pager         @       'q*nx!*n' "Report spam"
 
 # archive
 macro index         e       '<tag-prefix><save-message>=archive<enter>' "Archive conversation"
