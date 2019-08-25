@@ -128,10 +128,6 @@ load_if_present() {
 }
 
 load_if_present ~/opt/z/z.sh
-load_if_present ~/opt/fabric-completion/fabric-completion.bash
-load_if_present ~/opt/vagrant-bash-completion/etc/bash_completion.d/vagrant
-load_if_present ~/opt/tmuxinator/completion/tmuxinator.bash
-load_if_present ~/.bashrc_ion
 
 # }}}
 # Function completion {{{
