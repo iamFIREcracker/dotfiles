@@ -1148,10 +1148,7 @@ augroup ft_plan
     au!
 
     au FileType plan setlocal wrap
-    au FileType plan nnoremap <buffer> q :call CloseOnLast()<cr>
-    au FileType plan nnoremap <localleader>n Go<CR># <C-R>=strftime("%Y-%m-%d")<CR><CR><BS><BS>
-    au FileType plan inoremap <localleader>n # <C-R>=strftime("%Y-%m-%d")<CR><CR>
-    au FileType plan inoremap <C-v><localleader>n \n
+    au FileType plan nnoremap <localleader>n gg/\v# [0-9]{4}<CR>:noh<cr>O<cr><up># <C-R>=strftime("%Y-%m-%d")<CR><CR><BS><BS>
     au FileType plan nnoremap <localleader>o :silent lgrep '^\?' %<cr>:lopen<cr>:redraw!<cr>
 augroup END
 
