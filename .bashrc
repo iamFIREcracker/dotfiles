@@ -503,7 +503,7 @@ function pip-sys() { $(which pip) "$@"; }
 # plan files {{{
 
 function p() {
-  if $OS_WIN; then
+  if [ -n "${OS_WIN}" ]; then
     PLAN=~/Dropbox/plan/.plan.work plan
   else
     PLAN=~/Dropbox/plan/.plan plan
