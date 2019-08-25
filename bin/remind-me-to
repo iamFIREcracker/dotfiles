@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# USE:
+#
+#   * remind-me-to 25m Drink!
+#   * remind-me-to 45m Stretch your neck!
+
+
+set -e
+
+TIME=$1
+shift
+
+while true; do
+  echo "[$(date)] Sleeping: $TIME"
+  sleep $TIME
+  baloon "$@"
+done

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# USE:
+#
+#   * baloon Drink!
+#   * baloon Remember to drink!
+#   * baloon 'Remember to drink'
+#   * echo 'Drink!' | baloon
+
+set -e
+
+if [ $# -ne 0 ]; then
+  MESSAGE="$@"
+else
+  MESSAGE=`cat`
+fi
+
+if [ -z "$MESSAGE" ]; then
+  echo "Missing message to display"
+  exit 1
+fi
+
+if [ -d /cygdrive/c/Python27 ]; then
+  /cygdrive/c/Python27/python.exe <<END
+import ctypes
+MessageBox = ctypes.windll.user32.MessageBoxW
+MessageBox(None, u'''${MESSAGE}''', u'Info', 0)
+END
+fi
