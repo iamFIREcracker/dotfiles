@@ -1762,27 +1762,29 @@ let g:OmniSharp_selector_ui = 'ctrlp'
 " }}}
 " Projectionist {{{
 
-let g:projectionist_heuristics = {
-    \ "group_vars/&roles/": {
-    \   "roles/*/": {"type": "role"},
-    \   "roles/*/defaults/main.yml": {"type": "defaults"},
-    \   "roles/*/files/": {"type": "files"},
-    \   "roles/*/tasks/main.yml": {"type": "tasks"},
-    \   "roles/*/templates/": {"type": "templates"},
-    \   "roles/*/vars/": {"type": "vars"}
-    \ },
-    \ "pom.xml": {
-    \   "src/main/java/*.java": {
-    \     "alternate": "src/test/java/{}Test.java",
-    \     "type": "source"
-    \   },
-    \   "src/test/java/*Test.java": {
-    \     "alternate": "src/main/java/{}.java",
-    \     "type": "test"
-    \   },
-    \   "*.java": {"dispatch": "javac {file}" },
-    \   "*": {"make": "mvn"}
-    \ }}
+if !exists('$DISABLE_PROJECTIONIST_HEURISTICS')
+    let g:projectionist_heuristics = {
+        \ "group_vars/&roles/": {
+        \   "roles/*/": {"type": "role"},
+        \   "roles/*/defaults/main.yml": {"type": "defaults"},
+        \   "roles/*/files/": {"type": "files"},
+        \   "roles/*/tasks/main.yml": {"type": "tasks"},
+        \   "roles/*/templates/": {"type": "templates"},
+        \   "roles/*/vars/": {"type": "vars"}
+        \ },
+        \ "pom.xml": {
+        \   "src/main/java/*.java": {
+        \     "alternate": "src/test/java/{}Test.java",
+        \     "type": "source"
+        \   },
+        \   "src/test/java/*Test.java": {
+        \     "alternate": "src/main/java/{}.java",
+        \     "type": "test"
+        \   },
+        \   "*.java": {"dispatch": "javac {file}" },
+        \   "*": {"make": "mvn"}
+        \ }}
+endif
 
 " }}}
 " Python-Mode {{{
