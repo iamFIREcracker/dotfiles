@@ -1,1 +1,5 @@
-~/.vim/pack/bundle/start/fzf/bin/fzf "$@"
+if hash cygpath; then
+  winpty "$(cygpath -u ~/.vim/pack/bundle/start/fzf/bin/fzf)" "$@"
+else
+  ~/.vim/pack/bundle/start/fzf/bin/fzf "$@"
+fi
