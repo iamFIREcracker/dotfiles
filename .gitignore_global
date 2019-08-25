@@ -4,6 +4,10 @@
 
 *.log
 
+# Vim doc tags
+###########
+doc/tags
+
 # Tag files
 ###########
 /tags/
