@@ -489,8 +489,6 @@ n() { npm "$@"; }
 function median() { percentile 50; }
 function o() { open "$@"; }
 function oo() { open .; }
-function p() { plan "$@"; }
-function pw() { plan-work "$@"; }
 function percentile() { awk "{ a[i++]=\$0; } END { print a[int(i*$1/100)]; }"; }
 function pip() {
     if [ -n "$VIRTUAL_ENV" ]; then
@@ -502,7 +500,20 @@ function pip() {
 function pipf() { pip freeze > requirements.txt; }
 function pipir() { pip install -r requirements.txt; }
 function pip-sys() { $(which pip) "$@"; }
-function plan-work() { PLAN=${PLAN_DIR}/.plan.work plan "$@"; }
+# plan files {{{
+
+function p() {
+  if $OS_WIN; then
+    PLAN=~/Dropbox/plan/.plan.work plan
+  else
+    PLAN=~/Dropbox/plan/.plan plan
+  fi
+}
+function plan-personal() { PLAN=~/Dropbox/plan/.plan plan "$@"; }
+function plan-work()     { PLAN=~/Dropbox/plan/.plan.work plan "$@"; }
+function plan-dir()      { vim ~/Dropbox/plan/; }
+
+# }}}
 function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n | gc "${1-.}"; }
 function psa { ps aux | grep '${@}'; }
 function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collapse | cuts -f 2,11-; }
