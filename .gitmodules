@@ -154,3 +154,6 @@
 [submodule ".tmux-plugins/tmux-external-pipe"]
 	path = .tmux-plugins/tmux-externalpipe
 	url = git@github.com:iamFIREcracker/tmux-externalpipe.git
+[submodule ".vim/pack/iamFIREcracker/start/cb.vim"]
+	path = .vim/pack/iamFIREcracker/start/cb.vim
+	url = git@github.com:iamFIREcracker/cb.vim.git

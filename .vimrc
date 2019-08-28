@@ -1632,6 +1632,15 @@ let g:airline_powerline_fonts = 1
 let g:argwrap_tail_comma_braces='[{'
 
 " }}}
+" cb {{{
+
+vmap <leader>y <Plug>CBCopy
+nmap <leader>y <Plug>CBCopy
+xmap <leader>d <leader>y<leader>Vd
+nmap <leader>Y ggVG<Plug>CBCopy
+nmap <leader>p <Plug>CBPaste
+
+" }}}
 " delimitMate {{{
 
 let delimitMate_expand_cr = 1
@@ -1987,59 +1996,6 @@ endif
 " }}}
 " Plugins wannabe --------------------------------------------------------- {{{
 
-" Clipboard {{{
-
-function! s:ClipboardError(msg) abort "{{{
-  echohl ErrorMsg | echomsg 'Clipboard: ' . a:msg | echohl None
-endf "}}}
-
-function! s:FuckingCopy(selection) abort "{{{
-  let job_cmd = ['cb']
-  let jobid = async#job#start(job_cmd, {})
-  if jobid <= 0
-    call s:ClipboardError('Failed to run the following command: ' . string(job_cmd))
-  else
-    let ret = async#job#send(jobid, a:selection, 1)
-    if ret != 0
-      call s:ClipboardError('Failed to send selection the following command: ' . ret)
-    endif
-  endif
-endfunction "}}}
-
-function! g:FuckingCopyTheTextPlease() "{{{
-    let view = winsaveview()
-    let old_z = @z
-    normal! gv"zy
-    call s:FuckingCopy(@z)
-    let @z = old_z
-    call winrestview(view)
-endfunction "}}}
-
-function! g:FuckingCopyAllTheTextPlease() "{{{
-    let view = winsaveview()
-    let old_z = @z
-    normal! ggVG"zy
-    call s:FuckingCopy(@z)
-    let @z = old_z
-    call winrestview(view)
-endfunction "}}}
-
-xnoremap <leader>y :<c-u>call g:FuckingCopyTheTextPlease()<cr>
-xmap <leader>d <leader>y<leader>Vd
-nnoremap <leader>Y :<c-u>call g:FuckingCopyAllTheTextPlease()<cr>
-
-function! g:FuckingPasteTheTextPlease()
-    let view = winsaveview()
-    set paste
-    execute 'read !cb'
-    set nopaste
-    call winrestview(view)
-endfunction
-
-nnoremap <leader>p :<c-u>call g:FuckingPasteTheTextPlease()<cr><leader>V=
-nnoremap <leader>P O<esc>:<c-u>call g:FuckingPasteTheTextPlease()<cr><leader>V=
-
-" }}}
 " Highlight Word {{{
 "
 " This mini-plugin provides a few mappings for highlighting words temporarily.
