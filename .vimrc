@@ -817,8 +817,18 @@ augroup ft_html
             " Unwrap
             normal! vi<J
         else
-            " Wrap
-            let @x = substitute(@x, '\v\s*(\*?\[?\(?\w+\)?\]?)\=', '\n\1\=', 'g')
+            " Wrap:
+            "
+            " \s* - any leading whitespace
+            " ( ... ) - the first group of matched text -- for the substitution
+            "     \* - a literal asterisk, used by Angular
+            "     \[ ... \] - literla square brackets, used by Angular
+            "     \( ... \) - literal braces, used by Angular
+            "     (\w|-)+ - multiple word character, or hypen
+            " ( ... ) - the second group of matched text
+            "     (\=|$) - literal =, or end of line -- e.g. ng-onload, as well
+            "                                           as allowFullscreen
+            let @x = substitute(@x, '\v\s*(\*?\[?\(?(\w|-)+\)?\]?)\=', '\n\1\=', 'g')
 
             " Replace selection with the modified content
             normal! gv"xp
