@@ -1638,7 +1638,8 @@ vmap <leader>y <Plug>CBCopy
 nmap <leader>y <Plug>CBCopy
 xmap <leader>d <leader>y<leader>Vd
 nmap <leader>Y ggVG<Plug>CBCopy
-nmap <leader>p <Plug>CBPaste
+nmap <leader>p <Plug>CBPasteAfter
+nmap <leader>P <Plug>CBPasteBefore
 
 " }}}
 " delimitMate {{{
