@@ -31,23 +31,16 @@ if [[ -z $TMUX ]]; then
     test -n "$JAVA_HOME"                   && export PATH="$JAVA_HOME/bin:$PATH"
     test -n "$M2_HOME"                     && export PATH="$M2_HOME/bin:$PATH"
     test -d ~/bin                          && export PATH="$HOME/bin:$PATH"
+    test -d ~/local/bin                    && export PATH="$HOME/local/bin:$PATH"
     test -d ~/perl5/bin                    && export PATH="$HOME/perl5/bin$:$PATH"
     test -d ~/npm/bin                      && export PATH="$HOME/npm/bin:$PATH"
     test -d ~/rubygems/bin                 && export PATH="$HOME/rubygems/bin:$PATH"
     test -d ~/opt/tmux                     && export PATH="$HOME/opt/tmux:$PATH"
     test -d ~/opt/winpty/build/            && export PATH="$HOME/opt/winpty/build:$PATH"
 
-    # do the same with MANPATH
-    if [ -d ~/man ]; then
-        MANPATH="$HOME/man:$MANPATH"
-        MANPATH="$HOME/.vim/pack/bundle/start/fzf/man:$MANPATH"
-        export MANPATH
-    fi
-    test -d ~/man                                    && export MANPATH="$HOME/man:$MANPATH"
-    test -d ~/.vim/pack/bundle/start/fzf/man/        && export MANPATH="$HOME/.vim/pack/bundle/start/fzf/man:$MANPATH"
-    test -d ~/opt/PathPicker/debian/usr/share/man/   && export MANPATH="$HOME/opt/PathPicker/debian/usr/share/man/:$MANPATH"
+    test -d ~/local/man/                   && export MANPATH="$HOME/local/man:$MANPATH"
 
-    test -d ~/lib/python              && export PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
+    test -d ~/lib/python                   && export PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
 fi
 
 if [ -z "${LANG}" ]; then
