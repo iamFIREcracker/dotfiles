@@ -79,7 +79,7 @@ test -n "$OS_MAC" && ensure_link ".slate"                 ".slate"
 (
     cd .vim/pack/bundle/start/vimproc.vim/
     test $FORCE -eq 1 && make clean
-    if [ -z "$(find lib/ -name 'vimproc*.so')" ]; then
+    if [ -z "$(find lib/ -name 'vimproc*')" ]; then
         make
     fi
 )
