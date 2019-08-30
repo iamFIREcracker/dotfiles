@@ -1,5 +1,0 @@
-if hash open 2>/dev/null; then
-    open "$@"
-else
-    cygstart "$@"
-fi
