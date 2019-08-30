@@ -1,10 +1,10 @@
-if [ -d ~/opt/aadbook/venv/Scripts/ ]; then
+if [ -f ~/local/bin/aadbook.exe ]; then
   if [ "$1" == "authenticate" ]; then
       # Use `winpty` for all the interactive commands
-      winpty "$(cygpath -u ~/opt/aadbook/venv/Scripts/aadbook.exe)" "$@"
+      winpty "$(cygpath -u ~/local/bin/aadbook.exe)" "$@"
     else
-      "$(cygpath -u ~/opt/aadbook/venv/Scripts/aadbook.exe)" "$@"
+      "$(cygpath -u ~/local/bin/aadbook.exe)" "$@"
     fi
 else
-    ~/opt/aadbook/venv/bin/aadbook "$@"
+    ~/local/bin/aadbook "$@"
 fi

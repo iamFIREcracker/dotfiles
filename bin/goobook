@@ -1,0 +1,10 @@
+if [ -f ~/local/bin/goobook.exe ]; then
+  if [ "$1" == "authenticate" ]; then
+      # Use `winpty` for all the interactive commands
+      winpty "$(cygpath -u ~/local/bin/goobook.exe)" "$@"
+    else
+      "$(cygpath -u ~/local/bin/goobook.exe)" "$@"
+    fi
+else
+    ~/local/bin/goobook "$@"
+fi
