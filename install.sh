@@ -15,17 +15,12 @@ set -u
 set -e
 set -x
 
-function error {
-    echo -e "\e[01;31m$@\e[0m"
-}
-
 function ensure_link {
     test $FORCE -eq 1 && remove "$HOME/$2"
     test -L "$HOME/$2" || create_link "$WORKDIR/$1" "$HOME/$2"
 }
 
 function create_link {
-    echo "L $2 -> $1"
     ln -s "$1" "$2"
 }
 
@@ -35,12 +30,10 @@ function ensure_dir {
 }
 
 function remove {
-    echo "R $1"
     rm -rf "$1"
 }
 
 function create_dir {
-    echo "D $1"
     mkdir -p $1
 }
 
