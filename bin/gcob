@@ -2,5 +2,5 @@
 
 set -ex
 
-branch=$(cb | tr -d '\r' | sed "s/[]: \"'[()]/-/g" | sed "s/--*/-/g" | sed "s/-$//")
+branch=$(cb | tr -d '\r' | sed "s/[]: ,\"'[()]/-/g" | sed "s/--*/-/g" | sed "s/-$//")
 echo "git cob story/${branch}" | cg-fzf
