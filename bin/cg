@@ -1,6 +1,0 @@
-BIN=~/opt/cg/bin/cg
-if [ -f $BIN.exe ]; then
-  $BIN.exe "$@"
-else
-  $BIN "$@"
-fi
