@@ -35,7 +35,6 @@ if [[ -z $TMUX ]]; then
     test -d ~/npm/bin                      && export PATH="$HOME/npm/bin:$PATH"
     test -d ~/rubygems/bin                 && export PATH="$HOME/rubygems/bin:$PATH"
     test -d ~/bin                          && export PATH="$HOME/bin:$PATH"
-    test -d ~/opt/winpty/build/            && export PATH="$HOME/opt/winpty/build:$PATH"
 
     test -d ~/local/man/                   && export MANPATH="$HOME/local/man:$MANPATH"
 
