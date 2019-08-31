@@ -1,1 +1,10 @@
-~/.vim/pack/bundle/start/fzf/bin/fzf-tmux "$@"
+EXE=~/.vim/pack/bundle/start/fzf/bin/fzf-tmux
+if [ -f ~/.vim/pack/bundle/start/fzf/bin/fzf.exe ]; then
+  # While on Cygiwn, fzf-tmux would normally open a tmux pane, which would open
+  # a cmd.exe (yes, because on cygwin fzf has to be run through a cmd.exe).
+  #
+  # That's ridicolous, let's skip the tmux part completely
+  EXE=fzf
+fi
+
+$EXE "$@"

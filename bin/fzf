@@ -1,5 +1,23 @@
-if hash cygpath 2>/dev/null; then
-  winpty "$(cygpath -u ~/.vim/pack/bundle/start/fzf/bin/fzf)" "$@"
+#!/usr/bin/env bash
+
+EXE=$(realpath ~/.vim/pack/bundle/start/fzf/bin/fzf)
+if ! hash cygpath 2>/dev/null; then
+  "$EXE" "$@"
 else
-  ~/.vim/pack/bundle/start/fzf/bin/fzf "$@"
+  stdin=$(tempfile .fzf.in)
+  stdout=$(tempfile .fzf.in)
+  wrapper=$(tempfile .fzf.sh)
+  trap "rm -f $wrapper $stdout $stdin" EXIT
+
+  # save stdin into a temporary file
+  cat - > "$stdin"
+
+  # create wrapper
+  cat > "$wrapper" <<EOF
+(cat "$stdin") | "$EXE" $@ > $stdout
+EOF
+
+  # run fzf through cmd.exe -- stolen from: https://github.com/junegunn/fzf.vim
+  cmd.exe /C 'set "TERM=" & start /WAIT sh -c '"$wrapper"
+  cat "$stdout"
 fi
