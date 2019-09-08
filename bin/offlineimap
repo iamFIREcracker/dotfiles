@@ -1,5 +1,0 @@
-if [ -f ~/opt/offlineimap/venv/bin/offlineimap ]; then
-    ~/opt/offlineimap/venv/bin/offlineimap "$@"
-else
-    /usr/bin/offlineimap "$@"
-fi
