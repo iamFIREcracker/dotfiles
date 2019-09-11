@@ -6,7 +6,7 @@ syntax region planDay start=/\v^\#.*/ end=/\v\ze^\#/
 syntax match planEntry /\v^.*/    containedin=planDay contained
 highlight link planEntry Normal
 
-syntax match planDayHeader        /\v^\#.*/  containedin=planEntry contained
+syntax match planDayHeader        /\v^\# [0-9]{4}.*/  containedin=planEntry contained
 highlight link planDayHeader markdownH1
 
 syntax match planEntryCompleted        /\v^\*.*/  containedin=planEntry contained

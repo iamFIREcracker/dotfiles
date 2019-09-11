@@ -153,7 +153,7 @@ unset record
 bind index q        quit
 bind index \`       shell-escape
 bind index g        noop
-macro index <tab>   '<sync-mailbox><refresh>'
+bind index <tab>    sync-mailbox
 bind index k        previous-thread
 bind index j        next-thread
 bind index <prev>   previous-entry
