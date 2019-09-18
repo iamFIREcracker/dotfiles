@@ -97,6 +97,7 @@ test -n "$OS_MAC" && ensure_link ".slate"                 ".slate"
     test $FORCE -eq 1 && rm bin/fzf*
     if [ ! -f bin/fzf -a ! -f bin/fzf.exe ]; then
         PATH=/bin:/usr/bin ./install --bin
+        git co bin/fzf-tmux # XXX why on earth would the install script delete fzf-tmux
     fi
     ensure_link ".vim/pack/bundle/start/fzf/man/man1/fzf-tmux.1" "local/man/man1/fzf-tmux.1"
     ensure_link ".vim/pack/bundle/start/fzf/man/man1/fzf.1"      "local/man/man1/fzf.1"
