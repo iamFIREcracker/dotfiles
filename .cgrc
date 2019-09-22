@@ -143,6 +143,14 @@
     ("rm: cannot remove '([^']+)': Is a directory" (directory))
   (format NIL "rm -r '~a'" directory))
 
+(cg:define-guesser rm-rmr-mac
+    ("rm: ([^']+): is a directory" (directory))-
+  (format NIL "rm -r '~a'" directory))
+
+(cg:define-guesser rm-rmr-linux
+    ("rm: '([^']+)' is a directory" (directory))-
+  (format NIL "rm -r '~a'" directory))
+
 (cg:define-guesser ssh-keygen-remove-key
     ("(ssh-keygen -f .* -R [^ ]*)" (ssh-keygen-cmd))
   (format NIL "~a " ssh-keygen-cmd))
