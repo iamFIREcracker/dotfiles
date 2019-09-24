@@ -201,7 +201,6 @@ function ${wrapper_name}() {
 eD()  { vim ${DB_SCRIPTS_DIR}; }
 eJ()  { vim ~/journal/$(date '+%Y-%m').md; }
 eM()  { vim $(tempfile "$@" ); }
-eP()  { vim ${PLAN_DIR}; }
 eR()  { vim ${REST_SCRIPTS_DIR}; }
 eS()  { vim ~/.ssh/config; }
 eT()  { vim ~/.tmuxinator/$(tmux display-message -p '#S').yml; }
@@ -214,6 +213,15 @@ ei()  { vim ~/Dropbox/ideas.md; }
 ej()  { vim $(tempfile .jira); }
 ek()  { vim ~/my-env/Windows/AutoHotkey/KeyMappings.ahk; }
 em()  { vim ~/.muttrc; }
+ep()  {
+  if [ -n "$1" ]; then
+    PLAN=~/Dropbox/plan/.$1.plan plan
+  elif [ -n "${OS_WIN}" ]; then
+    PLAN=~/Dropbox/plan/.work.plan plan
+  else
+    PLAN=~/Dropbox/plan/.plan plan
+  fi
+}
 es()  { vim ~/dotfiles/.slate; }
 et()  { vim ~/dotfiles/.tmux.conf; }
 ev()  { vim ~/dotfiles/.vimrc; }
@@ -500,20 +508,6 @@ function pip() {
 function pipf() { pip freeze > requirements.txt; }
 function pipir() { pip install -r requirements.txt; }
 function pip-sys() { $(which pip) "$@"; }
-# plan files {{{
-
-function p() {
-  if [ -n "${OS_WIN}" ]; then
-    PLAN=~/Dropbox/plan/.plan.work plan
-  else
-    PLAN=~/Dropbox/plan/.plan plan
-  fi
-}
-function plan-personal() { PLAN=~/Dropbox/plan/.plan plan "$@"; }
-function plan-work()     { PLAN=~/Dropbox/plan/.plan.work plan "$@"; }
-function plan-dir()      { vim ~/Dropbox/plan/; }
-
-# }}}
 function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n | gc "${1-.}"; }
 function psa { ps aux | grep '${@}'; }
 function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collapse | cuts -f 2,11-; }
