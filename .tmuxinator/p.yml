@@ -1,0 +1,5 @@
+name: p
+root: ~/
+
+windows:
+  - p: p
