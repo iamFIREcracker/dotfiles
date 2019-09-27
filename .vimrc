@@ -542,6 +542,15 @@ augroup ft_angular
 augroup END
 
 " }}}
+" Autohotkey {{{
+
+augroup ft_autohotkey
+  au!
+
+  autocmd FileType autohotkey setlocal commentstring=;\ %s
+augroup END
+
+" }}}
 " Blogger {{{
 
 augroup ft_blogger
