@@ -1339,7 +1339,7 @@ augroup ft_typescript
     au FileType typescript silent! call TurnOnTypescriptFolding()
     au FileType typescript silent! call RefreshManualRegexpFolding()
 
-    au FileType typescript setlocal suffixesadd+=.ts
+    au FileType typescript setlocal suffixesadd+=.ts,.js
 
     au Filetype typescript nnoremap <buffer> <C-^> :LspReferences<cr>
     au FileType typescript nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz

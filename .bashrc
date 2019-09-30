@@ -1,6 +1,6 @@
 # Platform {{{
 
-OS_WIN=$(uname -s | grep CYGWIN)
+OS_WIN=$(uname -rs | grep -e CYGWIN -e Microsoft)
 
 # }}}
 # Bash {{{

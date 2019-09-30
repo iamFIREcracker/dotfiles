@@ -108,7 +108,7 @@
     ;; somewhere, and the only way to terminate it was to `kill -9` it?  Well
     ;; this one looks for `kill $PID` lines, and suggests `kill -9 $PID`
     ;; instead.
-    ("kill ([0-9]+)" (pid))
+    ("kill '?([0-9]+)'?" (pid))
   (format NIL "kill -9 '~a'" pid))
 
 (cg:define-guesser npm-run
