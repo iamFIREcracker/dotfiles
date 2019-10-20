@@ -975,7 +975,7 @@ augroup ft_javascript
     au FileType javascript silent! call TurnOnJavascriptFolding()
     au FileType javascript silent! call RefreshManualRegexpFolding()
 
-    au FileType javascript setlocal suffixesadd+=.js
+    au FileType javascript setlocal suffixesadd+=.js,.ts
 
     au FileType javascript nmap \cc <Plug>ConnectToTerminal
     au FileType javascript nmap <C-S> vap<Plug>SendSelectionToTerminal
