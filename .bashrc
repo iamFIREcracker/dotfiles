@@ -226,6 +226,11 @@ es()  { vim ~/dotfiles/.slate; }
 et()  { vim ~/dotfiles/.tmux.conf; }
 ev()  { vim ~/dotfiles/.vimrc; }
 
+function ew() { vim $(which "$1"); }
+complete -c ew -w which
+function cw() { cat $(which "$1"); }
+complete -c cw -w which
+
 # }}}
 
 function ..() {    cd ../"$@"; }

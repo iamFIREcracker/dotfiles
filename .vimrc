@@ -33,6 +33,9 @@ set splitbelow
 set splitright
 set path=.,,
 
+" Don't increment numbers in octal notation, please
+set nrformats-=octal
+
 " iTerm2 is currently slow as balls at rendering the nice unicode lines, so for
 " " now I'll just use ASCII pipes.  They're ugly but at least I won't want to kill
 " " myself when trying to move around a file.
