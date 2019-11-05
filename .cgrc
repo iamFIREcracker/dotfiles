@@ -115,6 +115,12 @@
     ("(n\(pm)? run [^ ]+)" (npm-cmd))
   (format NIL "~a " npm-cmd))
 
+(cg:define-guesser permission-denied
+    ;; -bash: /home/mlandi/bin/remind-me-to: Permission denied
+    ;; /home/mlandi/bin/remind-me-to: line 17: /home/mlandi/bin/baloon: Permission denied
+    ("^-bash: (.*): Permission denied" (file))
+  (format NIL "chmod +x '~a' " file))
+
 (cg:define-guesser ports-kill
     ("^(\\w+)\\s+([0-9]+)\\s+(\\w+)\\s+(\\w+)" (command pid user fd))
   (format NIL "kill '~a' # FD ~a locked by ~a (~a)" pid fd command user))
@@ -150,6 +156,10 @@
 (cg:define-guesser rm-rmr-linux
     ("rm: '([^']+)' is a directory" (directory))-
   (format NIL "rm -r '~a'" directory))
+
+(cg:define-guesser vagrant-plugin
+    ("(vagrant plugin .*)" (vagrant-cmd))-
+  (format NIL "~a" vagrant-cmd))
 
 (cg:define-guesser ssh-keygen-remove-key
     ("(ssh-keygen -f .* -R [^ ]*)" (ssh-keygen-cmd))
