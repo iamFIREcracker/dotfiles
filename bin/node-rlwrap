@@ -5,8 +5,8 @@ NODE_NO_READLINE=1 rlwrap \
   --multi-line=@ \
   --multi-line-ext .js \
   --only-cook '^>' \
-  --prompt-colour=blue \
+  --prompt-colour=Cyan \
   --quote-characters='"' \
-  --histsize 1000 \
+  --histsize 10000 \
   --history-filename "$HOME/.rlwrap-node-history" \
   -- node

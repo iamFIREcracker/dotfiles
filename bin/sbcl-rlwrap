@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 rlwrap \
+  --pass-sigint-as-sigterm \
   --multi-line=@ \
   --multi-line-ext .lisp \
   --only-cook '^\[[a-zA-Z ]+\] [-a-zA-Z0-9._/]+>' \
   --prompt-colour=Cyan \
-  --quote-characters '"' \
-  --histsize 1000 \
+  --quote-characters='"' \
+  --histsize 10000 \
   --history-filename "$HOME/.rlwrap-lisp-history" \
   -- sbcl --dynamic-space-size 4000 --load ~/.sbclrc "$@"
