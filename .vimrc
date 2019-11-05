@@ -613,15 +613,24 @@ augroup ft_commonlisp
     endfunction "}}}
 
     function! SetLispWords() abort "{{{
-        setlocal lispwords+=define-modify-macro
-        setlocal lispwords+=with-gensyms
-        setlocal lispwords+=define-problem
-        setlocal lispwords+=recursively
-        setlocal lispwords+=-><
-        setlocal lispwords+=gathering
-        setlocal lispwords+=dorange
-        setlocal lispwords+=dovector
-        setlocal lispwords+=ppcre:register-groups-bind
+        setl lispwords+=cg:define-guesser
+        setl lispwords+=define-modify-macro
+        setl lispwords+=with-gensyms
+    endfunction "}}}
+
+    function! SetProjectLispwords(...) abort "{{{
+        let force = get(a:, 0, 0)
+        if force || !exists('g:project_lispwords_loaded')
+            let g:project_lispwords_loaded=1
+
+            if filereadable('.lispwords')
+                let s:lines = readfile('.lispwords')
+                for s:line in s:lines
+                    echom s:line
+                    execute "setl lispwords+=".s:line
+                endfor
+            endif
+        endif
     endfunction "}}}
 
     function! SelectToplevelLispForm() abort "{{{
@@ -659,6 +668,7 @@ augroup ft_commonlisp
     endfunction " }}}
 
     au FileType lisp call SetLispWords()
+    au FileType lisp call SetProjectLispwords()
 
     au FileType lisp setlocal iskeyword+=!,?,%,-
     au FileType lisp setlocal suffixesadd+=.lisp

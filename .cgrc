@@ -23,6 +23,10 @@
     ("(git cob [^ ']+)" (git-cmd))
   (format NIL "~a" git-cmd))
 
+(cg:define-guesser gem-pristine
+    ("(gem pristine [^ ]* --version [^ ]*)" (gem-pristine-cmd))
+  (format NIL "~a " gem-pristine-cmd))
+
 (cg:define-guesser git-b-git-checkout
     ;; Parses `git branch -v`'s output and suggests you to switch to one of the
     ;; local branches
