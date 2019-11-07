@@ -613,9 +613,10 @@ augroup ft_commonlisp
     endfunction "}}}
 
     function! SetLispWords() abort "{{{
-        setl lispwords+=cg:define-guesser
         setl lispwords+=define-modify-macro
         setl lispwords+=with-gensyms
+        setl lispwords+=ppcre:register-groups-bind
+        setl lispwords+=cg:define-guesser
     endfunction "}}}
 
     function! SetProjectLispwords(...) abort "{{{
@@ -626,7 +627,6 @@ augroup ft_commonlisp
             if filereadable('.lispwords')
                 let s:lines = readfile('.lispwords')
                 for s:line in s:lines
-                    echom s:line
                     execute "setl lispwords+=".s:line
                 endfor
             endif
