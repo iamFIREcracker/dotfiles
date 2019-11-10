@@ -831,16 +831,20 @@ augroup ft_html
         else
             " Wrap:
             "
-            " \s* - any leading whitespace
+            " \s+ - any leading whitespace (there has to be whitespace!),
+            "       otherwise we are going to end up splitting properties like:
+            "
+            "           attr.href="/?query=foo&bar=bax"
+            "
             " ( ... ) - the first group of matched text -- for the substitution
             "     \* - a literal asterisk, used by Angular
-            "     \[ ... \] - literla square brackets, used by Angular
-            "     \( ... \) - literal braces, used by Angular
-            "     (\w|-)+ - multiple word character, or hypen
+            "     \[ ... \]  - literal square brackets, used by Angular
+            "     \( ... \)  - literal braces, used by Angular
+            "     (\w|-|\.)+ - multiple word character, or hypen, or .
             " ( ... ) - the second group of matched text
             "     (\=|$) - literal =, or end of line -- e.g. ng-onload, as well
             "                                           as allowFullscreen
-            let @x = substitute(@x, '\v\s*(\*?\[?\(?(\w|-)+\)?\]?)\=', '\n\1\=', 'g')
+            let @x = substitute(@x, '\v\s+(\*?\[?\(?(\w|-|\.)+\)?\]?)\=', '\n\1\=', 'g')
 
             " Replace selection with the modified content
             normal! gv"xp
@@ -1815,6 +1819,24 @@ if !exists('$DISABLE_PROJECTIONIST_HEURISTICS')
         \   },
         \   "*.java": {"dispatch": "javac {file}" },
         \   "*": {"make": "mvn"}
+        \ },
+        \ "package.json": {
+        \   "*.js": {
+        \     "alternate": "{}.spec.js",
+        \     "type": "source"
+        \   },
+        \   "*.spec.js": {
+        \     "alternate": "{}.js",
+        \     "type": "test"
+        \   },
+        \   "*.ts": {
+        \     "alternate": "{}.spec.ts",
+        \     "type": "source"
+        \   },
+        \   "*.spec.ts": {
+        \     "alternate": "{}.ts",
+        \     "type": "test"
+        \   }
         \ }}
 endif
 
