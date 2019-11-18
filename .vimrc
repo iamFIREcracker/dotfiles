@@ -1,7 +1,5 @@
 " Preamble ---------------------------------------------------------------- {{{
 
-" Fuck it, Debian! https://stackoverflow.com/a/34957929/348524
-set nocompatible
 filetype off
 filetype plugin indent on
 
