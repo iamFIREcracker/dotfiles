@@ -266,6 +266,18 @@ function b() { bower "$@"; }
 function banner() { figlet -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
 function b1() { ~/opt/bunny1/venv/bin/python ~/opt/bunny1/b1_custom.py --test "$*"; }
 function brewski() { brew update && brew upgrade && brew cleanup; brew doctor; }
+# cat {{{
+
+if hash gcat 2>/dev/null; then
+    _cat=gcat
+else
+    _cat=$(which cat)
+fi
+function cat() {
+    ${_cat} "$@"
+}
+
+# }}}
 function cleancodes() { sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"; }
 function collapse() { sed -e 's/  */ /g'; }
 function cols() { collapse | cuts -f "$@"; }
@@ -382,7 +394,7 @@ function h() { hg "$@"; }
 wrap_alias h hg ''
 
 # }}}
-function histgrep() { history | grep "$@" | gtac; }
+function histgrep() { history | grep "$@" | tac; }
 function hn() { head -n "$@"; }
 function hn1() { hn 1; }
 function hl() {
@@ -593,6 +605,7 @@ function ta() {
     }
 }
 # tac {{{
+
 if hash gtac 2>/dev/null; then
     _tac=gtac
 else
