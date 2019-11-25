@@ -97,9 +97,6 @@
 [submodule ".vim/bundle/neomake"]
 	path = .vim/pack/bundle/start/neomake
 	url = https://github.com/neomake/neomake.git
-[submodule ".vim/bundle/vim-yankstack"]
-	path = .vim/pack/bundle/start/vim-yankstack
-	url = git@github.com:iamFIREcracker/vim-yankstack.git
 [submodule ".vim/bundle/writegooder.vim"]
 	path = .vim/pack/bundle/start/writegooder.vim
 	url = https://github.com/JKirchartz/writegooder.vim.git

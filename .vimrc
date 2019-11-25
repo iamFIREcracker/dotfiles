@@ -1934,18 +1934,6 @@ xnoremap * :<C-u>call VisualStarSearchSet('/')<CR>/<C-R>=@/<CR><CR><C-O>
 xnoremap # :<C-u>call VisualStarSearchSet('?')<CR>?<C-R>=@/<CR><CR><C-O>
 
 " }}}
-" vim-yankstack {{{
-
-function! YankStackAfterSetup()
-    nmap Y y$
-    nmap D d$
-    nmap gp <Plug>yankstack_substitute_older_paste
-    nmap gP <Plug>yankstack_substitute_newer_paste
-endfunction
-
-let g:yankstack_after_setup = 'YankStackAfterSetup'
-
-" }}}
 " vlime {{{
 
 set rtp+=~/my-env/opt/vlime/vim
@@ -2301,6 +2289,41 @@ function! s:NumberTextObject(whole)
         normal! o
     endif
 endfunction
+
+" }}}
+" Poor's man yankstack {{{
+
+function! s:PasteCycleCleanUp(timer) abort " {{{
+  if a:timer == b:paste_cycle_timer
+    unlet b:paste_cycle_timer
+    if exists('b:paste_cycle_reg_num')
+      unlet b:paste_cycle_reg_num
+    endif
+  endif
+endfunction " }}}
+
+function! s:PasteCycle(after) abort " {{{
+  if exists('b:paste_cycle_timer')
+    call timer_stop(b:paste_cycle_timer)
+    unlet b:paste_cycle_timer
+  endif
+
+  let l:paste_op_cmd = a:after ? "p" : "P"
+  if !exists('b:paste_cycle_reg_num')
+    let b:paste_cycle_reg_num = 0
+  else
+    let b:paste_cycle_reg_num = (b:paste_cycle_reg_num + 1) % 10
+  endif
+  let l:normal_cmd = 'u"' . b:paste_cycle_reg_num . l:paste_op_cmd
+
+  echo 'paste-cycle: ' . l:normal_cmd
+  exe 'normal ' . l:normal_cmd
+
+  let b:paste_cycle_timer = timer_start(5000, function('s:PasteCycleCleanUp'))
+endfunction " }}}
+
+nnoremap gp :call <SID>PasteCycle(1)<CR>
+nnoremap gP :call <SID>PasteCycle(0)<CR>
 
 " }}}
 " SendToTerminal {{{
