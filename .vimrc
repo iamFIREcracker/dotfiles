@@ -1581,6 +1581,10 @@ nnoremap <silent> ]z zMzjzvzz
 nnoremap Q @q
 nnoremap <Leader>q :let @t = 'let @q = "' . @q<CR>:<C-f>o<ESC>"tp$a"<Esc>
 
+" Consistency, Christ!
+nnoremap Y y$
+nnoremap D d$
+
 " Insert Mode Completion {{{
 
 inoremap <c-l> <c-x><c-l>
