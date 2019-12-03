@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 rlwrap \
-  --pass-sigint-as-sigterm \
   --multi-line=@ \
   --multi-line-ext .lisp \
   --only-cook '^\[[a-zA-Z ]+\] [-a-zA-Z0-9._/]+>' \

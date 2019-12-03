@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 NODE_NO_READLINE=1 rlwrap \
-  --pass-sigint-as-sigterm \
   --multi-line=@ \
   --multi-line-ext .js \
   --only-cook '^>' \

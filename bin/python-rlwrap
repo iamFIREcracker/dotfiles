@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 rlwrap \
-  --pass-sigint-as-sigterm \
   --multi-line=@ \
   --multi-line-ext .py \
   --only-cook '^>>>' \
