@@ -701,7 +701,13 @@ augroup ft_commonlisp
     au FileType lisp nmap gs :call SelectToplevelLispForm()<CR><Plug>SendSelectionToTerminal
     au FileType lisp xmap gs <Plug>SendSelectionToTerminal
 
-    au FileType lisp nmap <buffer> <silent> <C-S> <localleader>st
+    " Vlime's send-top-level-s-expression mapping is not always working as
+    " expected -- it seems it does not properly handle comments that include
+    " s-expressions -- so what we are doing here:
+    "
+    " 1) select the top-level expression, manually
+    " 2) send it
+    au FileType lisp nmap <buffer> <silent> <C-S> :call SelectToplevelLispForm()<CR><localleader>st
     au FileType lisp xmap <buffer> <silent> <C-S> <localleader>s
 
     au FileType lisp nmap <buffer> <silent> K <localleader>ddo
