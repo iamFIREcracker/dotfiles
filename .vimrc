@@ -611,6 +611,7 @@ augroup ft_commonlisp
     endfunction "}}}
 
     function! SetLispWords() abort "{{{
+        setl lispwords+=block
         setl lispwords+=define-modify-macro
         setl lispwords+=with-gensyms
         setl lispwords+=ppcre:register-groups-bind
