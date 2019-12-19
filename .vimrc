@@ -698,7 +698,7 @@ augroup ft_commonlisp
     au FileType lisp nnoremap <buffer> <silent> <localleader>q :call QuickloadLispSystem()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>Q :call QuickloadLispPrompt()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>s :call SendBuffer()<cr>
-    au FileType lisp nmap gs :call SelectToplevelLispForm()<CR><Plug>SendSelectionToTerminal
+    au FileType lisp nmap gs :let commonlisp_view = winsaveview()<CR>:call SelectToplevelLispForm()<CR><Plug>SendSelectionToTerminal:call winrestview(commonlisp_view)<cr>
     au FileType lisp xmap gs <Plug>SendSelectionToTerminal
 
     " Vlime's send-top-level-s-expression mapping is not always working as
@@ -707,7 +707,7 @@ augroup ft_commonlisp
     "
     " 1) select the top-level expression, manually
     " 2) send it
-    au FileType lisp nmap <buffer> <silent> <C-S> :call SelectToplevelLispForm()<CR><localleader>st
+    au FileType lisp nmap <buffer> <silent> <C-S> :let commonlisp_view = winsaveview()<CR>:call SelectToplevelLispForm()<CR>:<c-u>call vlime#plugin#SendToREPL(vlime#ui#CurSelection())<cr>:call winrestview(commonlisp_view)<cr>
     au FileType lisp xmap <buffer> <silent> <C-S> <localleader>s
 
     au FileType lisp nmap <buffer> <silent> K <localleader>ddo
@@ -1947,7 +1947,10 @@ xnoremap # :<C-u>call VisualStarSearchSet('?')<CR>?<C-R>=@/<CR><CR><C-O>
 " }}}
 " vlime {{{
 
-set rtp+=~/my-env/opt/vlime/vim
+if !exists('g:vlime_added_to_rtp')
+    let g:vlime_added_to_rtp = 1
+    set rtp+=~/my-env/opt/vlime/vim
+endif
 
 let g:vlime_window_settings = {
         \ "sldb": {
