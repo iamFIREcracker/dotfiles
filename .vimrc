@@ -610,6 +610,14 @@ augroup ft_commonlisp
         call InitializeLispRepl()
     endfunction "}}}
 
+    function! OpenLispReplPrompt() abort "{{{
+        call term_start("bash -c " . input("? "), {
+            \ "term_finish": "close",
+            \ "vertical": 1
+        \ })
+        call InitializeLispRepl()
+    endfunction "}}}
+
     function! SetLispWords() abort "{{{
         setl lispwords+=block
         setl lispwords+=define-modify-macro
@@ -620,8 +628,8 @@ augroup ft_commonlisp
 
     function! SetProjectLispwords(...) abort "{{{
         let force = get(a:, 0, 0)
-        if force || !exists('g:project_lispwords_loaded')
-            let g:project_lispwords_loaded=1
+        if force || !exists('b:project_lispwords_loaded')
+            let b:project_lispwords_loaded=1
 
             if filereadable('.lispwords')
                 let s:lines = readfile('.lispwords')
@@ -655,15 +663,45 @@ augroup ft_commonlisp
             echom "Could not find any .asd files..."
             return
         elseif len(systems) > 1
-            echom "Found too many any .asd files..."
+            echom "Found too many .asd files..."
             return
         endif
 
-        call SendToTerminal("(ql:quickload :" . systems[0] . ")\n")
+        call SendToTerminal("(ql:quickload :" . systems[0] . ")")
     endfunction " }}}
 
     function! QuickloadLispPrompt() abort "{{{
         call SendToTerminal("(ql:quickload :" . input("? ") . ")\n")
+    endfunction " }}}
+
+    function! TestLispSystem() abort "{{{
+        let systems = split(system('ls -1 *.asd | grep -v test | cut -d. -f1 | uniq')) " its fine
+        if len(systems) == 0
+            echom "Could not find any .asd files..."
+            return
+        elseif len(systems) > 1
+            echom "Found too many .asd files..."
+            return
+        endif
+
+        call SendToTerminal("(asdf:test-system :" . systems[0] . ")")
+    endfunction " }}}
+
+    function! TestLispPrompt() abort "{{{
+        call SendToTerminal("(asdf:test-system :" . input("? ") . ")\n")
+    endfunction " }}}
+
+    function! InPackage() abort "{{{
+        let packages = split(system('grep "(in-package .*" '. fnameescape(expand("%")) .' --only-matching | cut -d" " -f2 | uniq')) " its fine
+        if len(packages) == 0
+            echom "Could not find any defpackage lines..."
+            return
+        elseif len(packages) > 1
+            echom "Found too many defpackage lines..."
+            return
+        endif
+
+        call SendToTerminal("(in-package " . packages[0])
     endfunction " }}}
 
     au FileType lisp call SetLispWords()
@@ -693,10 +731,26 @@ augroup ft_commonlisp
     " Force omnicompletion (vlime's)
     au FileType lisp inoremap <c-n> <c-x><c-o>
 
-    au FileType lisp nnoremap <buffer> <silent> <localleader>O :call OpenLispReplSBCL()<cr>
+    au FileType lisp nnoremap <buffer> <silent> <localleader>o :call OpenLispReplSBCL()<cr>
+    au FileType lisp nnoremap <buffer> <silent> <localleader>O :call OpenLispReplPrompt()<cr>
     au FileType lisp nnoremap <buffer> <silent> gI :call IndentToplevelLispForm()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>q :call QuickloadLispSystem()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>Q :call QuickloadLispPrompt()<cr>
+    au FileType lisp nnoremap <buffer> <silent> <localleader>t :call TestLispSystem()<cr>
+    au FileType lisp nnoremap <buffer> <silent> <localleader>T :call TestLispPrompt()<cr>
+    if !exists('b:vlime_mappings_unmapped')
+        let b:vlime_mappings_unmapped=1
+        au FileType lisp unmap <buffer> <localleader>of
+        au FileType lisp unmap <buffer> <localleader>ot
+        au FileType lisp unmap <buffer> <localleader>oe
+        au FileType lisp unmap <buffer> <localleader>Tt
+        au FileType lisp unmap <buffer> <localleader>TT
+        au FileType lisp unmap <buffer> <localleader>Ti
+        au FileType lisp unmap <buffer> <localleader>TI
+        au FileType lisp unmap <buffer> <localleader>Td
+        au FileType lisp unmap <buffer> <localleader>TD
+    endif
+    au FileType lisp nnoremap <buffer> <silent> <localleader>i :call InPackage()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>s :call SendBuffer()<cr>
     au FileType lisp nmap gs :let commonlisp_view = winsaveview()<CR>:call SelectToplevelLispForm()<CR><Plug>SendSelectionToTerminal:call winrestview(commonlisp_view)<cr>
     au FileType lisp xmap gs <Plug>SendSelectionToTerminal
@@ -1153,7 +1207,7 @@ augroup ft_npm
         nnoremap <localleader>nr  :Dispatch npm run<space>
         nnoremap <localleader>nn  :Dispatch npm<space>
 
-        nnoremap <silent> <localleader>O :call OpenNodeRepl()<cr>
+        nnoremap <silent> <localleader>o :call OpenNodeRepl()<cr>
     endfunction " }}}
     au VimEnter *
                 \ if CheckIfNpmProject()
@@ -1229,7 +1283,7 @@ augroup ft_python
                     \ "vertical": 1
                     \ })
     endfunction "}}}
-    au FileType python nnoremap <silent> <localleader>O :call OpenPythonRepl()<cr>
+    au FileType python nnoremap <silent> <localleader>o :call OpenPythonRepl()<cr>
     au FileType python RainbowParenthesesActivate
     au syntax python RainbowParenthesesLoadRound
     au syntax python RainbowParenthesesLoadSquare

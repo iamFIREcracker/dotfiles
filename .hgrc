@@ -22,3 +22,6 @@ pu = pull -u
 stq = st -q
 ignore = !echo $@ >> .hgignore
 show = log --patch --rev
+
+[subrepos]
+git:allowed = true

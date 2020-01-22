@@ -1,9 +1,4 @@
-;;; The following lines added by ql:add-to-init-file:
-#-quicklisp
-(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
-                                       (user-homedir-pathname))))
-  (when (probe-file quicklisp-init)
-    (load quicklisp-init)))
+(load "~/.lisp/init.lisp")
 
 ;;; Thanks steve -- https://bitbucket.org/sjl/dotfiles/src/a92fa44e6833545d391b32a3611e8fdeccd0f5a2/sbclrc#lines-6
 (defvar *last-package* nil)
@@ -20,9 +15,3 @@
 
 (setf sb-int:*repl-prompt-fun* #'package-prompt)
 (setf sb-debug:*debug-beginner-help-p* nil)
-(setf *print-escape* t
-      *print-circle* t
-      *print-pretty* t)
-
-;;; Debugging stuff
-(load "~/.lisp/pmdb.lisp")
