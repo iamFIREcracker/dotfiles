@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+set -e
+ccl-rlwrap --load "${HOME}/opt/vlime/lisp/start-vlime.lisp" "$@"

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+NODE_NO_READLINE=1 rlwrap \
+  --pass-sigint-as-sigterm \
+  --multi-line=@ \
+  --multi-line-ext .py \
+  --only-cook '^>>>' \
+  --prompt-colour=blue \
+  --quote-characters='"' \
+  --histsize 1000 \
+  --history-filename "$HOME/.rlwrap-python-history" \
+  -- python3
