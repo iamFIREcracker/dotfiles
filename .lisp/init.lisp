@@ -11,4 +11,4 @@
       *print-pretty* t)
 
 ;;; Debugging
-; (load "~/.lisp/pmdb.lisp")
+(load "~/.lisp/pmdb.lisp")
