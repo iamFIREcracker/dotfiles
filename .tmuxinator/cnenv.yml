@@ -1,0 +1,18 @@
+# ~/.tmuxinator/cnenv.yml
+
+name: cnenv
+root: ~/workspace/ConnectION
+
+windows:
+  - dabox:
+      root: ~/workspace/ConnectION/
+      panes:
+        - g st
+  - neo4j:
+      root: ~/workspace/ConnectION/neo4j-dev/
+      panes:
+        - g st
+  - vagrant:
+      root: ~/workspace/ConnectION/connection/system/vagrant/
+      panes:
+        - g st
