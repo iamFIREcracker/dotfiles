@@ -41,7 +41,7 @@
     bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
 
     remotes = remote -v
-    shelves = stash list
+    stashes = stash list
 
     st = status --short --ignore-submodules=untracked
     ci = commit -v
