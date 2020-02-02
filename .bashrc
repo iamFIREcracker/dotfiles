@@ -42,9 +42,10 @@ HISTTIMEFORMAT='%F %T '
 N=$'\e[0m'
 BOLD=$'\e[1m'
 D=$'\e[0;37m'
-PINK=$'\e[0;35m'
 GREEN=$'\e[0;32m'
 ORANGE=$'\e[0;33m'
+BLUE=$'\e[0;34m'
+PINK=$'\e[0;35m'
 CYAN=$'\e[0;36m'
 RED=$'\e[0;31m'
 
@@ -753,6 +754,12 @@ actual_prompt() {
     fi
 }
 
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  HOST_COLOR="$BLUE"
+else
+  HOST_COLOR="$ORANGE"
+fi
+
 # Inspired by: https://gist.github.com/3083586
 prompt_command() {
     local actual=$(actual_prompt $?)
@@ -762,7 +769,7 @@ prompt_command() {
     # Record each line as it gets issued
     history -a
 
-    export PS1="\n${PINK}${USER}${D} at ${ORANGE}${HOSTNAME}${D} in ${GREEN}${PWD}${D} $(rcs_ps1) $(venv_ps1)\n${actual}"
+    export PS1="\n${PINK}${USER}${D} at ${HOST_COLOR}${HOSTNAME}${D} in ${GREEN}${PWD}${D} $(rcs_ps1) $(venv_ps1)\n${actual}"
 }
 
 
