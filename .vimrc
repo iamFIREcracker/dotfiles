@@ -1263,7 +1263,7 @@ augroup END
 augroup ft_python
     au!
 
-    let b:stt_trailing_new_lines = 2
+    au FileType python let b:stt_trailing_new_lines = 2
 
     au FileType python setlocal define=^\s*\\(def\\\\|class\\)
 
