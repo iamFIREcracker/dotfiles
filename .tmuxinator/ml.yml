@@ -16,6 +16,6 @@ windows:
         - vim pom.xml
   - system:
       layout: main-vertical
-      root: ~/Workspace/matteolandi.net/system/
+      root: ~/Workspace/matteolandi.net/
       panes:
-        - vim
+        - vim ./HACKING.md -c "vertical terminal"
