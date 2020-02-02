@@ -79,7 +79,8 @@
   (format *trace-output* "Profiled functions:~&")
   (loop for (%-of-total label ticks time count ticks-per time-per) in (compile-profiling-data) do
        (format *trace-output* "~6,2f% ~a: ~d ticks (~fs) over ~d calls for ~d (~fs) per.~&"
-               %-of-total label ticks time count ticks-per time-per)))
+               %-of-total label ticks time count ticks-per time-per))
+  (terpri))
 
 (defmacro profile (&body body)
   "Similarly to TIME, PROFILE logs additional information about DEFUN/PROFILED functions' execution
