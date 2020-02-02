@@ -740,15 +740,15 @@ augroup ft_commonlisp
     au FileType lisp nnoremap <buffer> <silent> <localleader>T :call TestLispPrompt()<cr>
     if !exists('b:vlime_mappings_unmapped')
         let b:vlime_mappings_unmapped=1
-        au FileType lisp silent unmap <buffer> <localleader>of
-        au FileType lisp silent unmap <buffer> <localleader>ot
-        au FileType lisp silent unmap <buffer> <localleader>oe
-        au FileType lisp silent unmap <buffer> <localleader>Tt
-        au FileType lisp silent unmap <buffer> <localleader>TT
-        au FileType lisp silent unmap <buffer> <localleader>Ti
-        au FileType lisp silent unmap <buffer> <localleader>TI
-        au FileType lisp silent unmap <buffer> <localleader>Td
-        au FileType lisp silent unmap <buffer> <localleader>TD
+        au FileType lisp silent! unmap <buffer> <localleader>of
+        au FileType lisp silent! unmap <buffer> <localleader>ot
+        au FileType lisp silent! unmap <buffer> <localleader>oe
+        au FileType lisp silent! unmap <buffer> <localleader>Tt
+        au FileType lisp silent! unmap <buffer> <localleader>TT
+        au FileType lisp silent! unmap <buffer> <localleader>Ti
+        au FileType lisp silent! unmap <buffer> <localleader>TI
+        au FileType lisp silent! unmap <buffer> <localleader>Td
+        au FileType lisp silent! unmap <buffer> <localleader>TD
     endif
     au FileType lisp nnoremap <buffer> <silent> <localleader>i :call InPackage()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>s :call SendBuffer()<cr>
