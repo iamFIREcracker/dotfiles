@@ -59,9 +59,8 @@ set dictionary=/usr/share/dict/words
 " Terminal.app does not support True Color -- yay! -- and since there is no
 " simple and reliable way to check for True Color support
 " (https://gist.github.com/XVilka/8346728#querying-the-terminal), I decided 
-" to check for ENV variables I know are being set when running inside iTerm or
-" Mintty
-if exists('$MINTTY') || exists('$ITERM_PROFILE')
+" to check for ENV variables I know are being set when running inside iTerm.
+if exists('$ITERM_PROFILE')
   set termguicolors
 else
   set notermguicolors
