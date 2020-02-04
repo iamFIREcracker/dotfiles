@@ -150,6 +150,9 @@ augroup theme_customizations
             \ hi! link shDerefVar Comment |
             \ hi! link PreProc Comment |
             \ hi! link javaScriptEmbed javaScriptStringT |
+            \ hi! markdownItalic cterm=italic |
+            \ hi! link markdownH2 markdownH1delimiter |
+            \ hi! link markdownH3 markdownH1delimiter |
             \ call GoodWolfHL('DiffText', 'orange', 'deepergravel', 'none')
 augroup END
 
