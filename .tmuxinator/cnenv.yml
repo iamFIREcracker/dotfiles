@@ -7,12 +7,12 @@ windows:
   - dabox:
       root: ~/workspace/ConnectION/
       panes:
-        - g st
-  - neo4j:
-      root: ~/workspace/ConnectION/neo4j-dev/
-      panes:
-        - g st
+        - vagrant status
   - vagrant:
       root: ~/workspace/ConnectION/connection/system/vagrant/
+      panes:
+        - vagrant status
+  - neo4j:
+      root: ~/workspace/ConnectION/neo4j-dev/
       panes:
         - g st
