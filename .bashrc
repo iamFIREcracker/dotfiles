@@ -756,12 +756,6 @@ actual_prompt() {
     fi
 }
 
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-  HOST_COLOR="$PINK"
-else
-  HOST_COLOR="$CYAN"
-fi
-
 # Inspired by: https://gist.github.com/3083586
 prompt_command() {
     local actual=$(actual_prompt $?)
@@ -771,7 +765,7 @@ prompt_command() {
     # Record each line as it gets issued
     history -a
 
-    export PS1="\n${BOLD}${USER}${D} at ${HOST_COLOR}${HOSTNAME}${D} in ${UNDERLINE}${PWD}${D} $(rcs_ps1) $(venv_ps1)\n${actual}"
+    export PS1="\n${BOLD}${USER}${D} at ${CYAN}${HOSTNAME}${D} in ${UNDERLINE}${PWD}${D} $(rcs_ps1) $(venv_ps1)\n${actual}"
 }
 
 
