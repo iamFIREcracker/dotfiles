@@ -2452,6 +2452,10 @@ endfunction
 nnoremap <expr> <Plug>ConnectToTerminal ':buffers<CR>:let g:stt_buffnr='
 xnoremap <expr> <Plug>SendSelectionToTerminal ':<C-U>call <SID>SendSelectionToTerminal(visualmode())<CR>'
 command! STTClear call s:ClearSendToTerminalConnection()
+nmap <localleader>cc <Plug>ConnectToTerminal
+nmap <localleader>cd :STTClear<cr>
+nmap <C-S> vap<Plug>SendSelectionToTerminal
+xmap <C-S> <Plug>SendSelectionToTerminal
 
 " }}}
 " SendToUrlview {{{
