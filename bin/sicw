@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# sic(1) wrapper that:
+#
+# - creates a SSL tunnel
+# - executes on-connect auto-commands
+# - auto-identify
+# - hides JOIN/QUIT events
+# - highlights your name
+# - auto-reconnect
+
+set -u
+
+color='\c[[1;31m'
+default='\c[[0m'
+
+host=${1-irc.oftc.net}; shift
+username=${1-iamFIREcracker}; shift
+localport=${1-6697}; shift
+supports_pass=${1-1}; shift
+
+password=$(keyring get $host $username)
+server_history=$HOME/irc/${host}.log
+autocmdfile=$HOME/irc/${host}.autocmd
+
+while : ; do
+  # SSL proxy
+  socat tcp-listen:$localport openssl-connect:$host:6697 &
+  socatpid=$!
+  trap "kill $socatpid" SIGINT SIGTERM
+  sleep 5
+
+  (
+    if [ $supports_pass -eq 0 ]; then
+      echo ":m nickserv identify $password"
+    fi
+    cat $autocmdfile -
+  ) | \
+  sic -h 127.0.0.1 -p $localport -n $username -k $password | \
+    grep --line-buffered --invert-match 'nickserv.* identify' | \
+    tee -a $server_history | \
+    grep --line-buffered --invert-match ' >< \(JOIN\|QUIT\) ' | \
+    gsed "s/$username/$color$username$default/g"
+done

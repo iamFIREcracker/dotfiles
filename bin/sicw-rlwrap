@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+rlwrap \
+  --pass-sigint-as-sigterm \
+  --histsize 1000 \
+  --history-filename "$HOME/.rlwrap-irc-history" \
+  -- sicw "$@"

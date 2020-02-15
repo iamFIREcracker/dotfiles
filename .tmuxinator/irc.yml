@@ -1,0 +1,15 @@
+name: irc
+root: ~/
+
+windows:
+  - oftc:
+    layout: main-horizontal
+    panes:
+      - clear; tail -f ~/irc/irc.oftc.net.log | grep iamFIREcracker
+      - sicw-rlwrap irc.oftc.net iamFIREcracker 6697 0
+
+  - freenode:
+    layout: main-horizontal
+    panes:
+      - clear; tail -f ~/irc/chat.freenode.net.log | grep iamFIREcracker
+      - sicw-rlwrap chat.freenode.net iamFIREcracker 6698
