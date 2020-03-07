@@ -1234,7 +1234,7 @@ augroup END
 augroup ft_plan
     au!
 
-    au FileType plan setlocal wrap
+    au FileType plan setlocal wrap textwidth=0
     au FileType plan nnoremap <localleader>n gg/\v# [0-9]{4}<CR>:noh<cr>O<cr><up># <C-R>=strftime("%Y-%m-%d")<CR><CR><BS><BS>
     au FileType plan nnoremap <localleader>o :silent lgrep '^\?' %<cr>:lopen<cr>:redraw!<cr>
 augroup END

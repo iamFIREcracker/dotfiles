@@ -134,11 +134,12 @@
                         ]
                     },
                     {
+                        "description": "Change quote to right_control. (Post quote if pressed alone)",
                         "manipulators": [
                             {
-                                "description": "Change return_or_enter to right_control. (Post return_or_enter if pressed alone)",
+                                "description": "Change quote to right_control. (Post quote if pressed alone)",
                                 "from": {
-                                    "key_code": "return_or_enter",
+                                    "key_code": "quote",
                                     "modifiers": {
                                         "optional": [
                                             "any"
@@ -152,7 +153,7 @@
                                 ],
                                 "to_if_alone": [
                                     {
-                                        "key_code": "return_or_enter"
+                                        "key_code": "quote"
                                     }
                                 ],
                                 "type": "basic"
@@ -346,6 +347,83 @@
                                 "type": "basic"
                             }
                         ]
+                    },
+                    {
+                        "description": "open_bracket as modifier",
+                        "manipulators": [
+                            {
+                                "description": "open_bracket as modifier",
+                                "from": {
+                                    "key_code": "open_bracket"
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "open_bracket",
+                                            "value": 1
+                                        }
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "set_variable": {
+                                            "name": "open_bracket",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "open_bracket"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "open_bracket",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "description": "open_bracket + w as left_alt + right_arrow (one word forward)",
+                                "from": {
+                                    "key_code": "w"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_arrow",
+                                        "modifiers": [
+                                            "left_alt"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "open_bracket",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "description": "open_bracket + b as left_alt + left_arrow (one word backward)",
+                                "from": {
+                                    "key_code": "b"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_arrow",
+                                        "modifiers": [
+                                            "left_alt"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
                     }
                 ]
             },
@@ -386,18 +464,18 @@
                     "simple_modifications": [
                         {
                             "from": {
-                                "key_code": "left_control"
-                            },
-                            "to": {
-                                "key_code": "f20"
-                            }
-                        },
-                        {
-                            "from": {
                                 "key_code": "escape"
                             },
                             "to": {
                                 "key_code": "grave_accent_and_tilde"
+                            }
+                        },
+                        {
+                            "from": {
+                                "key_code": "left_control"
+                            },
+                            "to": {
+                                "key_code": "f20"
                             }
                         }
                     ]
@@ -509,18 +587,18 @@
             "simple_modifications": [
                 {
                     "from": {
-                        "key_code": "left_option"
-                    },
-                    "to": {
-                        "key_code": "left_command"
-                    }
-                },
-                {
-                    "from": {
                         "key_code": "left_command"
                     },
                     "to": {
                         "key_code": "right_option"
+                    }
+                },
+                {
+                    "from": {
+                        "key_code": "left_option"
+                    },
+                    "to": {
+                        "key_code": "left_command"
                     }
                 }
             ],

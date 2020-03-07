@@ -11,8 +11,13 @@ set -e
 TIME=$1
 shift
 
+SLEEP=sleep
+if hash gsleep 2>/dev/null; then
+  SLEEP=gsleep
+fi
+
 while true; do
   echo "[$(date)] Sleeping: $TIME"
-  sleep $TIME
+  $SLEEP $TIME
   baloon "$@"
 done

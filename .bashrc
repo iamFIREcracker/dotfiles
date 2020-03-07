@@ -66,7 +66,7 @@ alias :qa=exit
 
 # FZF {{{
 
-export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+export FZF_DEFAULT_COMMAND='ag --hidden --nocolor -g ""'
 
 # }}}
 # General {{{

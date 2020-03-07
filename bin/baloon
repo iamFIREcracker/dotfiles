@@ -26,4 +26,13 @@ import ctypes
 MessageBox = ctypes.windll.user32.MessageBoxW
 MessageBox(None, u'''${MESSAGE}''', u'Info', 0)
 END
+else
+  python3 <<END
+from tkinter import Tk, messagebox
+
+root = Tk()
+root.overrideredirect(1) # no flashing
+root.withdraw()
+messagebox.showinfo('Reminder', '''${MESSAGE}''')
+END
 fi
