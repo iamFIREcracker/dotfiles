@@ -1981,6 +1981,15 @@ endif
 let g:vim_json_syntax_conceal = 0
 
 " }}}
+" vim-prettier {{{
+
+let g:prettier#autoformat_config_present = 1
+" Need to disable the pragma-based autoformat feature
+" or the setting above wouldn't work
+let g:prettier#autoformat_require_pragma = 0 " need
+let g:prettier#exec_cmd_async = 1
+
+" }}}
 " vim-rest-console {{{
 
 let g:vrc_follow_redirects = 1

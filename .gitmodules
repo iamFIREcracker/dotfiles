@@ -154,3 +154,6 @@
 [submodule ".vim/pack/iamFIREcracker/start/cb.vim"]
 	path = .vim/pack/iamFIREcracker/start/cb.vim
 	url = git@github.com:iamFIREcracker/cb.vim.git
+[submodule ".vim/pack/bundle/start/vim-prettier.git"]
+	path = .vim/pack/bundle/start/vim-prettier
+	url = https://github.com/prettier/vim-prettier.git

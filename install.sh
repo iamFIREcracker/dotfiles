@@ -88,6 +88,14 @@ test -n "$OS_MAC" && ensure_link ".slate"                 ".slate"
 )
 
 (
+    cd .vim/pack/bundle/start/vim-prettier/
+    test $FORCE -eq 1 && rm -rf node_modules
+    if [ ! -d node_modules ]; then
+        npm install
+    fi
+)
+
+(
     cd .vim/pack/bundle/start/fzf
     # the install script checks if `fzf' ware already installed
     # and if found, would symlink it to ./bin
