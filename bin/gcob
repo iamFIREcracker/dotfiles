@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-set -ex
+set -euo pipefail
+set -x
 
-branch=$(cb | tr -d '\r' | sed "s/[]: ,\"'[()]/-/g" | sed "s/--*/-/g" | sed "s/-$//")
-echo "git cob story/${branch}" | cg-fzf
+story=$(cb)
+id=$(echo $story | cut -d: -f1)
+desc=$(echo $story | cut -d: -f2- | tr '[:upper:]' '[:lower:]')
+branch=$(echo $desc | tr -d '\r' | sed "s/[]: ,\"'[()]/-/g" | sed "s/--*/-/g" | sed "s/-$//")
+echo "git cob story/$id/${branch}" | cg-fzf
