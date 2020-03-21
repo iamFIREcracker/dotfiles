@@ -1703,11 +1703,6 @@ let g:ackprg = 'ag --vimgrep --hidden --smart-case --nogroup --nocolor --column'
 let g:ack_use_async = 1
 
 " }}}
-" Airline {{{
-
-let g:airline_powerline_fonts = 1
-
-" }}}
 " Argwrap {{{
 
 let g:argwrap_tail_comma_braces='[{'

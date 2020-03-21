@@ -55,9 +55,6 @@
 [submodule ".vim/bundle/vim-maven-plugin"]
 	path = .vim/pack/bundle/start/vim-maven-plugin
 	url = https://github.com/mikelue/vim-maven-plugin.git
-[submodule ".vim/bundle/vim-airline"]
-	path = .vim/pack/bundle/start/vim-airline
-	url = https://github.com/bling/vim-airline.git
 [submodule ".vim/bundle/vim-fugitive"]
 	path = .vim/pack/bundle/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
@@ -157,3 +154,6 @@
 [submodule ".vim/pack/bundle/start/vim-prettier.git"]
 	path = .vim/pack/bundle/start/vim-prettier
 	url = https://github.com/prettier/vim-prettier.git
+[submodule ".vim/pack/bundle/start/lightline.vim"]
+	path = .vim/pack/bundle/start/lightline.vim
+	url = https://github.com/itchyny/lightline.vim.git
