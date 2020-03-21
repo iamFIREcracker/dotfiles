@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 OS_WIN=$(uname -s | grep CYGWIN)
 
 if [ -n "$OS_WIN" ]; then

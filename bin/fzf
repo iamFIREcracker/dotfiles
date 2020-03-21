@@ -5,7 +5,7 @@ if ! hash cygpath 2>/dev/null; then
   "$EXE" "$@"
 else
   stdin=$(tempfile .fzf.in)
-  stdout=$(tempfile .fzf.in)
+  stdout=$(tempfile .fzf.out)
   wrapper=$(tempfile .fzf.sh)
   trap "rm -f $wrapper $stdout $stdin" EXIT
 
