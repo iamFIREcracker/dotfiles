@@ -1,0 +1,3 @@
+text/plain; less '%s'; needsterminal
+application/*; ~/.mutt/view_attachment.sh %s "-"
+image/*; ~/.mutt/view_attachment.sh %s "-"

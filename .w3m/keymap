@@ -1,5 +1,29 @@
-keymap  q       EXIT
-keymap  H       PREV
-keymap  L       NEXT
-keymap  C-U     PREV_PAGE
-keymap  C-D     NEXT_PAGE
+keymap  r      RELOAD
+keymap  H      PREV
+keymap  L      NEXT
+keymap  C-U    PREV_PAGE
+keymap  C-D    NEXT_PAGE
+
+keymap gg BEGIN
+keymap w NEXT_WORD
+keymap b PREV_WORD
+keymap zz CENTER_V
+
+keymap o COMMAND "GOTO /cgi-bin/b1.cgi; NEXT_LINK"
+keymap t COMMAND "TAB_GOTO /cgi-bin/b1.cgi; NEXT_LINK"
+keymap ( NEXT_TAB
+keymap ) PREV_TAB
+keymap gt TAB_LINK
+keymap d CLOSE_TAB
+keymap x CLOSE_TAB
+
+keymap :h HELP
+keymap :o OPTIONS
+keymap :q QUIT
+
+keymap gs SOURCE
+keymap V EXTERN
+
+keymap p  GOTO      /cgi-bin/cb.cgi
+keymap P  TAB_GOTO  /cgi-bin/cb.cgi
+keymap yy EXTERN "url=%s && printf %s "$url" | cb && printf %s "$url" &"
