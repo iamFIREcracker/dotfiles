@@ -1819,13 +1819,19 @@ let g:maven_ignore_globs = [
 " Neomake {{{
 
 let g:neomake_open_list = 0
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_javascript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
-let g:neomake_typescript_enabled_makers = ['tslint']
-let g:neomake_typescript_tslint_exe = $PWD .'/node_modules/.bin/tslint'
-let g:neomake_markdown_enabled_makers = ['markdownlint']
-let g:neomake_markdown_markdownlint_exe = $PWD .'/node_modules/.bin/markdownlint'
-let g:neomake_markdown_markdownlint_errorformat = '%f:%l %m'
+if filereadable($PWD .'/node_modules/.bin/eslint')
+  let g:neomake_javascript_enabled_makers = ['eslint']
+  let g:neomake_javascript_eslint_exe = $PWD .'/node_modules/.bin/eslint'
+endif
+if filereadable($PWD .'/node_modules/.bin/tslint')
+  let g:neomake_typescript_enabled_makers = ['tslint']
+  let g:neomake_typescript_tslint_exe = $PWD .'/node_modules/.bin/tslint'
+endif
+if filereadable($PWD .'/node_modules/.bin/markdownlint')
+  let g:neomake_markdown_enabled_makers = ['markdownlint']
+  let g:neomake_markdown_markdownlint_exe = $PWD .'/node_modules/.bin/markdownlint'
+  let g:neomake_markdown_markdownlint_errorformat = '%f:%l %m'
+endif
 
 augroup neomake_neomake
     au!
