@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+lsappinfo info -only bundleid "$*" | cut -d '"' -f4; 
