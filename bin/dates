@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Print the current time in a bunch of timezones where
+# people I work with, live
+
+set -euo pipefail
+
+echo Jakarta: $(TZ=:Asia/Jakarta date)
+echo India: $(TZ=:Asia/Calcutta date)
+echo Home: $(TZ=:Europe/Rome date)
+echo NY: $(TZ=:America/New_York date)
