@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+/Library/TeX/Root/bin/x86_64-darwin/pdflatex "$@"
