@@ -73,7 +73,8 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Terminal$"
+                                            "^com\\.apple\\.Terminal$",
+                                            "^io\\.alacritty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -106,7 +107,8 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Terminal$"
+                                            "^com\\.apple\\.Terminal$",
+                                            "^io\\.alacritty$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }

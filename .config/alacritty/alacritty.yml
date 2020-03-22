@@ -1,0 +1,66 @@
+window:
+  padding:
+    x: 5
+    y: 5
+
+scrolling:
+  # Disable scroll history (use Tmux's)
+  history: 0
+
+font:
+  normal:
+    family: monospace
+
+  bold:
+    # disable bold fonts
+    style: Regular
+
+  size: 10.5
+
+draw_bold_text_with_bright_colors: true
+
+colors:
+  primary:
+    foreground: '0xc7c7c7'
+
+  cursor:
+    text: '0x444444'
+    cursor: '0x00AFFF'
+
+  # Normal colors
+  normal:
+   black:   '0x000000'
+   red:     '0xe92f2f'
+   green:   '0x0ed839'
+   yellow:  '0xdddd13'
+   blue:    '0x3b48e3'
+   magenta: '0xf996e2'
+   cyan:    '0x23edda'
+   white:   '0xababab'
+
+  # Bright colors
+  bright:
+    black:   '0x343434'
+    red:     '0xf07474'
+    green:   '0x40f366'
+    yellow:  '0xf0f04e'
+    blue:    '0x7d87ec'
+    magenta: '0xfddef6'
+    cyan:    '0x6bf3e6'
+    white:   '0xf9f9f9'
+
+visual_bell:
+  # Disable visual bell
+  duration: 0
+
+dynamic_title: true
+
+cursor:
+  style: Block
+  # Rendered the cursor of an unfocused window as a hollow cursor
+  unfocused_hollow: true
+
+live_config_reload: true
+
+key_bindings:
+  - { key: N,        mods: Command, command: { program: "open", args: ["-n", "/Applications/Alacritty.app"] } }

@@ -43,6 +43,7 @@ function create_dir {
                      ensure_link ".agignore"              ".agignore"
                      ensure_link ".bash_profile"          ".bash_profile"
                      ensure_link ".bashrc"                ".bashrc"
+test -n "$OS_MAC" && ensure_link ".config/alacritty"      ".config/alacritty"
 test -n "$OS_MAC" && ensure_link ".config/karabiner"      ".config/karabiner"
                      ensure_link ".cgrc"                  ".cgrc"
                      ensure_link ".ctags"                 ".ctags"

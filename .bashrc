@@ -201,6 +201,7 @@ function ${wrapper_name}() {
 
 # Quick editing {{{ 
 
+ea()  { vim ~/.config/alacritty/alacritty.yml; }
 eD()  { vim ${DB_SCRIPTS_DIR}; }
 eJ()  { vim ~/journal/$(date '+%Y-%m').md; }
 eM()  { vim $(tempfile "$@" ); }
