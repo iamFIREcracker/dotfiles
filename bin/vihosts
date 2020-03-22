@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 OS_WIN=$(uname -s | grep CYGWIN)
+
+set -euo pipefail
 
 if [ -n "$OS_WIN" ]; then
     cygstart --action=runas vim -u NONE /cygdrive/c/Windows/System32/drivers/etc/hosts
