@@ -1,3 +1,4 @@
+keymap  R      REINIT
 keymap  r      RELOAD
 keymap  H      PREV
 keymap  L      NEXT
@@ -10,6 +11,7 @@ keymap b PREV_WORD
 keymap zz CENTER_V
 
 keymap o COMMAND "GOTO /cgi-bin/b1.cgi; NEXT_LINK"
+keymap O GOTO
 keymap t COMMAND "TAB_GOTO /cgi-bin/b1.cgi; NEXT_LINK"
 keymap ( NEXT_TAB
 keymap ) PREV_TAB
@@ -17,6 +19,7 @@ keymap gt TAB_LINK
 keymap d CLOSE_TAB
 keymap x CLOSE_TAB
 
+keymap :: COMMAND
 keymap :h HELP
 keymap :o OPTIONS
 keymap :q QUIT
