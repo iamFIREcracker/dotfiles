@@ -1735,6 +1735,14 @@ nnoremap <leader>m :Dispatch<cr>
 let g:EasyMotion_leader_key = '<leader>'
 
 " }}}
+" editorconfig-vim {{{
+
+let g:EditorConfig_exclude_patterns = [
+         \ 'fugitive://.*',
+         \ 'scp://.*'
+         \ ]
+
+" }}}
 " Emmet {{{
 
 let g:user_emmet_install_global = 0
@@ -1930,14 +1938,6 @@ let g:pymode_syntax_builtin_objs = 1
 " Rainbow Parentheses {{{
 
 let g:rbpt_max = 1
-
-" }}}
-" vim-editorconfig {{{
-
-let g:editorconfig_verbose = 1
-let g:editorconfig_blacklist = {
-    \ 'filetype': ['git.*', 'fugitive', 'mail'],
-    \ 'pattern': ['\.un~$']}
 
 " }}}
 " vim-goobook {{{

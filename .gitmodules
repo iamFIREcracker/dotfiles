@@ -136,9 +136,6 @@
 [submodule ".vim/pack/bundle/start/vim-goobook"]
 	path = .vim/pack/bundle/start/vim-goobook
 	url = git@github.com:iamFIREcracker/vim-goobook.git
-[submodule ".vim/pack/bundle/start/vim-editorconfig"]
-	path = .vim/pack/bundle/start/vim-editorconfig
-	url = https://github.com/sgur/vim-editorconfig.git
 [submodule ".vim/pack/bundle/start/vim-lsp"]
 	path = .vim/pack/bundle/start/vim-lsp
 	url = git@github.com:iamFIREcracker/vim-lsp.git
@@ -157,3 +154,6 @@
 [submodule ".vim/pack/bundle/start/lightline.vim"]
 	path = .vim/pack/bundle/start/lightline.vim
 	url = https://github.com/itchyny/lightline.vim.git
+[submodule ".vim/pack/bundle/start/editorconfig-vim"]
+	path = .vim/pack/bundle/start/editorconfig-vim
+	url = https://github.com/editorconfig/editorconfig-vim.git
