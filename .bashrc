@@ -766,7 +766,7 @@ prompt_command() {
     # Record each line as it gets issued
     history -a
 
-    export PS1="\n${BOLD}${USER}${D} at ${CYAN}${HOSTNAME}${D} in ${UNDERLINE}${PWD}${D} $(rcs_ps1) $(venv_ps1)\n${actual}"
+    export PS1="${D}\n${BOLD}${USER}${D} at ${CYAN}${HOSTNAME}${D} in ${UNDERLINE}${PWD}${D} $(rcs_ps1) $(venv_ps1)\n${D}${actual}"
 }
 
 
