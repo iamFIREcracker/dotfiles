@@ -18,7 +18,7 @@
                     {
                         "manipulators": [
                             {
-                                "description": "Change f20 to command+control+option+shift.",
+                                "description": "Make F20 my hyper-key",
                                 "from": {
                                     "key_code": "f20",
                                     "modifiers": {
@@ -244,6 +244,7 @@
                     {
                         "manipulators": [
                             {
+                                "description": "Terminal: ctrl+enter to ◊ (Option + Shift + v on Mac OS)",
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
@@ -253,7 +254,6 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "Ctrl+Enter to ◊ (Option + Shift + v on Mac OS)",
                                 "from": {
                                     "key_code": "return_or_enter",
                                     "modifiers": {
@@ -278,6 +278,7 @@
                     {
                         "manipulators": [
                             {
+                                "description": "Terminal: shift+enter to Ø (Option + Shift + o on Mac OS)",
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
@@ -287,7 +288,6 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "Shift+Enter to Ø (Option + Shift + o on Mac OS)",
                                 "from": {
                                     "key_code": "return_or_enter",
                                     "modifiers": {
@@ -310,10 +310,10 @@
                         ]
                     },
                     {
-                        "description": "Change quote to right_control. (Post quote if pressed alone)",
+                        "description": "Change quote to left_control. (Post quote if pressed alone)",
                         "manipulators": [
                             {
-                                "description": "Change quote to right_control. (Post quote if pressed alone)",
+                                "description": "Change quote to left_control. (Post quote if pressed alone)",
                                 "from": {
                                     "key_code": "quote",
                                     "modifiers": {
@@ -324,7 +324,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "right_control"
+                                        "key_code": "left_control"
                                     }
                                 ],
                                 "to_if_alone": [
