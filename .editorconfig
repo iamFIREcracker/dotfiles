@@ -26,3 +26,6 @@ tab_width = 4
 
 [*.md]
 max_line_length = 80
+
+[*.plan]
+max_line_length = 0
