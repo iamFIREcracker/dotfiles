@@ -11,8 +11,7 @@ Content-type: text/html
 </head>
 <body>
 <form action="http://localhost:9084/">
-<input type='text' name='___' value=''>
-<input type='submit' value='try me'>
+<input type='search' name='___' value=''>
 </form>
 </body>
 </html>
