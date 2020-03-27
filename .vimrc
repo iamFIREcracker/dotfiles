@@ -1514,7 +1514,8 @@ nnoremap <leader>eb :vsplit ~/dotfiles/.bashrc<cr>
 nnoremap <leader>eg :vsplit ~/dotfiles/.gitconfig<cr>
 nnoremap <leader>eh :vsplit ~/dotfiles/.hgrc<cr>
 nnoremap <leader>em :vsplit ~/.muttrc<cr>
-nnoremap <leader>ep :vsplit ~/.plan<cr>
+nnoremap <leader>ep :vsplit ~/Dropbox/plan/.plan<cr>
+nnoremap <leader>eP :vsplit ~/Dropbox/plan/.<C-D>
 nnoremap <leader>et :vsplit ~/dotfiles/.tmux.conf<cr>
 nnoremap <leader>ev :vsplit ~/dotfiles/.vimrc<cr>
 
