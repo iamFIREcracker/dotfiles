@@ -39,17 +39,17 @@ export HISTIGNORE="&:exit:ls:bg:fg:history:hs:clear"
 HISTTIMEFORMAT='%F %T '
 
 # Colors
-N=$'\e[0m'
+D=$'\e[0m'
 BOLD=$'\e[1m'
 ITALIC=$'\e[3m'
 UNDERLINE=$'\e[4m'
-D=$'\e[0;37m'
 GREEN=$'\e[0;32m'
 ORANGE=$'\e[0;33m'
 BLUE=$'\e[0;34m'
 PINK=$'\e[0;35m'
 CYAN=$'\e[0;36m'
 RED=$'\e[0;31m'
+WHITE=$'\e[0;97m'
 
 # }}}
 # Vim mode {{{
@@ -472,7 +472,7 @@ function m() {
 function mvn-colorify() {
     sed --unbuffered \
         -e "s/Tests run: \([^,]*\), Failures: \([^,]*\), Errors: \([^,]*\), Skipped: \([^,]*\)/${GREEN}Tests run: \1${D}, Failures: ${ORANGE}\2${D}, Errors: ${RED}\3${D}, Skipped: ${CYAN}\4${D}/g" \
-        -e "s/\[INFO\] \(--- .* ---\)/$BOLD\1$N/g" \
+        -e "s/\[INFO\] \(--- .* ---\)/$BOLD\1$D/g" \
         -e "s/\[INFO\] \(Building [^jar].*\)/$CYAN\1$D/g" \
         -e "s/\[INFO\] \(BUILD SUCCESS\)/$GREEN\1$D/g" \
         -e "s/\[INFO\] \(BUILD FAILURE\)/$RED\1$D/g" \
@@ -638,7 +638,7 @@ function tunnel() {
 
     echo_n_run ssh ${_server} -L ${_local_port}:${_service_host}:${_service_port} -N
 }
-function unfuck() { echo "${N}"; }
+function unfuck() { echo "${D}"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
 # Vagrant {{{
@@ -766,7 +766,31 @@ prompt_command() {
     # Record each line as it gets issued
     history -a
 
-    export PS1="${D}\n${BOLD}${USER}${D} at ${CYAN}${HOSTNAME}${D} in ${UNDERLINE}${PWD}${D} $(rcs_ps1) $(venv_ps1)\n${D}${actual}"
+    # The following sets up a prompt like the following (the first leading empty line
+    # is intentional... it separates prompts better):
+    #
+    #   > some command
+    #   ...
+    #
+    #   matteolandi at hairstyle.local in /Users/matteolandi/my-env/dotfiles on master!?
+    #   >
+    #
+    # Note: if we want to _style_ the last line (the actual prompt line), we
+    # will have to wrap non-visible escape codes inside \[ and \], or bad things
+    # will happen: https://github.com/alacritty/alacritty/issues/3512
+    #
+    # Read more about escaping non-printing characters, here:
+    # https://superuser.com/questions/301353/escape-non-printing-characters-in-a-function-for-a-bash-prompt
+    PS1=
+    PS1="$PS1\n"                                  # gracious new line
+    PS1="$PS1${WHITE}${USER}${D}"                 # username
+    PS1="$PS1 at ${CYAN}${HOSTNAME}${D}"          # hostname
+    PS1="$PS1 in ${UNDERLINE}${PWD}${D}"          # cwd
+    PS1="$PS1 $(rcs_ps1)"                         # git/mercurial/svn
+    PS1="$PS1 $(venv_ps1)"                        # python's virtualenv
+    PS1="$PS1\n"                                  # new line
+    PS1="$PS1${actual}"                           # the actual prompt
+    export PS1
 }
 
 
