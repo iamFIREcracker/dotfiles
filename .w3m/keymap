@@ -1,4 +1,3 @@
-keymap  R      REINIT
 keymap  r      RELOAD
 keymap  H      PREV
 keymap  L      NEXT
@@ -19,8 +18,9 @@ keymap ) NEXT_TAB
 keymap ( PREV_TAB
 keymap gt TAB_LINK
 keymap d CLOSE_TAB
-keymap x CLOSE_TAB
 keymap C-xC-e EDIT_SCREEN
+keymap q EXIT
+keymap ,u LIST_MENU
 
 keymap :: COMMAND
 keymap :h HELP
@@ -28,9 +28,11 @@ keymap :o OPTIONS
 keymap :q QUIT
 
 keymap gs SOURCE
-keymap V EXTERN
+keymap xx EXTERN
+keymap gx EXTERN_LINK
 
 keymap p  GOTO      /cgi-bin/cb.cgi
 keymap P  TAB_GOTO  /cgi-bin/cb.cgi
 keymap ss EXTERN "url=%s dest=~/Dropbox/links.txt && echo "$url" >> $dest && echo "$url added to $dest" && read s"
 keymap yy EXTERN "url=%s && printf %s "$url" | cb && printf %s "$url" &"
+keymap gy EXTERN_LINK "url=%s && printf %s "$url" | cb && printf %s "$url" &"
