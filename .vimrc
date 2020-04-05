@@ -1867,6 +1867,8 @@ nnoremap <leader>C :Neomake<cr>
 " Netrw {{{
 
 let g:netrw_bufsettings="noma nomod nonu nobl nowrap ro rnu"
+" netrw's gx is fucking broken: https://github.com/vim/vim/issues/4738
+let g:netrw_nogx = 1
 
 " }}}
 " OmniSharp {{{
@@ -2474,9 +2476,7 @@ xmap <C-S> <Plug>SendSelectionToTerminal
 function! s:SendSelectionToUrlview() abort " {{{
     silent execute "'<,'> write !urlview"
 endfunction "}}}
-xnoremap <expr> <Plug>SendSelectionToUrlview ':<C-U>call <SID>SendSelectionToUrlview()<CR>'
-
-function! s:SendScreenToUrlview() abort " {{{
+function! s:SelectAndSendToUrlview(motion) abort " {{{
     " Save screen
     let view = winsaveview()
 
@@ -2487,7 +2487,7 @@ function! s:SendScreenToUrlview() abort " {{{
     set scrolloff=0
 
     " Select the content of the visible screen
-    execute "normal! VHoL\<Esc>"
+    execute "normal! ". a:motion ."\<Esc>"
     call s:SendSelectionToUrlview()
 
     " Restore scrolloff
@@ -2496,24 +2496,10 @@ function! s:SendScreenToUrlview() abort " {{{
     " Restore screen
     call winrestview(view)
 endfunction "}}}
-nnoremap <expr> <Plug>SendScreenToUrlview ':<C-U>call <SID>SendScreenToUrlview()<CR>'
 
-function! s:SendBufferToUrlview() abort " {{{
-    " Save screen
-    let view = winsaveview()
-
-    " Select the content of the visible screen
-    execute "normal! VggoG\<Esc>"
-    call s:SendSelectionToUrlview()
-
-    " Restore screen
-    call winrestview(view)
-endfunction "}}}
-nnoremap <expr> <Plug>SendBufferToUrlview ':<C-U>call <SID>SendBufferToUrlview()<CR>'
-
-nmap <leader>u <Plug>SendScreenToUrlview
-nmap <leader>U <Plug>SendBufferToUrlview
-xmap <leader>u <Plug>SendSelectionToUrlview
+nnoremap gx :<C-U>call <SID>SelectAndSendToUrlview('viW')<CR>
+xnoremap gx :<C-U>call <SID>SendSelectionToUrlview()<CR>
+nnoremap ,u :<C-U>call <SID>SelectAndSendToUrlview('VHoL')<CR>
 
 " }}}
 
