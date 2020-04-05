@@ -24,8 +24,8 @@ colors:
     foreground: '0xc7c7c7'
 
   cursor:
-    text: '0x444444'
-    cursor: '0x00AFFF'
+    text: '0xbbbbbb'
+    cursor: '0xaf00ff'
 
   # Normal colors
   normal:
