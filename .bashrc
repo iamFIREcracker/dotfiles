@@ -219,13 +219,14 @@ ek()  { vim ~/my-env/Windows/AutoHotkey/KeyMappings.ahk; }
 em()  { vim ~/.muttrc; }
 ep()  {
   if [ -n "$1" ]; then
-    PLAN=~/Dropbox/plan/.$1.plan plan
+    vim ~/Dropbox/plan/.$1.plan
   elif [ -n "${OS_WIN}" ]; then
-    PLAN=~/Dropbox/plan/.work.plan plan
+    vim ~/Dropbox/plan/.work.plan
   else
-    PLAN=~/Dropbox/plan/.plan plan
+    vim ~/Dropbox/plan/.plan
   fi
 }
+eP()  { vim ~/Dropbox/plan/; }
 es()  { vim ~/dotfiles/.slate; }
 et()  { vim ~/dotfiles/.tmux.conf; }
 ev()  { vim ~/dotfiles/.vimrc; }
