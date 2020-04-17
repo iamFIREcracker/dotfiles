@@ -98,7 +98,7 @@ test -n "$OS_MAC" && ensure_link ".slate"                 ".slate"
 
 (
     fzf_dir=
-    if [ -n "OS_WIN" ]; then
+    if [ -n "$OS_WIN" ]; then
       fzf_dir=.vim/pack/bundle/opt/fzf-ruby
     else 
       fzf_dir=.vim/pack/bundle/opt/fzf
@@ -117,11 +117,13 @@ test -n "$OS_MAC" && ensure_link ".slate"                 ".slate"
         PATH=/bin:/usr/bin ./install --bin
         git co bin/fzf-tmux # XXX why on earth would the install script delete fzf-tmux
     fi
+    cd -
+
     ensure_link "$fzf_dir/bin/fzf" "local/bin/fzf"
     ensure_link "$fzf_dir/bin/fzf-tmux" "local/bin/fzf-tmux"
     if [ -f "$fzf_dir/man/man1/fzf-tmux.1" ]; then
       ensure_link "$fzf_dir/man/man1/fzf-tmux.1" "local/man/man1/fzf-tmux.1"
     fi
-    ensure_link "$fzf_dir/man/man1/fzf.1"      "local/man/man1/fzf.1"
+    ensure_link "$fzf_dir/man/man1/fzf.1" "local/man/man1/fzf.1"
 )
 
