@@ -1793,6 +1793,11 @@ augroup END
 " }}}
 " FZF {{{
 
+if $OS == 'Windows_NT'
+    packadd fzf-ruby
+else
+    packadd fzf
+end
 nnoremap <C-P> :<C-u>FZF<CR>
 " let g:fzf_layout = { 'window': 'terminal' }
 

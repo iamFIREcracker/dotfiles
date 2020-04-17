@@ -131,7 +131,7 @@
 	path = .vim/pack/bundle/start/vim-parinfer
 	url = git@github.com:iamFIREcracker/vim-parinfer.git
 [submodule ".vim/pack/bundle/start/fzf"]
-	path = .vim/pack/bundle/start/fzf
+	path = .vim/pack/bundle/opt/fzf
 	url = https://github.com/junegunn/fzf.git
 [submodule ".vim/pack/bundle/start/vim-goobook"]
 	path = .vim/pack/bundle/start/vim-goobook
@@ -157,3 +157,6 @@
 [submodule ".vim/pack/bundle/start/editorconfig-vim"]
 	path = .vim/pack/bundle/start/editorconfig-vim
 	url = https://github.com/editorconfig/editorconfig-vim.git
+[submodule ".vim/pack/bundle/opt/fzf-ruby"]
+	path = .vim/pack/bundle/opt/fzf-ruby
+	url = https://github.com/me-and/fzf.git
