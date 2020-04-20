@@ -5,6 +5,11 @@ set -x
 
 story=$(cb)
 id=$(echo $story | cut -d: -f1)
-desc=$(echo $story | cut -d: -f2- | tr '[:upper:]' '[:lower:]')
-branch=$(echo $desc | tr -d '\r' | sed "s/[]: ,\"'[()]/-/g" | sed "s/--*/-/g" | sed "s/-$//")
+desc=$(echo $story | cut -d: -f2-)
+branch=$(echo $desc  \
+  | tr '[:upper:]' '[:lower:]' \
+  | tr -d '\[\]():,\r' \
+  | tr ' ' '-' \
+  | sed "s/--*/-/g" \
+  | sed "s/-$//")
 echo "git cob story/$id/${branch}" | cg-fzf
