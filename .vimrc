@@ -56,15 +56,8 @@ set title
 set linebreak
 set dictionary=/usr/share/dict/words
 "set clipboard=unnamed
-" Terminal.app does not support True Color -- yay! -- and since there is no
-" simple and reliable way to check for True Color support
-" (https://gist.github.com/XVilka/8346728#querying-the-terminal), I decided 
-" to check for ENV variables I know are being set when running inside iTerm.
-if exists('$ITERM_PROFILE')
-  set termguicolors
-else
-  set notermguicolors
-endif
+" Both Alacritty and Mintty support true colors
+set termguicolors
 
 " https://www.reddit.com/r/vim/comments/57huhd/any_idea_why_terminal_vim_isnt_correctly/
 if &term =~ '256color'
