@@ -66,7 +66,7 @@
         if [ \"$(git currentbranch)\" != \"master\" ]; then \
             args=master..; \
         fi; \
-        git log \"${@}\" --color=always $args --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(blue bold)(by %an)%Creset'; \
+        git log \"${@}\" --color=always $args --topo-order --pretty='tformat:%C(white bold)%h%Creset %s (by %an)%C(white bold)%d%Creset'; \
     }; f"
     pl   = !git pretty-log -18
     pll  = !git pretty-log -36

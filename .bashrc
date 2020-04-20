@@ -215,7 +215,13 @@ eg()  { vim ~/dotfiles/.gitconfig; }
 eh()  { vim ~/dotfiles/.hgrc; }
 ei()  { vim ~/Dropbox/ideas.md; }
 ej()  { vim $(tempfile .jira); }
-ek()  { vim ~/my-env/Windows/AutoHotkey/KeyMappings.ahk; }
+ek()  {
+  if [ -n "${OS_WIN}" ]; then
+    vim ~/my-env/Windows/AutoHotkey/KeyMappings.ahk
+  else
+    vim ~/.config/karabiner/karabiner.json
+  fi
+}
 em()  { vim ~/.muttrc; }
 ep()  {
   if [ -n "$1" ]; then

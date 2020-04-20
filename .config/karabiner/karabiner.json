@@ -321,7 +321,7 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "cmd+enter to full-screen the current application",
+                                "description": "cmd+enter to full-screen the terminal",
                                 "from": {
                                     "key_code": "return_or_enter",
                                     "modifiers": {
@@ -537,12 +537,19 @@
                             {
                                 "conditions": [
                                     {
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Terminal$",
+                                            "^io\\.alacritty$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    },
+                                    {
                                         "name": "tab_modifier",
                                         "type": "variable_if",
                                         "value": 1
                                     }
                                 ],
-                                "description": "tab + p as shift inssert",
+                                "description": "tab + p as cmd + v (when on the terminal)",
                                 "from": {
                                     "key_code": "p"
                                 },
@@ -550,6 +557,29 @@
                                     {
                                         "key_code": "v",
                                         "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "tab_modifier",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "description": "tab + p as shift + cmd + v (clean paste)",
+                                "from": {
+                                    "key_code": "p"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "v",
+                                        "modifiers": [
+                                            "left_shift",
                                             "left_command"
                                         ]
                                     }
