@@ -35,7 +35,7 @@
     tags = tag -l
     branches = branch -a
 
-    b = branch -v
+    b = "!f() { git branch --color --verbose | tr -d '\\r'; }; f"
     bd = branch -d
     bD = branch -D
     bclean = "!f() { git branch --merged ${1-master} | grep -v \" ${1-master}$\" | xargs -r git branch -d; }; f"
