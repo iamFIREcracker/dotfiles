@@ -186,7 +186,7 @@ bind pager   G   bottom
 
 bind pager N  search-opposite
 
-macro pager \Cu "|urlview<enter>" "call urlview to open links"
+macro pager \Cu "|lg-fzf<enter>" "call urlview to open links"
 macro pager s "<pipe-message>cat > ~/Desktop/"  "save message as"
 
 # }}}

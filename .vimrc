@@ -2477,7 +2477,7 @@ xmap <C-S> <Plug>SendSelectionToTerminal
 " SendToUrlview {{{
 
 function! s:SendSelectionToUrlview() abort " {{{
-    silent execute "'<,'> write !urlview"
+    silent execute "'<,'> write !lg-fzf"
 endfunction "}}}
 function! s:SelectAndSendToUrlview(motion) abort " {{{
     " Save screen

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+lg-fzft() {
+  local link
+
+  link=$(lg | fzf-tmux --no-sort --exit-0)
+  test -n "$link" && $BROWSER $link
+}
+lg-fzft
