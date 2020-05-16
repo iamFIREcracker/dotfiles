@@ -199,22 +199,14 @@ function ${wrapper_name}() {
 # }}}
 # Useful functions {{{
 
-# Quick editing {{{ 
+# Quick editing {{{
 
 ea()  { vim ~/.config/alacritty/alacritty.yml; }
-eD()  { vim ${DB_SCRIPTS_DIR}; }
-eJ()  { vim ~/journal/$(date '+%Y-%m').md; }
-eM()  { vim $(tempfile "$@" ); }
-eR()  { vim ${REST_SCRIPTS_DIR}; }
 eS()  { vim ~/.ssh/config; }
 eT()  { vim ~/.tmuxinator/$(tmux display-message -p '#S').yml; }
-eV()  { vim ~/dotfiles/.vimperatorrc; }
 eb()  { vim ~/dotfiles/.bashrc; }
 eb1() { vim ~/my-env/opt/bunny1/b1_custom.py; }
 eg()  { vim ~/dotfiles/.gitconfig; }
-eh()  { vim ~/dotfiles/.hgrc; }
-ei()  { vim ~/Dropbox/ideas.md; }
-ej()  { vim $(tempfile .jira); }
 ek()  {
   if [ -n "${OS_WIN}" ]; then
     vim ~/my-env/Windows/AutoHotkey/KeyMappings.ahk
@@ -241,6 +233,9 @@ function ew() { vim $(which "$1"); }
 complete -c ew -w which
 function cw() { cat $(which "$1"); }
 complete -c cw -w which
+
+elinks() { $EDITOR ~/Dropbox/links.txt; }
+etodos() { $EDITOR ~/Dropbox/todos.txt; }
 
 # }}}
 
