@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+ta-fzft() {
+  local session
+
+  session=$(tmux list-sessions | fzf-tmux --no-sort --exit-0 | cut -d: -f1)
+  if [ -n "$session" ]; then
+    if [ -n "$TMUX" ]; then
+      tmux switchc -t $session
+    else
+      tmux attach -t $session
+    fi
+  fi
+}
+ta-fzft

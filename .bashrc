@@ -612,13 +612,6 @@ function sleeplees() {
     pmset -g assertions | egrep '(PreventUserIdleSystemSleep|PreventUserIdleDisplaySleep)'
 }
 function sum() { awk '{s+=$1}END{print s}'; }
-function ta() {
-    tmux list-sessions && {
-        echo -n "? "
-        read sessionname
-        [ -n "$sessionname" ] && tmux attach -t "$sessionname"
-    }
-}
 # tac {{{
 
 if hash gtac 2>/dev/null; then
