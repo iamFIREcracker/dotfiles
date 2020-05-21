@@ -14,6 +14,16 @@ elif [ -f /usr/share/bash-completion/bash_completion ]; then
     source /usr/share/bash-completion/bash_completion
 fi
 
+# For God knows what reason, on Linux, `git` completion functions would not be
+# loaded until you manually trigger them:
+#
+#   > git <tab>
+#
+# So here we manually source the file, if available
+if [ -f /usr/share/bash-completion/completions/git ]; then
+  source /usr/share/bash-completion/completions/git
+fi
+
 # the default umask is set in /etc/login.defs
 umask 022
 
