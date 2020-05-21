@@ -8,7 +8,7 @@ id=$(echo $story | cut -d: -f1)
 desc=$(echo $story | cut -d: -f2-)
 branch=$(echo $desc  \
   | tr '[:upper:]' '[:lower:]' \
-  | tr -d '\[\]():,\r' \
+  | tr -d '\[\]():,\r"' \
   | tr ' ' '-' \
   | sed "s/--*/-/g" \
   | sed "s/-$//")
