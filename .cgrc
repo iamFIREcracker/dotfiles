@@ -19,10 +19,6 @@
     ("usage: (sudo dmesg)" (sudo-cmd))
   (format NIL "~a" sudo-cmd))
 
-(cg:define-guesser gcob
-    ("(git cob [^ ']+)" (git-cmd))
-  (format NIL "~a" git-cmd))
-
 (cg:define-guesser gem-pristine
     ("(gem pristine [^ ]* --version [^ ]*)" (gem-pristine-cmd))
   (format NIL "~a " gem-pristine-cmd))
@@ -75,6 +71,14 @@
 (cg:define-guesser git-log-git-show
     ("^commit ([a-f0-9]{40})" (commit))
   (format NIL "git show '~a'" commit))
+
+(cg:define-guesser git-push-copy-last-commit
+    ;; Writing objects: 100% (3/3), 289 bytes | 0 bytes/s, done.
+    ;; Total 3 (delta 2), reused 0 (delta 0)
+    ;; To ssh:repository
+    ;;    f5455f40f1..6443447668  master -> master
+    ("\\s*[a-f0-9]{7,10}..([a-f0-9]{7,10})\\s*" (commit))
+  (format nil "echo '~a' | cb  # copy last pushed commit" commit))
 
 (cg:define-guesser git-st-modified
     ;; > g st
