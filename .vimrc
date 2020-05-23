@@ -2407,6 +2407,8 @@ nnoremap gP :call <SID>PasteCycle(0)<CR>
 " }}}
 " SendToTerminal {{{
 
+let g:stt_strip_command_prompt = 1
+let g:stt_command_prompt_regexpes = ['\$\s*', '>\s*']
 let g:stt_trailing_new_lines = 1
 
 function! s:FindTerminal() abort
@@ -2423,14 +2425,26 @@ function! SendToTerminal(data) abort
     elseif !bufexists(g:stt_buffnr)
         echom "Terminal buffer does not exist: " . g:stt_buffnr
     else
+        " Strip the last new-line (later we will re-add as many new-lines
+        " as required)
         let keys = substitute(a:data, '\n$', '', '')
 
-        if exists('b:stt_trailing_new_lines')
-          let trailing_new_lines = b:stt_trailing_new_lines
-        elseif exists('g:stt_trailing_new_lines')
-          let trailing_new_lines = g:stt_trailing_new_lines
+        " Automatically strip out the command prompt (if told to)
+        let strip_command_prompt =
+            \ get(b:, 'stt_strip_command_prompt',
+                \ get(g:, 'stt_strip_command_prompt', 0))
+        if strip_command_prompt
+          let command_prompt_regexpes =
+              \ get(b:, 'stt_command_prompt_regexpes',
+                  \ get(g:, 'stt_command_prompt_regexpes', []))
+
+          let command_prompt_regexp = join(command_prompt_regexpes, '\|')
+          let keys = substitute(keys, command_prompt_regexp, '', '')
         endif
 
+        let trailing_new_lines =
+            \ get(b:, 'stt_trailing_new_lines',
+                \ get(g:, 'stt_trailing_new_lines', 1))
         while trailing_new_lines > 0
           let keys = keys . "\<CR>"
           let trailing_new_lines = trailing_new_lines - 1
