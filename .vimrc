@@ -2382,33 +2382,23 @@ endfunction
 " }}}
 " Poor's man yankstack {{{
 
-function! s:PasteCycleCleanUp(timer) abort " {{{
-  if a:timer == b:paste_cycle_timer
-    unlet b:paste_cycle_timer
-    if exists('b:paste_cycle_reg_num')
-      unlet b:paste_cycle_reg_num
-    endif
-  endif
-endfunction " }}}
-
 function! s:PasteCycle(after) abort " {{{
-  if exists('b:paste_cycle_timer')
-    call timer_stop(b:paste_cycle_timer)
-    unlet b:paste_cycle_timer
-  endif
-
-  let l:paste_op_cmd = a:after ? "p" : "P"
-  if !exists('b:paste_cycle_reg_num')
+  let l:now = localtime()
+  if (l:now - get(b:, paste_cycle_last_run, 0)) > 5
+    " This function was run more than 5 seconds ago, so let's assume
+    " the user is trying to starting from scratch
     let b:paste_cycle_reg_num = 0
   else
+    " Otherwise, paste the last used register + 1 (modulo 10 because Vim
+    " supports only 10 _redo_ registers)
     let b:paste_cycle_reg_num = (b:paste_cycle_reg_num + 1) % 10
   endif
+  let b:paste_cycle_last_run = l:now
+  let l:paste_op_cmd = a:after ? "p" : "P"
   let l:normal_cmd = 'u"' . b:paste_cycle_reg_num . l:paste_op_cmd
 
   echo 'paste-cycle: ' . l:normal_cmd
   exe 'normal ' . l:normal_cmd
-
-  let b:paste_cycle_timer = timer_start(5000, function('s:PasteCycleCleanUp'))
 endfunction " }}}
 
 nnoremap gp :call <SID>PasteCycle(1)<CR>
