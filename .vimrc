@@ -2462,17 +2462,15 @@ function! s:FindTerminal() abort
     endif
 endfunction
 
-function! SendSelectionToTerminal(type) abort
+function! SendToTerminal(data) abort " {{{
     if !exists('g:stt_buffnr') && !s:FindTerminal()
         echom "No terminal selected"
     elseif !bufexists(g:stt_buffnr)
         echom "Terminal buffer does not exist: " . g:stt_buffnr
     else
-        let keys = s:GetCurrentSelection(a:type)
-
         " Strip the last new-line (later we will re-add as many new-lines
         " as required)
-        let keys = substitute(keys, '\n$', '', '')
+        let keys = substitute(a:data, '\n$', '', '')
 
         " Automatically strip out the command prompt (if told to)
         let strip_command_prompt =
@@ -2498,8 +2496,10 @@ function! SendSelectionToTerminal(type) abort
         echom keys
         call term_sendkeys(g:stt_buffnr, keys)
     endif
-endfunction
-
+endfunction " }}}
+function! SendSelectionToTerminal(type) abort " {{{
+    call SendToTerminal(s:GetCurrentSelection(a:type))
+endfunction " }}}
 function! SelectAndSendToTerminal(motion) abort " {{{
     " Save screen
     let view = winsaveview()
@@ -2520,11 +2520,6 @@ function! SelectAndSendToTerminal(motion) abort " {{{
     " Restore screen
     call winrestview(view)
 endfunction "}}}
-
-" nnoremap <localleader>cc :STTConnect<cr>
-" nnoremap <localleader>cd :STTDisconnect<cr>
-nnoremap <C-S> :<C-U>call SelectAndSendToTerminal('vap')<cr>
-xnoremap <C-S> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
 
 " }}}
 " SendToUrlview {{{
