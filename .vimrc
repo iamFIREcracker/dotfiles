@@ -2133,6 +2133,23 @@ endif
 " }}}
 " Plugins wannabe --------------------------------------------------------- {{{
 
+function! s:GetCurrentSelection(type) " {{{
+    let reg_save = @@
+
+    if a:type ==# 'v'
+        silent execute "normal! `<" . a:type . "`>y"
+    elseif a:type ==# 'V'
+        silent execute "normal! `<" . a:type . "`>y"
+    elseif a:type ==# 'char'
+        silent execute "normal! `[v`]y"
+    endif
+    let selection = @@
+
+    let @@ = reg_save
+
+    return selection
+endfunction " }}}
+
 " Highlight Word {{{
 "
 " This mini-plugin provides a few mappings for highlighting words temporarily.
@@ -2274,25 +2291,8 @@ xnoremap <silent> <leader>a :<C-U>call <SID>OperatorAckGlobal(visualmode())<CR>
 nnoremap <silent> <localleader>a :set opfunc=<SID>OperatorAckLocal<CR>g@
 xnoremap <silent> <localleader>a :<C-U>call <SID>OperatorAckLocal(visualmode())<CR>
 
-function! s:CopyMotionForType(type)
-    let reg_save = @@
-
-    if a:type ==# 'v'
-        silent execute "normal! `<" . a:type . "`>y"
-    elseif a:type ==# 'V'
-        silent execute "normal! `<" . a:type . "`>y"
-    elseif a:type ==# 'char'
-        silent execute "normal! `[v`]y"
-    endif
-    let selection = @@
-
-    let @@ = reg_save
-
-    return selection
-endfunction
-
 function! s:OperatorAck(type, add_word_boundaries, current_dir_only) abort
-    let escaped = escape(s:CopyMotionForType(a:type), '#')
+    let escaped = escape(s:GetCurrentSelection(a:type), '#')
     let pattern = shellescape(escaped)
     if a:add_word_boundaries
         let pattern = shellescape('\b'.escaped.'\b')
@@ -2468,7 +2468,7 @@ function! SendSelectionToTerminal(type) abort
     elseif !bufexists(g:stt_buffnr)
         echom "Terminal buffer does not exist: " . g:stt_buffnr
     else
-        let keys = s:CopyMotionForType(a:type)
+        let keys = s:GetCurrentSelection(a:type)
 
         " Strip the last new-line (later we will re-add as many new-lines
         " as required)
