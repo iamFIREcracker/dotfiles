@@ -2384,14 +2384,14 @@ endfunction
 
 function! s:PasteCycle(after) abort " {{{
   let l:now = localtime()
-  if (l:now - get(b:, paste_cycle_last_run, 0)) > 5
+  if (l:now - get(b:, 'paste_cycle_last_run', 0)) > 5
     " This function was run more than 5 seconds ago, so let's assume
     " the user is trying to starting from scratch
     let b:paste_cycle_reg_num = 0
   else
     " Otherwise, paste the last used register + 1 (modulo 10 because Vim
     " supports only 10 _redo_ registers)
-    let b:paste_cycle_reg_num = (b:paste_cycle_reg_num + 1) % 10
+    let b:paste_cycle_reg_num = (get(b:, 'paste_cycle_reg_num', -1) + 1) % 10
   endif
   let b:paste_cycle_last_run = l:now
   let l:paste_op_cmd = a:after ? "p" : "P"
