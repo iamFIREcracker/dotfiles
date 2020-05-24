@@ -635,21 +635,41 @@ augroup ft_commonlisp
         endif
     endfunction "}}}
 
-    function! SelectToplevelLispForm() abort "{{{
-        execute "normal 99[(v%"
+    function! MotionToSelectTopLevelLispForm() abort " {{{
+        let motion = '99[(v%'
+        if col('.') == 1 && getline('.')[col('.') - 1] == '('
+            " We are at the beginning of a top-level form, so select until
+            " the matching parenthesis
+            let motion = 'v%'
+        endif
+        return motion
     endfunction "}}}
 
-    function! SelectLispExpression() abort "{{{
-        execute "normal [(v%"
+    function! SelectToplevelLispFormAndSendToTerminal() abort "{{{
+        call SelectAndSendToTerminal(MotionToSelectTopLevelLispForm())
+    endfunction "}}}
+
+    function! SelectToplevelLispFormAndSendToVlimeREPL() abort "{{{
+        let view = winsaveview()
+        let reg_save = @@
+        let motion = MotionToSelectTopLevelLispForm()
+
+        execute "normal! " . motion . "y"
+        call vlime#plugin#SendToREPL(@@)
+
+        let @@ = reg_save
+        call winrestview(view)
     endfunction "}}}
 
     function! IndentToplevelLispForm() abort "{{{
-      let view = winsaveview()
+        let view = winsaveview()
+        let reg_save = @@
+        let motion = MotionToSelectTopLevelLispForm()
 
-      call SelectToplevelLispForm()
-      execute "normal! ="
+        execute "normal! " . motion . "="
 
-      call winrestview(view)
+        let @@ = reg_save
+        call winrestview(view)
     endfunction "}}}
 
     function! QuickloadLispSystem() abort "{{{
@@ -728,7 +748,7 @@ augroup ft_commonlisp
 
     au FileType lisp nnoremap <buffer> <silent> <localleader>o :call OpenLispReplSBCL()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>O :call OpenLispReplPrompt()<cr>
-    au FileType lisp nnoremap <buffer> <silent> gI :call IndentToplevelLispForm()<cr>
+    au FileType lisp nnoremap <buffer> <silent> gI :<C-U>call IndentToplevelLispForm()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>q :call QuickloadLispSystem()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>Q :call QuickloadLispPrompt()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>t :call TestLispSystem()<cr>
@@ -747,8 +767,8 @@ augroup ft_commonlisp
     endif
     au FileType lisp nnoremap <buffer> <silent> <localleader>i :call InPackage()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>s :call SendBuffer()<cr>
-    au FileType lisp nmap gs :let commonlisp_view = winsaveview()<CR>:call SelectToplevelLispForm()<CR><Plug>SendSelectionToTerminal:call winrestview(commonlisp_view)<cr>
-    au FileType lisp xmap gs <Plug>SendSelectionToTerminal
+    au FileType lisp nnoremap <buffer> <silent> gs :call SelectToplevelLispFormAndSendToTerminal()<cr>
+    au FileType lisp xnoremap <buffer> <silent> gs :call SendSelectionToTerminal(visualmode())<cr>
 
     " Vlime's send-top-level-s-expression mapping is not always working as
     " expected -- it seems it does not properly handle comments that include
@@ -756,7 +776,7 @@ augroup ft_commonlisp
     "
     " 1) select the top-level expression, manually
     " 2) send it
-    au FileType lisp nmap <buffer> <silent> <C-S> :let commonlisp_view = winsaveview()<CR>:call SelectToplevelLispForm()<CR>:<c-u>call vlime#plugin#SendToREPL(vlime#ui#CurSelection())<cr>:call winrestview(commonlisp_view)<cr>
+    au FileType lisp nnoremap <buffer> <silent> <C-S> :<C-U>call SelectToplevelLispFormAndSendToVlimeREPL()<CR>
     au FileType lisp xmap <buffer> <silent> <C-S> <localleader>s
 
     au FileType lisp nmap <buffer> <silent> K <localleader>ddo
@@ -1048,9 +1068,10 @@ augroup ft_javascript
 
     au FileType javascript setlocal suffixesadd+=.js,.ts
 
-    au FileType javascript nmap \cc <Plug>ConnectToTerminal
-    au FileType javascript nmap <C-S> vap<Plug>SendSelectionToTerminal
-    au FileType javascript xmap <C-S> <Plug>SendSelectionToTerminal
+    au FileType javascript nnoremap <localleader>cc :STTConnect
+    au FileType javascript nnoremap <localleader>cd :STTDisconnect
+    au FileType javascript nnoremap <C-S> :<C-U>call SelectAndSendToTerminal('vap')<cr>
+    au FileType javascript xnoremap <C-S> :<C-U>call SendSelectionToTerminal(visuamode())<cr>
     au Filetype javascript nnoremap <buffer> <C-^> :LspReferences<cr>
     au FileType javascript nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
     au FileType javascript nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
@@ -1142,6 +1163,11 @@ augroup ft_markdown
 
     au Filetype markdown setlocal spell
     au FileType markdown let b:delimitMate_nesting_quotes = ['`']
+
+    au FileType markdown nnoremap <localleader>cc :STTConnect
+    au FileType markdown nnoremap <localleader>cd :STTDisconnect
+    au FileType markdown nnoremap <C-S> :<C-U>call SelectAndSendToTerminal('vap')<cr>
+    au FileType markdown xnoremap <C-S> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
 
     " Use <localleader>1/2/3 to add headings.
     au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=
@@ -1268,9 +1294,10 @@ augroup ft_python
 
     au FileType python let b:delimitMate_nesting_quotes = ['"']
 
-    au FileType python nmap \cc <Plug>ConnectToTerminal
-    au FileType python nmap <C-S> vap<Plug>SendSelectionToTerminal
-    au FileType python xmap <C-S> <Plug>SendSelectionToTerminal
+    au FileType python nnoremap <localleader>cc :STTConnect
+    au FileType python nnoremap <localleader>cd :STTDisconnect
+    au FileType python nnoremap <C-S> :<C-U>call SelectAndSendToTerminal('vap')<cr>
+    au FileType python xnoremap <C-S> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
 
     function! OpenPythonRepl() abort "{{{
         call term_start("bash -c python-rlwrap", {
@@ -2248,6 +2275,8 @@ nnoremap <silent> <localleader>a :set opfunc=<SID>OperatorAckLocal<CR>g@
 xnoremap <silent> <localleader>a :<C-U>call <SID>OperatorAckLocal(visualmode())<CR>
 
 function! s:CopyMotionForType(type)
+    let reg_save = @@
+
     if a:type ==# 'v'
         silent execute "normal! `<" . a:type . "`>y"
     elseif a:type ==# 'V'
@@ -2255,14 +2284,15 @@ function! s:CopyMotionForType(type)
     elseif a:type ==# 'char'
         silent execute "normal! `[v`]y"
     endif
+    let selection = @@
+
+    let @@ = reg_save
+
+    return selection
 endfunction
 
 function! s:OperatorAck(type, add_word_boundaries, current_dir_only) abort
-    let reg_save = @@
-
-    call s:CopyMotionForType(a:type)
-
-    let escaped = escape(@@, '#')
+    let escaped = escape(s:CopyMotionForType(a:type), '#')
     let pattern = shellescape(escaped)
     if a:add_word_boundaries
         let pattern = shellescape('\b'.escaped.'\b')
@@ -2274,8 +2304,6 @@ function! s:OperatorAck(type, add_word_boundaries, current_dir_only) abort
     endif
 
     execute "normal! :Ack! " . pattern . " " . location . "\<cr>"
-
-    let @@ = reg_save
 endfunction
 
 function! s:OperatorAckGlobal(type, ...) abort
@@ -2407,9 +2435,24 @@ nnoremap gP :call <SID>PasteCycle(0)<CR>
 " }}}
 " SendToTerminal {{{
 
-let g:stt_strip_command_prompt = 1
-let g:stt_command_prompt_regexpes = ['\$\s*', '>\s*']
 let g:stt_trailing_new_lines = 1
+let g:stt_command_prompt_regexpes = ['\s*\$\s*', '\s*>\s*']
+let g:stt_strip_command_prompt = 1
+
+function! s:STTConnect() abort
+    buffers
+    let l:buffer = input('Select buffer? ')
+    let g:stt_buffnr = str2nr(l:buffer)
+endfunction
+
+function! s:STTDisconnect() abort
+    if exists('g:stt_buffnr')
+      unlet g:stt_buffnr
+    endif
+endfunction
+
+command! STTConnect call s:STTConnect()
+command! STTDisconnect call s:STTDisconnect()
 
 function! s:FindTerminal() abort
     let terminals = filter(range(1, bufnr('$')), "getbufvar(v:val, '&buftype') == 'terminal'")
@@ -2419,15 +2462,17 @@ function! s:FindTerminal() abort
     endif
 endfunction
 
-function! SendToTerminal(data) abort
+function! SendSelectionToTerminal(type) abort
     if !exists('g:stt_buffnr') && !s:FindTerminal()
         echom "No terminal selected"
     elseif !bufexists(g:stt_buffnr)
         echom "Terminal buffer does not exist: " . g:stt_buffnr
     else
+        let keys = s:CopyMotionForType(a:type)
+
         " Strip the last new-line (later we will re-add as many new-lines
         " as required)
-        let keys = substitute(a:data, '\n$', '', '')
+        let keys = substitute(keys, '\n$', '', '')
 
         " Automatically strip out the command prompt (if told to)
         let strip_command_prompt =
@@ -2450,32 +2495,36 @@ function! SendToTerminal(data) abort
           let trailing_new_lines = trailing_new_lines - 1
         endwhile
 
+        echom keys
         call term_sendkeys(g:stt_buffnr, keys)
     endif
 endfunction
 
-function! s:SendSelectionToTerminal(type) abort
-    let reg_save = @@
+function! SelectAndSendToTerminal(motion) abort " {{{
+    " Save screen
+    let view = winsaveview()
 
-    call s:CopyMotionForType(a:type)
-    call SendToTerminal(@@)
+    " Ripped from [vim-glance](https://github.com/arzg/vim-glance/blob/master/autoload/glance.vim)
+    " Scrolloff conflicts with the mapping, so we set it to zero after saving
+    " its value (for future restoration)
+    let s:scrolloffsave = &scrolloff
+    set scrolloff=0
 
-    let @@ = reg_save
-endfunction
+    " Select the content of the visible screen
+    execute "normal! ". a:motion ."\<Esc>"
+    call SendSelectionToTerminal(visualmode())
 
-function! s:ClearSendToTerminalConnection() abort
-    if exists('g:stt_buffnr')
-      unlet g:stt_buffnr
-    endif
-endfunction
+    " Restore scrolloff
+    let &scrolloff = s:scrolloffsave
 
-nnoremap <expr> <Plug>ConnectToTerminal ':buffers<CR>:let g:stt_buffnr='
-xnoremap <expr> <Plug>SendSelectionToTerminal ':<C-U>call <SID>SendSelectionToTerminal(visualmode())<CR>'
-command! STTClear call s:ClearSendToTerminalConnection()
-nmap <localleader>cc <Plug>ConnectToTerminal
-nmap <localleader>cd :STTClear<cr>
-nmap <C-S> vap<Plug>SendSelectionToTerminal
-xmap <C-S> <Plug>SendSelectionToTerminal
+    " Restore screen
+    call winrestview(view)
+endfunction "}}}
+
+" nnoremap <localleader>cc :STTConnect<cr>
+" nnoremap <localleader>cd :STTDisconnect<cr>
+nnoremap <C-S> :<C-U>call SelectAndSendToTerminal('vap')<cr>
+xnoremap <C-S> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
 
 " }}}
 " SendToUrlview {{{
