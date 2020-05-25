@@ -111,6 +111,15 @@
     (format NIL "git add '~a'" file)
     (format NIL "rm '~a'" file)))
 
+(cg:define-guesser git-st-apply-reject-files
+    ;; > g st
+    ;; A  ../client/package-lock.json
+    ;; A  modules/objective-reindexer/index.js
+    ;;  M modules/static-files/routes/static-files.js
+    ;; ?? ../qst/elastic-qsearch/tags.rej
+    ("\\?\\? (.*)\.rej\\s*" (file))
+  (format NIL "vim -O ~a* </dev/tty" file))
+
 (cg:define-guesser kill-kill9
     ;; Have you have run `kill $PID` only to discover the process got stuck
     ;; somewhere, and the only way to terminate it was to `kill -9` it?  Well
