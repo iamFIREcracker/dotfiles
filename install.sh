@@ -126,3 +126,4 @@ test -n "$OS_MAC" && ensure_link ".slate"                 ".slate"
     ensure_link "$fzf_dir/man/man1/fzf.1" "local/man/man1/fzf.1"
 )
 
+vim -c 'helptags ALL | quit'
