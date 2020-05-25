@@ -581,6 +581,7 @@ augroup ft_commonlisp
 
     au BufNewFile,BufRead *.sbclrc setlocal filetype=lisp
     au BufNewFile,BufRead *.cgrc setlocal filetype=lisp
+    au BufNewFile,BufRead *.lispwords setlocal filetype=lisp
     au BufNewFile,BufRead *.asd setlocal filetype=lisp
 
     function! HighlightLispRepl() abort " {{{
@@ -613,12 +614,17 @@ augroup ft_commonlisp
         call InitializeLispRepl()
     endfunction "}}}
 
-    function! SetLispWords() abort "{{{
-        setl lispwords+=block
-        setl lispwords+=define-modify-macro
-        setl lispwords+=with-gensyms
-        setl lispwords+=ppcre:register-groups-bind
-        setl lispwords+=cg:define-guesser
+    function! SetLispWords(...) abort "{{{
+        let force = get(a:, 0, 0)
+        if force || !exists('b:lispwords_loaded')
+            let b:lispwords_loaded = 1
+
+            setl lispwords+=block
+            setl lispwords+=define-modify-macro
+            setl lispwords+=with-gensyms
+            setl lispwords+=ppcre:register-groups-bind
+            setl lispwords+=cg:define-guesser
+        endif
     endfunction "}}}
 
     function! SetProjectLispwords(...) abort "{{{
@@ -627,10 +633,7 @@ augroup ft_commonlisp
             let b:project_lispwords_loaded=1
 
             if filereadable('.lispwords')
-                let s:lines = readfile('.lispwords')
-                for s:line in s:lines
-                    execute "setl lispwords+=".s:line
-                endfor
+                let $LISPWORDS='./.lispwords'
             endif
         endif
     endfunction "}}}
@@ -725,11 +728,8 @@ augroup ft_commonlisp
     au FileType lisp setlocal iskeyword+=!,?,%,-
     au FileType lisp setlocal suffixesadd+=.lisp
 
-    " Weirdly, you have to set nolisp for (the correctly working) indentexpr to work.
-    " If lisp (the vim option) is set, then it overrules indentexpr.
-    " Since an indentexpr is set by vlime (and working!) it would be great to add nolisp to the default configuration, I guess.
-    " https://github.com/l04m33/vlime/issues/26#issuecomment-343761050
-    au FileType lisp setlocal nolisp
+    au FileType lisp setlocal lisp
+    au FileType lisp setlocal equalprg=lispindent
 
     au FileType lisp RainbowParenthesesActivate
     au syntax lisp RainbowParenthesesLoadRound

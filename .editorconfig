@@ -14,7 +14,7 @@ max_line_length = 120
 [*.{js,scala,ts}]
 max_line_length = 100
 
-[*.{lisp}]
+[*.lisp]
 max_line_length = 100
 
 [Makefile]
