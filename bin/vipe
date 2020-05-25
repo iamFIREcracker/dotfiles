@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# http://stackoverflow.com/a/10686830
+vipe() {
+    local tmpfile
+
+    # Create temp file and pipe stdin into it
+    tmpfile=`mktemp /tmp/vipe.bashXXXXXXXX`
+    cat > ${tmpfile}
+
+    # Edit the file
+    $EDITOR ${tmpfile} < /dev/tty > /dev/tty
+
+    # `cat` the file back to stdout, and do some cleanup
+    cat ${tmpfile}
+    rm ${tmpfile}
+}
+vipe

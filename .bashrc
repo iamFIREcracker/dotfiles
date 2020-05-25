@@ -285,7 +285,7 @@ function fucking-kill-nfsd() {
 # Git {{{
 
 function g() { git "$@"; }
-__git_complete g __git_main
+hash __git_complete 2>/dev/null && __git_complete g __git_main
 
 # }}}
 
@@ -442,7 +442,7 @@ fi
 npm() { ${_npm} "$@"; }
 
 n() { npm "$@"; }
-complete -o default -F _npm_completion n
+hash _npm_completion 2>/dev/null && complete -o default -F _npm_completion n
 
 # }}}
 function median() { percentile 50; }
@@ -575,15 +575,6 @@ vagrant() { ${_vagrant} "$@"; }
 v() { vagrant "$@"; }
 
 # }}}
-vipe() {
-    # http://stackoverflow.com/a/10686830
-    local tmpfile
-    tmpfile=`mktemp /tmp/vipe.bashXXXXXXXX`
-    cat > ${tmpfile}
-    vim ${tmpfile} < /dev/tty > /dev/tty
-    cat ${tmpfile}
-    rm ${tmpfile}
-}
 function vw() { vim -R -; }
 function wo() {
     local wd=`pwd`
