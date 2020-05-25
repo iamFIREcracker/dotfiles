@@ -1845,6 +1845,28 @@ let g:maven_ignore_globs = [
             \ ]
 
 " }}}
+" Neoformat {{{
+
+if filereadable($PWD .'/node_modules/.bin/eslint')
+    let g:neoformat_javascript_prettier = {
+        \ 'exe': './node_modules/.bin/prettier',
+        \ 'args': ['--stdin', '--stdin-filepath', '"%:p"'],
+        \ 'stdin': 1,
+        \ }
+    let g:neoformat_typescript_prettier = {
+        \ 'exe': './node_modules/.bin/prettier',
+        \ 'args': ['--stdin', '--stdin-filepath', '"%:p"'],
+        \ 'stdin': 1,
+        \ }
+endif
+
+augroup neoformat_neoformat
+  autocmd!
+
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END
+
+" }}}
 " Neomake {{{
 
 let g:neomake_open_list = 0
@@ -1865,7 +1887,6 @@ endif
 augroup neomake_neomake
     au!
 
-    autocmd BufRead * Neomake
     autocmd BufWritePost * Neomake
 augroup END
 
@@ -2008,15 +2029,6 @@ endif
 " vim-json {{{
 
 let g:vim_json_syntax_conceal = 0
-
-" }}}
-" vim-prettier {{{
-
-let g:prettier#autoformat_config_present = 1
-" Need to disable the pragma-based autoformat feature
-" or the setting above wouldn't work
-let g:prettier#autoformat_require_pragma = 0 " need
-let g:prettier#exec_cmd_async = 1
 
 " }}}
 " vim-rest-console {{{

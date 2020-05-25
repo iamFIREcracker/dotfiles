@@ -160,3 +160,6 @@
 [submodule ".vim/pack/bundle/opt/fzf-ruby"]
 	path = .vim/pack/bundle/opt/fzf-ruby
 	url = https://github.com/me-and/fzf.git
+[submodule ".vim/pack/bundle/start/neoformat"]
+	path = .vim/pack/bundle/start/neoformat
+	url = https://github.com/sbdchd/neoformat.git
