@@ -24,6 +24,11 @@ if [ -f /usr/share/bash-completion/completions/git ]; then
   source /usr/share/bash-completion/completions/git
 fi
 
+# Load NPM's completion
+if hash npm 2>/dev/null; then
+  eval "$(npm completion)"
+fi
+
 # the default umask is set in /etc/login.defs
 umask 022
 

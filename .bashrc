@@ -442,6 +442,7 @@ fi
 npm() { ${_npm} "$@"; }
 
 n() { npm "$@"; }
+complete -o default -F _npm_completion n
 
 # }}}
 function median() { percentile 50; }
