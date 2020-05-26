@@ -1,0 +1,60 @@
+http://blog.ianbicking.org/feed/atom/
+http://blog.quicklisp.org/feeds/posts/default
+http://blog.sandipan.net/feed.xml
+http://daringfireball.net/index.xml
+http://ebalaskas.gr/blog/feed/rss2/
+http://feeds.feedburner.com/37signals/beMH
+http://feeds.feedburner.com/FocusTheWeb
+http://feeds.feedburner.com/tpope
+http://feeds2.feedburner.com/stevelosh
+http://hackatron.org/atom.xml
+http://lunduke.com/index.xml
+http://mdavey.wordpress.com/feed/
+http://spraso.com/feed/
+http://togelius.blogspot.com/feeds/posts/default?alt=rss
+http://vimcasts.org/feeds/itunes/
+http://vitovan.com/rss.xml
+http://www.focustheweb.com/atom.xml
+http://www.natpryce.com/news.feed
+http://www.norvig.com/rss-feed.xml
+http://www.phpied.com/feed/
+http://www.rainbowbreeze.it/feed/
+https://aperattivofc.forumfree.it/rss.php?c=634699
+https://aperattivofc.forumfree.it/rss.php?c=634699&src=tag
+https://code.facebook.com/posts/rss
+https://drewdevault.com/feed.xml
+https://emily.st/feed/
+https://etc.ruricolist.com/feed/
+https://github.com/Olical/dotfiles/commits/master.atom commits "!Olical dotfiles"
+https://github.com/alacritty/alacritty/releases.atom releases
+https://github.com/elastic/elasticsearch/releases.atom releases
+https://github.com/emilyst/home/commits/master.atom commits "!emilyst home"
+https://github.com/ds26gte/scmindent/commits/master.atom commits "~scmindent commits"
+https://github.com/vlime/vlime/commits/master.atom commits "~vlime commits"
+https://github.com/nelstrom/dotfiles/commits/master.atom commits "~nelstrom dotfiles"
+https://github.com/philc/vimium/releases.atom releases
+https://github.com/roswell/roswell/releases.atom releases
+https://github.com/tpope/tpope/commits/master.atom commits "~tpope dotfiles"
+https://hg.stevelosh.com/.plan/rss-log commits "~sjl .plan"
+https://hg.stevelosh.com/advent/rss-log commits "~sjl advent"
+https://hg.stevelosh.com/cl-losh/rss-log commits "~sjl cl-losh"
+https://hg.stevelosh.com/dotfiles/rss-log commits "~sjl dotfiles"
+https://lispblog.xach.com/rss
+https://lukesmith.xyz/rss.xml
+https://mastodon.social/@sjl.atom
+https://mastodon.social/users/fabionatali.rss
+https://matteolandi.net/plan.xml
+https://medium.com/feed/@pirosb3
+https://medium.com/feed/javascript-scene
+https://nl.movim.eu/?feed/phoe%40movim.eu
+https://rinzewind.org/blog-en/feeds/all.rss.xml
+https://twitchrss.appspot.com/vod/stevelosh
+https://vitalyparnas.com/feeds/all.rss.xml
+https://www.darkchestnut.com/feed.xml
+https://www.reddit.com/user/oantolin/.rss reddit
+https://www.reddit.com/user/phil_g/.rss reddit
+https://www.reddit.com/user/stevelosh/.rss reddit
+https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA youtube "~lukesmith"
+https://www.youtube.com/feeds/videos.xml?channel_id=UC3DkFux8Iv-aYnTRWzwaiBA youtube "~petermck"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCPKT_csvP72boVX0XrMtagQ youtube "~cercle"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCkK9UDm_ZNrq_rIXCz3xCGA youtube "~lunduke"
