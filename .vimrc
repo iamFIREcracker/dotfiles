@@ -2056,7 +2056,7 @@ xnoremap # :<C-u>call VisualStarSearchSet('?')<CR>?<C-R>=@/<CR><CR><C-O>
 " }}}
 " vitality {{{
 
-let g:vitality_always_assume_iterm = 1
+let g:vitality_always_assume_mintty = 1
 
 " }}}
 " vlime {{{

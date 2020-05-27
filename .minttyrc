@@ -1,13 +1,13 @@
 BoldAsFont=no
 Term=xterm-256color
 CursorType=block
-Font=Hack
-FontHeight=8
+Font=Consolas
+FontHeight=10
 AllowBlinking=no
 BoldAsColour=yes
 FontSmoothing=full
 Rows=71
-CursorColour=0,175,255
+CursorColour=175,0,255
 ZoomFontWithWindow=no
 ForegroundColour=171,171,171
 BackgroundColour=0,0,0

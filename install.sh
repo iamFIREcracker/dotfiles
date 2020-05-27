@@ -88,14 +88,6 @@ test -n "$OS_MAC" && ensure_link ".slate"                 ".slate"
 )
 
 (
-    cd .vim/pack/bundle/start/vim-prettier/
-    test $FORCE -eq 1 && rm -rf node_modules
-    if [ ! -d node_modules ]; then
-        npm install
-    fi
-)
-
-(
     fzf_dir=
     if [ -n "$OS_WIN" ]; then
       fzf_dir=.vim/pack/bundle/opt/fzf-ruby
