@@ -274,7 +274,6 @@ function uniqdiff() {
     rm "${input}"
 }
 function uniqdiff1() { uniqdiff --skip-fields 1; }
-function edit-pasteboard() { cb | vipe | cb; }
 function from() { tac "$1" | sed "/$2/q" | tac; }
 function fucking-clear() {  printf '\033\143'; }
 function fucking-kill-nfsd() {

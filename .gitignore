@@ -3,6 +3,8 @@
 .ropeproject/
 .vim/.netrwbook
 .vim/.netrwhist
+.newsboat/cache.db
+.newsboat/history.search
 .vim/tmp
 .w3m/cookie
 .w3m/history

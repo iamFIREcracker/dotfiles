@@ -24,9 +24,10 @@ https://aperattivofc.forumfree.it/rss.php?c=634699&src=tag
 https://code.facebook.com/posts/rss
 https://drewdevault.com/feed.xml
 https://emily.st/feed/
-https://etc.ruricolist.com/feed/
+https://etc.ruricolist.com/feed/ "~Notes and digressions from @ruricolist"
 https://github.com/Olical/dotfiles/commits/master.atom commits "!Olical dotfiles"
 https://github.com/alacritty/alacritty/releases.atom releases
+https://github.com/Hammerspoon/hammerspoon/releases.atom releases
 https://github.com/elastic/elasticsearch/releases.atom releases
 https://github.com/emilyst/home/commits/master.atom commits "!emilyst home"
 https://github.com/ds26gte/scmindent/commits/master.atom commits "~scmindent commits"

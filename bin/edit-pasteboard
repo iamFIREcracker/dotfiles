@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+vipe() {
+    # http://stackoverflow.com/a/10686830
+    local tmpfile
+
+    tmpfile=$(mktemp /tmp/vipe.bashXXXXXXXX)
+    cat > ${tmpfile}
+    vim ${tmpfile} < /dev/tty > /dev/tty
+    cat ${tmpfile}
+    rm ${tmpfile}
+}
+
+cb | vipe | cb
