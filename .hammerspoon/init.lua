@@ -1,7 +1,4 @@
---- Utils
-
-
---- quick open applications
+--- Quick open applications
 local hyper = {"ctrl", "cmd", "alt", "shift"}
 
 function open(name)
@@ -38,6 +35,8 @@ hs.hotkey.bind(hyper, "m", open("Microsoft Outlook"))
 hs.hotkey.bind(hyper, "i", open("Microsoft Teams"))
 
 --- Resize windows
+hs.window.animationDuration = 0
+
 local hyper2 = {"ctrl", "shift"}
 function resize_pct(x, y, width, height)
   return function()
@@ -68,4 +67,4 @@ hs.hotkey.bind(hyper2, "m", resize_pct(0, 1/2, 1, 1/2))
 hs.hotkey.bind(hyper2, "u", resize_pct(1/8, 0, 3/4, 1))
 hs.hotkey.bind(hyper2, "n", resize_pct(1/6, 0, 2/3, 1))
 ---
-hs.alert.show("Config loaded")
+hs.alert.show("HS init config... reloaded")
