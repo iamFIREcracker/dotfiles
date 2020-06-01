@@ -344,8 +344,21 @@ nnoremap VaB vaBV
 
 " Smarcase for */# -- and don't automatically jump around {{{
 
-nnoremap * :let stay_star_view = winsaveview()<cr>/\<<C-R>=expand('<cword>')<CR>\><CR>:call winrestview(stay_star_view)<cr>
-nnoremap # :let stay_star_view = winsaveview()<cr>?\<<C-R>=expand('<cword>')<CR>\><CR>:call winrestview(stay_star_view)<cr>
+function! NormalStarSearchSet(cmdtype) " {{{
+    let view = winsaveview()
+    let query = "\\<" . escape(expand('<cword>'), '*\') . "\\>"
+
+    execute "normal! " . a:cmdtype . query . "\<CR>"
+    let @/ = query
+    set hlsearch
+    call histadd("search", query)
+
+    call winrestview(view)
+endfunction " }}}
+
+nnoremap * :call NormalStarSearchSet('/')<CR>
+nnoremap # :call NormalStarSearchSet('?')<CR>
+
 
 "" }}}
 " Directional Keys {{{
