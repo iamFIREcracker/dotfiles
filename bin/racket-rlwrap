@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-NODE_NO_READLINE=1 rlwrap \
+rlwrap \
   --multi-line=@ \
-  --multi-line-ext .js \
+  --multi-line-ext .rkt \
   --only-cook '^>' \
   --prompt-colour=Cyan \
   --quote-characters='"' \
   --histsize 10000 \
-  --history-filename "$HOME/.rlwrap-node-history" \
-  -- node "$@"
+  --history-filename "$HOME/.rlwrap-scheme-history" \
+  -- racket "$@"

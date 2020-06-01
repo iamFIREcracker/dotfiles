@@ -640,17 +640,6 @@ augroup ft_commonlisp
         endif
     endfunction "}}}
 
-    function! SetProjectLispwords(...) abort "{{{
-        let force = get(a:, 0, 0)
-        if force || !exists('b:project_lispwords_loaded')
-            let b:project_lispwords_loaded=1
-
-            if filereadable('.lispwords')
-                let $LISPWORDS='./.lispwords'
-            endif
-        endif
-    endfunction "}}}
-
     function! MotionToSelectTopLevelLispForm() abort " {{{
         let motion = '99[(v%'
         if col('.') == 1 && getline('.')[col('.') - 1] == '('
@@ -736,7 +725,6 @@ augroup ft_commonlisp
     endfunction " }}}
 
     au FileType lisp call SetLispWords()
-    au FileType lisp call SetProjectLispwords()
 
     au FileType lisp setlocal iskeyword+=!,?,%,-
     au FileType lisp setlocal suffixesadd+=.lisp
@@ -779,7 +767,6 @@ augroup ft_commonlisp
         au FileType lisp silent! unmap <buffer> <localleader>TD
     endif
     au FileType lisp nnoremap <buffer> <silent> <localleader>i :call InPackage()<cr>
-    au FileType lisp nnoremap <buffer> <silent> <localleader>s :call SendBuffer()<cr>
     au FileType lisp nnoremap <buffer> <silent> gs :call SelectToplevelLispFormAndSendToTerminal()<cr>
     au FileType lisp xnoremap <buffer> <silent> gs :call SendSelectionToTerminal(visualmode())<cr>
 
@@ -1266,6 +1253,11 @@ augroup END
 augroup ft_plan
     au!
 
+    au FileType plan nnoremap <localleader>cc :STTConnect
+    au FileType plan nnoremap <localleader>cd :STTDisconnect
+    au FileType plan nnoremap <C-S> :<C-U>call SelectAndSendToTerminal('vap')<cr>
+    au FileType plan xnoremap <C-S> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
+
     au FileType plan setlocal wrap textwidth=0
     au FileType plan nnoremap <localleader>n Go<cr># <C-R>=strftime("%Y-%m-%d")<CR><CR><BS><BS>
     au FileType plan nnoremap <localleader>o :silent lgrep '^\?' %<cr>:lopen<cr>:redraw!<cr>
@@ -1406,6 +1398,152 @@ augroup ft_scala
     au Filetype scala vnoremap <buffer> M "ry:call scaladoc#Search(@r)<cr>
     au Filetype scala nnoremap <buffer> <localleader>t :call DispatchMavenTest()<cr>
     ")]
+augroup END
+
+" }}}
+" Scheme {{{
+
+augroup ft_scheme
+    au!
+
+    function! HighlightSchemeRepl() abort " {{{
+        " set syntax=lisp
+        syn match replPrompt /\v^\[([a-z A-Z])+\] [-._a-zA-Z0-9]+\>/
+        syn match replComment /\v^;.*/
+
+        " syn match replResult /\v^#\<[^>]+\>$/
+        hi def link replResult Debug
+        hi def link replComment Comment
+    endfunction "}}}
+
+    function! InitializeSchemeRepl() abort "{{{
+        call HighlightSchemeRepl()
+    endfunction "}}}
+
+    function! OpenSchemeReplChez() abort "{{{
+        call term_start("bash -c chez-rlwrap", {
+            \ "term_finish": "close",
+            \ "vertical": 1
+        \ })
+        call InitializeSchemeRepl()
+    endfunction "}}}
+
+    function! OpenSchemeReplPrompt() abort "{{{
+        call term_start("bash -c " . input("? "), {
+            \ "term_finish": "close",
+            \ "vertical": 1
+        \ })
+        call InitializeSchemeRepl()
+    endfunction "}}}
+
+    function! SetSchemeWords(...) abort "{{{
+        let force = get(a:, 0, 0)
+        if force || !exists('b:lispwords_loaded')
+            let b:lispwords_loaded = 1
+
+            setl lispwords+=block
+            setl lispwords+=define-modify-macro
+            setl lispwords+=with-gensyms
+        endif
+    endfunction "}}}
+
+    function! MotionToSelectTopLevelSchemeForm() abort " {{{
+        let motion = '99[(v%'
+        if col('.') == 1 && getline('.')[col('.') - 1] == '('
+            " We are at the beginning of a top-level form, so select until
+            " the matching parenthesis
+            let motion = 'v%'
+        endif
+        return motion
+    endfunction "}}}
+
+    function! SelectToplevelSchemeFormAndSendToTerminal() abort "{{{
+        call SelectAndSendToTerminal(MotionToSelectTopLevelSchemeForm())
+    endfunction "}}}
+
+    function! SelectToplevelSchemeFormAndSendToVlimeREPL() abort "{{{
+        let view = winsaveview()
+        let reg_save = @@
+        let motion = MotionToSelectTopLevelSchemeForm()
+
+        execute "normal! " . motion . "y"
+        call vlime#plugin#SendToREPL(@@)
+
+        let @@ = reg_save
+        call winrestview(view)
+    endfunction "}}}
+
+    function! IndentToplevelSchemeForm() abort "{{{
+        let view = winsaveview()
+        let reg_save = @@
+        let motion = MotionToSelectTopLevelSchemeForm()
+
+        execute "normal! " . motion . "="
+
+        let @@ = reg_save
+        call winrestview(view)
+    endfunction "}}}
+
+    function! TestSchemeSystem() abort "{{{
+        let systems = split(system('ls -1 *.asd | grep -v test | cut -d. -f1 | uniq')) " its fine
+        if len(systems) == 0
+            echom "Could not find any .asd files..."
+            return
+        elseif len(systems) > 1
+            echom "Found too many .asd files..."
+            return
+        endif
+
+        call SendToTerminal("(asdf:test-system :" . systems[0] . ")")
+    endfunction " }}}
+
+    function! TestSchemePrompt() abort "{{{
+        call SendToTerminal("(asdf:test-system :" . input("? ") . ")\n")
+    endfunction " }}}
+
+    function! InPackage() abort "{{{
+        let packages = split(system('grep "(in-package .*" '. fnameescape(expand("%")) .' --only-matching | cut -d" " -f2 | uniq')) " its fine
+        if len(packages) == 0
+            echom "Could not find any defpackage lines..."
+            return
+        elseif len(packages) > 1
+            echom "Found too many defpackage lines..."
+            return
+        endif
+
+        call SendToTerminal("(in-package " . packages[0])
+    endfunction " }}}
+
+    au FileType scheme call SetSchemeWords()
+
+    au FileType scheme setlocal iskeyword+=!,?,%,-
+    au FileType scheme setlocal suffixesadd+=.scm
+
+    au FileType scheme setlocal lisp
+    au FileType scheme setlocal equalprg=lispindent
+
+    au FileType scheme RainbowParenthesesActivate
+    au syntax lisp RainbowParenthesesLoadRound
+
+    " Fix windows:
+    " - <c-w>j: select window below -- Vlime Connection
+    " - <c-w>J: move it to the far bottom (and expand horizontally)
+    " - <c-w>k: select window above --  the actual lisp buffer
+    " - <c-w>H: move it to the far right (and expand vertically)
+    au FileType scheme nnoremap <buffer> <localleader>W <c-w>j<c-w>J<c-w>k<c-w>H
+
+    au FileType scheme let b:delimitMate_quotes = "\""
+
+    au FileType scheme nnoremap <buffer> <silent> <localleader>o :call OpenSchemeReplChez()<cr>
+    au FileType scheme nnoremap <buffer> <silent> <localleader>O :call OpenSchemeReplPrompt()<cr>
+    au FileType scheme nnoremap <buffer> <silent> gI :<C-U>call IndentToplevelSchemeForm()<cr>
+    au FileType scheme nnoremap <buffer> <silent> <localleader>i :call InPackage()<cr>
+    au FileType scheme nnoremap <buffer> <localleader>cc :STTConnect
+    au FileType scheme nnoremap <buffer> <localleader>cd :STTDisconnect
+    au FileType scheme nnoremap <buffer> <silent> <C-S> :call SelectToplevelSchemeFormAndSendToTerminal()<cr>
+    au FileType scheme xnoremap <buffer> <silent> <C-S> :call SendSelectionToTerminal(visualmode())<cr>
+
+    au FileType scheme call s:vim_sexp_mappings()
 augroup END
 
 " }}}
@@ -2000,6 +2138,96 @@ let g:pymode_syntax_builtin_objs = 1
 " Rainbow Parentheses {{{
 
 let g:rbpt_max = 1
+
+" }}}
+" vim-sexp {{{
+
+function! s:vim_sexp_mappings() " {{{
+    xmap <silent><buffer>   af   <Plug>(sexp_outer_list)
+    omap <silent><buffer>   af   <Plug>(sexp_outer_list)
+    xmap <silent><buffer>   if   <Plug>(sexp_inner_list)
+    omap <silent><buffer>   if   <Plug>(sexp_inner_list)
+    xmap <silent><buffer>   aF   <Plug>(sexp_outer_top_list)
+    omap <silent><buffer>   aF   <Plug>(sexp_outer_top_list)
+    xmap <silent><buffer>   iF   <Plug>(sexp_inner_top_list)
+    omap <silent><buffer>   iF   <Plug>(sexp_inner_top_list)
+    xmap <silent><buffer>   as   <Plug>(sexp_outer_string)
+    omap <silent><buffer>   as   <Plug>(sexp_outer_string)
+    xmap <silent><buffer>   is   <Plug>(sexp_inner_string)
+    omap <silent><buffer>   is   <Plug>(sexp_inner_string)
+    xmap <silent><buffer>   ae   <Plug>(sexp_outer_element)
+    omap <silent><buffer>   ae   <Plug>(sexp_outer_element)
+    xmap <silent><buffer>   ie   <Plug>(sexp_inner_element)
+    omap <silent><buffer>   ie   <Plug>(sexp_inner_element)
+
+    nmap <silent><buffer>   [[   <Plug>(sexp_swap_element_backward)
+    xmap <silent><buffer>   [[   <Plug>(sexp_swap_element_backward)
+    nmap <silent><buffer>   ]]   <Plug>(sexp_swap_element_forward)
+    xmap <silent><buffer>   ]]   <Plug>(sexp_swap_element_forward)
+
+    nmap <silent><buffer>   {    <Plug>(sexp_move_to_prev_top_element)
+    xmap <silent><buffer>   {    <Plug>(sexp_move_to_prev_top_element)
+    omap <silent><buffer>   {    <Plug>(sexp_move_to_prev_top_element)
+    nmap <silent><buffer>   }    <Plug>(sexp_move_to_next_top_element)
+    xmap <silent><buffer>   }    <Plug>(sexp_move_to_next_top_element)
+    omap <silent><buffer>   }    <Plug>(sexp_move_to_next_top_element)
+
+    " Easy getting around
+    nmap <silent><buffer>   B    <Plug>(sexp_move_to_prev_element_head)
+    nmap <silent><buffer>   W    <Plug>(sexp_move_to_next_element_head)
+    nmap <silent><buffer>   gE   <Plug>(sexp_move_to_prev_element_tail)
+    nmap <silent><buffer>   E    <Plug>(sexp_move_to_next_element_tail)
+    xmap <silent><buffer>   B    <Plug>(sexp_move_to_prev_element_head)
+    xmap <silent><buffer>   W    <Plug>(sexp_move_to_next_element_head)
+    xmap <silent><buffer>   gE   <Plug>(sexp_move_to_prev_element_tail)
+    xmap <silent><buffer>   E    <Plug>(sexp_move_to_next_element_tail)
+    omap <silent><buffer>   B    <Plug>(sexp_move_to_prev_element_head)
+    omap <silent><buffer>   W    <Plug>(sexp_move_to_next_element_head)
+    omap <silent><buffer>   gE   <Plug>(sexp_move_to_prev_element_tail)
+    omap <silent><buffer>   E    <Plug>(sexp_move_to_next_element_tail)
+
+    " Slurping/Barfing
+    "
+    " angle bracket indicates the direction, and the parenthesis
+    " indicates which end to operate on.
+    nmap <silent><buffer>   <(   <Plug>(sexp_capture_prev_element)
+    nmap <silent><buffer>   >)   <Plug>(sexp_capture_next_element)
+    nmap <silent><buffer>   >(   <Plug>(sexp_emit_head_element)
+    nmap <silent><buffer>   <)   <Plug>(sexp_emit_tail_element)
+
+    " Insert head/tail of the current list
+    nmap <silent><buffer>   <I   <Plug>(sexp_insert_at_list_head)
+    nmap <silent><buffer>   >I   <Plug>(sexp_insert_at_list_tail)
+endfunction " }}}
+
+let g:sexp_filetypes = ''
+let g:sexp_mappings = {}
+let g:sexp_insert_after_wrap = 0
+let g:sexp_enable_insert_mode_mappings = 0
+
+" wew lads
+function! SexpUp()
+    execute "normal \<Plug>(sexp_move_to_prev_bracket)"
+    execute "normal! v"
+    execute "normal \<Plug>(sexp_inner_element)"
+    execute "normal! o\<esc>"
+endfunction
+
+function! SexpDown()
+    execute "normal! v"
+    execute "normal \<Plug>(sexp_inner_element)"
+    execute "normal! \<esc>v"
+    execute "normal \<Plug>(sexp_inner_list)"
+    execute "normal! o\<esc>"
+endfunction
+
+function! SexpForward()
+    execute "normal \<Plug>(sexp_move_to_next_element_head)"
+endfunction
+
+function! SexpBack()
+    execute "normal \<Plug>(sexp_move_to_prev_element_head)"
+endfunction
 
 " }}}
 " vim-goobook {{{

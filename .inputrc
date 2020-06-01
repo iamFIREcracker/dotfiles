@@ -23,6 +23,12 @@ set show-all-if-ambiguous on
 $if sbcl
   "\C-x\C-e": rlwrap-call-editor
 $endif
+$if chez
+  "\C-x\C-e": rlwrap-call-editor
+$endif
+$if racket
+  "\C-x\C-e": rlwrap-call-editor
+$endif
 $if python
   "\C-x\C-e": rlwrap-call-editor
 $endif

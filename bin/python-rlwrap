@@ -3,9 +3,10 @@
 rlwrap \
   --multi-line=@ \
   --multi-line-ext .py \
+  --ansi-colour-aware \
   --only-cook '^>>>' \
   --prompt-colour=Cyan \
   --quote-characters='"' \
   --histsize 10000 \
   --history-filename "$HOME/.rlwrap-python-history" \
-  -- python
+  -- python "$@"

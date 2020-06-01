@@ -1,3 +1,6 @@
+show-read-articles yes
+feed-sort-order unreadarticlecount-asc
+
 bind-key ^R reload-all
 bind-key j down
 bind-key k up
