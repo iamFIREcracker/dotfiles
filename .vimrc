@@ -135,6 +135,10 @@ augroup theme_customizations
             \ hi link LspErrorText NeomakeErrorSign |
             \ hi link LspWarningText NeomakeWarningSign
     autocmd ColorScheme goodwolf
+            \ hi! link diffFile diffIndexLine |
+            \ hi! link diffOldFile diffIndexLine |
+            \ hi! link diffNewFile diffIndexLine |
+            \ hi! link diffLine diffSubName |
             \ hi! link DiffAdd diffAdded |
             \ hi! link DiffDelete diffRemoved |
             \ hi! link level2c level1c |
@@ -849,10 +853,14 @@ augroup ft_diff
 
     function! DiffFold(lnum) abort
         let line = getline(a:lnum)
-        if line =~ '^\(diff\|---\|+++\|@@\) '
-            return 0
+        if line =~ '^diff '
+            return '>1'
+        elseif line =~ '^\(index\|---\|+++\) '
+            return '='
+        elseif line =~ '^\(@@\) '
+            return '>2'
         elseif line[0] =~ '[-+ ]'
-            return 1
+            return '='
         else
             return 0
         endif
@@ -2354,11 +2362,11 @@ nnoremap <localleader>W :WritegooderToggle<cr>
 
 " Show the stack of syntax hilighting classes affecting whatever is under the
 " cursor.
-function! SynStack() "{{{
+function! s:SynStack() "{{{
   echo join(map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")'), " > ")
 endfunc "}}}
 
-nnoremap <F7> :call SynStack()<CR>
+command! SynStack call s:SynStack()
 
 " }}}
 
