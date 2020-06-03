@@ -154,7 +154,7 @@
     cbb = !git currentbranch | cb
 
     when-merged = "!f() { git log $1..${2-master} --ancestry-path --merges; }; f"
-    pull-request-summary = "!f() { git log ${1-master}.. --reverse --pretty='format:## %s%n%n%b'; }; f"
+    pull-request-summary = "!f() { git log ${1-origin/master}.. --reverse --pretty='format:## %s%n%n%b' | vipe | cb; }; f"
 [pull]
     ff = only
 

@@ -1079,7 +1079,7 @@ augroup ft_javascript
     au FileType javascript nnoremap <localleader>cc :STTConnect
     au FileType javascript nnoremap <localleader>cd :STTDisconnect
     au FileType javascript nnoremap <C-S> :<C-U>call SelectAndSendToTerminal('vap')<cr>
-    au FileType javascript xnoremap <C-S> :<C-U>call SendSelectionToTerminal(visuamode())<cr>
+    au FileType javascript xnoremap <C-S> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
     au Filetype javascript nnoremap <buffer> <C-^> :LspReferences<cr>
     au FileType javascript nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
     au FileType javascript nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
