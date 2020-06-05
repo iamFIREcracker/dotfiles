@@ -312,7 +312,6 @@ set virtualedit+=block
 noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 
 runtime macros/matchit.vim
-map <tab> %
 
 " Keep search matches in the middle of the window
 nnoremap n nzvzz
@@ -348,21 +347,22 @@ nnoremap VaB vaBV
 
 " Smarcase for */# -- and don't automatically jump around {{{
 
-function! NormalStarSearchSet(cmdtype) " {{{
-    let view = winsaveview()
+function! NormalStarSearchSet() " {{{
     let query = "\\<" . escape(expand('<cword>'), '*\') . "\\>"
-
-    execute "normal! " . a:cmdtype . query . "\<CR>"
     let @/ = query
-    set hlsearch
     call histadd("search", query)
-
-    call winrestview(view)
 endfunction " }}}
 
-nnoremap * :call NormalStarSearchSet('/')<CR>
-nnoremap # :call NormalStarSearchSet('?')<CR>
-
+" `v:searchforward` and `hlsearch` are reset after a function terminate, so we
+" are forced to set them **after** we figured out what to search
+"
+" Read `:help v:searchforward` for additional details
+nnoremap * :<C-U>call NormalStarSearchSet()<CR>
+            \ :let v:searchforward = 1<CR>
+            \ :set hlsearch<CR>
+nnoremap # :<C-U>call NormalStarSearchSet()<CR>
+            \ :let v:searchforward = 0<CR>
+            \ :set hlsearch<CR>
 
 "" }}}
 " Directional Keys {{{
