@@ -2711,7 +2711,6 @@ function! SendToTerminal(data) abort " {{{
           let trailing_new_lines = trailing_new_lines - 1
         endwhile
 
-        echom keys
         call term_sendkeys(g:stt_buffnr, keys)
     endif
 endfunction " }}}
