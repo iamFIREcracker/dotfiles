@@ -631,19 +631,6 @@ augroup ft_commonlisp
         call InitializeLispRepl()
     endfunction "}}}
 
-    function! SetLispWords(...) abort "{{{
-        let force = get(a:, 0, 0)
-        if force || !exists('b:lispwords_loaded')
-            let b:lispwords_loaded = 1
-
-            setl lispwords+=block
-            setl lispwords+=define-modify-macro
-            setl lispwords+=with-gensyms
-            setl lispwords+=ppcre:register-groups-bind
-            setl lispwords+=cg:define-guesser
-        endif
-    endfunction "}}}
-
     function! MotionToSelectTopLevelLispForm() abort " {{{
         let motion = '99[(v%'
         if col('.') == 1 && getline('.')[col('.') - 1] == '('
@@ -728,13 +715,8 @@ augroup ft_commonlisp
         call SendToTerminal("(in-package " . packages[0])
     endfunction " }}}
 
-    au FileType lisp call SetLispWords()
-
     au FileType lisp setlocal iskeyword+=!,?,%,-
     au FileType lisp setlocal suffixesadd+=.lisp
-
-    au FileType lisp setlocal lisp
-    au FileType lisp setlocal equalprg=lispindent
 
     au FileType lisp RainbowParenthesesActivate
     au syntax lisp RainbowParenthesesLoadRound
@@ -1444,17 +1426,6 @@ augroup ft_scheme
         call InitializeSchemeRepl()
     endfunction "}}}
 
-    function! SetSchemeWords(...) abort "{{{
-        let force = get(a:, 0, 0)
-        if force || !exists('b:lispwords_loaded')
-            let b:lispwords_loaded = 1
-
-            setl lispwords+=block
-            setl lispwords+=define-modify-macro
-            setl lispwords+=with-gensyms
-        endif
-    endfunction "}}}
-
     function! MotionToSelectTopLevelSchemeForm() abort " {{{
         let motion = '99[(v%'
         if col('.') == 1 && getline('.')[col('.') - 1] == '('
@@ -1527,9 +1498,6 @@ augroup ft_scheme
     au FileType scheme setlocal iskeyword+=!,?,%,-
     au FileType scheme setlocal suffixesadd+=.scm
 
-    au FileType scheme setlocal lisp
-    au FileType scheme setlocal equalprg=lispindent
-
     au FileType scheme RainbowParenthesesActivate
     au syntax lisp RainbowParenthesesLoadRound
 
@@ -1550,8 +1518,6 @@ augroup ft_scheme
     au FileType scheme nnoremap <buffer> <localleader>cd :STTDisconnect
     au FileType scheme nnoremap <buffer> <silent> <C-S> :call SelectToplevelSchemeFormAndSendToTerminal()<cr>
     au FileType scheme xnoremap <buffer> <silent> <C-S> :call SendSelectionToTerminal(visualmode())<cr>
-
-    au FileType scheme call s:vim_sexp_mappings()
 augroup END
 
 " }}}
@@ -2150,6 +2116,11 @@ let g:rbpt_max = 1
 " }}}
 " vim-sexp {{{
 
+let g:sexp_filetypes = ''
+let g:sexp_mappings = {}
+let g:sexp_insert_after_wrap = 0
+let g:sexp_enable_insert_mode_mappings = 0
+
 function! s:vim_sexp_mappings() " {{{
     xmap <silent><buffer>   af   <Plug>(sexp_outer_list)
     omap <silent><buffer>   af   <Plug>(sexp_outer_list)
@@ -2208,34 +2179,10 @@ function! s:vim_sexp_mappings() " {{{
     nmap <silent><buffer>   >I   <Plug>(sexp_insert_at_list_tail)
 endfunction " }}}
 
-let g:sexp_filetypes = ''
-let g:sexp_mappings = {}
-let g:sexp_insert_after_wrap = 0
-let g:sexp_enable_insert_mode_mappings = 0
-
-" wew lads
-function! SexpUp()
-    execute "normal \<Plug>(sexp_move_to_prev_bracket)"
-    execute "normal! v"
-    execute "normal \<Plug>(sexp_inner_element)"
-    execute "normal! o\<esc>"
-endfunction
-
-function! SexpDown()
-    execute "normal! v"
-    execute "normal \<Plug>(sexp_inner_element)"
-    execute "normal! \<esc>v"
-    execute "normal \<Plug>(sexp_inner_list)"
-    execute "normal! o\<esc>"
-endfunction
-
-function! SexpForward()
-    execute "normal \<Plug>(sexp_move_to_next_element_head)"
-endfunction
-
-function! SexpBack()
-    execute "normal \<Plug>(sexp_move_to_prev_element_head)"
-endfunction
+augroup sexp_mappings
+    autocmd!
+    autocmd FileType scheme,lisp call s:vim_sexp_mappings()
+augroup END
 
 " }}}
 " vim-goobook {{{

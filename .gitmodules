@@ -169,3 +169,6 @@
 [submodule ".vim/pack/bundle/start/vim-sexp-mappings-for-regular-people.git"]
 	path = .vim/pack/bundle/start/vim-sexp-mappings-for-regular-people.git
 	url = https://github.com/tpope/vim-sexp-mappings-for-regular-people.git
+[submodule ".vim/pack/iamFIREcracker/start/vim-lispindent"]
+	path = .vim/pack/iamFIREcracker/start/vim-lispindent
+	url = git@github.com:iamFIREcracker/vim-lispindent.git
