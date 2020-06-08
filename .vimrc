@@ -668,6 +668,14 @@ augroup ft_commonlisp
         call winrestview(view)
     endfunction "}}}
 
+    function! QuickprojectMakePrompt() abort "{{{
+        let l:path = getcwd()
+        let l:guessed_name = split(l:path, '/')[-1]
+        let l:name = input("? ", guessed_name)
+
+        call SendToTerminal("(quickproject:make-project #p\"" . l:path . "\" :name \"" . l:name . "\")\n")
+    endfunction " }}}
+
     function! QuickloadLispSystem() abort "{{{
         let systems = split(system('ls -1 *.asd | grep -v test | cut -d. -f1 | uniq')) " its fine
         if len(systems) == 0
@@ -736,6 +744,7 @@ augroup ft_commonlisp
     au FileType lisp nnoremap <buffer> <silent> <localleader>o :call OpenLispReplSBCL()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>O :call OpenLispReplPrompt()<cr>
     au FileType lisp nnoremap <buffer> <silent> gI :<C-U>call IndentToplevelLispForm()<cr>
+    au FileType lisp nnoremap <buffer> <silent> <localleader>n :call QuickprojectMakePrompt()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>q :call QuickloadLispSystem()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>Q :call QuickloadLispPrompt()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>t :call TestLispSystem()<cr>
