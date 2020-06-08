@@ -8,9 +8,14 @@
 (cg:define-guesser br
     ;; Poor's urlview!
     ;; https://gist.github.com/gruber/249502
-    ("((?i)\\b((?:[a-z][\\w-]+:(?:/{1,3}|[a-z0-9%])|www\\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’])))"
-     (url))
+    ("((?i)\\b((?:[a-z][\\w-]+:(?:/{1,3}|[a-z0-9%])|www\\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’])))" (url))
   (format NIL "br '~a' " url))
+
+(cg:define-guesser brew-command-not-found
+    ;; Error: This command updates brew itself, and does not take formula names.
+    ;; Use `brew upgrade vim` instead.
+    ("^Use `(.*)` instead." (brew-cmd))
+  (format NIL "~a " brew-cmd))
 
 (cg:define-guesser dmesg-sudo-dmesg
     ;; > dmesg
