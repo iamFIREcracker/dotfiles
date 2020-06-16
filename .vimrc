@@ -441,16 +441,6 @@ function! MyFoldText() " {{{
 endfunction " }}}
 set foldtext=MyFoldText()
 
-" Automatic unfolding {{{
-" Fix automatic unfolding while entering insert mode
-" http://stackoverflow.com/questions/4630892/vim-folds-open-up-when-giving-an-unmatched-opening-brace-parenthesis
-augroup unfolding
-    au!
-    au InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
-    au InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
-augroup END
-
-" }}}
 " }}}
 " Destroy infuriating keys ------------------------------------------------ {{{
 
@@ -1792,8 +1782,8 @@ nnoremap <silent> <up> :lprevious<CR>zvzz
 nnoremap <silent> <down> :lnext<CR>zvzz
 
 " Folds
-nnoremap <silent> [z zMzkzvzz
-nnoremap <silent> ]z zMzjzvzz
+nnoremap <silent> [z zMzozkzvzz
+nnoremap <silent> ]z zMzozjzvzz
 
 " Macros
 nnoremap Q @q
