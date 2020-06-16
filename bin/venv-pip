@@ -1,5 +1,0 @@
-if [ -d venv/Scripts ]; then
-    venv/Scripts/pip.exe "$@"
-else
-    venv/bin/pip "$@"
-fi
