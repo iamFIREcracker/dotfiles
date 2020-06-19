@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -uo pipefail
 set -x
 
 story=$(cb)
+is_defect=$(echo "$story" | grep -E "DE[0-9]+")
+if [ -n "$is_defect" ]; then
+  prefix=defect
+else
+  prefix=story
+fi
 id=$(echo $story | cut -d: -f1)
 desc=$(echo $story | cut -d: -f2-)
 branch=$(echo $desc  \
@@ -12,4 +18,4 @@ branch=$(echo $desc  \
   | tr ' ' '-' \
   | sed "s/--*/-/g" \
   | sed "s/-$//")
-echo "git cob story/$id/${branch}" | cg-fzf
+echo "git cob ${prefix}/$id/${branch}" | cg-fzf

@@ -24,6 +24,10 @@
     ("usage: (sudo dmesg)" (sudo-cmd))
   (format NIL "~a" sudo-cmd))
 
+(cg:define-guesser gcob
+    ("(git cob .+)" (git-cmd))
+  (format NIL "~a" git-cmd))
+
 (cg:define-guesser gem-pristine
     ("(gem pristine [^ ]* --version [^ ]*)" (gem-pristine-cmd))
   (format NIL "~a " gem-pristine-cmd))
