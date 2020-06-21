@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+COLUMNS=$(tput cols)
+
+SPLIT_OPTS=
+if [ $COLUMNS -ge 160 ]; then
+  SPLIT_OPTS="$SPLIT_OPTS -h -l 120"
+else
+  SPLIT_OPTS="$SPLIT_OPTS -v"
+fi
+
+tmux split-window $SPLIT_OPTS \
+    w3mw "$@"
