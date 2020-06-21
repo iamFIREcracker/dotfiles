@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -eu
+
+URL=$(cb)
+
+cat <<EOF | fzf | cb
+$URL/releases.atom
+$URL/commits/master.atom
+EOF
