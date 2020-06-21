@@ -25,21 +25,22 @@ https://code.facebook.com/posts/rss
 https://drewdevault.com/feed.xml
 https://emily.st/feed/
 https://etc.ruricolist.com/feed/ "~Notes and digressions from @ruricolist"
-https://github.com/Olical/dotfiles/commits/master.atom commits "!Olical dotfiles"
-https://github.com/alacritty/alacritty/releases.atom releases
-https://github.com/Hammerspoon/hammerspoon/releases.atom releases
-https://github.com/elastic/elasticsearch/releases.atom releases
-https://github.com/emilyst/home/commits/master.atom commits "!emilyst home"
-https://github.com/ds26gte/scmindent/commits/master.atom commits "~scmindent commits"
-https://github.com/vlime/vlime/commits/master.atom commits "~vlime commits"
-https://github.com/nelstrom/dotfiles/commits/master.atom commits "~nelstrom dotfiles"
-https://github.com/philc/vimium/releases.atom releases
-https://github.com/roswell/roswell/releases.atom releases
-https://github.com/tpope/tpope/commits/master.atom commits "~tpope dotfiles"
-https://hg.stevelosh.com/.plan/rss-log commits "~sjl .plan"
-https://hg.stevelosh.com/advent/rss-log commits "~sjl advent"
-https://hg.stevelosh.com/cl-losh/rss-log commits "~sjl cl-losh"
-https://hg.stevelosh.com/dotfiles/rss-log commits "~sjl dotfiles"
+https://github.com/Olical/dotfiles/commits/master.atom "~dotfiles: Olical"
+https://github.com/alacritty/alacritty/releases.atom releases "~releases: alacritty"
+https://github.com/Hammerspoon/hammerspoon/releases.atom releases "~releases: hammerspoon"
+https://github.com/elastic/elasticsearch/releases.atom releases "~releases: elasticsearch"
+https://github.com/emilyst/home/commits/master.atom "~dotfiles: emilyst"
+https://github.com/ds26gte/scmindent/commits/master.atom "~commits: scmindent"
+https://github.com/vlime/vlime/commits/master.atom "~commits: vlime"
+https://github.com/nelstrom/dotfiles/commits/master.atom "~dotfiles: nelstrom"
+https://github.com/philc/vimium/releases.atom releases "~releases: vimium"
+https://github.com/roswell/roswell/releases.atom releases "~releases: roswell"
+https://github.com/vim/vim/releases.atom releases "~releases: vim"
+https://github.com/tpope/tpope/commits/master.atom "~dotfiles: tpope"
+https://hg.stevelosh.com/.plan/rss-log "~sjl .plan"
+https://hg.stevelosh.com/advent/rss-log "~sjl advent"
+https://hg.stevelosh.com/cl-losh/rss-log "~sjl cl-losh"
+https://hg.stevelosh.com/dotfiles/rss-log "~sjl dotfiles"
 https://lispblog.xach.com/rss
 https://lukesmith.xyz/rss.xml
 https://mastodon.social/@sjl.atom
@@ -55,7 +56,13 @@ https://www.darkchestnut.com/feed.xml
 https://www.reddit.com/user/oantolin/.rss reddit
 https://www.reddit.com/user/phil_g/.rss reddit
 https://www.reddit.com/user/stevelosh/.rss reddit
-https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA youtube "~lukesmith"
-https://www.youtube.com/feeds/videos.xml?channel_id=UC3DkFux8Iv-aYnTRWzwaiBA youtube "~petermck"
-https://www.youtube.com/feeds/videos.xml?channel_id=UCPKT_csvP72boVX0XrMtagQ youtube "~cercle"
-https://www.youtube.com/feeds/videos.xml?channel_id=UCkK9UDm_ZNrq_rIXCz3xCGA youtube "~lunduke"
+https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA "~youtube: lukesmith"
+https://www.youtube.com/feeds/videos.xml?channel_id=UC3DkFux8Iv-aYnTRWzwaiBA "~youtube: petermck"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCPKT_csvP72boVX0XrMtagQ "~youtube: cercle"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCkK9UDm_ZNrq_rIXCz3xCGA "~youtube: lunduke"
+https://www.youtube.com/feeds/videos.xml?channel_id=UC8ENHE5xdFSwx71u3fDH5Xw "~youtube: theprimeagen"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCgFvT6pUq9HLOvKBYERzXSQ "~youtube: Davie504"
+https://nitter.net/stevelosh/rss "~twitter: stevelosh"
+https://nitter.net/tpope/rss "~twitter: tpope"
+https://nitter.net/dhh/rss "~twitter dhh"
+https://twitchrss.appspot.com/vod/theprimeagen "~twitch: theprimeagen"

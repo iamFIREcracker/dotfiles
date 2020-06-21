@@ -172,6 +172,7 @@ complete -c cw -w which
 
 elinks() { $EDITOR ~/Dropbox/links.txt; }
 etodos() { $EDITOR ~/Dropbox/todos.txt; }
+enburls() { $EDITOR ~/.newsboat/urls; }
 
 # }}}
 
