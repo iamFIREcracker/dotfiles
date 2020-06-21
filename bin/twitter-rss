@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -eu
+
+URL=$(cb)
+
+# URL is supposed to be https://twitter.com/dhh
+profile=$(echo $URL \
+  | sed "s/twitter.com\// /g" \
+  | cut -d' ' -f 2 \
+  | cut -d/ -f 1)
+
+echo "https://nitter.net/$profile/rss" | cb
