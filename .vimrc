@@ -1248,7 +1248,18 @@ augroup ft_plan
     au FileType plan xnoremap <C-S> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
 
     au FileType plan setlocal wrap textwidth=0
-    au FileType plan nnoremap <localleader>n Go<cr># <C-R>=strftime("%Y-%m-%d")<CR><CR><BS><BS>
+    function! s:CreateNewPlanEntry() abort "{{{
+        let l:last_ai=&autoindent
+        setlocal noautoindent
+
+        " Go to the end of the file, and add a new line
+        " Create additional empty line
+        " Create the damn entry
+        execute "normal! Go\<cr># " . strftime("%Y-%m-%d")
+
+        let &l:autoindent=l:last_ai
+    endfunction "}}}
+    au FileType plan nnoremap <localleader>n :<C-U>call <SID>CreateNewPlanEntry()<cr>o
     au FileType plan nnoremap <localleader>o :silent lgrep '^\?' %<cr>:lopen<cr>:redraw!<cr>
 augroup END
 
