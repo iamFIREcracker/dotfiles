@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -eu
 
-URL=${1?YouTbe URL required}
+URL=$(cb)
 
 channel_id=$(curl "$URL" \
   | grep --only-matching --extended-regexp 'data-channel-external-id="[^"]*"' \
   | head -n1 \
   | cut -d\" -f2)
 
-echo "https://www.youtube.com/feeds/videos.xml?channel_id=$channel_id"
+echo "https://www.youtube.com/feeds/videos.xml?channel_id=$channel_id" | cb
