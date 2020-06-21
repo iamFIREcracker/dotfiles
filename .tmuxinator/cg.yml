@@ -1,0 +1,11 @@
+# ~/.tmuxinator/cg.yml
+
+name: cg
+root: ~/Workspace/adventofcode/
+
+windows:
+  - root:
+      layout: main-vertical
+      root: ~/opt/cg/
+      panes:
+        - vim package.lisp
