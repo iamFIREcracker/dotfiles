@@ -59,13 +59,6 @@ set dictionary=/usr/share/dict/words
 " Both Alacritty and Mintty support true colors
 set termguicolors
 
-" https://www.reddit.com/r/vim/comments/57huhd/any_idea_why_terminal_vim_isnt_correctly/
-if &term =~ '256color'
-    " Disable Background Color Erase (BCE) so that color schemes
-    " render properly when inside 256-color tmux and GNU screen.
-    set t_ut=
-endif
-
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
 
@@ -165,14 +158,6 @@ augroup auto_save
     au!
 
     au FocusLost * :silent wa
-augroup END
-
-" }}}
-" Resize splits when the window is resized {{{
-
-augroup auto_win_resize
-    au!
-    au VimResized * :wincmd =
 augroup END
 
 " }}}
@@ -323,10 +308,6 @@ nnoremap g, g,zvzz
 nnoremap gd gdzvzz
 nnoremap gD gDzvzz
 
-" Window resizing
-nnoremap <c-left> 5<c-w>>
-nnoremap <c-right> 5<c-w><
-
 " Easier to type, and I never use the default behavior.
 noremap H ^
 noremap L g_
@@ -371,13 +352,6 @@ nnoremap # :<C-U>call NormalStarSearchSet()<CR>
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
-" Easy buffer navigation
-noremap <C-h>  <C-w>h
-noremap <C-j>  <C-w>j
-noremap <C-k>  <C-w>k
-noremap <C-l>  <C-w>l
-noremap <leader>v <C-w>v
-
 " }}}
 " Some terminal mappings {{{
 
@@ -386,18 +360,7 @@ if has('terminal')
     " this completely fucks up REPLs..
     " tnoremap <Esc> <C-\><C-N>
 
-    " Easy buffer navigation
-    tnoremap <C-h>  <C-w>h
-    tnoremap <C-j>  <C-w>j
-    tnoremap <C-k>  <C-w>k
-    tnoremap <C-l>  <C-w>l
-
     " Verbatim
-    tnoremap <C-v><Esc> <Esc>
-    tnoremap <C-v><C-h> <C-h>
-    tnoremap <C-v><C-j> <C-j>
-    tnoremap <C-v><C-k> <C-k>
-    tnoremap <C-v><C-l> <C-l>
     tnoremap <C-v><C-w> <C-W>.
 endif
 
@@ -1954,7 +1917,6 @@ else
     packadd fzf
 end
 nnoremap <C-P> :<C-u>FZF<CR>
-" let g:fzf_layout = { 'window': 'terminal' }
 
 " }}}
 " Gundo {{{
