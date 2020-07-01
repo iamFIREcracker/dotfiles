@@ -46,9 +46,6 @@
 [submodule ".vim/bundle/vitality.vim"]
 	path = .vim/pack/bundle/start/vitality.vim
 	url = https://github.com/iamFIREcracker/vitality.vim.git
-[submodule ".vim/bundle/AnsiEsc.vim"]
-	path = .vim/pack/bundle/start/AnsiEsc.vim
-	url = https://github.com/sjl/AnsiEsc.vim.git
 [submodule ".vim/bundle/Dockerfile.vim"]
 	path = .vim/pack/bundle/start/Dockerfile.vim
 	url = https://github.com/ekalinin/Dockerfile.vim

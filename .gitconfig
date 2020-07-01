@@ -153,7 +153,9 @@
 
     cbb = !git currentbranch | cb
 
-    when-merged = "!f() { git log $1..${2-master} --ancestry-path --merges; }; f"
+    find-merge = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
+    show-merge = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
+
     pull-request-summary = "!f() { git log ${1-origin/master}.. --reverse --pretty='format:## %s%n%n%b' | vipe | cb; }; f"
 [pull]
     ff = only

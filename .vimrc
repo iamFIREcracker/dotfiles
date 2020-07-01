@@ -1648,10 +1648,6 @@ nnoremap <leader>sv :let stay_sourcevimrc_view = winsaveview()<cr>:source $MYVIM
 " Clean trailing whitespace
 nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 
-" Change case
-nnoremap <C-u> gUiw
-inoremap <C-u> <esc>gUiwea
-
 " Fix the & command by making sure substituion flags are not lost when
 " re-executing
 nnoremap & :&&<CR>
