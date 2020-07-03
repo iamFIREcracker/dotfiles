@@ -1,3 +1,12 @@
+function whenHostnameNot(expected, next)
+  return function()
+    output, status = hs.execute('ifconfig | grep utun1')
+    if status ~= nil then
+      next()
+    end
+  end
+end
+
 --- Quick open applications
 local hyper = {"ctrl", "cmd", "alt", "shift"}
 
@@ -31,8 +40,8 @@ hs.hotkey.bind(hyper, "p", open("Alacritty-main"))
 hs.hotkey.bind(hyper, "j", open("Alacritty-fullscreen"))
 hs.hotkey.bind(hyper, "h", open("Alacritty"))
 
-hs.hotkey.bind(hyper, "m", open("Microsoft Outlook"))
-hs.hotkey.bind(hyper, "i", open("Microsoft Teams"))
+hs.hotkey.bind(hyper, "m", whenHostnameNot("hairstyle", open("Microsoft Outlook")))
+hs.hotkey.bind(hyper, "i", whenHostnameNot("hairstyle", open("Microsoft Teams")))
 
 --- Resize windows
 hs.window.animationDuration = 0
@@ -66,5 +75,6 @@ hs.hotkey.bind(hyper2, "m", resize_pct(0, 1/2, 1, 1/2))
 
 hs.hotkey.bind(hyper2, "u", resize_pct(1/8, 0, 3/4, 1))
 hs.hotkey.bind(hyper2, "n", resize_pct(1/6, 0, 2/3, 1))
+
 ---
 hs.alert.show("HS init config... reloaded")

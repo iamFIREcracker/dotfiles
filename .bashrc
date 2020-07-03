@@ -709,6 +709,9 @@ prompt_command() {
 
 
 if [[ $- == *i* ]]; then
+    # Place the prompt at the bottom of the terminal:
+    # https://unix.stackexchange.com/questions/153102/how-to-start-xterm-with-prompt-at-the-bottom
+    tput cup $LINES
     export PROMPT_COMMAND='prompt_command'
 fi
 

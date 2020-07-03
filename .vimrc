@@ -161,6 +161,14 @@ augroup auto_save
 augroup END
 
 " }}}
+" Resize splits when the window is resized {{{
+
+augroup auto_win_resize
+    au!
+    au VimResized * :wincmd =
+augroup END
+
+" }}}
 " Cursorline {{{
 " Only show cursorline in the current window and in normal mode.
 
@@ -1720,16 +1728,8 @@ nnoremap <localleader>d :windo diffthis<cr>
 nnoremap <localleader>D :windo diffoff!<cr>
 
 
-" Remove ANSI color escape codes for the edited file. This is handy when
-" piping colored text into Vim.
-function! RemoveAnsiColor() " {{{
-    let l:save = winsaveview()
-    %s/\[\(\d\{1,2}\(;\d\{1,2}\)\{0,2\}\)\?[m\|K]//
-    call winrestview(l:save)
-endfunction " }}}
-nnoremap <Leader>rac :call RemoveAnsiColor()<cr>
-
 nnoremap <silent> gw :ArgWrap<cr>
+
 
 " Go back to the previous edited file with backspace
 nnoremap <BS> <C-^>
@@ -1868,41 +1868,40 @@ let g:user_emmet_install_global = 0
 let g:fugitive_github_domains = []
 let g:fugitive_gitlab_domains = ['https://gitlabdev01.iontrading.com']
 
-nnoremap <leader>gcbb :!git cbb<cr>
 nnoremap <leader>gd :Shell git diff <C-R>=expand('%')<cr><cr>
 nnoremap <leader>gD :Shell git diff<cr>
 nnoremap <leader>gp :Gpush<cr>
 nnoremap <leader>gP :!git p -f<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gw :Gwrite<cr>
-nnoremap <leader>ga :Gadd<cr>
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>ge :Gedit<cr>
-nnoremap <leader>gco :Gcheckout<cr>
 nnoremap <leader>gci :Gcommit<cr>
-nnoremap <leader>gm :Gmove<cr>
 nnoremap <leader>gr :!git r <C-R>=fnameescape(expand('%'))<cr><cr>
 nnoremap <leader>gR :!git R<cr>
-nnoremap <leader>gl :Shell git pl<cr>
-nnoremap <leader>gL :Shell git plll<cr>
+nnoremap <leader>gl :Shell git pl <bar> strip-escapes<cr>
+nnoremap <leader>gL :Shell git plll <bar> strip-escapes<cr>
 nnoremap <leader>gi :Shell git ind<cr>
 
 
-augroup ft_fugitive
+augroup ft_fugitive " {{{
     au!
 
     au User Fugitive let g:netrw_browsex_viewer = "git web--browse"
     au BufNewFile,BufRead .git/index setlocal nolist
-augroup END
+augroup END " }}}
 augroup ft_shell_g_pl
     au!
 
-    autocmd BufReadPost __Shell_Output__git_pl*  :silent call RemoveAnsiColor()
-    autocmd BufReadPost __Shell_Output__git_pl*  setlocal filetype=gitrebase
-    autocmd BufReadPost __Shell_Output__git_pl   nnoremap <buffer> R :!git rb <C-R>=split(getline('.'))[0]<CR>^1<CR>:Shell git pl<cr>
-    autocmd BufReadPost __Shell_Output__git_pll  nnoremap <buffer> R :!git rb <C-R>=split(getline('.'))[0]<CR>^1<CR>:Shell git pll<cr>
-    autocmd BufReadPost __Shell_Output__git_plll nnoremap <buffer> R :!git rb <C-R>=split(getline('.'))[0]<CR>^1<CR>:Shell git plll<cr>
-augroup END
+    autocmd BufReadPost __Shell_Output__git_pl_* setlocal filetype=gitrebase
+    autocmd BufReadPost __Shell_Output__git_pl_* nnoremap <buffer> ri :!git rb <C-R>=split(getline('.'))[0]<CR>^1<CR>:Shell git pl <bar> strip-escapes<cr>
+augroup END " }}}
+augroup ft_shell_g_pll
+    au!
+
+    autocmd BufReadPost __Shell_Output__git_plll_*  setlocal filetype=gitrebase
+    autocmd BufReadPost __Shell_Output__git_plll_* nnoremap <buffer> ri :!git rb <C-R>=split(getline('.'))[0]<CR>^1<CR>:Shell git plll <bar> strip-escapes<cr>
+augroup END " }}}
 
 " }}}
 " FZF {{{
