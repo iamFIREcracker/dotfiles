@@ -1882,6 +1882,7 @@ nnoremap <leader>gR :!git R<cr>
 nnoremap <leader>gl :Shell git pl <bar> strip-escapes<cr>
 nnoremap <leader>gL :Shell git plll <bar> strip-escapes<cr>
 nnoremap <leader>gi :Shell git ind<cr>
+nnoremap <silent> <leader>y<C-G> :<C-U>call cb#copy(fugitive#Object(@%))<CR>
 
 
 augroup ft_fugitive " {{{
@@ -2318,6 +2319,8 @@ function! s:GetCurrentSelection(type) " {{{
         silent execute "normal! `<" . a:type . "`>y"
     elseif a:type ==# 'char'
         silent execute "normal! `[v`]y"
+    elseif a:type ==# 'line'
+        silent execute "normal! `[V`]y"
     endif
     let selection = @@
 
@@ -2392,6 +2395,7 @@ function! s:Shell(command)
     let bufName = substitute(bufName, ' ',  '_', 'g')
     let bufName = substitute(bufName, '\~', '_tilde_', 'g')
     let bufName = substitute(bufName, '/',  '_slash_', 'g')
+    let bufName = substitute(bufName, '|',  '_bar_', 'g')
     let shl_bufnum = bufnr(bufName)
     if shl_bufnum == -1
         exe "botright vnew " . bufName

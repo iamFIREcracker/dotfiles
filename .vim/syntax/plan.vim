@@ -28,13 +28,13 @@ highlight link planEntryNamedLink String
 syntax match planEntryUnamedLink        /\v\<[^>]+\>/  containedin=planDay contained
 highlight link planEntryUnamedLink String
 
-syntax match planEntryInlineCode /\v`[^`]+`/ containedin=planDay contained
+syntax match planEntryInlineCode /\v<`[^`]+`>/ containedin=planDay contained
 highlight link planEntryInlineCode String
 
-syntax match planEntryItalic /\v_[^_]+_/ containedin=planDay contained
+syntax match planEntryItalic /\v<_[^_]+_>/ containedin=planDay contained
 highlight planEntryItalic term=italic cterm=italic
 
-syntax match planEntryBold /\v\*\*[^*]+\*\*/ containedin=planDay contained
+syntax match planEntryBold /\v<\*\*[^*]+\*\*>/ containedin=planDay contained
 highligh planEntryBold term=bold cterm=bold
 
 syntax region planEntryCode start=/\v```/ end=/\v```/ containedin=planDay contained
