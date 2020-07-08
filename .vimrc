@@ -334,26 +334,6 @@ nnoremap Vat vatV
 nnoremap Vab vabV
 nnoremap VaB vaBV
 
-" Smarcase for */# -- and don't automatically jump around {{{
-
-function! NormalStarSearchSet() " {{{
-    let query = "\\<" . escape(expand('<cword>'), '*\') . "\\>"
-    let @/ = query
-    call histadd("search", query)
-endfunction " }}}
-
-" `v:searchforward` and `hlsearch` are reset after a function terminate, so we
-" are forced to set them **after** we figured out what to search
-"
-" Read `:help v:searchforward` for additional details
-nnoremap * :<C-U>call NormalStarSearchSet()<CR>
-            \ :let v:searchforward = 1<CR>
-            \ :set hlsearch<CR>
-nnoremap # :<C-U>call NormalStarSearchSet()<CR>
-            \ :let v:searchforward = 0<CR>
-            \ :set hlsearch<CR>
-
-"" }}}
 " Directional Keys {{{
 
 " It's 2011.
@@ -1707,17 +1687,6 @@ nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 
 " Quickreturn -- on my terminal, C-CR generates ◊
 inoremap ◊ <esc>A<cr>
-
-
-" Toggle [I]nvisible Characters
-nnoremap <leader>I :set list!<cr>
-
-" Window close (all) shortcuts
-nnoremap <c-w>qq :q<cr>
-nnoremap <c-w>qa :qa<cr>
-
-" Forgot to `sudo vim ...` ?
-nnoremap <leader>! :w !sudo tee %
 
 " Select (charwise) the contents of the current line, excluding indentation.
 " Great for pasting Python lines into REPLs.
