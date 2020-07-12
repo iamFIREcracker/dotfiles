@@ -1,5 +1,5 @@
 if hash cygpath 2> /dev/null; then
     "$(cygpath -u C:\\Users\\mlandi\\AppData\\Local\\Programs\\Python\\Python38\\python.exe)" "$@"
 else
-    python3.8 -m virtualenv "$@"
+    python3.8 "$@"
 fi

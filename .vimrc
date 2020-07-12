@@ -2585,7 +2585,7 @@ nnoremap gP :call <SID>PasteCycle(0)<CR>
 " SendToTerminal {{{
 
 let g:stt_trailing_new_lines = 1
-let g:stt_command_prompt_regexpes = ['\s*\$\s*', '\s*>\s*']
+let g:stt_command_prompt_regexpes = ['^\s*\$\s*', '^\s*>\s*']
 let g:stt_strip_command_prompt = 1
 
 function! s:STTConnect() abort

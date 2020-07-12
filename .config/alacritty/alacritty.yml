@@ -60,6 +60,10 @@ cursor:
   # Rendered the cursor of an unfocused window as a hollow cursor
   unfocused_hollow: true
 
+mouse:
+  url:
+    launcher: None
+
 live_config_reload: true
 
 key_bindings:

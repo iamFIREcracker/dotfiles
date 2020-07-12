@@ -41,8 +41,8 @@ fi
 if [[ -z $TMUX ]]; then
     test -d /usr/sbin                      && export PATH="/usr/sbin:$PATH"
     test -d /usr/local/sbin                && export PATH="/usr/local/sbin:$PATH"
-    test -d /usr/local/opt/node@8/bin      && export PATH="/usr/local/opt/node@8/bin:$PATH"
     test -d /usr/local/opt/python@2/bin    && export PATH="/usr/local/opt/python@2/bin:$PATH"
+    test -d /usr/local/opt/python@3/bin    && export PATH="/usr/local/opt/python@3/bin:$PATH"
     test -n "$JAVA_HOME"                   && export PATH="$JAVA_HOME/bin:$PATH"
     test -n "$M2_HOME"                     && export PATH="$M2_HOME/bin:$PATH"
     test -d ~/local/bin                    && export PATH="$HOME/local/bin:$PATH"
@@ -52,8 +52,6 @@ if [[ -z $TMUX ]]; then
     test -d ~/bin                          && export PATH="$HOME/bin:$PATH"
 
     test -d ~/local/man/                   && export MANPATH="$HOME/local/man:$MANPATH"
-
-    test -d ~/lib/python                   && export PYTHONPATH="$HOME/lib/python:$PYTHONPATH"
 fi
 
 if [ -z "${LANG}" ]; then
