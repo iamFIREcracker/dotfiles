@@ -1,2 +1,2 @@
 clear
-tput cup $LINES
+tput cup $(tput lines)
