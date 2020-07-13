@@ -36,10 +36,14 @@ $if node
   "\C-x\C-e": rlwrap-call-editor
 $endif
 
+# Reload this file
+"\C-xr": re-read-init-file
 # Pipe last command to cg with C-Enter -- my terminal generates ◊ on C-Enter
 "◊": " !-1 2>&1 | strip-escapes | cg-fzf\015"
 # Resume suspended program with C-Z
-"\C-z": "fg\015"
+"\C-z": " fg\015"
+# Nicer clear screen
+"\C-l": " clear-screen-and-position-cursor-at-the-bottom\015"
 
 # Keymaps for when we're in command mode (e.g., after hitting ESC)
 set keymap vi-command
@@ -49,4 +53,4 @@ set keymap vi-command
 "L": end-of-line
 
 set keymap vi-insert
-"\C-l": clear-screen
+"\C-l": "clear-screen-and-position-cursor-at-the-bottom"
