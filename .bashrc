@@ -74,7 +74,7 @@ export FZF_DEFAULT_COMMAND='ag --hidden --nocolor -g ""'
 export EDITOR="vim"
 export PAGER="/usr/bin/less"
 export HGEDITOR="~/bin/hgeditor"
-export BROWSER=br
+export BROWSER=pn
 
 # }}}
 # Java et al. {{{

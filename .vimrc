@@ -1857,7 +1857,14 @@ nnoremap <silent> <leader>y<C-G> :<C-U>call cb#copy(fugitive#Object(@%))<CR>
 augroup ft_fugitive " {{{
     au!
 
-    au User Fugitive let g:netrw_browsex_viewer = "git web--browse"
+    " Copy :GBrowse URLs into the OS clipboard.
+    "
+    " Note:
+    " - `cb` reads from stdin
+    " - netrw will pass the URL as argument
+    "
+    " Hence the use of one-line heredoc (<<<)
+    au User Fugitive let g:netrw_browsex_viewer = "cb <<<"
     au BufNewFile,BufRead .git/index setlocal nolist
 augroup END " }}}
 augroup ft_shell_g_pl

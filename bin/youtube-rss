@@ -4,9 +4,15 @@ set -eu
 
 URL=$(cb)
 
-channel_id=$(curl "$URL" \
-  | grep --only-matching --extended-regexp 'data-channel-external-id="[^"]*"' \
+rss_url=$(curl "$URL" \
+  | grep 'title="RSS"' \
+  | grep --only-matching --extended-regexp 'href="[^"]*"' \
   | head -n1 \
   | cut -d\" -f2)
 
-echo "https://www.youtube.com/feeds/videos.xml?channel_id=$channel_id" | cb
+if [ -z "$rss_url" ]; then
+  echo "Unable to extract RSS URL from: $URL"
+  exit 1
+fi
+
+echo "$rss_url" | cb

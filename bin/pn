@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -eu
+
+THING=${1:-PATH/URL argument required}
+case $THING in
+  http://hg.stevelosh.com:8000/*)
+    # sjl hg-web instance is not properly configured, and its URLs include the
+    # port of the service which is not supposed to be used (because most likely
+    # hg-web sits behind a reverse proxy).
+    #
+    # Anyway, long story short, here we strip the port number fromm the URL
+    w3mw-tmux $(echo $THING | sed 's/:8000//')
+    ;;
+  https://www.youtube.com/*)
+    br $THING
+    ;;
+  *)
+    w3mw-tmux $THING
+    ;;
+esac
