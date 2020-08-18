@@ -1,4 +1,5 @@
 window:
+  dynamic_title: true
   padding:
     x: 5
     y: 5
@@ -49,16 +50,15 @@ colors:
     cyan:    '0x6bf3e6'
     white:   '0xf9f9f9'
 
-visual_bell:
+bell:
   # Disable visual bell
   duration: 0
-
-dynamic_title: true
 
 cursor:
   style: Block
   # Rendered the cursor of an unfocused window as a hollow cursor
   unfocused_hollow: true
+  thickness: 0.5
 
 mouse:
   url:

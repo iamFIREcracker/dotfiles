@@ -1,14 +1,59 @@
 #!/usr/bin/env bash
 
+NEEDS_MUX=': mux'
+
+# the following function returns all the tmux sessions that can be activated:
+#
+# - Created sessions
+# - Tmuxinator workspaces (defined, but not activated yet)
+#
+# It outputs something like:
+#
+#     3: 2 windows (created Thu Jul 16 08:39:03 2020) (attached)
+#     left: 1 windows (created Tue Jul 14 20:38:07 2020) (attached)
+#     me: 2 windows (created Fri Jul 17 08:56:02 2020)
+#     p: 1 windows (created Fri Jul 17 08:59:46 2020)
+#     r: 3 windows (created Tue Jul 14 14:17:30 2020)
+#     aoc: mux
+#     cg: mux
+#     cndev: mux
+#     cnenv: mux
+#     everyday-love: mux
+#     irc: mux
+#     me: mux
+#     ml: mux
+#     p: mux
+#     phonerox: mux
+#     r: mux
+#     scratch: mux
+#     strappo: mux
+#
+# Note that `mux` workspaces have been intentionally marked with `: mux` --
+# that will enable us to activate them using `mux` instead of the classic `tmux
+# switchc`/`tmux attach`
+all-possible-sessions() {
+  tmux list-sessions
+  mux list 2>/dev/null | awk 'NR>1' | sed -e 's/  */ /g' | tr ' ' '\n' | sed "s/$/$NEEDS_MUX/"
+}
+
 ta-fzft() {
   local session
+  local name
+  local needs_mux
 
-  session=$(tmux list-sessions | fzf-tmux --no-sort --exit-0 | cut -d: -f1)
+  session=$(all-possible-sessions | sort --field-separator=: --field=1 --unique | fzf-tmux --no-sort --exit-0)
   if [ -n "$session" ]; then
-    if [ -n "$TMUX" ]; then
-      tmux switchc -t $session
+    name=$(echo $session | cut -d':' -f1)
+    needs_mux=$(echo $session | grep "$NEEDS_MUX")
+
+    if [ -n "$needs_mux" ]; then
+      mux $name
     else
-      tmux attach -t $session
+      if [ -n "$TMUX" ]; then
+        tmux switchc -t $name
+      else
+        tmux attach -t $name
+      fi
     fi
   fi
 }

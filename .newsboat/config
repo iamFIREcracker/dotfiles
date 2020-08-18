@@ -7,6 +7,8 @@ bind-key j down
 bind-key k up
 bind-key g home
 bind-key G end
+bind-key ^D pagedown
+bind-key ^U pageup
 
 macro x set browser "br %u" ; open-in-browser ; set browser w3mw-tmux
 macro y set browser "printf %s %u | cb" ; open-in-browser ; set browser w3mw-tmux
