@@ -158,12 +158,13 @@
     ff = only
 
 [merge]
-    tool = splice
+    tool = vimdiff
     ff = false
 
-[mergetool "splice"]
+[mergetool]
     cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"
     trustExitCode = true
+    prompt = false
 
 [difftool]
   prompt = false
