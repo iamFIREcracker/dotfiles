@@ -323,6 +323,7 @@ noremap L g_
 " Heresy
 inoremap <c-a> <c-o>^
 inoremap <c-e> <c-o>$
+inoremap <c-d> <c-o>X
 
 " Open a Quickfix window for the last search.
 nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
@@ -1648,17 +1649,8 @@ vnoremap <Leader>S y:%s/<C-r>"//c<left><left>
 " Emacs bindings in command line mode
 cnoremap <C-a> <home>
 cnoremap <C-e> <end>
-cnoremap <C-b> <Left>
-cnoremap <C-f> <Right>
 " https://vi.stackexchange.com/a/7794
 cnoremap <expr> <C-d> (getcmdpos() == len(getcmdline()) + 1 ? '<C-d>' : '<Del>')
-cnoremap <M-b> <S-Left>
-cnoremap <M-f> <S-Right>
-cnoremap <M-d> <S-right><Delete>
-cnoremap <Esc>b <S-Left>
-cnoremap <Esc>f <S-Right>
-cnoremap <Esc>d <S-right><Delete>
-cnoremap <C-g> <C-c>
 
 " Skip automatically to next difference
 nnoremap do do]c
@@ -2261,27 +2253,6 @@ endfunc "}}}
 command! SynStack call s:SynStack()
 
 " }}}
-
-" }}}
-" Environments (GUI/Console) ---------------------------------------------- {{{
-
-if has('gui_running')
-    "set guifont=Monospace\ 9
-
-    " Remove all the UI cruft
-    set go-=T
-    set go-=l
-    set go-=L
-    set go-=r
-    set go-=R
-    set go-=m
-
-    highlight SpellBad term=underline gui=undercurl guisp=Orange
-
-    " Different cursors for different modes.
-    set guicursor=n-v-c:block-Cursor-blinkon0
-    set guicursor+=i-c:ver20-Cursor
-endif
 
 " }}}
 " Plugins wannabe --------------------------------------------------------- {{{
