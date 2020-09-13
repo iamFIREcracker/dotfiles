@@ -1,9 +1,6 @@
 [submodule ".vim/bundle/gundo.vim"]
 	path = .vim/pack/bundle/start/gundo.vim
 	url = https://github.com/sjl/gundo.vim.git
-[submodule ".vim/bundle/matchit"]
-	path = .vim/pack/bundle/start/matchit
-	url = https://github.com/Kris2k/matchit.git
 [submodule ".vim/bundle/vim-puppet"]
 	path = .vim/pack/bundle/start/vim-puppet
 	url = https://github.com/rodjek/vim-puppet.git
@@ -68,7 +65,7 @@
 	path = .vim/pack/bundle/start/delimitMate
 	url = https://github.com/Raimondi/delimitMate.git
 [submodule ".vim/bundle/vim-git"]
-	path = .vim/pack/bundle/start/vim-git
+	path = .vim/pack/dist/start/vim-git
 	url = https://github.com/tpope/vim-git.git
 [submodule ".vim/bundle/vim-rest-console"]
 	path = .vim/pack/bundle/start/vim-rest-console

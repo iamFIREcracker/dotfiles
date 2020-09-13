@@ -22,7 +22,10 @@ function! IndentLevel(lnum)
     if getline(a:lnum) =~? '\v^\# [0-9]{4}'
         return 0
     endif
-    return 1
+    if getline(a:lnum) =~? '\v^---$'
+        return 1
+    endif
+    return 2
 endfunction
 
 function! NextNonBlankLine(lnum)

@@ -205,8 +205,8 @@ augroup END
 augroup relative_fname_completion
     au!
 
-    au InsertEnter * let save_cwd = getcwd() | set autochdir
-    au InsertLeave,WinLeave * if exists('save_cwd') | set noautochdir | execute 'cd' fnameescape(save_cwd) | endif
+    au InsertEnter * let w:save_cwd = getcwd() | set autochdir
+    au InsertLeave,WinLeave * if exists('w:save_cwd') | set noautochdir | execute 'lchdir' fnameescape(w:save_cwd) | endif
 augroup END
 
 " }}}
@@ -681,7 +681,7 @@ augroup ft_commonlisp
     au FileType lisp let b:delimitMate_quotes = "\""
 
     " Force omnicompletion (vlime's)
-    au FileType lisp inoremap <c-n> <c-x><c-o>
+    au FileType lisp inoremap <buffer> <c-n> <c-x><c-o>
 
     au FileType lisp nnoremap <buffer> <silent> <localleader>o :call OpenLispReplSBCL()<cr>
     au FileType lisp nnoremap <buffer> <silent> <localleader>O :call OpenLispReplPrompt()<cr>
@@ -713,10 +713,11 @@ augroup ft_commonlisp
     "
     " 1) select the top-level expression, manually
     " 2) send it
-    au FileType lisp nnoremap <buffer> <silent> <C-S> :<C-U>call SelectToplevelLispFormAndSendToVlimeREPL()<CR>
-    au FileType lisp xmap <buffer> <silent> <C-S> <localleader>s
+    au FileType lisp nnoremap <buffer> <silent> <C-J> :<C-U>call SelectToplevelLispFormAndSendToVlimeREPL()<CR>
+    au FileType lisp xmap <buffer> <silent> <C-J> <localleader>s
 
     au FileType lisp nmap <buffer> <silent> K <localleader>ddo
+    au FileType lisp nmap <buffer> <silent> <C-]> <localleader>xd
 augroup END
 
 " }}}
@@ -774,8 +775,8 @@ augroup ft_dadbod
     endfunction
 
     au BufNewFile,BufRead *.db* nnoremap <buffer> <silent> <localleader>cc :call DadbodInit()<cr>
-    au BufNewFile,BufRead *.db* nmap <buffer> <silent> <C-S> vap:DB w:db<cr>
-    au BufNewFile,BufRead *.db* xmap <buffer> <silent> <C-S> :DB w:db<cr>
+    au BufNewFile,BufRead *.db* nmap <buffer> <silent> <C-J> vap:DB w:db<cr>
+    au BufNewFile,BufRead *.db* xmap <buffer> <silent> <C-J> :DB w:db<cr>
 augroup END
 
 " }}}
@@ -955,7 +956,7 @@ augroup ft_java
     au syntax java RainbowParenthesesLoadSquare
     au syntax java RainbowParenthesesLoadBrace
 
-    au FileType java inoremap <c-n> <c-x><c-o>
+    au FileType java inoremap <buffer> <c-n> <c-x><c-o>
 
     " Abbreviations {{{
 
@@ -1009,10 +1010,48 @@ augroup ft_javascript
 
     au FileType javascript setlocal suffixesadd+=.js,.ts
 
-    au FileType javascript nnoremap <localleader>cc :STTConnect
-    au FileType javascript nnoremap <localleader>cd :STTDisconnect
-    au FileType javascript nnoremap <C-S> :<C-U>call SelectAndSendToTerminal('vap')<cr>
-    au FileType javascript xnoremap <C-S> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
+    au FileType javascript let b:stt_substitute_eol_with = '@'
+
+    " Custom text object to highlight top-level expressions
+    " Explanation:
+    "
+    " - 99[( - move to the outmost ( character: that makes it easy to
+    "   jump to the line where a function invocation starts (not much
+    "   useful if we are trying to evaluate a function, but for a toplevel
+    "   function call, this will come in handy
+    " - 99[{ - move to the outmost { character: that makes it easy to jump
+    "   to the line where a function definition likely starts
+    " - V% - toggle linewise-visual, and jump to the 'other side' (this
+    "   could mean the closing brace, or parenthesis)
+    au FileType javascript vnoremap <buffer> <silent>af :<C-U>silent! normal! 99[(99[{V%<CR>
+    au FileType javascript onoremap <buffer> <silent>af :normal Vaf<CR>
+
+    function! HighlightJavascriptRepl() abort " {{{
+        syn match replPrompt /\v\>/
+        syn match replComment /\v^\/\/.*/
+
+        " syn match replResult /\v^#\<[^>]+\>$/
+        hi def link replResult Debug
+        hi def link replComment Comment
+    endfunction "}}}
+
+    function! InitializeJavascriptRepl() abort "{{{
+        call HighlightJavascriptRepl()
+    endfunction "}}}
+
+    function! OpenNodeRepl() abort "{{{
+        call term_start("bash -c node-rlwrap", {
+                    \ "term_finish": "close",
+                    \ "vertical": 1
+                    \ })
+        call InitializeJavascriptRepl()
+    endfunction "}}}
+    au FileType javascript nnoremap <buffer> <localleader>o :call OpenNodeRepl()<cr>
+
+    au FileType javascript nnoremap <buffer> <localleader>cc :STTConnect
+    au FileType javascript nnoremap <buffer> <localleader>cd :STTDisconnect
+    au FileType javascript nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('Vaf')<cr>
+    au FileType javascript xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
     au Filetype javascript nnoremap <buffer> <C-^> :LspReferences<cr>
     au FileType javascript nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
     au FileType javascript nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
@@ -1021,7 +1060,7 @@ augroup ft_javascript
     au FileType javascript nnoremap <buffer> <silent> K :LspHover<cr>
     au FileType javascript setlocal omnifunc=lsp#complete
 
-    au FileType javascript inoremap <c-n> <c-x><c-o>
+    au FileType javascript inoremap <buffer> <c-n> <c-x><c-o>
 
     au FileType javascript RainbowParenthesesActivate
     au syntax javascript RainbowParenthesesLoadRound
@@ -1105,10 +1144,10 @@ augroup ft_markdown
     au Filetype markdown setlocal spell
     au FileType markdown let b:delimitMate_nesting_quotes = ['`']
 
-    au FileType markdown nnoremap <localleader>cc :STTConnect
-    au FileType markdown nnoremap <localleader>cd :STTDisconnect
-    au FileType markdown nnoremap <C-S> :<C-U>call SelectAndSendToTerminal('vap')<cr>
-    au FileType markdown xnoremap <C-S> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
+    au FileType markdown nnoremap <buffer> <localleader>cc :STTConnect
+    au FileType markdown nnoremap <buffer> <localleader>cd :STTDisconnect
+    au FileType markdown nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('vap')<cr>
+    au FileType markdown xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
 
     " Use <localleader>1/2/3 to add headings.
     au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=
@@ -1158,18 +1197,11 @@ augroup ft_npm
     function! CheckIfNpmProject() abort "{{{
         return filereadable("package.json")
     endfunction " }}}
-    function! OpenNodeRepl() abort "{{{
-        call term_start("bash -c node-rlwrap", {
-                    \ "term_finish": "close",
-                    \ "vertical": 1
-                    \ })
-    endfunction "}}}
     function! InitNpmMappings() abort "{{{
         nnoremap <localleader>ni  :Dispatch npm install --save<space>
         nnoremap <localleader>nr  :Dispatch npm run<space>
         nnoremap <localleader>nn  :Dispatch npm<space>
 
-        nnoremap <silent> <localleader>o :call OpenNodeRepl()<cr>
     endfunction " }}}
     au VimEnter *
                 \ if CheckIfNpmProject()
@@ -1194,11 +1226,42 @@ augroup END
 augroup ft_plan
     au!
 
-    au FileType plan nnoremap <localleader>cc :STTConnect
-    au FileType plan nnoremap <localleader>cd :STTDisconnect
-    au FileType plan nnoremap <C-S> :<C-U>call SelectAndSendToTerminal('vap')<cr>
-    au FileType plan xnoremap <C-S> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
+    au FileType plan nnoremap <buffer> <localleader>cc :STTConnect
+    au FileType plan nnoremap <buffer> <localleader>cd :STTDisconnect
+    au FileType plan nnoremap <C-J> :<C-U>call SelectAndSendToTerminal('vap')<cr>
+    au FileType plan xnoremap <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
+    au FileType plan nmap <buffer> [[ [z[z]z
+    au FileType plan nmap <buffer> ]] ]z
 
+    " I use dashes for bullet lists, but the default configuration is not quite 
+    " all right.
+    "
+    " Imagine I have the following (the cursor is placed where the | is):
+    "
+    "   - First item|
+    "
+    " When I press <Enter>, I get:
+    "
+    "   - First item
+    "     |
+    "
+    " While instead I wanted to create a new item in the list.
+    "
+    " This is mostly fault of the default configuration, that ships with `fb:-`
+    " stuffed inside &comments -- this basically tells Vim to indent the next
+    " line, but not to add a leading dash (which kind of makes sense, if &wrap
+    " was enabled.
+    "
+    " Anyway, let's remove this default, and add a new one that would add the
+    " leading dash to the line:
+    "
+    "   - First item
+    "   - |
+    "
+    au FileType plan set comments-=fb:-
+    au FileType plan set comments+=b:+
+
+    au FileType plan setlocal synmaxcol=0
     au FileType plan setlocal wrap textwidth=0
     function! s:CreateNewPlanEntry() abort "{{{
         let l:last_ai=&autoindent
@@ -1211,8 +1274,8 @@ augroup ft_plan
 
         let &l:autoindent=l:last_ai
     endfunction "}}}
-    au FileType plan nnoremap <localleader>n :<C-U>call <SID>CreateNewPlanEntry()<cr>o
-    au FileType plan nnoremap <localleader>o :silent lgrep '^\?' %<cr>:lopen<cr>:redraw!<cr>
+    au FileType plan nnoremap <buffer> <localleader>n :<C-U>call <SID>CreateNewPlanEntry()<cr>o
+    au FileType plan nnoremap <buffer> <localleader>o :silent lgrep '^\?' %<cr>:lopen<cr>:redraw!<cr>
 augroup END
 
 " }}}
@@ -1251,10 +1314,10 @@ augroup ft_python
 
     au FileType python let b:delimitMate_nesting_quotes = ['"']
 
-    au FileType python nnoremap <localleader>cc :STTConnect
-    au FileType python nnoremap <localleader>cd :STTDisconnect
-    au FileType python nnoremap <C-S> :<C-U>call SelectAndSendToTerminal('vap')<cr>
-    au FileType python xnoremap <C-S> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
+    au FileType python nnoremap <buffer> <localleader>cc :STTConnect
+    au FileType python nnoremap <buffer> <localleader>cd :STTDisconnect
+    au FileType python nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('vap')<cr>
+    au FileType python xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
 
     function! OpenPythonRepl() abort "{{{
         call term_start("bash -c python-rlwrap", {
@@ -1262,7 +1325,7 @@ augroup ft_python
                     \ "vertical": 1
                     \ })
     endfunction "}}}
-    au FileType python nnoremap <silent> <localleader>o :call OpenPythonRepl()<cr>
+    au FileType python nnoremap <buffer> <localleader>o :call OpenPythonRepl()<cr>
     au FileType python RainbowParenthesesActivate
     au syntax python RainbowParenthesesLoadRound
     au syntax python RainbowParenthesesLoadSquare
@@ -1475,11 +1538,10 @@ augroup ft_scheme
     au FileType scheme nnoremap <buffer> <silent> <localleader>o :call OpenSchemeReplChez()<cr>
     au FileType scheme nnoremap <buffer> <silent> <localleader>O :call OpenSchemeReplPrompt()<cr>
     au FileType scheme nnoremap <buffer> <silent> gI :<C-U>call IndentToplevelSchemeForm()<cr>
-    au FileType scheme nnoremap <buffer> <silent> <localleader>i :call InPackage()<cr>
     au FileType scheme nnoremap <buffer> <localleader>cc :STTConnect
     au FileType scheme nnoremap <buffer> <localleader>cd :STTDisconnect
-    au FileType scheme nnoremap <buffer> <silent> <C-S> :call SelectToplevelSchemeFormAndSendToTerminal()<cr>
-    au FileType scheme xnoremap <buffer> <silent> <C-S> :call SendSelectionToTerminal(visualmode())<cr>
+    au FileType scheme nnoremap <buffer> <silent> <C-J> :call SelectToplevelSchemeFormAndSendToTerminal()<cr>
+    au FileType scheme xnoremap <buffer> <silent> <C-J> :call SendSelectionToTerminal(visualmode())<cr>
 augroup END
 
 " }}}
@@ -1534,7 +1596,7 @@ augroup ft_typescript
     au FileType typescript nnoremap <buffer> <silent> K :LspHover<cr>
     au FileType typescript setlocal omnifunc=lsp#complete
 
-    au FileType typescript inoremap <c-n> <c-x><c-o>
+    au FileType typescript inoremap <buffer> <c-n> <c-x><c-o>
 
     au FileType typescript RainbowParenthesesActivate
     au syntax typescript RainbowParenthesesLoadRound
@@ -1591,8 +1653,7 @@ augroup ft_vim
 
     au FileType vim setlocal foldmethod=marker
     au FileType help setlocal textwidth=78
-    au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
-    au BufEnter *.txt if &ft == 'help' | nnoremap <buffer> q :call CloseOnLast()<cr> | endif
+    au BufEnter * if &ft == 'help' | nnoremap <buffer> q :call CloseOnLast()<cr> | endif
 augroup END
 
 " }}}
@@ -1908,7 +1969,7 @@ let g:maven_ignore_globs = [
 " }}}
 " Neoformat {{{
 
-if filereadable($PWD .'/node_modules/.bin/eslint')
+if filereadable($PWD .'/node_modules/.bin/prettier')
     let g:neoformat_javascript_prettier = {
         \ 'exe': './node_modules/.bin/prettier',
         \ 'args': ['--stdin', '--stdin-filepath', '"%:p"'],
@@ -2171,7 +2232,7 @@ let g:vrc_include_response_header = 1
 let g:vrc_resolve_to_ipv4 = 1
 let g:vrc_ssl_secure = 1
 let g:vrc_allow_get_request_body = 1
-let g:vrc_trigger = '<C-S>'
+let g:vrc_trigger = '<C-J>'
 let g:vrc_horizontal_split = 1
 
 augroup ft_restresponse
@@ -2226,7 +2287,7 @@ let g:vlime_window_settings = {
 
 augroup CustomVlimeInputBuffer
     autocmd!
-    autocmd FileType vlime_input inoremap <silent> <buffer> <tab> <c-r>=vlime#plugin#VlimeKey("tab")<cr>
+    autocmd FileType vlime_input inoremap <buffer> <buffer> <tab> <c-r>=vlime#plugin#VlimeKey("tab")<cr>
     autocmd FileType vlime_input setlocal omnifunc=vlime#plugin#CompleteFunc
     autocmd FileType vlime_input setlocal indentexpr=vlime#plugin#CalcCurIndent()
 augroup end
@@ -2565,6 +2626,7 @@ nnoremap gP :call <SID>PasteCycle(0)<CR>
 let g:stt_trailing_new_lines = 1
 let g:stt_command_prompt_regexpes = ['^\s*\$\s*', '^\s*>\s*']
 let g:stt_strip_command_prompt = 1
+let g:stt_substitute_eol_with = '\n'
 
 function! s:STTConnect() abort
     buffers
@@ -2619,6 +2681,11 @@ function! SendToTerminal(data) abort " {{{
           let keys = keys . "\<CR>"
           let trailing_new_lines = trailing_new_lines - 1
         endwhile
+
+        let substitute_eol_with =
+            \ get(b:, 'stt_substitute_eol_with',
+                \ get(g:, 'stt_substitute_eol_with', '\n'))
+        let keys = substitute(keys, '\n', substitute_eol_with, 'g')
 
         call term_sendkeys(g:stt_buffnr, keys)
     endif

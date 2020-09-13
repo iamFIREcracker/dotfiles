@@ -19,8 +19,11 @@ highlight link planEntryOpen WarningMsg
 syntax match planEntryDiscarded        /\v^\~.*/  containedin=planDay contained
 highlight link planEntryDiscarded NonText
 
-syntax match planEntryQuote        /\v^    .*/  containedin=planDay contained
-highlight link planEntryQuote String
+syntax match planEntrySnippet        /\v^    .*/  containedin=planDay contained
+highlight link planEntrySnippet String
+
+syntax match planEntryQuote        /\v^\> .*/  containedin=planDay contained
+highligh planEntryQuote term=italic cterm=italic ctermfg=245
 
 syntax match planEntryNamedLink        /\v\[[^]]*]\([^)]*\)/  containedin=planDay,planEntryCompleted contained
 highlight link planEntryNamedLink String
@@ -36,6 +39,3 @@ highlight planEntryItalic term=italic cterm=italic
 
 syntax match planEntryBold /\v<\*\*[^*]+\*\*>/ containedin=planDay contained
 highligh planEntryBold term=bold cterm=bold
-
-syntax region planEntryCode start=/\v```/ end=/\v```/ containedin=planDay contained
-highlight link planEntryCode String

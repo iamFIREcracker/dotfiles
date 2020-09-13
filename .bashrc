@@ -678,9 +678,9 @@ actual_prompt() {
     local exit=$1
 
     if [[ $exit -eq 0 ]]; then
-        echo -n "> "
+        echo -n "$ "
     else
-        echo -n "$exit > "
+        echo -n "$exit $ "
     fi
 }
 
