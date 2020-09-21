@@ -557,12 +557,36 @@ augroup ft_commonlisp
         call HighlightLispRepl()
     endfunction "}}}
 
+    function! LispCurrentWindowPlusVlimeOnes() abort " {{{
+        let focused_win = win_getid()
+
+        for tab in gettabinfo()
+            for win in tab.windows
+                if win != focused_win
+                    let bufname = bufname(winbufnr(win))
+
+                    if bufname !~? 'vlime'
+                        let winnr = win_id2win(win)
+                        execute winnr . 'close'
+                    endif
+                endif
+            endfor
+        endfor
+    endfunction " }}}
+
+    function! SetupLispProjectMappings() abort " {{{
+        nnoremap <C-W>o :call LispCurrentWindowPlusVlimeOnes()<cr>
+        nnoremap <C-W>O :call LispCurrentWindowPlusVlimeOnes()<cr>
+        nnoremap <C-W><C-O> :call LispCurrentWindowPlusVlimeOnes()<cr>
+    endfunction " }}}
+
     function! OpenLispReplSBCL() abort "{{{
         call term_start("bash -c sbcl-vlime", {
             \ "term_finish": "close",
             \ "vertical": 1
         \ })
         call InitializeLispRepl()
+        call SetupLispProjectMappings()
     endfunction "}}}
 
     function! OpenLispReplPrompt() abort "{{{
@@ -571,6 +595,7 @@ augroup ft_commonlisp
             \ "vertical": 1
         \ })
         call InitializeLispRepl()
+        call SetupLispProjectMappings()
     endfunction "}}}
 
     function! MotionToSelectTopLevelLispForm() abort " {{{
