@@ -323,7 +323,7 @@ noremap L g_
 " Heresy
 inoremap <c-a> <c-o>^
 inoremap <c-e> <c-o>$
-inoremap <c-d> <c-o>X
+inoremap <c-d> <c-o>x
 
 " Open a Quickfix window for the last search.
 nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
@@ -1039,17 +1039,59 @@ augroup ft_javascript
         call HighlightJavascriptRepl()
     endfunction "}}}
 
+    function! JavascriptCurrentWindowPlusNodeOnes() abort " {{{
+        let focused_win = win_getid()
+
+        for tab in gettabinfo()
+            for win in tab.windows
+                if win != focused_win
+                    let bufname = bufname(winbufnr(win))
+
+                    if bufname !~? 'node'
+                        let winnr = win_id2win(win)
+                        execute winnr . 'close'
+                    endif
+                endif
+            endfor
+        endfor
+    endfunction " }}}
+
+    function! SetupJavascriptProjectMappings() abort " {{{
+        nnoremap <C-W>o :call JavascriptCurrentWindowPlusNodeOnes()<cr>
+        nnoremap <C-W>O :call JavascriptCurrentWindowPlusNodeOnes()<cr>
+        nnoremap <C-W><C-O> :call JavascriptCurrentWindowPlusNodeOnes()<cr>
+    endfunction " }}}
+
     function! OpenNodeRepl() abort "{{{
         call term_start("bash -c node-rlwrap", {
                     \ "term_finish": "close",
                     \ "vertical": 1
                     \ })
         call InitializeJavascriptRepl()
+        call SetupJavascriptProjectMappings()
     endfunction "}}}
     au FileType javascript nnoremap <buffer> <localleader>o :call OpenNodeRepl()<cr>
 
-    au FileType javascript nnoremap <buffer> <localleader>cc :STTConnect
+    function! ConnectNodeInspect() abort "{{{
+        let l:host = input("Host: ", "localhost")
+        let l:port = input("Port: ", "9229")
+        let l:cmd = "node inspect " . l:host . ":" . l:port
+
+        echom l:cmd
+        call term_start(l:cmd, {
+                    \ "term_finish": "close",
+                    \ })
+    endfunction " }}}
+    au FileType javascript nnoremap <buffer> <localleader>cc :call ConnectNodeInspect()<cr>
     au FileType javascript nnoremap <buffer> <localleader>cd :STTDisconnect
+
+    " Fix windows:
+    " - <c-w>j: select window below -- Vlime Connection
+    " - <c-w>J: move it to the far bottom (and expand horizontally)
+    " - <c-w>k: select window above --  the actual lisp buffer
+    " - <c-w>H: move it to the far right (and expand vertically)
+    au FileType javascript nnoremap <buffer> <localleader>W <c-w>j<c-w>J<c-w>k<c-w>H
+
     au FileType javascript nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('Vaf')<cr>
     au FileType javascript xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
     au Filetype javascript nnoremap <buffer> <C-^> :LspReferences<cr>
@@ -1265,12 +1307,21 @@ augroup ft_plan
     au FileType plan setlocal wrap textwidth=0
     function! s:CreateNewPlanEntry() abort "{{{
         let l:last_ai=&autoindent
+        let l:plan_title=strftime('%Y-%m-%d')
+        let l:entry_exists=search('# ' . plan_title, 'n')
         setlocal noautoindent
 
-        " Go to the end of the file, and add a new line
-        " Create additional empty line
-        " Create the damn entry
-        execute "normal! Go\<cr># " . strftime("%Y-%m-%d")
+        if l:entry_exists == 0
+            " Go to the end of the file, and add a new line
+            " Create additional empty line
+            " Create the damn entry
+            execute "normal! Go\<cr># " . plan_title
+        else
+            " Go to the end of the file, and add a new line
+            " Create additional empty line
+            " Create the separator
+            execute "normal! Go\<cr>---\<cr>"
+        endif
 
         let &l:autoindent=l:last_ai
     endfunction "}}}
@@ -2690,6 +2741,7 @@ function! SendToTerminal(data) abort " {{{
         call term_sendkeys(g:stt_buffnr, keys)
     endif
 endfunction " }}}
+
 function! SendSelectionToTerminal(type) abort " {{{
     call SendToTerminal(s:GetCurrentSelection(a:type))
 endfunction " }}}
@@ -2703,8 +2755,13 @@ function! SelectAndSendToTerminal(motion) abort " {{{
     let s:scrolloffsave = &scrolloff
     set scrolloff=0
 
-    " Select the content of the visible screen
-    execute "normal! ". a:motion ."\<Esc>"
+    " Select the content of the visible screen.  Couple of notes:
+    " 1. Certain commands might fail under certain conditions (e.g. [z will
+    "    fail when on the first line of a fold already); `silent!` should take
+    "    care of that.
+    " 2. We use `normal` instead of `normal!` because we expect users/plugins
+    "    to use custom visual eselectors that would not work with the latter
+    execute "silent! normal ". a:motion ."\<Esc>"
     call SendSelectionToTerminal(visualmode())
 
     " Restore scrolloff

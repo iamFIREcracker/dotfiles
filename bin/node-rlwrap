@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-NODE_NO_READLINE=1 rlwrap \
+rlwrap \
+  --polling \
+  --always-readline \
   --multi-line=@ \
   --multi-line-ext .js \
   --only-cook '^>' \
@@ -8,4 +10,4 @@ NODE_NO_READLINE=1 rlwrap \
   --quote-characters='"' \
   --histsize 10000 \
   --history-filename "$HOME/.rlwrap-node-history" \
-  -- node "$@"
+  -- node --inspect -- "$@"
