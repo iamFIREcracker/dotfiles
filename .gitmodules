@@ -150,7 +150,7 @@
 	url = https://github.com/me-and/fzf.git
 [submodule ".vim/pack/bundle/start/neoformat"]
 	path = .vim/pack/bundle/start/neoformat
-	url = https://github.com/sbdchd/neoformat.git
+	url = git@github.com:iamFIREcracker/neoformat.git
 [submodule ".vim/pack/bundle/start/vim-sexp"]
 	path = .vim/pack/bundle/start/vim-sexp
 	url = https://github.com/guns/vim-sexp.git

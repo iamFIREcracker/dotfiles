@@ -19,19 +19,19 @@ highlight link planEntryOpen WarningMsg
 syntax match planEntryDiscarded        /\v^\~.*/  containedin=planDay contained
 highlight link planEntryDiscarded NonText
 
-syntax match planEntrySnippet        /\v^    .*/  containedin=planDay contained
+syntax match planEntrySnippet        /\v^    .*/  containedin=planDay contained contains=@NoSpell
 highlight link planEntrySnippet String
 
-syntax match planEntryQuote        /\v^\> .*/  containedin=planDay contained
+syntax match planEntryQuote        /\v^\> .*/  containedin=planDay contained contains=@NoSpell
 highligh planEntryQuote term=italic cterm=italic ctermfg=245
 
-syntax match planEntryNamedLink        /\v\[[^]]*]\([^)]*\)/  containedin=planDay,planEntryCompleted contained
+syntax match planEntryNamedLink        /\v\[[^]]*]\([^)]*\)/  containedin=planDay,planEntryCompleted contained contains=@NoSpell
 highlight link planEntryNamedLink String
 
 syntax match planEntryUnamedLink        /\v\<[^>]+\>/  containedin=planDay contained
 highlight link planEntryUnamedLink String
 
-syntax match planEntryInlineCode /\v`[^`]+`/ containedin=planDay contained
+syntax match planEntryInlineCode /\v`[^`]+`/ containedin=planDay contained contains=@NoSpell
 highlight link planEntryInlineCode String
 
 syntax match planEntryItalic /\v<_[^_]+_>/ containedin=planDay contained

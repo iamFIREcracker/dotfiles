@@ -5,7 +5,6 @@
 [core]
   pager = cat
   editor = vim
-  excludesfile = ~/.gitignore_global
 
 [color]
   branch = auto
