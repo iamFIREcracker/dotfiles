@@ -1,11 +1,11 @@
 # general-doesn't-fit stuff
 color tilde			color243	default		# `~' padding lines at the bottom of messages
-color indicator		default		color235	# Current entry
+color indicator		color15		color235	# Current entry
 color error brightcolor15 color196
 color search brightcolor16 color221
 
 # index stuff
-color index		brightcolor7	default		'~N'		# new
+color index		color211	default		'~N'		# new
 color index		color240		default		'~D'		# deleted
 color index		brightcolor7	default		'~T'		# tagged
 

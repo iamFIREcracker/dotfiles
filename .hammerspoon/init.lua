@@ -1,6 +1,6 @@
-function whenHostnameNot(expected, next)
+function whenHostnameNot(next)
   return function()
-    output, status = hs.execute('ifconfig | grep utun1')
+    output, status = hs.execute('ps aux | grep pisa299 | grep -v grep')
     if status ~= nil then
       next()
     end
@@ -40,8 +40,8 @@ hs.hotkey.bind(hyper, "p", open("Alacritty-main"))
 hs.hotkey.bind(hyper, "j", open("Alacritty-fullscreen"))
 hs.hotkey.bind(hyper, "h", open("Alacritty"))
 
-hs.hotkey.bind(hyper, "m", whenHostnameNot("hairstyle", open("Microsoft Outlook")))
-hs.hotkey.bind(hyper, "i", whenHostnameNot("hairstyle", open("Microsoft Teams")))
+hs.hotkey.bind(hyper, "m", whenHostnameNot(open("Microsoft Outlook")))
+hs.hotkey.bind(hyper, "i", whenHostnameNot(open("Microsoft Teams")))
 
 --- Resize windows
 hs.window.animationDuration = 0

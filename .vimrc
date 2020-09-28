@@ -18,6 +18,7 @@ set ttyfast
 set ruler
 set backspace=indent,eol,start
 set relativenumber
+set number
 set laststatus=2
 set history=1000
 set undofile
@@ -55,9 +56,6 @@ set autoread
 set title
 set linebreak
 set dictionary=/usr/share/dict/words
-"set clipboard=unnamed
-" Both Alacritty and Mintty support true colors
-set termguicolors
 
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
@@ -114,6 +112,7 @@ let maplocalleader = "\\"
 
 syntax on
 
+set termguicolors
 set background=dark
 let g:badwolf_tabline = 2
 let g:badwolf_html_link_underline = 0
@@ -143,6 +142,7 @@ augroup theme_customizations
             \ hi! markdownItalic cterm=italic |
             \ hi! link markdownH2 markdownH1delimiter |
             \ hi! link markdownH3 markdownH1delimiter |
+            \ call GoodWolfHL('CursorLineNr', 'dalespale', '', 'none') |
             \ call GoodWolfHL('DiffText', 'orange', 'deepergravel', 'none')
 augroup END
 
@@ -1869,24 +1869,6 @@ inoremap <c-space> <c-x><c-o>
 inoremap <c-@> <c-x><c-o>
 
 " Better bindings when the completion menu is open {{{
-
-" if empty('&t_BE')
-"     inoremap <expr> <Esc>  pumvisible() ? "\<C-e>" : "\<Esc>"
-" else
-"     augroup bracketed_paste
-"         au!
-
-"         " Thanks: https://github.com/ryanpcmcquen/fix-vim-pasting
-"         function! XTermPasteBegin() abort
-"             set pastetoggle=<Esc>[201~
-"             set paste
-"             return ""
-"         endfunction
-"         au VimEnter * inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-
-"         au VimEnter * inoremap <special> <expr> <Esc>  pumvisible() ? "\<C-e>" : "\<Esc>"
-"     augroup END
-" endif
 
 imap <expr> <CR>       pumvisible() ? "\<C-y>" : "<Plug>delimitMateCR"
 imap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"

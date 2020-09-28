@@ -1,5 +1,5 @@
 syntax match planIntroduction /\v^.*/
-highligh planIntroduction term=italic cterm=italic ctermfg=245
+highlight planIntroduction cterm=italic ctermfg=245
 
 syntax region planDay start=/\v^\#.*/ end=/\v\ze^\#/
 highlight link planDay Normal
@@ -23,7 +23,7 @@ syntax match planEntrySnippet        /\v^    .*/  containedin=planDay contained 
 highlight link planEntrySnippet String
 
 syntax match planEntryQuote        /\v^\> .*/  containedin=planDay contained contains=@NoSpell
-highligh planEntryQuote term=italic cterm=italic ctermfg=245
+highlight planEntryQuote cterm=italic ctermfg=245
 
 syntax match planEntryNamedLink        /\v\[[^]]*]\([^)]*\)/  containedin=planDay,planEntryCompleted contained contains=@NoSpell
 highlight link planEntryNamedLink String
@@ -35,7 +35,7 @@ syntax match planEntryInlineCode /\v`[^`]+`/ containedin=planDay contained conta
 highlight link planEntryInlineCode String
 
 syntax match planEntryItalic /\v<_[^_]+_>/ containedin=planDay contained
-highlight planEntryItalic term=italic cterm=italic
+highlight planEntryItalic cterm=italic
 
-syntax match planEntryBold /\v<\*\*[^*]+\*\*>/ containedin=planDay contained
-highligh planEntryBold term=bold cterm=bold
+syntax match planEntryBold /\v\*\*[^*]+\*\*/ containedin=planDay contained
+highlight planEntryBold cterm=bold

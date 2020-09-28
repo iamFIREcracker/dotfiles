@@ -1,3 +1,4 @@
+.mutt/__pycache__
 .mutt/cache/
 .mutt/temp/
 .ropeproject/
@@ -13,3 +14,4 @@
 .w3m/w3msrc*
 .w3m/w3mtmp*
 tags*
+.DS_Store

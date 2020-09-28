@@ -12,17 +12,15 @@ font:
   normal:
     family: monospace
 
-  bold:
-    # disable bold fonts
-    style: Regular
 
-  size: 10.5
+  size: 11
 
 draw_bold_text_with_bright_colors: true
 
 colors:
   primary:
     foreground: '0xc7c7c7'
+    background:   '0x141413'
 
   cursor:
     text: '0xbbbbbb'
@@ -30,14 +28,14 @@ colors:
 
   # Normal colors
   normal:
-   black:   '0x000000'
+   black:   '0x141413'
    red:     '0xe92f2f'
    green:   '0x0ed839'
    yellow:  '0xdddd13'
    blue:    '0x3b48e3'
    magenta: '0xf996e2'
    cyan:    '0x23edda'
-   white:   '0xababab'
+   white:   '0xc7c7c7'
 
   # Bright colors
   bright:
