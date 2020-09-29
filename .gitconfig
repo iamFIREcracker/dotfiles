@@ -138,7 +138,8 @@
 
     zip = archive -o latest.zip HEAD
 
-    deleted = !git log --diff-filter=D --summary | vim -R -
+    whatadded = log --diff-filter=A
+    whatdeleted = log --diff-filter=D
 
     fuck-win = "!f() { \
         git config core.preloadindex true; \

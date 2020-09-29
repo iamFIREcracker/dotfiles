@@ -1102,8 +1102,7 @@ augroup ft_javascript
         let l:port = input("Port: ", "9229")
         let l:cmd = "node inspect " . l:host . ":" . l:port
 
-        echom l:cmd
-        call term_start(l:cmd, {
+        belowright call term_start(l:cmd, {
                     \ "term_finish": "close",
                     \ })
     endfunction " }}}
