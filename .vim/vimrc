@@ -31,6 +31,7 @@ set showbreak=↪
 set splitbelow
 set splitright
 set path=.,,
+set cursorline
 
 " Don't increment numbers in octal notation, please
 set nrformats-=octal
