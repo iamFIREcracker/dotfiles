@@ -76,9 +76,7 @@ set wildignore+=*.pyc                            " Python byte code
 set wildignore+=*.orig                           " Merge resolution files
 set wildignore+=*/node_modules/*                 " npm
 set wildignore+=*.class                          " java
-" Clojure/Leiningen
-set wildignore+=classes
-"set wildignore+=lib
+set wildignore+=classes                          " Clojure/Leiningen
 
 " }}}
 " Tabs, spaces, wrapping {{{
@@ -126,6 +124,10 @@ augroup theme_customizations
             \ hi NeomakeWarningSign ctermfg=214 ctermbg=232 guifg=#ffa724 guibg=#141413 |
             \ hi link LspErrorText NeomakeErrorSign |
             \ hi link LspWarningText NeomakeWarningSign
+    " autocmd ColorScheme goodwolf
+    "         \ hi CursorLineNr cterm=none guifg=#bbbbbb guibg=#af00ff
+    " autocmd ColorScheme goodwolf
+    "         \ hi! CursorLineNr cterm=none guifg=#af00ff guibg=#141413
     autocmd ColorScheme goodwolf
             \ hi! link diffFile diffIndexLine |
             \ hi! link diffOldFile diffIndexLine |
@@ -170,8 +172,8 @@ augroup END
 
 " }}}
 " Cursorline {{{
-" Only show cursorline in the current window and in normal mode.
 
+" Only show cursorline in the current window and in normal mode.
 augroup cline
     au!
     au VimEnter * set cursorline
@@ -191,6 +193,7 @@ augroup END
 
 " }}}
 " Trailing whitespace {{{
+
 " Only shown when not in insert mode so I don't go insane.
 
 augroup trailing
@@ -320,11 +323,6 @@ nnoremap gD gDzvzz
 noremap H ^
 noremap L g_
 
-" Heresy
-inoremap <c-a> <c-o>^
-inoremap <c-e> <c-o>$
-inoremap <c-d> <c-o>x
-
 " Open a Quickfix window for the last search.
 nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
 
@@ -407,1348 +405,6 @@ inoremap # X<BS>#
 nnoremap K <nop>
 
 " }}}
-" Various filetype-specific stuff ----------------------------------------- {{{
-
-" https://www.reddit.com/r/vim/comments/3hwall/how_to_close_vim_when_last_buffer_is_deleted/cub629z/
-function! CloseOnLast()
-    let cnt = 0
-
-    for i in range(0, bufnr("$"))
-        if buflisted(i)
-            let cnt += 1
-        endif
-    endfor
-
-    if cnt <= 1
-        q
-    else
-        bw
-    endif
- endfunction
-
-" Angular {{{
-
-augroup ft_angular
-    au!
-
-    function! CheckIfAngularProject() abort " {{{
-        return filereadable(".angular-cli.json") || filereadable('angular.json')
-    endfunction " }}}
-    function! InitAngularMappings() abort " {{{
-        nnoremap <localleader>Ns  :Dispatch! ng serve<cr>
-        nnoremap <localleader>Ngc :Dispatch ng generate component --spec false<space>
-        nnoremap <localleader>Ngd :Dispatch ng generate directive --spec false<space>
-        nnoremap <localleader>Ngs :Dispatch ng generate service --spec false<space>
-    endfunction " }}}
-    au VimEnter *
-                \ if CheckIfAngularProject()
-                \ | call InitAngularMappings()
-                \ | endif
-
-    au BufNewFile,BufRead *.template.html,*.tpl.html,*.component.html
-                \ if CheckIfAngularProject()
-                \ | setlocal filetype=angular_html
-                \ | endif
-
-    function! DirectiveUnderCursor() abort " {{{
-        let directive = expand('<cWORD>')
-        if directive =~ '='
-            let directive = split(directive, '=')[0]
-        endif
-        if directive =~ '>'
-            let directive = split(directive, '>')[0]
-        endif
-        let directive = substitute(directive, '<\|/\|>', '', 'g')
-        return directive
-    endfunction " }}}
-    function! FindDirectiveOccurrences() abort " {{{
-        let directive = DirectiveUnderCursor()
-
-        exe "normal! :Ack! --literal " . directive . "\<cr>"
-    endfunction "}}}
-    function! GuessDirectiveFilename() abort " {{{
-        let inex_save = &inex
-
-        function! FilenameOfDirectiveUnderCursor() abort " {{{
-            let directive = DirectiveUnderCursor()
-            let filename = substitute(directive, '-', '', 'g')
-            return filename
-        endfunction  " }}}
-
-        set includeexpr=FilenameOfDirectiveUnderCursor()
-        normal! gf
-
-        let &inex = inex_save
-    endfunction "}}}
-    au Filetype angular_html setlocal suffixesadd+=.js path+=**
-    au Filetype angular_html nnoremap <buffer> <C-^> :call FindDirectiveOccurrences()<cr>
-    au Filetype angular_html nnoremap <buffer> gf :call GuessDirectiveFilename()<cr>
-
-augroup END
-
-" }}}
-" Autohotkey {{{
-
-augroup ft_autohotkey
-  au!
-
-  autocmd FileType autohotkey setlocal commentstring=;\ %s
-augroup END
-
-" }}}
-" Blogger {{{
-
-augroup ft_blogger
-    au!
-
-    au BufNewFile,BufRead *.blogger setlocal filetype=blogger
-    au Filetype blogger setlocal filetype=markdown
-
-    au Filetype blogger setlocal spell
-    au Filetype blogger setlocal norelativenumber
-
-    " Markdown the current file and pipe the output to bcat/browser
-    au Filetype blogger nnoremap <buffer> <localleader>p :!markdown % \| browser<cr>
-
-    " Markdown the current file, prepare it for Blogger, and finally copy it to
-    " clipboard
-    function! GenerateTransformAndCopy() abort " {{{
-        !markdown %
-            \ | sed
-            \       -e "s:\(</*h\)1\(>\):\14\2:g"
-            \       -e "s:\(</*h\)2\(>\):\15\2:g"
-            \       -e "s:\(</*h\)3\(>\):\16\2:g"
-            \ | xclip -selection clip-board
-    endfunction " }}}
-    au Filetype blogger nnoremap <buffer> <localleader>c :call GenerateTransformAndCopy()<cr>
-augroup END
-
-
-" }}}
-" C {{{
-
-augroup ft_c
-    au!
-    au FileType c setlocal foldmethod=syntax
-augroup END
-
-" }}}
-" Common Lisp {{{
-
-augroup ft_commonlisp
-    au!
-
-    au BufNewFile,BufRead *.sbclrc setlocal filetype=lisp
-    au BufNewFile,BufRead *.cgrc setlocal filetype=lisp
-    au BufNewFile,BufRead *.lispwords setlocal filetype=lisp
-    au BufNewFile,BufRead *.asd setlocal filetype=lisp
-
-    function! HighlightLispRepl() abort " {{{
-        " set syntax=lisp
-        syn match replPrompt /\v^\[([a-z A-Z])+\] [-._a-zA-Z0-9]+\>/
-        syn match replComment /\v^;.*/
-
-        " syn match replResult /\v^#\<[^>]+\>$/
-        hi def link replResult Debug
-        hi def link replComment Comment
-    endfunction "}}}
-
-    function! InitializeLispRepl() abort "{{{
-        call HighlightLispRepl()
-    endfunction "}}}
-
-    function! LispCurrentWindowPlusVlimeOnes() abort " {{{
-        let focused_win = win_getid()
-
-        for tab in gettabinfo()
-            for win in tab.windows
-                if win != focused_win
-                    let bufname = bufname(winbufnr(win))
-
-                    if bufname !~? 'vlime'
-                        let winnr = win_id2win(win)
-                        execute winnr . 'close'
-                    endif
-                endif
-            endfor
-        endfor
-    endfunction " }}}
-
-    function! SetupLispProjectMappings() abort " {{{
-        nnoremap <C-W>o :call LispCurrentWindowPlusVlimeOnes()<cr>
-        nnoremap <C-W>O :call LispCurrentWindowPlusVlimeOnes()<cr>
-        nnoremap <C-W><C-O> :call LispCurrentWindowPlusVlimeOnes()<cr>
-    endfunction " }}}
-
-    function! OpenLispReplSBCL() abort "{{{
-        call term_start("bash -c sbcl-vlime", {
-            \ "term_finish": "close",
-            \ "vertical": 1
-        \ })
-        call InitializeLispRepl()
-        call SetupLispProjectMappings()
-    endfunction "}}}
-
-    function! OpenLispReplPrompt() abort "{{{
-        call term_start("bash -c " . input("? "), {
-            \ "term_finish": "close",
-            \ "vertical": 1
-        \ })
-        call InitializeLispRepl()
-        call SetupLispProjectMappings()
-    endfunction "}}}
-
-    function! MotionToSelectTopLevelLispForm() abort " {{{
-        let motion = '99[(v%'
-        if col('.') == 1 && getline('.')[col('.') - 1] == '('
-            " We are at the beginning of a top-level form, so select until
-            " the matching parenthesis
-            let motion = 'v%'
-        endif
-        return motion
-    endfunction "}}}
-
-    function! SelectToplevelLispFormAndSendToTerminal() abort "{{{
-        call SelectAndSendToTerminal(MotionToSelectTopLevelLispForm())
-    endfunction "}}}
-
-    function! SelectToplevelLispFormAndSendToVlimeREPL() abort "{{{
-        let view = winsaveview()
-        let reg_save = @@
-        let motion = MotionToSelectTopLevelLispForm()
-
-        execute "normal! " . motion . "y"
-        call vlime#plugin#SendToREPL(@@)
-
-        let @@ = reg_save
-        call winrestview(view)
-    endfunction "}}}
-
-    function! IndentToplevelLispForm() abort "{{{
-        let view = winsaveview()
-        let reg_save = @@
-        let motion = MotionToSelectTopLevelLispForm()
-
-        execute "normal! " . motion . "="
-
-        let @@ = reg_save
-        call winrestview(view)
-    endfunction "}}}
-
-    function! QuickprojectMakePrompt() abort "{{{
-        let l:path = getcwd()
-        let l:guessed_name = split(l:path, '/')[-1]
-        let l:name = input("? ", guessed_name)
-
-        call SendToTerminal("(quickproject:make-project #p\"" . l:path . "\" :name \"" . l:name . "\")\n")
-    endfunction " }}}
-
-    function! QuickloadLispSystem() abort "{{{
-        let systems = split(system('ls -1 *.asd | grep -v test | cut -d. -f1 | uniq')) " its fine
-        if len(systems) == 0
-            echom "Could not find any .asd files..."
-            return
-        elseif len(systems) > 1
-            echom "Found too many .asd files..."
-            return
-        endif
-
-        call SendToTerminal("(ql:quickload :" . systems[0] . ")")
-    endfunction " }}}
-
-    function! QuickloadLispPrompt() abort "{{{
-        call SendToTerminal("(ql:quickload :" . input("? ") . ")\n")
-    endfunction " }}}
-
-    function! TestLispSystem() abort "{{{
-        let systems = split(system('ls -1 *.asd | grep -v test | cut -d. -f1 | uniq')) " its fine
-        if len(systems) == 0
-            echom "Could not find any .asd files..."
-            return
-        elseif len(systems) > 1
-            echom "Found too many .asd files..."
-            return
-        endif
-
-        call SendToTerminal("(asdf:test-system :" . systems[0] . ")")
-    endfunction " }}}
-
-    function! TestLispPrompt() abort "{{{
-        call SendToTerminal("(asdf:test-system :" . input("? ") . ")\n")
-    endfunction " }}}
-
-    function! InPackage() abort "{{{
-        let packages = split(system('grep "(in-package .*" '. fnameescape(expand("%")) .' --only-matching | cut -d" " -f2 | uniq')) " its fine
-        if len(packages) == 0
-            echom "Could not find any defpackage lines..."
-            return
-        elseif len(packages) > 1
-            echom "Found too many defpackage lines..."
-            return
-        endif
-
-        call SendToTerminal("(in-package " . packages[0])
-    endfunction " }}}
-
-    au FileType lisp setlocal iskeyword+=!,?,%,-
-    au FileType lisp setlocal suffixesadd+=.lisp
-
-    au FileType lisp RainbowParenthesesActivate
-    au syntax lisp RainbowParenthesesLoadRound
-
-    " Fix windows:
-    " - <c-w>j: select window below -- Vlime Connection
-    " - <c-w>J: move it to the far bottom (and expand horizontally)
-    " - <c-w>k: select window above --  the actual lisp buffer
-    " - <c-w>H: move it to the far right (and expand vertically)
-    au FileType lisp nnoremap <buffer> <localleader>W <c-w>j<c-w>J<c-w>k<c-w>H
-
-    au FileType lisp let b:delimitMate_quotes = "\""
-
-    " Force omnicompletion (vlime's)
-    au FileType lisp inoremap <buffer> <c-n> <c-x><c-o>
-
-    au FileType lisp nnoremap <buffer> <silent> <localleader>o :call OpenLispReplSBCL()<cr>
-    au FileType lisp nnoremap <buffer> <silent> <localleader>O :call OpenLispReplPrompt()<cr>
-    au FileType lisp nnoremap <buffer> <silent> gI :<C-U>call IndentToplevelLispForm()<cr>
-    au FileType lisp nnoremap <buffer> <silent> <localleader>n :call QuickprojectMakePrompt()<cr>
-    au FileType lisp nnoremap <buffer> <silent> <localleader>q :call QuickloadLispSystem()<cr>
-    au FileType lisp nnoremap <buffer> <silent> <localleader>Q :call QuickloadLispPrompt()<cr>
-    au FileType lisp nnoremap <buffer> <silent> <localleader>t :call TestLispSystem()<cr>
-    au FileType lisp nnoremap <buffer> <silent> <localleader>T :call TestLispPrompt()<cr>
-    if !exists('b:vlime_mappings_unmapped')
-        let b:vlime_mappings_unmapped=1
-        au FileType lisp silent! unmap <buffer> <localleader>of
-        au FileType lisp silent! unmap <buffer> <localleader>ot
-        au FileType lisp silent! unmap <buffer> <localleader>oe
-        au FileType lisp silent! unmap <buffer> <localleader>Tt
-        au FileType lisp silent! unmap <buffer> <localleader>TT
-        au FileType lisp silent! unmap <buffer> <localleader>Ti
-        au FileType lisp silent! unmap <buffer> <localleader>TI
-        au FileType lisp silent! unmap <buffer> <localleader>Td
-        au FileType lisp silent! unmap <buffer> <localleader>TD
-    endif
-    au FileType lisp nnoremap <buffer> <silent> <localleader>i :call InPackage()<cr>
-    au FileType lisp nnoremap <buffer> <silent> gs :call SelectToplevelLispFormAndSendToTerminal()<cr>
-    au FileType lisp xnoremap <buffer> <silent> gs :call SendSelectionToTerminal(visualmode())<cr>
-
-    " Vlime's send-top-level-s-expression mapping is not always working as
-    " expected -- it seems it does not properly handle comments that include
-    " s-expressions -- so what we are doing here:
-    "
-    " 1) select the top-level expression, manually
-    " 2) send it
-    au FileType lisp nnoremap <buffer> <silent> <C-J> :<C-U>call SelectToplevelLispFormAndSendToVlimeREPL()<CR>
-    au FileType lisp xmap <buffer> <silent> <C-J> <localleader>s
-
-    au FileType lisp nmap <buffer> <silent> K <localleader>ddo
-    au FileType lisp nmap <buffer> <silent> <C-]> <localleader>xd
-augroup END
-
-" }}}
-" CSS, SCSS, and LessCSS {{{
-
-augroup ft_css
-    au!
-
-    au BufNewFile,BufRead *.less setlocal filetype=less
-
-    au Filetype less,css,scss setlocal foldmethod=marker
-    au Filetype less,css,scss setlocal foldmarker={,}
-    au Filetype less,css,scss setlocal omnifunc=csscomplete#CompleteCSS
-    au Filetype less,css,scss setlocal iskeyword+=-
-
-    " Use <leader>S to sort properties.  Turns this:
-    "
-    "     p {
-    "         width: 200px;
-    "         height: 100px;
-    "         background: red;
-    "
-    "         ...
-    "     }
-    "
-    " into this:
-
-    "     p {
-    "         background: red;
-    "         height: 100px;
-    "         width: 200px;
-    "
-    "         ...
-    "     }
-    au BufNewFile,BufRead *.less,*.css,*.scss nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
-augroup END
-
-" }}}
-" DadBod {{{
-
-augroup ft_dadbod
-    au!
-
-    function! DadbodInit() abort
-        let line = getline(".")
-
-        if line =~ ';DB '
-            execute line[1:]
-            echo 'Loaded: ' . line[1:]
-        else
-            echohl ErrorMsg
-            echo 'Line not starting with `;DB `: ' . line
-            echohl NONE
-        endif
-    endfunction
-
-    au BufNewFile,BufRead *.db* nnoremap <buffer> <silent> <localleader>cc :call DadbodInit()<cr>
-    au BufNewFile,BufRead *.db* nmap <buffer> <silent> <C-J> vap:DB w:db<cr>
-    au BufNewFile,BufRead *.db* xmap <buffer> <silent> <C-J> :DB w:db<cr>
-augroup END
-
-" }}}
-" Diff {{{
-
-augroup ft_diff
-    au!
-
-    function! DiffFold(lnum) abort
-        let line = getline(a:lnum)
-        if line =~ '^diff '
-            return '>1'
-        elseif line =~ '^\(index\|---\|+++\) '
-            return '='
-        elseif line =~ '^\(@@\) '
-            return '>2'
-        elseif line[0] =~ '[-+ ]'
-            return '='
-        else
-            return 0
-        endif
-    endfunction
-
-    au FileType diff setlocal foldmethod=expr foldexpr=DiffFold(v:lnum)
-    au Filetype diff setlocal nolist
-    au Filetype diff nnoremap <buffer> q :q<cr>
-
-    " Diffs are folded by changes, so let's use [c]c to move to the
-    " next/previous fold (ie. change)
-    au Filetype diff nmap <buffer> [c [z
-    au Filetype diff nmap <buffer> ]c ]z
-    au Filetype diff nmap <buffer> <down> ]z
-    au Filetype diff nmap <buffer> <up> [z
-augroup END
-
-" }}}
-" Eslintrc {{{
-
-augroup ft_eslintrc
-    au!
-
-    au BufNewFile,BufRead .eslintrc nnoremap <buffer> q :call CloseOnLast()<cr>
-augroup END
-
-" }}}
-" HTML {{{
-
-augroup ft_html
-    au!
-
-    au BufNewFile,BufRead *.html setlocal filetype=htmldjango
-    au FileType html,jinja,htmldjango setlocal foldmethod=manual
-    au FileType html,jinja,htmldjango EmmetInstall
-
-    " Invoke emmet instead of supertab
-    au FileType html,jinja,htmldjango imap <buffer> <expr> <c-n> emmet#expandAbbrIntelligent("\<c-n>")
-
-    function! HtmlWrap() abort "{{{
-        " Back up x registry
-        let old_x = @x
-
-        " Copy html element to x registry
-        normal! vi<"xy
-
-        if len(split(@x, '\n', 0)) != 1
-            " Unwrap
-            normal! vi<J
-        else
-            " Wrap:
-            "
-            " \s+ - any leading whitespace (there has to be whitespace!),
-            "       otherwise we are going to end up splitting properties like:
-            "
-            "           attr.href="/?query=foo&bar=bax"
-            "
-            " ( ... ) - the first group of matched text -- for the substitution
-            "     \* - a literal asterisk, used by Angular
-            "     \[ ... \]  - literal square brackets, used by Angular
-            "     \( ... \)  - literal braces, used by Angular
-            "     (\w|-|\.)+ - multiple word character, or hypen, or .
-            " ( ... ) - the second group of matched text
-            "     (\=|$) - literal =, or end of line -- e.g. ng-onload, as well
-            "                                           as allowFullscreen
-            let @x = substitute(@x, '\v\s+(\*?\[?\(?(\w|-|\.)+\)?\]?)\=', '\n\1\=', 'g')
-
-            " Replace selection with the modified content
-            normal! gv"xp
-
-            " Re-indent the new content
-            normal! gv=
-        endif
-
-        " Restore x registry
-        let @x = old_x
-    endfunction " }}}
-    au FileType html,jinja,htmldjango nnoremap <buffer> gw :call HtmlWrap()<cr>
-
-    " Use <localleader>f to fold the current tag.
-    au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>f Vatzf
-
-    " Indent tag
-    au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>= Vat=
-
-    " Use Shift-Return (Ø) in insert mode to turn this:
-    "     <tag>|</tag>
-    "
-    " into this:
-    "     <tag>
-    "         |
-    "     </tag>
-    au FileType html,jinja,htmldjango inoremap <buffer> Ø <esc>cit<cr><esc>ko
-    " Use Shift-Return (Ø) in normal mode to turn this:
-    "     <tag>something|else</tag>
-    "
-    " into this:
-    "     <tag>
-    "         |something else
-    "     </tag>
-    au FileType html,jinja,htmldjango nnoremap <buffer> Ø <esc>vit<esc>a<cr><esc>vito<esc>i<cr><esc>
-augroup END
-
-" }}}
-" Grunt-ion {{{
-
-augroup ft_gruntion
-    au!
-
-    function! DetectGruntIon() abort
-        let moduleinfo = join([getcwd(), 'moduleInfo.ts'], '/')
-        if filereadable(moduleinfo)
-            " Override default dispatch command
-            execute "Focus -compiler=grunt-ion " .
-                        \ fnameescape(globpath(&runtimepath, 'compiler/grunt-ion.py')) .
-                        \ " debug --no-color"
-
-            " Run tests
-            execute "nnoremap <leader>t :Dispatch -compiler=grunt-ion " .
-                    \ fnameescape(globpath(&runtimepath, 'compiler/grunt-ion.py')) .
-                    \ " test --no-color<cr>"
-        endif
-    endfunction
-
-    autocmd VimEnter * call DetectGruntIon()
-augroup end
-
-" }}}
-" Java {{{
-
-augroup ft_java
-    au!
-    function! TurnOnJavaFolding() abort "{{{
-        let modifier     = '%(public|private|protected)?\s*'
-        let static       = '%(static\s*)?\s*'
-        let returntype   = '%(,\s|\S)+\s*'
-        let class        = modifier.'class%(\s+\S+)*\s*\{'
-        " XXX it doesn't look like the following ignores if/for/while/switch statements correctly...
-        let method       = modifier.static.returntype.'%(\S*\.\S*|if|for|while|switch)@![a-zA-Z0-9]+\s*\([^)]*\)\s*\{'
-        let functionwrap = '\s*\S*\s[a-zA-Z]*\)\s*\{'
-
-        let folded_statements = [
-                    \ class,
-                    \ method,
-                    \ functionwrap
-                    \ ]
-
-        let b:manual_regexp_folding_statements_re_bare = '\v^\s*%(' . join(folded_statements, '|') . ')\s*$'
-        call TurnOnManualRegexpFolding()
-    endfunction "}}}
-    au FileType java silent! call TurnOnJavaFolding()
-    au FileType java silent! call RefreshManualRegexpFolding()
-
-    au FileType java setlocal omnifunc=javacomplete#Complete
-
-    au FileType java let b:rbpt_max=2
-    au FileType java RainbowParenthesesActivate
-    au syntax java RainbowParenthesesLoadRound
-    au syntax java RainbowParenthesesLoadSquare
-    au syntax java RainbowParenthesesLoadBrace
-
-    au FileType java inoremap <buffer> <c-n> <c-x><c-o>
-
-    " Abbreviations {{{
-
-    au FileType java call MakeSpacelessBufferIabbrev('if',      'if (HERE)')
-    au FileType java call MakeSpacelessBufferIabbrev('rt',      'return HERE;')
-    au FileType java call MakeSpacelessBufferIabbrev('for',     'for (HERE) {}<left><cr>')
-    au FileType java call MakeSpacelessBufferIabbrev('while',   'while (HERE) {}<left><cr>')
-    au FileType java call MakeSpacelessBufferIabbrev('println', 'System.out.println(HERE);')
-
-    " }}}
-augroup END
-
-" }}}
-" Javascript {{{
-
-augroup ft_javascript
-    au!
-
-    function! TurnOnJavascriptFolding() abort "{{{
-        let export       = '%(module\.)?export(s)?%(\.)?.*\{'
-        let class        = 'class%(\s+\S+)*\s*\{'
-        let method       = '%(static |async )?%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
-        let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
-        let functiondec  = '%(async )?function%(\s+\S+)?\s*\([^)]*' . functionwrap
-        let functiondef  = '%(%(const|var|let)\s)?\S+\s*\=\s*' . functiondec
-        let arrowdefwrap = '\s*[a-zA-Z0-9:]*\)\s*\=\>\s*\{'
-        let arrowdef     = '%(%(const|var|let)\s)?\S+\s*\=\s*\([^)]*' . arrowdefwrap
-        let router       = 'router\.\S+\([^}]*\{'
-        let mocha_descr  = 'describe%(\.only)?\([^}]*\{'
-        let mocha_it     = 'it\([^}]*\{'
-
-        let folded_statements = [
-                    \ export,
-                    \ class,
-                    \ method,
-                    \ functionwrap,
-                    \ functiondec,
-                    \ functiondef,
-                    \ arrowdefwrap,
-                    \ arrowdef,
-                    \ router,
-                    \ mocha_descr,
-                    \ mocha_it
-                    \ ]
-
-        let b:manual_regexp_folding_statements_re_bare = '\v^\s*%(' . join(folded_statements, '|') . ')\s*$'
-        call TurnOnManualRegexpFolding()
-    endfunction "}}}
-    au FileType javascript silent! call TurnOnJavascriptFolding()
-    au FileType javascript silent! call RefreshManualRegexpFolding()
-
-    au FileType javascript setlocal suffixesadd+=.js,.ts
-
-    au FileType javascript let b:stt_substitute_eol_with = '@'
-
-    " Custom text object to highlight top-level expressions
-    " Explanation:
-    "
-    " - 99[( - move to the outmost ( character: that makes it easy to
-    "   jump to the line where a function invocation starts (not much
-    "   useful if we are trying to evaluate a function, but for a toplevel
-    "   function call, this will come in handy
-    " - 99[{ - move to the outmost { character: that makes it easy to jump
-    "   to the line where a function definition likely starts
-    " - V% - toggle linewise-visual, and jump to the 'other side' (this
-    "   could mean the closing brace, or parenthesis)
-    au FileType javascript vnoremap <buffer> <silent>af :<C-U>silent! normal! 99[(99[{V%<CR>
-    au FileType javascript onoremap <buffer> <silent>af :normal Vaf<CR>
-
-    function! HighlightJavascriptRepl() abort " {{{
-        syn match replPrompt /\v\>/
-        syn match replComment /\v^\/\/.*/
-
-        " syn match replResult /\v^#\<[^>]+\>$/
-        hi def link replResult Debug
-        hi def link replComment Comment
-    endfunction "}}}
-
-    function! InitializeJavascriptRepl() abort "{{{
-        call HighlightJavascriptRepl()
-    endfunction "}}}
-
-    function! JavascriptCurrentWindowPlusNodeOnes() abort " {{{
-        let focused_win = win_getid()
-
-        for tab in gettabinfo()
-            for win in tab.windows
-                if win != focused_win
-                    let bufname = bufname(winbufnr(win))
-
-                    if bufname !~? 'node'
-                        let winnr = win_id2win(win)
-                        execute winnr . 'close'
-                    endif
-                endif
-            endfor
-        endfor
-    endfunction " }}}
-
-    function! SetupJavascriptProjectMappings() abort " {{{
-        nnoremap <C-W>o :call JavascriptCurrentWindowPlusNodeOnes()<cr>
-        nnoremap <C-W>O :call JavascriptCurrentWindowPlusNodeOnes()<cr>
-        nnoremap <C-W><C-O> :call JavascriptCurrentWindowPlusNodeOnes()<cr>
-    endfunction " }}}
-
-    function! OpenNodeRepl() abort "{{{
-        call term_start("bash -c node-rlwrap", {
-                    \ "term_finish": "close",
-                    \ "vertical": 1
-                    \ })
-        call InitializeJavascriptRepl()
-        call SetupJavascriptProjectMappings()
-    endfunction "}}}
-    au FileType javascript nnoremap <buffer> <localleader>o :call OpenNodeRepl()<cr>
-
-    function! ConnectNodeInspect() abort "{{{
-        let l:host = input("Host: ", "localhost")
-        let l:port = input("Port: ", "9229")
-        let l:cmd = "node inspect " . l:host . ":" . l:port
-
-        belowright call term_start(l:cmd, {
-                    \ "term_finish": "close",
-                    \ })
-    endfunction " }}}
-    au FileType javascript nnoremap <buffer> <localleader>cc :call ConnectNodeInspect()<cr>
-    au FileType javascript nnoremap <buffer> <localleader>cd :STTDisconnect
-
-    " Fix windows:
-    " - <c-w>j: select window below -- Vlime Connection
-    " - <c-w>J: move it to the far bottom (and expand horizontally)
-    " - <c-w>k: select window above --  the actual lisp buffer
-    " - <c-w>H: move it to the far right (and expand vertically)
-    au FileType javascript nnoremap <buffer> <localleader>W <c-w>j<c-w>J<c-w>k<c-w>H
-
-    au FileType javascript nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('Vaf')<cr>
-    au FileType javascript xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
-    au Filetype javascript nnoremap <buffer> <C-^> :LspReferences<cr>
-    au FileType javascript nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
-    au FileType javascript nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
-    au FileType javascript nnoremap <buffer> <silent> ,S :LspRename<cr>
-    au FileType javascript nnoremap <buffer> <silent> ◊ :LspCodeAction<cr>
-    au FileType javascript nnoremap <buffer> <silent> K :LspHover<cr>
-    au FileType javascript setlocal omnifunc=lsp#complete
-
-    au FileType javascript inoremap <buffer> <c-n> <c-x><c-o>
-
-    au FileType javascript RainbowParenthesesActivate
-    au syntax javascript RainbowParenthesesLoadRound
-    au syntax javascript RainbowParenthesesLoadSquare
-    au syntax javascript RainbowParenthesesLoadBrace
-
-    " Abbreviations {{{
-
-    au FileType javascript call MakeSpacelessBufferIabbrev('if',   'if (HERE)')
-    au FileType javascript call MakeSpacelessBufferIabbrev('fn',   'function ')
-    au FileType javascript call MakeSpacelessBufferIabbrev('afn',  'function(HERE)')
-    au FileType javascript call MakeSpacelessBufferIabbrev('rt',   'return HERE;')
-    au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log(HERE);')
-    au FileType javascript call MakeSpacelessBufferIabbrev('cerr', 'console.error(HERE);')
-    au FileType javascript call MakeSpacelessBufferIabbrev('pclog', 'console.log(JSON.stringify(HERE, null, 2));')
-    au FileType javascript call MakeSpacelessBufferIabbrev('dolog', 'do(console.log)')
-    au FileType javascript call MakeSpacelessBufferIabbrev('maplog', 'map(e => console.log(e) \|\| e)')
-    au FileType javascript call MakeSpacelessBufferIabbrev('thenlog', 'then(e => console.log(e) \|\| e)')
-    au FileType javascript call MakeSpacelessBufferIabbrev('desc', "describe('HERE', () => {});<left><left><left><cr>")
-    au FileType javascript call MakeSpacelessBufferIabbrev('befeach', "beforeEach(() => {});<left><left><left><cr>")
-    au FileType javascript call MakeSpacelessBufferIabbrev('itt', "it('HERE', () => {});<left><left><left><cr>")
-
-    " }}}
-augroup END
-
-" }}}
-" Jira {{{
-
-augroup ft_jira
-    au!
-
-    au FileType jira setlocal wrap foldmethod=syntax
-augroup END
-
-" }}}
-" JSON {{{
-
-augroup ft_json
-    au!
-
-    au FileType json setlocal foldmethod=marker
-    au FileType json setlocal foldmarker={,}
-    au FileType json setlocal foldnestmax=2
-augroup END
-
-" }}}
-" Mail {{{
-
-augroup ft_mail
-    au!
-
-    function! EnableMailProfile() abort "{{{
-        let first_line = getline('1')
-        if first_line =~? '\vFrom:.*\<matteo\@matteolandi.net\>'
-            doautocmd User MailProfilePersonal
-        else
-            doautocmd User MailProfileWork
-        endif
-    endfunction " }}}
-    au FileType mail call EnableMailProfile()
-    au FileType mail setlocal nobackup noswapfile nowritebackup
-
-    function! EnableFormatFlowed() abort "{{{ https://rinzewind.org/blog-en/2017/a-small-trick-for-sending-flowed-mail-in-mutt-with-vim.html
-        setlocal textwidth=72
-        setlocal formatoptions=watqc
-        setlocal nojs
-        match ErrorMsg '\s\+$'
-    endfunction " }}}
-    au User MailProfilePersonal call EnableFormatFlowed()
-    au User MailProfilePersonal let b:goobookprg='goobook'
-    au User MailProfileWork setlocal textwidth=0 wrap
-    au User MailProfileWork let b:goobookprg='aadbook'
-augroup END
-
-" }}}
-" Markdown {{{
-
-augroup ft_markdown
-    au!
-
-    au Filetype markdown setlocal spell
-    au FileType markdown let b:delimitMate_nesting_quotes = ['`']
-
-    au FileType markdown nnoremap <buffer> <localleader>cc :STTConnect
-    au FileType markdown nnoremap <buffer> <localleader>cd :STTDisconnect
-    au FileType markdown nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('vap')<cr>
-    au FileType markdown xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
-
-    " Use <localleader>1/2/3 to add headings.
-    au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=
-    au Filetype markdown nnoremap <buffer> <localleader>2 yypVr-
-    au Filetype markdown nnoremap <buffer> <localleader>3 yypVr+
-    au Filetype markdown nnoremap <buffer> <localleader>4 yypVr*
-
-augroup END
-
-" }}}
-" Maven {{{
-
-augroup ft_mvn
-    au!
-
-    function! CheckIfMvnProject() abort "{{{
-        return filereadable("pom.xml") && !filereadable('package.json')
-    endfunction " }}}
-    function! InitMvnMappings() abort "{{{
-        nnoremap <localleader>m  :Dispatch mvn -B<space>
-    endfunction " }}}
-    au VimEnter *
-                \ if CheckIfMvnProject()
-                \ | call InitMvnMappings()
-                \ | compiler maven
-                \ | let dispatch = 'mvn -B clean test'
-                \ | endif
-augroup END
-
-" }}}
-" Mutt {{{
-
-augroup ft_muttrc
-    au!
-
-    au BufRead,BufNewFile *.muttrc set filetype=muttrc
-
-    au FileType muttrc setlocal foldmethod=marker foldmarker={{{,}}}
-augroup END
-
-" }}}
-" Npm {{{
-
-augroup ft_npm
-    au!
-
-    function! CheckIfNpmProject() abort "{{{
-        return filereadable("package.json")
-    endfunction " }}}
-    function! InitNpmMappings() abort "{{{
-        nnoremap <localleader>ni  :Dispatch npm install --save<space>
-        nnoremap <localleader>nr  :Dispatch npm run<space>
-        nnoremap <localleader>nn  :Dispatch npm<space>
-
-    endfunction " }}}
-    au VimEnter *
-                \ if CheckIfNpmProject()
-                \ | call InitNpmMappings()
-                \ | endif
-
-augroup END
-
-" }}}
-" Pentadacty {{{
-
-augroup ft_pentadactyl
-    au!
-
-    au FileType pentadactyl setlocal foldmethod=marker
-    au FileType pentadactyl setlocal foldmarker={{{,}}}
-augroup END
-
-" }}}
-" plan {{{
-
-augroup ft_plan
-    au!
-
-    au FileType plan nnoremap <buffer> <localleader>cc :STTConnect
-    au FileType plan nnoremap <buffer> <localleader>cd :STTDisconnect
-    au FileType plan nnoremap <C-J> :<C-U>call SelectAndSendToTerminal('vap')<cr>
-    au FileType plan xnoremap <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
-    au FileType plan nmap <buffer> [[ [z[z]z
-    au FileType plan nmap <buffer> ]] ]z
-
-    " I use dashes for bullet lists, but the default configuration is not quite 
-    " all right.
-    "
-    " Imagine I have the following (the cursor is placed where the | is):
-    "
-    "   - First item|
-    "
-    " When I press <Enter>, I get:
-    "
-    "   - First item
-    "     |
-    "
-    " While instead I wanted to create a new item in the list.
-    "
-    " This is mostly fault of the default configuration, that ships with `fb:-`
-    " stuffed inside &comments -- this basically tells Vim to indent the next
-    " line, but not to add a leading dash (which kind of makes sense, if &wrap
-    " was enabled.
-    "
-    " Anyway, let's remove this default, and add a new one that would add the
-    " leading dash to the line:
-    "
-    "   - First item
-    "   - |
-    "
-    au FileType plan set comments-=fb:-
-    au FileType plan set comments+=b:+
-
-    au FileType plan setlocal synmaxcol=0
-    au FileType plan setlocal wrap textwidth=0
-    function! s:CreateNewPlanEntry() abort "{{{
-        let l:last_ai=&autoindent
-        let l:plan_title=strftime('%Y-%m-%d')
-        let l:entry_exists=search('# ' . plan_title, 'n')
-        setlocal noautoindent
-
-        if l:entry_exists == 0
-            " Go to the end of the file, and add a new line
-            " Create additional empty line
-            " Create the damn entry
-            execute "normal! Go\<cr># " . plan_title
-        else
-            " Go to the end of the file, and add a new line
-            " Create additional empty line
-            " Create the separator
-            execute "normal! Go\<cr>---\<cr>"
-        endif
-
-        let &l:autoindent=l:last_ai
-    endfunction "}}}
-    au FileType plan nnoremap <buffer> <localleader>n :<C-U>call <SID>CreateNewPlanEntry()<cr>o
-    au FileType plan nnoremap <buffer> <localleader>o :silent lgrep '^\?' %<cr>:lopen<cr>:redraw!<cr>
-augroup END
-
-" }}}
-" PHP {{{
-
-augroup ft_php
-    au!
-
-    au FileType php setlocal foldmethod=marker
-    au FileType php setlocal foldmarker={,}
-augroup END
-
-" }}}
-" Puppet {{{
-
-augroup ft_puppet
-    au!
-
-    au Filetype puppet setlocal foldmethod=marker
-    au Filetype puppet setlocal foldmarker={,}
-augroup END
-
-" }}}
-" Python {{{
-
-augroup ft_python
-    au!
-
-    au FileType python let b:stt_trailing_new_lines = 2
-
-    au FileType python setlocal define=^\s*\\(def\\\\|class\\)
-
-    " Jesus tapdancing Christ, built-in Python syntax, you couldn't let me
-    " override this in a normal way, could you?
-    au FileType python if exists("python_space_error_highlight") | unlet python_space_error_highlight | endif
-
-    au FileType python let b:delimitMate_nesting_quotes = ['"']
-
-    au FileType python nnoremap <buffer> <localleader>cc :STTConnect
-    au FileType python nnoremap <buffer> <localleader>cd :STTDisconnect
-    au FileType python nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('vap')<cr>
-    au FileType python xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
-
-    function! OpenPythonRepl() abort "{{{
-        call term_start("bash -c python-rlwrap", {
-                    \ "term_finish": "close",
-                    \ "vertical": 1
-                    \ })
-    endfunction "}}}
-    au FileType python nnoremap <buffer> <localleader>o :call OpenPythonRepl()<cr>
-    au FileType python RainbowParenthesesActivate
-    au syntax python RainbowParenthesesLoadRound
-    au syntax python RainbowParenthesesLoadSquare
-    au syntax python RainbowParenthesesLoadBrace
-
-    " Abbreviations {{{
-
-    au FileType python call MakeSpacelessBufferIabbrev('rt', 'return ')
-
-    " }}}
-augroup END
-
-" }}}
-" QuickFix {{{
-
-augroup ft_quickfix
-    au!
-
-    au Filetype qf setlocal colorcolumn=0 nolist nocursorline nowrap
-    au FileType qf nnoremap <buffer> q :call CloseOnLast()<cr>
-augroup END
-
-" }}}
-" REST {{{
-
-augroup ft_rest
-    au!
-
-    function! GetRestFold(lnum) abort
-        if getline(a:lnum) =~? '\v^(GET|POST|PUT|DELETE)\s'
-            return 1
-        endif
-        if getline(a:lnum) =~? '\v^--\s*'
-            return 0
-        endif
-
-        return '='
-    endfunction
-
-    au FileType rest setlocal foldmethod=expr foldexpr=GetRestFold(v:lnum)
-    au FileType rest setlocal shiftwidth=2 softtabstop=2 expandtab
-    au Filetype rest nnoremap <buffer> <localleader>1 yypVr=
-augroup END
-
-" }}}
-" ReStructuredText {{{
-
-augroup ft_rst
-    au!
-
-    au Filetype rst setlocal formatlistpat+=\\\|^[-*+]\\s\\+
-    au Filetype rst nnoremap <buffer> <localleader>1 yypVr=
-    au Filetype rst nnoremap <buffer> <localleader>2 yypVr-
-    au Filetype rst nnoremap <buffer> <localleader>3 yypVr~
-    au Filetype rst nnoremap <buffer> <localleader>4 yypVr`
-augroup END
-
-" }}}
-" Scala {{{
-augroup ft_scala
-    au!
-
-    function! DispatchMavenTest() abort
-        let view = winsaveview()
-        let zreg = @z
-
-        " Move to the top of the file
-        normal! gg
-
-        " Find the spec name
-        call search('\vclass (.*Spec)')
-        normal! w"zyiw
-
-        let spec = @z
-
-        execute "Dispatch mvn -q -B test -Dtest=" . spec
-
-        let @z = zreg
-        call winrestview(view)
-    endfunction
-
-    au Filetype scala setlocal foldmethod=marker foldmarker={,}
-    au Filetype scala nnoremap <buffer> <localleader>s mz:%!sort-scala-imports<cr>`z
-    au Filetype scala nnoremap <buffer> M :call scaladoc#Search(expand("<cword>"))<cr>
-    au Filetype scala vnoremap <buffer> M "ry:call scaladoc#Search(@r)<cr>
-    au Filetype scala nnoremap <buffer> <localleader>t :call DispatchMavenTest()<cr>
-    ")]
-augroup END
-
-" }}}
-" Scheme {{{
-
-augroup ft_scheme
-    au!
-
-    function! HighlightSchemeRepl() abort " {{{
-        " set syntax=lisp
-        syn match replPrompt /\v^\[([a-z A-Z])+\] [-._a-zA-Z0-9]+\>/
-        syn match replComment /\v^;.*/
-
-        " syn match replResult /\v^#\<[^>]+\>$/
-        hi def link replResult Debug
-        hi def link replComment Comment
-    endfunction "}}}
-
-    function! InitializeSchemeRepl() abort "{{{
-        call HighlightSchemeRepl()
-    endfunction "}}}
-
-    function! OpenSchemeReplChez() abort "{{{
-        call term_start("bash -c chez-rlwrap", {
-            \ "term_finish": "close",
-            \ "vertical": 1
-        \ })
-        call InitializeSchemeRepl()
-    endfunction "}}}
-
-    function! OpenSchemeReplPrompt() abort "{{{
-        call term_start("bash -c " . input("? "), {
-            \ "term_finish": "close",
-            \ "vertical": 1
-        \ })
-        call InitializeSchemeRepl()
-    endfunction "}}}
-
-    function! MotionToSelectTopLevelSchemeForm() abort " {{{
-        let motion = '99[(v%'
-        if col('.') == 1 && getline('.')[col('.') - 1] == '('
-            " We are at the beginning of a top-level form, so select until
-            " the matching parenthesis
-            let motion = 'v%'
-        endif
-        return motion
-    endfunction "}}}
-
-    function! SelectToplevelSchemeFormAndSendToTerminal() abort "{{{
-        call SelectAndSendToTerminal(MotionToSelectTopLevelSchemeForm())
-    endfunction "}}}
-
-    function! SelectToplevelSchemeFormAndSendToVlimeREPL() abort "{{{
-        let view = winsaveview()
-        let reg_save = @@
-        let motion = MotionToSelectTopLevelSchemeForm()
-
-        execute "normal! " . motion . "y"
-        call vlime#plugin#SendToREPL(@@)
-
-        let @@ = reg_save
-        call winrestview(view)
-    endfunction "}}}
-
-    function! IndentToplevelSchemeForm() abort "{{{
-        let view = winsaveview()
-        let reg_save = @@
-        let motion = MotionToSelectTopLevelSchemeForm()
-
-        execute "normal! " . motion . "="
-
-        let @@ = reg_save
-        call winrestview(view)
-    endfunction "}}}
-
-    function! TestSchemeSystem() abort "{{{
-        let systems = split(system('ls -1 *.asd | grep -v test | cut -d. -f1 | uniq')) " its fine
-        if len(systems) == 0
-            echom "Could not find any .asd files..."
-            return
-        elseif len(systems) > 1
-            echom "Found too many .asd files..."
-            return
-        endif
-
-        call SendToTerminal("(asdf:test-system :" . systems[0] . ")")
-    endfunction " }}}
-
-    function! TestSchemePrompt() abort "{{{
-        call SendToTerminal("(asdf:test-system :" . input("? ") . ")\n")
-    endfunction " }}}
-
-    function! InPackage() abort "{{{
-        let packages = split(system('grep "(in-package .*" '. fnameescape(expand("%")) .' --only-matching | cut -d" " -f2 | uniq')) " its fine
-        if len(packages) == 0
-            echom "Could not find any defpackage lines..."
-            return
-        elseif len(packages) > 1
-            echom "Found too many defpackage lines..."
-            return
-        endif
-
-        call SendToTerminal("(in-package " . packages[0])
-    endfunction " }}}
-
-    au FileType scheme call SetSchemeWords()
-
-    au FileType scheme setlocal iskeyword+=!,?,%,-
-    au FileType scheme setlocal suffixesadd+=.scm
-
-    au FileType scheme RainbowParenthesesActivate
-    au syntax lisp RainbowParenthesesLoadRound
-
-    " Fix windows:
-    " - <c-w>j: select window below -- Vlime Connection
-    " - <c-w>J: move it to the far bottom (and expand horizontally)
-    " - <c-w>k: select window above --  the actual lisp buffer
-    " - <c-w>H: move it to the far right (and expand vertically)
-    au FileType scheme nnoremap <buffer> <localleader>W <c-w>j<c-w>J<c-w>k<c-w>H
-
-    au FileType scheme let b:delimitMate_quotes = "\""
-
-    au FileType scheme nnoremap <buffer> <silent> <localleader>o :call OpenSchemeReplChez()<cr>
-    au FileType scheme nnoremap <buffer> <silent> <localleader>O :call OpenSchemeReplPrompt()<cr>
-    au FileType scheme nnoremap <buffer> <silent> gI :<C-U>call IndentToplevelSchemeForm()<cr>
-    au FileType scheme nnoremap <buffer> <localleader>cc :STTConnect
-    au FileType scheme nnoremap <buffer> <localleader>cd :STTDisconnect
-    au FileType scheme nnoremap <buffer> <silent> <C-J> :call SelectToplevelSchemeFormAndSendToTerminal()<cr>
-    au FileType scheme xnoremap <buffer> <silent> <C-J> :call SendSelectionToTerminal(visualmode())<cr>
-augroup END
-
-" }}}
-" Sh {{{
-
-augroup ft_sh
-    au!
-
-    au FileType sh setlocal foldmethod=marker
-augroup END
-
-" }}}
-" Typescript {{{
-
-augroup ft_typescript
-    au!
-
-    function! TurnOnTypescriptFolding() abort "{{{
-        let export       = '%(module\.)?export(s)?%(\.)?.*\{'
-        let class        = 'class%(\s+\S+)*\s*\{'
-        let method       = '%(async )?%(private )?%(%(get|set) )?%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
-        let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
-        let functiondec  = '%(async )?function%(\s+\S+)?\s*\([^)]*' . functionwrap
-        let functiondef  = '%(%(const|var|let)\s)?\S+\s*\=\s*' . functiondec
-        let arrowdefwrap = '\s*[a-zA-Z0-9:]*\)\s*\=\>\s*\{'
-        let arrowdef     = '%(%(const|var|let)\s)?\S+\s*\=\s*\([^)]*' . arrowdefwrap
-
-        let folded_statements = [
-                    \ export,
-                    \ class,
-                    \ method,
-                    \ functionwrap,
-                    \ functiondec,
-                    \ functiondef,
-                    \ arrowdefwrap,
-                    \ arrowdef
-                    \ ]
-
-        let b:manual_regexp_folding_statements_re_bare = '\v^\s*%(' . join(folded_statements, '|') . ')\s*$'
-        call TurnOnManualRegexpFolding()
-    endfunction "}}}
-    au FileType typescript silent! call TurnOnTypescriptFolding()
-    au FileType typescript silent! call RefreshManualRegexpFolding()
-
-    au FileType typescript setlocal suffixesadd+=.ts,.js
-
-    au Filetype typescript nnoremap <buffer> <C-^> :LspReferences<cr>
-    au FileType typescript nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
-    au FileType typescript nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
-    au FileType typescript nnoremap <buffer> <silent> ,S :LspRename<cr>
-    au FileType typescript nnoremap <buffer> <silent> ◊ :LspCodeAction<cr>
-    au FileType typescript nnoremap <buffer> <silent> K :LspHover<cr>
-    au FileType typescript setlocal omnifunc=lsp#complete
-
-    au FileType typescript inoremap <buffer> <c-n> <c-x><c-o>
-
-    au FileType typescript RainbowParenthesesActivate
-    au syntax typescript RainbowParenthesesLoadRound
-    au syntax typescript RainbowParenthesesLoadSquare
-    au syntax typescript RainbowParenthesesLoadBrace
-
-    " Abbreviations {{{
-
-    au FileType typescript call MakeSpacelessBufferIabbrev('clz',  'class ')
-    au FileType typescript call MakeSpacelessBufferIabbrev('class',  'NOPENOPENOPE')
-
-    au FileType typescript call MakeSpacelessBufferIabbrev('int',  'interface ')
-    au FileType typescript call MakeSpacelessBufferIabbrev('interface',  'NOPENOPENOPE')
-
-    au FileType typescript call MakeSpacelessBufferIabbrev('impl',  'implements ')
-    au FileType typescript call MakeSpacelessBufferIabbrev('implements',  'NOPENOPENOPE')
-
-    au FileType typescript call MakeSpacelessBufferIabbrev('ext',  'extends ')
-    au FileType typescript call MakeSpacelessBufferIabbrev('extends',  'NOPENOPENOPE')
-
-    au FileType typescript call MakeSpacelessBufferIabbrev('ctor', 'constructor() {}<left><cr><up><end><left><left><left>')
-    au FileType typescript call MakeSpacelessBufferIabbrev('constructor', 'NOPENOPENOPE')
-
-    au FileType typescript call MakeSpacelessBufferIabbrev('fn',  'function ')
-    au FileType typescript call MakeSpacelessBufferIabbrev('afn', 'function() {}<left><cr><up><end><left><left><left>')
-    au FileType typescript call MakeSpacelessBufferIabbrev('function', 'NOPENOPENOPE')
-
-    au FileType typescript call MakeSpacelessBufferIabbrev('rt', 'return ;<left>')
-    au FileType typescript call MakeSpacelessBufferIabbrev('return', 'NOPENOPENOPE')
-
-    au FileType typescript call MakeSpacelessBufferIabbrev('rq', 'require('''');<left><left><left>')
-    au FileType typescript call MakeSpacelessBufferIabbrev('require', 'NOPENOPENOPE')
-
-    au FileType typescript call MakeSpacelessBufferIabbrev('clog', 'console.log();<left><left>')
-    au FileType javascript call MakeSpacelessBufferIabbrev('cerr', 'console.error(HERE);')
-
-    " }}}
-augroup END
-
-" }}}
-" Ternproject {{{
-
-augroup ft_ternproject
-    au!
-
-    au BufNewFile,BufRead .tern-project nnoremap <buffer> q :call CloseOnLast()<cr>
-augroup END
-
-" }}}
-" Vim {{{
-
-augroup ft_vim
-    au!
-
-    au FileType vim setlocal foldmethod=marker
-    au FileType help setlocal textwidth=78
-    au BufEnter * if &ft == 'help' | nnoremap <buffer> q :call CloseOnLast()<cr> | endif
-augroup END
-
-" }}}
-" XML {{{
-
-augroup ft_xml
-    au!
-
-    au FileType xml setlocal foldmethod=manual
-
-    " Use <localleader>f to fold the current tag.
-    au FileType xml nnoremap <buffer> <localleader>f Vatzf
-
-    " Indent tag
-    au FileType xml nnoremap <buffer> <localleader>= Vat=
-augroup END
-
-" }}}
-
-" }}}
 " Quick editing ----------------------------------------------------------- {{{
 
 nnoremap <leader>eM :vsplit <C-R>=system('tempfile .')<left><left>
@@ -1782,11 +438,13 @@ xnoremap & :&&<CR>
 nnoremap <Leader>S :%s/<C-r>=expand("<cword>")<cr>//c<left><left>
 vnoremap <Leader>S y:%s/<C-r>"//c<left><left>
 
-" Emacs bindings in command line mode
+" Heresy
+inoremap <C-a> <home>
 cnoremap <C-a> <home>
+inoremap <C-e> <end>
 cnoremap <C-e> <end>
-" https://vi.stackexchange.com/a/7794
-cnoremap <expr> <C-d> (getcmdpos() == len(getcmdline()) + 1 ? '<C-d>' : '<Del>')
+inoremap <C-d> <Del>
+cnoremap <C-d> <Del>
 
 " Skip automatically to next difference
 nnoremap do do]c
@@ -1849,8 +507,8 @@ nnoremap <silent> <up> :lprevious<CR>zvzz
 nnoremap <silent> <down> :lnext<CR>zvzz
 
 " Folds
-nnoremap <silent> [z zMzozkzvzz
-nnoremap <silent> ]z zMzozjzvzz
+nnoremap <silent> zk zkzv[z
+nnoremap <silent> zj zjzv]z
 
 " Macros
 nnoremap Q @q
@@ -1924,22 +582,12 @@ nnoremap <leader>d :Dispatch<cr>
 nnoremap <leader>m :Dispatch<cr>
 
 " }}}
-" Easymotion {{{
-
-let g:EasyMotion_leader_key = '<leader>'
-
-" }}}
 " editorconfig-vim {{{
 
 let g:EditorConfig_exclude_patterns = [
          \ 'fugitive://.*',
          \ 'scp://.*'
          \ ]
-
-" }}}
-" Emmet {{{
-
-let g:user_emmet_install_global = 0
 
 " }}}
 " Fugitive {{{
@@ -1977,13 +625,13 @@ augroup ft_fugitive " {{{
     au User Fugitive let g:netrw_browsex_viewer = "cb <<<"
     au BufNewFile,BufRead .git/index setlocal nolist
 augroup END " }}}
-augroup ft_shell_g_pl
+augroup ft_shell_g_pl " {{{
     au!
 
     autocmd BufReadPost __Shell_Output__git_pl_* setlocal filetype=gitrebase
     autocmd BufReadPost __Shell_Output__git_pl_* nnoremap <buffer> ri :!git rb <C-R>=split(getline('.'))[0]<CR>^1<CR>:Shell git pl <bar> strip-escapes<cr>
 augroup END " }}}
-augroup ft_shell_g_pll
+augroup ft_shell_g_pll " {{{
     au!
 
     autocmd BufReadPost __Shell_Output__git_plll_*  setlocal filetype=gitrebase
@@ -2001,27 +649,9 @@ end
 nnoremap <C-P> :<C-u>FZF<CR>
 
 " }}}
-" Gundo {{{
-
-nnoremap <F5> :GundoToggle<CR>
-let g:gundo_debug = 1
-let g:gundo_preview_bottom = 1
-let g:gundo_tree_statusline = "Gundo"
-let g:gundo_preview_statusline = "Gundo Preview"
-
-" }}}
 " JK-Jumps {{{
 
 let g:jk_jumps_minimum_lines = 2
-
-" }}}
-" Maven {{{
-
-let g:maven_auto_chdir = 0
-let g:maven_keymaps = 0
-let g:maven_ignore_globs = [
-            \ '*.js'
-            \ ]
 
 " }}}
 " Neoformat {{{
@@ -2095,11 +725,6 @@ nnoremap <leader>C :Neomake<cr>
 let g:netrw_bufsettings="noma nomod nonu nobl nowrap ro rnu"
 " netrw's gx is fucking broken: https://github.com/vim/vim/issues/4738
 let g:netrw_nogx = 1
-
-" }}}
-" OmniSharp {{{
-
-let g:OmniSharp_selector_ui = 'ctrlp'
 
 " }}}
 " Projectionist {{{
@@ -2371,11 +996,9 @@ endfunc "}}}
 command! SynStack call s:SynStack()
 
 " }}}
+" Get current selection {{{
 
-" }}}
-" Plugins wannabe --------------------------------------------------------- {{{
-
-function! s:GetCurrentSelection(type) " {{{
+function! GetCurrentSelection(type) " {{{
     let reg_save = @@
 
     if a:type ==# 'v'
@@ -2393,6 +1016,31 @@ function! s:GetCurrentSelection(type) " {{{
 
     return selection
 endfunction " }}}
+
+" }}}
+" Close on last {{{
+
+" https://www.reddit.com/r/vim/comments/3hwall/how_to_close_vim_when_last_buffer_is_deleted/cub629z/
+function! CloseOnLast()
+    let cnt = 0
+
+    for i in range(0, bufnr("$"))
+        if buflisted(i)
+            let cnt += 1
+        endif
+    endfor
+
+    if cnt <= 1
+        q
+    else
+        bw
+    endif
+ endfunction
+
+ " }}}
+
+" }}}
+" Plugins wannabe --------------------------------------------------------- {{{
 
 " Highlight Word {{{
 "
@@ -2537,7 +1185,7 @@ nnoremap <silent> <localleader>a :set opfunc=<SID>OperatorAckLocal<CR>g@
 xnoremap <silent> <localleader>a :<C-U>call <SID>OperatorAckLocal(visualmode())<CR>
 
 function! s:OperatorAck(type, add_word_boundaries, current_dir_only) abort
-    let escaped = escape(s:GetCurrentSelection(a:type), '#')
+    let escaped = escape(GetCurrentSelection(a:type), '#')
     let pattern = shellescape(escaped)
     if a:add_word_boundaries
         let pattern = shellescape('\b'.escaped.'\b')
@@ -2749,7 +1397,7 @@ function! SendToTerminal(data) abort " {{{
 endfunction " }}}
 
 function! SendSelectionToTerminal(type) abort " {{{
-    call SendToTerminal(s:GetCurrentSelection(a:type))
+    call SendToTerminal(GetCurrentSelection(a:type))
 endfunction " }}}
 function! SelectAndSendToTerminal(motion) abort " {{{
     " Save screen

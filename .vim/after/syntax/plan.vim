@@ -39,3 +39,4 @@ highlight planEntryItalic cterm=italic
 
 syntax match planEntryBold /\v\*\*[^*]+\*\*/ containedin=planDay contained
 highlight planEntryBold cterm=bold
+

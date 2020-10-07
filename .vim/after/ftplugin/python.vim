@@ -1,3 +1,37 @@
+let b:stt_trailing_new_lines = 2
+
+setlocal define=^\s*\\(def\\\\|class\\)
+
+" Jesus tapdancing Christ, built-in Python syntax, you couldn't let me
+" override this in a normal way, could you?
+if exists("python_space_error_highlight") | unlet python_space_error_highlight | endif
+
+let b:delimitMate_nesting_quotes = ['"']
+
+nnoremap <buffer> <localleader>cc :STTConnect
+nnoremap <buffer> <localleader>cd :STTDisconnect
+nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('vap')<cr>
+xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
+
+function! OpenPythonRepl() abort "{{{
+    call term_start("bash -c python-rlwrap", {
+                \ "term_finish": "close",
+                \ "vertical": 1
+                \ })
+endfunction "}}}
+nnoremap <buffer> <localleader>o :call OpenPythonRepl()<cr>
+RainbowParenthesesActivate
+RainbowParenthesesLoadRound
+RainbowParenthesesLoadSquare
+RainbowParenthesesLoadBrace
+
+" Abbreviations {{{
+
+au FileType python call MakeSpacelessBufferIabbrev('rt', 'return ')
+
+" }}}
+" Folding {{{
+
 " Fold routines for python code, version 3.2
 " Source: http://www.vim.org/scripts/script.php?script_id=2527
 " Last Change: 2009 Feb 25
@@ -252,3 +286,5 @@ endfunction
 " C     R    <      >     foldlevel as computed for next line: -1
 " S     R    <      *     compute foldlevel the hard way: use function
 " C     R    <      <     foldlevel as computed for this line: use function
+
+" }}}

@@ -1,3 +1,13 @@
+setlocal spell
+let b:delimitMate_nesting_quotes = ['`']
+
+nnoremap <buffer> <localleader>cc :STTConnect
+nnoremap <buffer> <localleader>cd :STTDisconnect
+nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('vap')<cr>
+xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
+
+" Folding {{{
+
 " folding for Markdown headers, both styles (atx- and setex-)
 " http://daringfireball.net/projects/markdown/syntax#header
 "
@@ -86,6 +96,6 @@ setlocal foldmethod=expr
 "---------- everything after this is optional -----------------------
 " change the following fold options to your liking
 " see ':help fold-options' for more
-setlocal foldenable
-setlocal foldlevel=0
-setlocal foldcolumn=0
+setlocal foldenable foldlevel=0 foldcolumn=0
+
+" }}}
