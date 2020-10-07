@@ -176,7 +176,7 @@ ep()  {
 eP()  { vim ~/Dropbox/plan/; }
 es()  { vim ~/dotfiles/.slate; }
 et()  { vim ~/dotfiles/.tmux.conf; }
-ev()  { vim ~/dotfiles/.vimrc; }
+ev()  { vim ~/dotfiles/.vim/vimrc; }
 
 function ew() { vim $(which "$1"); }
 complete -c ew -w which

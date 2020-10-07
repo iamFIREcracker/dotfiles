@@ -171,17 +171,6 @@ augroup auto_win_resize
 augroup END
 
 " }}}
-" Cursorline {{{
-
-" Only show cursorline in the current window and in normal mode.
-augroup cline
-    au!
-    au VimEnter * set cursorline
-    au WinLeave,InsertEnter * set nocursorline
-    au WinEnter,InsertLeave * set cursorline
-augroup END
-
-" }}}
 " cpoptions+=J, dammit {{{
 
 " Something occasionally removes this.  If I manage to find it I'm going to
@@ -416,7 +405,7 @@ nnoremap <leader>em :vsplit ~/.muttrc<cr>
 nnoremap <leader>ep :vsplit ~/Dropbox/plan/.plan<cr>
 nnoremap <leader>eP :vsplit ~/Dropbox/plan/.<C-D>
 nnoremap <leader>et :vsplit ~/dotfiles/.tmux.conf<cr>
-nnoremap <leader>ev :vsplit ~/dotfiles/.vimrc<cr>
+nnoremap <leader>ev :vsplit ~/dotfiles/.vim/vimrc<cr>
 
 " }}}
 " Quick reload ------------------------------------------------------------ {{{
