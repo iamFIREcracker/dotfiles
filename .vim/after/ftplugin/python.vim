@@ -14,7 +14,7 @@ nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('vap')<cr>
 xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
 
 function! OpenPythonRepl() abort "{{{
-    call term_start("bash -c python-rlwrap", {
+    call term_start("bash -c python3-rlwrap", {
                 \ "term_finish": "close",
                 \ "vertical": 1
                 \ })

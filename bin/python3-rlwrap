@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
 rlwrap \
+  --polling \
+  --always-readline \
   --multi-line=@ \
   --multi-line-ext .py \
-  --only-cook '^>>>' \
+  --only-cook '>>>' \
   --prompt-colour=Cyan \
   --quote-characters='"' \
   --histsize 10000 \
