@@ -1,9 +1,6 @@
-nnoremap <buffer> <localleader>cc :STTConnect
-nnoremap <buffer> <localleader>cd :STTDisconnect
-nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('vv')<cr>
-xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
-nmap <buffer> [[ zk
-nmap <buffer> ]] zj
+" Add ` and * to iskeyword, so we can use word boundaries, in the syntax file,
+" to better identify inline-code, and strong blocks
+setlocal iskeyword+=`,*
 
 " I use dashes for bullet lists, but the default configuration is not quite
 " all right.
@@ -74,6 +71,13 @@ endfunction "}}}
 nnoremap <buffer> <localleader>n :<C-U>call <SID>CreateNewPlanEntry()<cr>o
 nnoremap <buffer> <localleader>o :silent lgrep '^\?' %<cr>:lopen<cr>:redraw!<cr>
 nnoremap <buffer> <localleader>O :execute 'lgrep "^\?.*\@' . input('Tag? ') . '" %'<cr>
+
+nnoremap <buffer> <localleader>cc :STTConnect
+nnoremap <buffer> <localleader>cd :STTDisconnect
+nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('vv')<cr>
+xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
+nmap <buffer> [[ zk
+nmap <buffer> ]] zj
 
 " Folding {{{
 setlocal foldmethod=expr foldexpr=GetPlanFold(v:lnum)

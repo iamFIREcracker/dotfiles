@@ -5,7 +5,7 @@ syntax region planDay start=/\v^\#.*/ end=/\v\ze^\#/
 highlight link planDay Normal
 
 syntax match planDayHeader        /\v^\# [0-9]{4}.*/  containedin=planDay contained
-highlight link planDayHeader markdownH1
+highlight link planDayHeader Title
 
 syntax match planEntryCompleted        /\v^\*.*/  containedin=planDay contained
 highlight planEntryCompleted cterm=bold
@@ -14,7 +14,7 @@ syntax match planEntryCompletedLater        /\v^\+.*/  containedin=planDay conta
 highlight planEntryCompletedLater cterm=bold
 
 syntax match planEntryOpen        /\v^\?.*/  containedin=planDay contained
-highlight link planEntryOpen WarningMsg
+highlight link planEntryOpen Error
 
 syntax match planEntryDiscarded        /\v^\~.*/  containedin=planDay contained
 highlight link planEntryDiscarded NonText
@@ -25,18 +25,20 @@ highlight link planEntrySnippet String
 syntax match planEntryQuote        /\v^\> .*/  containedin=planDay contained contains=@NoSpell
 highlight planEntryQuote cterm=italic ctermfg=245
 
-syntax match planEntryNamedLink        /\v\[[^]]*]\([^)]*\)/  containedin=planDay,planEntryCompleted contained contains=@NoSpell
+syntax match planEmphasis /\v<_.{-}_>/ containedin=planDay,planEntryCompleted,planEntryCompletedLater,planEntryOpen contained
+highlight planEmphasis cterm=italic
+
+syntax match planStrong /\v<\*\*.{-}\*\*>/ containedin=planDay,planEntryCompleted,planEntryCompletedLater,planEntryOpen contained
+highlight planStrong cterm=bold
+
+syntax match planInlineCode /\v<`.{-}`>/ containedin=planDay contained contains=@NoSpell
+highlight link planInlineCode String
+
+syntax match planLink        /\vhttps?.{-}( |")\@=/  containedin=planDay,planEntryCompleted,planEntryCompletedLater,planEntryOpen contained contains=@NoSpell
+highlight link planLink String
+
+syntax match planNamedLink        /\v\[[^]]*]\([^)]*\)/  containedin=planDay,planEntryCompleted,planEntryCompletedLater,planEntryOpen contained contains=@NoSpell
+highlight link planNamedLink String
+
+syntax match planEntryNamedLink        /\v\[[^]]*]\([^)]*\)/  containedin=planDay,planEntryCompleted,planEntryCompletedLater,planEntryOpen contained contains=@NoSpell
 highlight link planEntryNamedLink String
-
-syntax match planEntryUnamedLink        /\v\<[^>]+\>/  containedin=planDay contained
-highlight link planEntryUnamedLink String
-
-syntax match planEntryInlineCode /\v`[^`]+`/ containedin=planDay contained contains=@NoSpell
-highlight link planEntryInlineCode String
-
-syntax match planEntryItalic /\v<_[^_]+_>/ containedin=planDay contained
-highlight planEntryItalic cterm=italic
-
-syntax match planEntryBold /\v\*\*[^*]+\*\*/ containedin=planDay contained
-highlight planEntryBold cterm=bold
-
