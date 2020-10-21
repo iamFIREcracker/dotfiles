@@ -106,13 +106,11 @@ function! QuickloadLispSystem() abort "{{{
         return
     endif
 
-    " call SendToTerminal("(ql:quickload :" . systems[0] . ")")
-    call vlime#plugin#SendToREPL("(ql:quickload :" . systems[0] . ")")
+    call SendToTerminal("(ql:quickload :" . systems[0] . ")")
 endfunction " }}}
 
 function! QuickloadLispPrompt() abort "{{{
-    " call SendToTerminal("(ql:quickload :" . input("? ") . ")\n")
-    call vlime#plugin#SendToREPL("(ql:quickload :" . input("? ") . ")\n")
+    call SendToTerminal("(ql:quickload :" . input("? ") . ")\n")
 endfunction " }}}
 
 function! TestLispSystem() abort "{{{
@@ -125,13 +123,11 @@ function! TestLispSystem() abort "{{{
         return
     endif
 
-    " call SendToTerminal("(asdf:test-system :" . systems[0] . ")")
-    call vlime#plugin#SendToREPL("(asdf:test-system :" . systems[0] . ")")
+    call SendToTerminal("(asdf:test-system :" . systems[0] . ")")
 endfunction " }}}
 
 function! TestLispPrompt() abort "{{{
-    " call SendToTerminal("(asdf:test-system :" . input("? ") . ")\n")
-    call vlime#plugin#SendToREPL("(asdf:test-system :" . input("? ") . ")\n")
+    call SendToTerminal("(asdf:test-system :" . input("? ") . ")\n")
 endfunction " }}}
 
 function! InPackage() abort "{{{
