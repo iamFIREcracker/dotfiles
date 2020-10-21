@@ -105,6 +105,7 @@ function! ConnectNodeInspect() abort "{{{
     belowright call term_start(l:cmd, {
                 \ "term_finish": "close",
                 \ })
+    wincmd k
 endfunction " }}}
 nnoremap <buffer> <localleader>cc :call ConnectNodeInspect()<cr>
 nnoremap <buffer> <localleader>cd :STTDisconnect
