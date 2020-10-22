@@ -9,12 +9,6 @@ windows:
       root: ~/workspace/connection/docs/
       panes:
         - vim
-  - api:
-      layout: main-vertical
-      root: ~/workspace/connection/api-gateway/
-      panes:
-        - vim
-        - n run start-dev
   - admin:
       layout: main-vertical
       root: ~/workspace/connection/admin/

@@ -4,7 +4,7 @@ set -uo pipefail
 set -x
 
 story=$(cb | tr '\n' ':')
-id=$(echo $story | cut -d: -f1)
+id=$(echo $story | cut -d: -f1 | tr '[:upper:]' '[:lower:]')
 desc=$(echo $story | cut -d: -f3-)
 branch=$(echo $desc  \
   | tr '[:upper:]' '[:lower:]' \
