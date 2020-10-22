@@ -27,7 +27,7 @@ RainbowParenthesesLoadBrace
 
 " Abbreviations {{{
 
-au FileType python call MakeSpacelessBufferIabbrev('rt', 'return ')
+call MakeSpacelessBufferIabbrev('rt', 'return ')
 
 " }}}
 " Folding {{{

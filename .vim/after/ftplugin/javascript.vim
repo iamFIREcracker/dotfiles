@@ -136,13 +136,13 @@ RainbowParenthesesLoadBrace
 
 " Abbreviations {{{
 
-au FileType javascript call MakeSpacelessBufferIabbrev('if',   'if (HERE)')
-au FileType javascript call MakeSpacelessBufferIabbrev('rt',   'return HERE;')
-au FileType javascript call MakeSpacelessBufferIabbrev('clog', 'console.log(HERE);')
-au FileType javascript call MakeSpacelessBufferIabbrev('cerr', 'console.error(HERE);')
-au FileType javascript call MakeSpacelessBufferIabbrev('pclog', 'console.log(JSON.stringify(HERE, null, 2));')
-au FileType javascript call MakeSpacelessBufferIabbrev('dolog', 'do(console.log)')
-au FileType javascript call MakeSpacelessBufferIabbrev('maplog', 'map(e => console.log(e) \|\| e)')
-au FileType javascript call MakeSpacelessBufferIabbrev('thenlog', 'then(e => console.log(e) \|\| e)')
+call MakeSpacelessBufferIabbrev('if',   'if (HERE)')
+call MakeSpacelessBufferIabbrev('rt',   'return HERE;')
+call MakeSpacelessBufferIabbrev('clog', 'console.log(HERE);')
+call MakeSpacelessBufferIabbrev('cerr', 'console.error(HERE);')
+call MakeSpacelessBufferIabbrev('pclog', 'console.log(JSON.stringify(HERE, null, 2));')
+call MakeSpacelessBufferIabbrev('dolog', 'do(console.log)')
+call MakeSpacelessBufferIabbrev('maplog', 'map(e => console.log(e) \|\| e)')
+call MakeSpacelessBufferIabbrev('thenlog', 'then(e => console.log(e) \|\| e)')
 
 " }}}
