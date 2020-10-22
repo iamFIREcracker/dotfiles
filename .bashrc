@@ -461,7 +461,7 @@ function median() { percentile 50; }
 function o() { open "$@"; }
 function oo() { open .; }
 function password() {
-  < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32}
+  cat /dev/urandom | LC_ALL=C tr -dc _A-Z-a-z-0-9 | head -c${1:-32}
   echo # new lines are good!
 }
 function percentile() { awk "{ a[i++]=\$0; } END { print a[int(i*$1/100)]; }"; }
