@@ -397,16 +397,16 @@ nnoremap K <nop>
 " }}}
 " Quick editing ----------------------------------------------------------- {{{
 
-nnoremap <leader>eM :vsplit <C-R>=system('tempfile .')<left><left>
-nnoremap <leader>eR :vsplit ~/Dropbox/rest<cr>
-nnoremap <leader>eb :vsplit ~/dotfiles/.bashrc<cr>
-nnoremap <leader>eg :vsplit ~/dotfiles/.gitconfig<cr>
-nnoremap <leader>eh :vsplit ~/dotfiles/.hgrc<cr>
-nnoremap <leader>em :vsplit ~/.muttrc<cr>
-nnoremap <leader>ep :vsplit ~/Dropbox/plan/.plan<cr>
-nnoremap <leader>eP :vsplit ~/Dropbox/plan/.<C-D>
-nnoremap <leader>et :vsplit ~/dotfiles/.tmux.conf<cr>
-nnoremap <leader>ev :vsplit ~/dotfiles/.vim/vimrc<cr>
+nnoremap <leader>eM :e <C-R>=system('tempfile .')<left><left>
+nnoremap <leader>eR :e ~/Dropbox/rest<cr>
+nnoremap <leader>eb :e ~/dotfiles/.bashrc<cr>
+nnoremap <leader>eg :e ~/dotfiles/.gitconfig<cr>
+nnoremap <leader>eh :e ~/dotfiles/.hgrc<cr>
+nnoremap <leader>em :e ~/.muttrc<cr>
+nnoremap <leader>ep :e ~/Dropbox/plan/.plan<cr>
+nnoremap <leader>eP :e ~/Dropbox/plan/.<C-D>
+nnoremap <leader>et :e ~/dotfiles/.tmux.conf<cr>
+nnoremap <leader>ev :e ~/dotfiles/.vim/vimrc<cr>
 
 " }}}
 " Quick reload ------------------------------------------------------------ {{{
