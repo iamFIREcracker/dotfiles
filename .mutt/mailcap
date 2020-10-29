@@ -1,5 +1,7 @@
 # ~/.mutt/mailcap
 
+text/plain; cat %s; needsterminal
+text/html; open '%s' & sleep 3; nametemplate=%s.html; needsterminal
 text/html; w3m -cols 90 -dump -T text/html '%s'; copiousoutput
 application/*; ~/.mutt/view_attachment.sh %s "-"
 image/*; ~/.mutt/view_attachment.sh %s "-"
