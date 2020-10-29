@@ -13,7 +13,6 @@ local hyper = {"ctrl", "cmd", "alt", "shift"}
 function open(name)
   return function()
     local frontmost = hs.application.frontmostApplication()
-    local focused = hs.application.get(name)
     if name == frontmost:name() then
       -- Already focused... cycle the group
       -- I had to enable Hammerspoon under System Preferences > Security
@@ -33,6 +32,7 @@ end
 hs.hotkey.bind(hyper, "delete", function()
   hs.reload()
 end)
+hs.hotkey.bind(hyper, ";", open("/usr/local/bin/gimp"))
 hs.hotkey.bind(hyper, "e", open("Finder"))
 hs.hotkey.bind(hyper, "o", open("Spotify"))
 hs.hotkey.bind(hyper, "k", open("Google Chrome"))
