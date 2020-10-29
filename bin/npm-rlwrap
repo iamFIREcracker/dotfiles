@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+rlwrap \
+  --polling \
+  --always-readline \
+  --multi-line=@ \
+  --multi-line-ext .js \
+  --only-cook '^>' \
+  --prompt-colour=Cyan \
+  --quote-characters='"' \
+  --histsize 10000 \
+  --history-filename "$HOME/.rlwrap-npm-history" \
+  -- npm -- "$@"
