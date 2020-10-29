@@ -174,3 +174,7 @@
 
 [browser "br"]
     cmd = br
+
+[rebase]
+    autosquash = true
+    autoStash = true
