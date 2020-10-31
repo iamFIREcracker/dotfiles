@@ -35,20 +35,45 @@ setlocal suffixesadd+=.js,.ts
 
 let b:stt_substitute_eol_with = '@'
 
-" Custom text object to highlight top-level expressions
-" Explanation:
-"
-" - 99[( - move to the outmost ( character: that makes it easy to
-"   jump to the line where a function invocation starts (not much
-"   useful if we are trying to evaluate a function, but for a toplevel
-"   function call, this will come in handy
-" - 99[{ - move to the outmost { character: that makes it easy to jump
-"   to the line where a function definition likely starts
-" - V% - toggle linewise-visual, and jump to the 'other side' (this
-"   could mean the closing brace, or parenthesis)
-vnoremap <buffer> <silent>af :<C-U>silent! normal! g_99[(99[{V%<CR>
+function! SelectTopLevelExpression(around) abort " {{{
+    let motion = ''
+
+    " Let's start by jumping to the end of the line: that's because
+    " the cursor might be at the befinning of a function declaration (i.e.
+    " with no outermost pair to jump to), so this hopefully moves the cursor to
+    " the opening curly brace
+    let motion .= 'g_'
+
+    " However, the previous motion might have moved the cursor on a `;` char,
+    " one that does not have a pair defined; so in that case, move the cursor
+    " one char to the left (i.e. on a closing curly brace)
+    let line = getline('.')
+    if line[len(line) - 1] == ';'
+        let motion .= 'h'
+    endif
+
+    " Jump to the outmost _pair_; this should gracefully handle the case where
+    " the cursor is in the middle of:
+    "
+    " - array definitions (single, and nested ones)
+    " - function parameters (i.e. its signature)
+    " - or simply inside a nested block
+    let motion .= '99[%'
+
+    if a:around
+        let motion .= 'V%'
+    else
+        let motion .= 'vi{'
+    endif
+
+    " Finally run the motion.  Note, `normal` instead of `normal!` needs to be
+    " used, or otherwise we won't be able to use user-defined mappings
+    echom motion
+    execute "normal " . motion
+endfunction " }}}
+vnoremap <buffer> <silent>af :<C-U>call SelectTopLevelExpression(1)<CR>
 onoremap <buffer> <silent>af :normal Vaf<CR>
-vnoremap <buffer> <silent>if :<C-U>silent! normal! g_99[{vi{<CR>
+vnoremap <buffer> <silent>if :<C-U>call SelectTopLevelExpression(0)<CR>
 onoremap <buffer> <silent>if :normal vif<CR>
 
 function! HighlightJavascriptRepl() abort " {{{
