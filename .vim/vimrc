@@ -564,13 +564,15 @@ nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>ge :Gedit<cr>
 nnoremap <leader>gci :Gcommit<cr>
-nnoremap <leader>gr :!git r <C-R>=fnameescape(expand('%'))<cr><cr>
-nnoremap <leader>gR :!git R<cr>
-nnoremap <leader>gl :Shell git pl <bar> strip-escapes<cr>
-nnoremap <leader>gL :Shell git plll <bar> strip-escapes<cr>
-nnoremap <leader>gi :Shell git ind<cr>
+function! GitWithMaster() abort " {{{
+    if systemlist('git rev-parse --abbrev-ref HEAD')[0] != 'master'
+        return 'master..'
+    endif
+    return ''
+endfunction " }}}
+nnoremap <leader>gl :Gclog! <C-R>=GitWithMaster()<CR> -12<CR>
+nnoremap <leader>gL :Gclog! <C-R>=GitWithMaster()<CR><Space>
 nnoremap <silent> <leader>y<C-G> :<C-U>call cb#copy(fugitive#Object(@%))<CR>
-
 
 augroup ft_fugitive " {{{
     au!
@@ -584,18 +586,6 @@ augroup ft_fugitive " {{{
     " Hence the use of one-line heredoc (<<<)
     au User Fugitive let g:netrw_browsex_viewer = "cb <<<"
     au BufNewFile,BufRead .git/index setlocal nolist
-augroup END " }}}
-augroup ft_shell_g_pl " {{{
-    au!
-
-    autocmd BufReadPost __Shell_Output__git_pl_* setlocal filetype=gitrebase
-    autocmd BufReadPost __Shell_Output__git_pl_* nnoremap <buffer> ri :!git rb <C-R>=split(getline('.'))[0]<CR>^1<CR>:Shell git pl <bar> strip-escapes<cr>
-augroup END " }}}
-augroup ft_shell_g_pll " {{{
-    au!
-
-    autocmd BufReadPost __Shell_Output__git_plll_*  setlocal filetype=gitrebase
-    autocmd BufReadPost __Shell_Output__git_plll_* nnoremap <buffer> ri :!git rb <C-R>=split(getline('.'))[0]<CR>^1<CR>:Shell git plll <bar> strip-escapes<cr>
 augroup END " }}}
 
 " }}}
