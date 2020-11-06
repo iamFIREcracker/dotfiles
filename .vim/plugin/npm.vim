@@ -9,7 +9,7 @@ function! InitNpmMappings() abort "{{{
 endfunction " }}}
 
 function! UpdatePath() abort " {{{
-    if filereadable($PWD .'/node_modules/')
+    if isdirectory($PWD .'/node_modules')
         let $PATH .= ':' . $PWD . '/node_modules/.bin'
     endif
 endfunction " }}}
