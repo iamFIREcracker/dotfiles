@@ -1,64 +1,64 @@
 # ~/.tmuxinator/cndev.yml
 
 name: cndev
-root: ~/workspace/connection
+root: ~/Workspace/job/ConnectION/connection/
 
 windows:
   - docs:
       layout: main-vertical
-      root: ~/workspace/connection/docs/
+      root: ~/Workspace/job/ConnectION/connection/docs/
       panes:
         - vim
   - admin:
       layout: main-vertical
-      root: ~/workspace/connection/admin/
+      root: ~/Workspace/job/ConnectION/connection/admin/
       panes:
         - vim
         - n run start-dev
   - server:
       layout: main-vertical
-      root: ~/workspace/connection/server/
+      root: ~/Workspace/job/ConnectION/connection/server/
       panes:
         - vim
         - n run start-dev
   - client:
       layout: main-vertical
-      root: ~/workspace/connection/client/
+      root: ~/Workspace/job/ConnectION/connection/client/
       panes:
         - vim
         - n run start
         - echo n run styleguide
   - automation-tests:
       layout: main-vertical
-      root: ~/workspace/connection/automation-tests/
+      root: ~/Workspace/job/ConnectION/connection/automation-tests/
       panes:
         - vim
         - echo n run test-local
   - integration:
       layout: main-vertical
-      root: ~/workspace/connection/services/connection-integration/
+      root: ~/Workspace/job/ConnectION/connection/services/connection-integration/
       panes:
         - vim
   - qsearch-api:
       layout: main-horizontal
-      root: ~/workspace/connection/qst/elastic-qsearch/
+      root: ~/Workspace/job/ConnectION/connection/qst/elastic-qsearch/
       panes:
         - vim
         - echo mvn exec:java -Dexec.mainClass='com.iontrading.qst.elastic_qsearch.ElasticqsearchIndexApplication' -Dexec.args='server qsearch_index.yml'
         - echo mvn exec:java -Dexec.mainClass='com.iontrading.qst.elastic_qsearch.ElasticqsearchSearchApplication' -Dexec.args='server qsearch_search.yml'
   - qsearch-jira:
       layout: main-vertical
-      root: ~/workspace/connection/qst/qsearch-jira-plugin/
+      root: ~/Workspace/job/ConnectION/connection/qst/qsearch-jira-plugin/
       panes:
         - vim
   - kafka-rest-service:
       layout: main-vertical
-      root: ~/workspace/connection/services/kafka-rest-service
+      root: ~/Workspace/job/ConnectION/connection/services/kafka-rest-service
       panes:
         - vim
         - echo mvn exec:java -Dexec.mainClass='com.lab49.connection.kafka.Application' -Dexec.args='server'
   - ansible:
       layout: main-vertical
-      root: ~/workspace/connection/system/ansible
+      root: ~/Workspace/job/ConnectION/connection/system/ansible
       panes:
         - vim
