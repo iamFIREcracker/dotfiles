@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -eu
+
+REMOTE_BRANCH=${1?Need a value for REMOTE_BRANCH}
+CURRENT_BRANCH=$(git currentbranch)
+
+git merge --no-ff origin/$1 -m "Merge branch '$REMOTE_BRANCH' into '$CURRENT_BRANCH'"

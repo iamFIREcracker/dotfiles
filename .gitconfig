@@ -52,13 +52,8 @@
     cob = checkout -b
 
     com = checkout master
-    mo = "!f() {\
-        git merge origin/\"${@}\";\
-    }; f"
-    mom = !git mo master
-    mr = "!f() { \
-        git com && git up && git mo \"${@}\" && git push && git push origin :\"${@}\" && git bd \"${@}\";\
-    }; f"
+    mo = !git-merge-origin
+    mom = !git-merge-origin master
 
     peek = "!f() { git fetch && git log HEAD..FETCH_HEAD; }; f"
     peekd = "!f() { git fetch && git diff HEAD..FETCH_HEAD | vim -c 'set ft=diff' -R -; }; f"
