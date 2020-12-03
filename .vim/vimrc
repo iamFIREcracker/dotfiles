@@ -302,7 +302,7 @@ nnoremap VaB vaBV
 " - Move at the beginning of the current word (`b`): this way, should we decide
 "   to change direction and use N instead of n, we would immediately jump to
 "   the previous occurrence and not stay where we are)
-nnoremap * /\<<C-R>=escape(expand('<cword>'), '*\')<CR>\><CR><C-O>b
+nnoremap * /\<<C-R>=escape(expand('<cword>'), '*\')<CR>\><CR><C-O>
 " When running a backward search, Vim will take you to the first **previous**
 " occurrence of the pattern, which in this case would be the beginning of the
 " word under the cursor
@@ -883,8 +883,8 @@ augroup END
 " }}}
 " vim-visual-star-search {{{
 
-xnoremap * :<C-u>call VisualStarSearchSet('/')<CR>/<C-R>=@/<CR><CR><C-O>
-xnoremap # :<C-u>call VisualStarSearchSet('?')<CR>?<C-R>=@/<CR><CR><C-O>
+xnoremap * :<C-u>call VisualStarSearchSet('/')<CR>
+xnoremap # :<C-u>call VisualStarSearchSet('?')<CR>
 
 " }}}
 " vitality {{{
