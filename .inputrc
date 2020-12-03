@@ -1,6 +1,9 @@
 # Enable bracketed-paste: https://cirw.in/blog/bracketed-paste
 set enable-bracketed-paste on
 
+# Stop, please
+set bell-style none
+
 # Enable vi editing mode
 # set editing-mode vi
 # Customize PS1 depending on mode (insert, command)
