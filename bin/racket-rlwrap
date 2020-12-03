@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 rlwrap \
-  --multi-line=@ \
+  --multi-line=@@ \
   --multi-line-ext .rkt \
   --only-cook '^>' \
   --prompt-colour=Cyan \
   --quote-characters='"' \
   --histsize 10000 \
-  --history-filename "$HOME/.rlwrap-scheme-history" \
+  --history-filename "$HOME/.rlwrap-racket-history" \
   -- racket "$@"

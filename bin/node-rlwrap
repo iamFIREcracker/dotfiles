@@ -3,7 +3,7 @@
 rlwrap \
   --polling \
   --always-readline \
-  --multi-line=@ \
+  --multi-line=@@ \
   --multi-line-ext .js \
   --only-cook '^>' \
   --prompt-colour=Cyan \

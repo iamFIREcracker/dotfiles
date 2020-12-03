@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 rlwrap \
-  --multi-line=@ \
+  --multi-line=@@ \
   --multi-line-ext .scm \
   -t dumb \
   --only-cook '^>' \

@@ -3,7 +3,7 @@
 rlwrap \
   --polling \
   --always-readline \
-  --multi-line=@ \
+  --multi-line=@@ \
   --multi-line-ext .py \
   --only-cook '>>>' \
   --prompt-colour=Cyan \
