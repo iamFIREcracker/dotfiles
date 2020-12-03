@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
+exec >>~/unison-plan.log 2>&1 # shut up, `watch`: https://stackoverflow.com/q/62536396
+date
+
+unisonw \
+    "$HOME/plan" \
+    "$HOME/Dropbox/plan" \
+    "$@"

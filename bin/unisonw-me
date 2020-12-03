@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+exec >>~/unison-me.log 2>&1 # shut up, `watch`: https://stackoverflow.com/q/62536396
+date
+
+
+unisonw \
+    "$HOME/my-env" \
+    "$HOME/Dropbox/unison/my-env" \
+    -ignore 'Regex .*/\.mutt/cache' \
+    -ignore 'Regex .*/\.mutt/temp' \
+    -ignore 'Regex .*/\.vim/spell' \
+    -ignore 'Regex .*/\.vim/tmp' \
+    -ignore 'Regex .*/\.vim/.netrwbook' \
+    -ignore 'Regex .*/\.vim/.netrwhist' \
+    "$@"

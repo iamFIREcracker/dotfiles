@@ -169,14 +169,14 @@ ek()  {
 em()  { vim ~/.muttrc; }
 ep()  {
   if [ -n "$1" ]; then
-    vim ~/Dropbox/plan/.$1.plan
+    vim ~/plan/.$1.plan
   elif [ -n "${OS_WIN}" ]; then
-    vim ~/Dropbox/plan/.work.plan
+    vim ~/plan/.work.plan
   else
-    vim ~/Dropbox/plan/.plan
+    vim ~/plan/.plan
   fi
 }
-eP()  { vim ~/Dropbox/plan/; }
+eP()  { vim ~/plan/; }
 es()  { vim ~/dotfiles/.slate; }
 et()  { vim ~/dotfiles/.tmux.conf; }
 ev()  { vim ~/dotfiles/.vim/vimrc; }
