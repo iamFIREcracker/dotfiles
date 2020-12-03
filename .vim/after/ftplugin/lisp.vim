@@ -52,17 +52,7 @@ function! OpenLispReplPrompt() abort "{{{
 endfunction "}}}
 
 function! MotionToSelectTopLevelLispForm() abort " {{{
-    let motion = '99[(v%'
-    if col('.') == 1 && getline('.')[col('.') - 1] == '('
-        " We are at the beginning of a top-level form, so select until
-        " the matching parenthesis
-        let motion = 'v%'
-    endif
-    return motion
-endfunction "}}}
-
-function! SelectToplevelLispFormAndSendToTerminal() abort "{{{
-    call SelectAndSendToTerminal(MotionToSelectTopLevelLispForm())
+    return 'vaF'
 endfunction "}}}
 
 function! SelectToplevelLispFormAndSendToVlimeREPL() abort "{{{
@@ -70,7 +60,7 @@ function! SelectToplevelLispFormAndSendToVlimeREPL() abort "{{{
     let reg_save = @@
     let motion = MotionToSelectTopLevelLispForm()
 
-    execute "normal! " . motion . "y"
+    execute "normal " . motion . "y"
     call vlime#plugin#SendToREPL(@@)
 
     let @@ = reg_save
@@ -82,7 +72,7 @@ function! IndentToplevelLispForm() abort "{{{
     let reg_save = @@
     let motion = MotionToSelectTopLevelLispForm()
 
-    execute "normal! " . motion . "="
+    execute "normal " . motion . "="
 
     let @@ = reg_save
     call winrestview(view)
