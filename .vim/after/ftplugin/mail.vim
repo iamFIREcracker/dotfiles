@@ -1,4 +1,4 @@
-mail setlocal nobackup noswapfile nowritebackup
+setlocal nobackup noswapfile nowritebackup
 
 function! EnableMailProfile() abort "{{{
     let first_line = getline('1')
