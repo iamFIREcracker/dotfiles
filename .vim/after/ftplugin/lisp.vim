@@ -18,7 +18,7 @@ function! LispCurrentWindowPlusVlimeOnes() abort " {{{
             if win != focused_win
                 let bufname = bufname(winbufnr(win))
 
-                if bufname !~? 'vlime'
+                if (bufname !~? 'bash.*-vlime') && (bufname !~? 'vlime | repl')
                     let winnr = win_id2win(win)
                     execute winnr . 'close'
                 endif
@@ -62,6 +62,18 @@ function! SelectToplevelLispFormAndSendToVlimeREPL() abort "{{{
 
     execute "normal " . motion . "y"
     call vlime#plugin#SendToREPL(@@)
+
+    let @@ = reg_save
+    call winrestview(view)
+endfunction "}}}
+
+function! SelectToplevelLispFormAndSendToTerminal() abort "{{{
+    let view = winsaveview()
+    let reg_save = @@
+    let motion = MotionToSelectTopLevelLispForm()
+
+    execute "normal " . motion . "y"
+    call SendToTerminal(@@)
 
     let @@ = reg_save
     call winrestview(view)
@@ -152,36 +164,17 @@ inoremap <buffer> <c-n> <c-x><c-o>
 
 nnoremap <buffer> <silent> <localleader>o :call OpenLispReplSBCL()<cr>
 nnoremap <buffer> <silent> <localleader>O :call OpenLispReplPrompt()<cr>
-nnoremap <buffer> <silent> gI :<C-U>call IndentToplevelLispForm()<cr>
 nnoremap <buffer> <silent> <localleader>n :call QuickprojectMakePrompt()<cr>
 nnoremap <buffer> <silent> <localleader>q :call QuickloadLispSystem()<cr>
 nnoremap <buffer> <silent> <localleader>Q :call QuickloadLispPrompt()<cr>
 nnoremap <buffer> <silent> <localleader>t :call TestLispSystem()<cr>
 nnoremap <buffer> <silent> <localleader>T :call TestLispPrompt()<cr>
-if !exists('b:vlime_mappings_unmapped')
-    let b:vlime_mappings_unmapped=1
-    silent! unmap <buffer> <localleader>of
-    silent! unmap <buffer> <localleader>ot
-    silent! unmap <buffer> <localleader>oe
-    silent! unmap <buffer> <localleader>Tt
-    silent! unmap <buffer> <localleader>TT
-    silent! unmap <buffer> <localleader>Ti
-    silent! unmap <buffer> <localleader>TI
-    silent! unmap <buffer> <localleader>Td
-    silent! unmap <buffer> <localleader>TD
-endif
 nnoremap <buffer> <silent> <localleader>i :call InPackage()<cr>
-nnoremap <buffer> <silent> gs :call SelectToplevelLispFormAndSendToTerminal()<cr>
-xnoremap <buffer> <silent> gs :call SendSelectionToTerminal(visualmode())<cr>
-
-" Vlime's send-top-level-s-expression mapping is not always working as
-" expected -- it seems it does not properly handle comments that include
-" s-expressions -- so what we are doing here:
-"
-" 1) select the top-level expression, manually
-" 2) send it
+nnoremap <buffer> <silent> <C-I> :call IndentToplevelLispForm()<cr>
 nnoremap <buffer> <silent> <C-J> :<C-U>call SelectToplevelLispFormAndSendToVlimeREPL()<CR>
 xmap <buffer> <silent> <C-J> <localleader>s
-
+nnoremap <buffer> <silent> g<C-J> :<C-U>call SelectToplevelLispFormAndSendToTerminal()<CR>
+xnoremap <buffer> <silent> g<C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
 nmap <buffer> <silent> K <localleader>ddo
 nmap <buffer> <silent> <C-]> <localleader>xd
+nmap <buffer> <silent> <C-^> <localleader>xc

@@ -760,44 +760,60 @@ function! s:vim_sexp_mappings() " {{{
     xmap <silent><buffer>   ie   <Plug>(sexp_inner_element)
     omap <silent><buffer>   ie   <Plug>(sexp_inner_element)
 
-    nmap <silent><buffer>   [[   <Plug>(sexp_swap_element_backward)
-    xmap <silent><buffer>   [[   <Plug>(sexp_swap_element_backward)
-    nmap <silent><buffer>   ]]   <Plug>(sexp_swap_element_forward)
-    xmap <silent><buffer>   ]]   <Plug>(sexp_swap_element_forward)
+    nmap <silent><buffer>   [[   <Plug>(sexp_move_to_prev_top_element)
+    xmap <silent><buffer>   [[   <Plug>(sexp_move_to_prev_top_element)
+    omap <silent><buffer>   [[   <Plug>(sexp_move_to_prev_top_element)
+    nmap <silent><buffer>   ]]   <Plug>(sexp_move_to_next_top_element)
+    xmap <silent><buffer>   ]]   <Plug>(sexp_move_to_next_top_element)
+    omap <silent><buffer>   ]]   <Plug>(sexp_move_to_next_top_element)
 
-    nmap <silent><buffer>   {    <Plug>(sexp_move_to_prev_top_element)
-    xmap <silent><buffer>   {    <Plug>(sexp_move_to_prev_top_element)
-    omap <silent><buffer>   {    <Plug>(sexp_move_to_prev_top_element)
-    nmap <silent><buffer>   }    <Plug>(sexp_move_to_next_top_element)
-    xmap <silent><buffer>   }    <Plug>(sexp_move_to_next_top_element)
-    omap <silent><buffer>   }    <Plug>(sexp_move_to_next_top_element)
+    nmap <silent><buffer>   ((   <Plug>(sexp_move_to_prev_bracket)
+    nmap <silent><buffer>   ))   <Plug>(sexp_move_to_next_bracket)
 
     " Easy getting around
     nmap <silent><buffer>   B    <Plug>(sexp_move_to_prev_element_head)
     nmap <silent><buffer>   W    <Plug>(sexp_move_to_next_element_head)
     nmap <silent><buffer>   gE   <Plug>(sexp_move_to_prev_element_tail)
     nmap <silent><buffer>   E    <Plug>(sexp_move_to_next_element_tail)
-    xmap <silent><buffer>   B    <Plug>(sexp_move_to_prev_element_head)
-    xmap <silent><buffer>   W    <Plug>(sexp_move_to_next_element_head)
-    xmap <silent><buffer>   gE   <Plug>(sexp_move_to_prev_element_tail)
-    xmap <silent><buffer>   E    <Plug>(sexp_move_to_next_element_tail)
-    omap <silent><buffer>   B    <Plug>(sexp_move_to_prev_element_head)
-    omap <silent><buffer>   W    <Plug>(sexp_move_to_next_element_head)
-    omap <silent><buffer>   gE   <Plug>(sexp_move_to_prev_element_tail)
-    omap <silent><buffer>   E    <Plug>(sexp_move_to_next_element_tail)
+
+    " Delete surrounding form
+    " nmap <buffer> dsf <Plug>(sexp_splice_list)
+
+    " Raise the current element or list
+    nmap <silent><buffer> ^e <Plug>(sexp_raise_element)<C-I>
+    nmap <silent><buffer> ^f <Plug>(sexp_raise_list)<C-I>
+
+    " Wrap the current element or list
+    nmap <silent><buffer> ,e ysie)
+    nmap <silent><buffer> ,f ysif)
+
+    " Swap elements / forms
+    "
+    " angle bracket indicates the direction, and 'e' or 'f' indicates
+    " if we are trying to swap an element or the surrounding form
+    nmap <silent><buffer>   <e   <Plug>(sexp_swap_element_backward)<C-I>
+    nmap <silent><buffer>   <f   <Plug>(sexp_swap_list_backward)<C-I>
+    nmap <silent><buffer>   >e   <Plug>(sexp_swap_element_forward)<C-I>
+    nmap <silent><buffer>   >f   <Plug>(sexp_swap_list_forward)<C-I>
 
     " Slurping/Barfing
     "
     " angle bracket indicates the direction, and the parenthesis
     " indicates which end to operate on.
-    nmap <silent><buffer>   <(   <Plug>(sexp_capture_prev_element)
-    nmap <silent><buffer>   >)   <Plug>(sexp_capture_next_element)
-    nmap <silent><buffer>   >(   <Plug>(sexp_emit_head_element)
-    nmap <silent><buffer>   <)   <Plug>(sexp_emit_tail_element)
+    nmap <silent><buffer>   <(   <Plug>(sexp_capture_prev_element)<C-I>
+    nmap <silent><buffer>   >)   <Plug>(sexp_capture_next_element)<C-I>
+    nmap <silent><buffer>   >(   <Plug>(sexp_emit_head_element)<C-I>
+    nmap <silent><buffer>   <)   <Plug>(sexp_emit_tail_element)<C-I>
 
     " Insert head/tail of the current list
-    nmap <silent><buffer>   <I   <Plug>(sexp_insert_at_list_head)
-    nmap <silent><buffer>   >I   <Plug>(sexp_insert_at_list_tail)
+    nmap <silent><buffer>   <I    <Plug>(sexp_insert_at_list_head)
+    nmap <silent><buffer>   >I    <Plug>(sexp_insert_at_list_tail)
+
+"     " Operate on forms by default
+"     nmap <silent><buffer>   yy   yaf<C-O>
+"     nmap <silent><buffer>   dd   daf
+"     nmap <silent><buffer>   cc   caf
+"     nmap <silent><buffer>   vv   vaf
 endfunction " }}}
 
 augroup sexp_mappings
@@ -908,11 +924,46 @@ let g:vlime_window_settings = {
         \ }
     \ }
 
+augroup RemoveVlimeMappings
+    autocmd!
+
+    function! s:RemoveVlimeMappings() abort " {{{
+        if !exists('b:vlime_mappings_unmapped')
+            let b:vlime_mappings_unmapped=1
+            silent! unmap <buffer> <localleader>of
+            silent! unmap <buffer> <localleader>ot
+            silent! unmap <buffer> <localleader>oe
+            silent! unmap <buffer> <localleader>Tt
+            silent! unmap <buffer> <localleader>TT
+            silent! unmap <buffer> <localleader>Ti
+            silent! unmap <buffer> <localleader>TI
+            silent! unmap <buffer> <localleader>Td
+            silent! unmap <buffer> <localleader>TD
+        endif
+    endfunction " }}}
+    autocmd FileType lisp call <SID>RemoveVlimeMappings()
+augroup end
+
 augroup CustomVlimeInputBuffer
     autocmd!
     autocmd FileType vlime_input inoremap <buffer> <buffer> <tab> <c-r>=vlime#plugin#VlimeKey("tab")<cr>
     autocmd FileType vlime_input setlocal omnifunc=vlime#plugin#CompleteFunc
     autocmd FileType vlime_input setlocal indentexpr=vlime#plugin#CalcCurIndent()
+augroup end
+
+augroup VlimeSldb
+    autocmd!
+
+    function! s:RemoveConflictingMappings() abort " {{{
+        if !exists('b:mappings_with_sldb_unmapped')
+            let b:mappings_with_sldb_unmapped=1
+            silent! unmap cS
+            silent! unmap cs
+            silent! unmap cr
+            silent! unmap cgc
+        endif
+    endfunction " }}}
+    autocmd FileType vlime_sldb call <SID>RemoveConflictingMappings()
 augroup end
 
 " }}}
