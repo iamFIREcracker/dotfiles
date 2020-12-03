@@ -267,7 +267,7 @@ set virtualedit+=block
 
 noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 
-runtime macros/matchit.vim
+packadd! matchit
 
 " Keep search matches in the middle of the window
 nnoremap n nzvzz
