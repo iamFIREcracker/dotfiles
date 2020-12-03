@@ -23,22 +23,25 @@ set show-all-if-ambiguous on
 # Space:magic-space
 
 # Invoke $EDITOR while inside a rlwrap'd command
-$if sbcl
+$if ccl
   "\C-x\C-e": rlwrap-call-editor
 $endif
 $if chez
-  "\C-x\C-e": rlwrap-call-editor
-$endif
-$if racket
-  "\C-x\C-e": rlwrap-call-editor
-$endif
-$if python
   "\C-x\C-e": rlwrap-call-editor
 $endif
 $if node
   "\C-x\C-e": rlwrap-call-editor
   # https://stackoverflow.com/questions/21863836/using-rlwrap-with-node-js-repl-how-could-node-break-ctrl-c-not-be-interpre/21975508#21975508
   "\C-c": rlwrap-direct-keypress
+$if racket
+  "\C-x\C-e": rlwrap-call-editor
+$endif
+$if python
+  "\C-x\C-e": rlwrap-call-editor
+$endif
+$if sbcl
+  "\C-x\C-e": rlwrap-call-editor
+$endif
 $endif
 
 # Reload this file

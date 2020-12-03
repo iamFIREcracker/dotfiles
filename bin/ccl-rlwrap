@@ -8,4 +8,4 @@ rlwrap \
   --quote-characters='"' \
   --histsize 10000 \
   --history-filename "$HOME/.rlwrap-lisp-history" \
-  -- ccl64 --load ~/.lisprc "$@"
+  -- ccl --load ~/ccl-init.lisp "$@"
