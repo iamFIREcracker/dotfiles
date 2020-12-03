@@ -3,7 +3,7 @@ let b:delimitMate_nesting_quotes = ['`']
 
 nnoremap <buffer> <localleader>cc :STTConnect
 nnoremap <buffer> <localleader>cd :STTDisconnect
-nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('vap')<cr>
+nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('vv')<cr>
 xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
 
 " Folding {{{
