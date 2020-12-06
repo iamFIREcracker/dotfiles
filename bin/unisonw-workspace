@@ -2,7 +2,7 @@
 
 set -e
 
-exec >>~/unison-workspace.log 2>&1 # shut up, `watch`: https://stackoverflow.com/q/62536396
+exec 2>&1 | tee -a ~/unison-workspace.log
 date
 
 unisonw \

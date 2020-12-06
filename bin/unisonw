@@ -6,30 +6,29 @@ ROOT1=${1?Need a value for ROOT1}
 ROOT2=${2?Need a value for ROOT2}
 
 unison "$ROOT1" "$ROOT2" \
-    -auto \
-    -batch \
     -confirmbigdel \
     -confirmmerge \
     -prefer newer \
     -links false \
+    -ignore 'Name *.db' \
+    -ignore 'Name *.dmg' \
+    -ignore 'Name *.egg-info' \
+    -ignore 'Name *.lock' \
+    -ignore 'Name *.log' \
+    -ignore 'Name *.o' \
+    -ignore 'Name *.pyc' \
+    -ignore 'Name *.vdi' \
+    -ignore 'Name .DS_Store' \
+    -ignore 'Name .dependenciesSources' \
     -ignore 'Name .git' \
     -ignore 'Name .hg' \
-    -ignore 'Name .DS_Store' \
     -ignore 'Name .ropeproject' \
     -ignore 'Name .vagrant' \
     -ignore 'Name __pycache__' \
     -ignore 'Name node_modules' \
-    -ignore 'Name target' \
-    -ignore 'Name .dependenciesSources' \
-    -ignore 'Name venv' \
-    -ignore 'Name *.db' \
-    -ignore 'Name *.dmg' \
-    -ignore 'Name *.lock' \
-    -ignore 'Name *.log' \
-    -ignore 'Name *.pyc' \
-    -ignore 'Name *.vdi' \
     -ignore 'Name tags*' \
-    -ignore 'Name *.egg-info' \
+    -ignore 'Name target' \
+    -ignore 'Name venv' \
     "${@:3}"
 
 test $? -le 1 # exit code: 1 means something was skipped but rest went fine
