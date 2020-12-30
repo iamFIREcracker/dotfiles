@@ -158,7 +158,10 @@ RainbowParenthesesLoadRound
 " - <c-w>H: move it to the far right (and expand vertically)
 nnoremap <buffer> <localleader>W <c-w>j<c-w>J<c-w>k<c-w>H
 
+let b:match_skip = 's:comment\|string\|escape\|symbol'
+
 let b:delimitMate_quotes = "\""
+let b:stt_substitute_eol_with = '@@'
 
 inoremap <buffer> <c-n> <c-x><c-o>
 
