@@ -58,9 +58,8 @@ cursor:
   unfocused_hollow: true
   thickness: 0.5
 
-mouse:
-  url:
-    launcher: None
+hints:
+  enabled: []
 
 live_config_reload: true
 
