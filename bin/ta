@@ -29,11 +29,15 @@ NEEDS_MUX=': mux'
 #     strappo: mux
 #
 # Note that `mux` workspaces have been intentionally marked with `: mux` --
-# that will enable us to activate them using `mux` instead of the classic `tmux
-# switchc`/`tmux attach`
+# that will enable us to activate them using `mux` instead of the classic
+# `tmux switchc`/`tmux attach`
 all-possible-sessions() {
   tmux list-sessions
-  mux list 2>/dev/null | awk 'NR>1' | sed -e 's/  */ /g' | tr ' ' '\n' | sed "s/$/$NEEDS_MUX/"
+  mux list --newline 2>/dev/null | awk 'NR>1' | sed "s/$/$NEEDS_MUX/"
+}
+
+remove-duplicate-sessions() {
+  sort --field-separator=: --key=1,1 --unique 
 }
 
 ta-fzft() {
@@ -41,7 +45,7 @@ ta-fzft() {
   local name
   local needs_mux
 
-  session=$(all-possible-sessions | sort --field-separator=: --field=1 --unique | fzf-tmux --no-sort --exit-0)
+  session=$(all-possible-sessions | remove-duplicate-sessions | fzf-tmux --no-sort --exit-0)
   if [ -n "$session" ]; then
     name=$(echo $session | cut -d':' -f1)
     needs_mux=$(echo $session | grep "$NEEDS_MUX")
