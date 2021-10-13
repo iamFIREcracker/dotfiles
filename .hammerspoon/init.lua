@@ -78,6 +78,8 @@ hs.hotkey.bind(hyper2, "m", resize_pct(0, 1/2, 1, 1/2))
 
 hs.hotkey.bind(hyper2, "u", resize_pct(1/8, 0, 3/4, 1))
 hs.hotkey.bind(hyper2, "n", resize_pct(1/6, 0, 2/3, 1))
+hs.hotkey.bind(hyper2, "7", resize_pct(1/4, 0, 1/4, 1))
+hs.hotkey.bind(hyper2, "8", resize_pct(1/2, 0, 1/4, 1))
 
 ---
 hs.alert.show("HS init config... reloaded")
