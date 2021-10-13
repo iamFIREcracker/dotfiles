@@ -54,8 +54,9 @@ function resize_pct(x, y, width, height)
     local win = hs.window.focusedWindow()
     local frame = win:frame()
     local work_area = win:screen():frame()
+    local dock_width = win:screen():fullFrame().w - work_area.w
 
-    frame.x = work_area.w * x
+    frame.x = dock_width + work_area.w * x
     frame.y = work_area.h * y
     frame.w = work_area.w * width
     frame.h = work_area.h * height
