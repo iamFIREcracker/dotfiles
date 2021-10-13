@@ -5,7 +5,9 @@
 
 set -euo pipefail
 
-echo Jakarta: $(TZ=:Asia/Jakarta date)
-echo India: $(TZ=:Asia/Calcutta date)
-echo Home: $(TZ=:Europe/Rome date)
-echo NY: $(TZ=:America/New_York date)
+echo "Jakarta:  $(TZ=:Asia/Jakarta date)"
+echo "India:    $(TZ=:Asia/Calcutta date)"
+echo "Italy:    $(TZ=:Europe/Rome date)"
+echo "England:  $(TZ=:Europe/London date)"
+echo "New York: $(TZ=:America/New_York date)"
+press-any-key-to-exit
