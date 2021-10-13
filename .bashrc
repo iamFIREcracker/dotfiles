@@ -114,7 +114,12 @@ export NVM_DIR="$HOME/.nvm"
 # }}}
 # Ruby {{{
 
-export GEM_HOME=~/rubygems
+[ -f "$HOME/.rvm/scripts/rvm" ] && \. "$HOME/.rvm/scripts/rvm"
+
+# if [[ $- == *i* ]]; then
+#     # echo $PATH
+#     rvm use default
+# fi
 
 # }}}
 # Python {{{
