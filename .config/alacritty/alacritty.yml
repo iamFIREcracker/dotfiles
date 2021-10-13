@@ -1,8 +1,9 @@
 window:
   dynamic_title: true
-  padding:
-    x: 5
-    y: 5
+  # https://github.com/alacritty/alacritty/issues/4796
+  # padding:
+  #   x: 5
+  #   y: 5
 
 scrolling:
   # Disable scroll history (use Tmux's)
