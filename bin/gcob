@@ -3,7 +3,7 @@
 set -uo pipefail
 set -x
 
-story=$(cb | tr '\n' ':')
+story=$(cb | tr -d '\r' | tr '\n' ':')
 id=$(echo $story | cut -d: -f1 | tr '[:upper:]' '[:lower:]')
 desc=$(echo $story | cut -d: -f3-)
 branch=$(echo $desc  \
@@ -11,6 +11,7 @@ branch=$(echo $desc  \
   | tr -d '\[\]():,\r\$"'"'" \
   | tr ' ' '-' \
   | tr '/' '-' \
+  | tr '.' '-' \
   | sed "s/--*/-/g" \
   | sed "s/-$//")
 echo "git cob story/$id/${branch}" | cg-fzf
