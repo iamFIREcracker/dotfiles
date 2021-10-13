@@ -1,8 +1,10 @@
-function whenHostnameNot(next)
+function whenWorking(thenDo, otherwiseDo)
   return function()
-    output, status = hs.execute('ps aux | grep pisa299 | grep -v grep')
+    output, status = hs.execute('ps aux | grep pisa299-sock5 | grep -v grep')
     if status ~= nil then
-      next()
+      thenDo()
+    else
+      otherwiseDo()
     end
   end
 end
@@ -40,8 +42,8 @@ hs.hotkey.bind(hyper, "p", open("Alacritty-main"))
 hs.hotkey.bind(hyper, "j", open("Alacritty-fullscreen"))
 hs.hotkey.bind(hyper, "h", open("Alacritty"))
 
-hs.hotkey.bind(hyper, "m", whenHostnameNot(open("Microsoft Outlook")))
-hs.hotkey.bind(hyper, "i", whenHostnameNot(open("Microsoft Teams")))
+hs.hotkey.bind(hyper, "m", whenWorking(open("Microsoft Outlook")))
+hs.hotkey.bind(hyper, "i", whenWorking(open("Microsoft Teams"), open("Discord")))
 
 --- Resize windows
 hs.window.animationDuration = 0
