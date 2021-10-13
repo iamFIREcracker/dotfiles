@@ -2,7 +2,7 @@
 
 set -eu
 
-THING=${1:-PATH/URL argument required}
+THING=${1?PATH/URL argument required}
 case $THING in
   http://hg.stevelosh.com:8000/*)
     # sjl hg-web instance is not properly configured, and its URLs include the
