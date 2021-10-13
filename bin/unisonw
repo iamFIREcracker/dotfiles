@@ -25,6 +25,7 @@ unison "$ROOT1" "$ROOT2" \
     -ignore 'Name .ropeproject' \
     -ignore 'Name .vagrant' \
     -ignore 'Name __pycache__' \
+    -ignore 'Name lcov-report' \
     -ignore 'Name node_modules' \
     -ignore 'Name tags*' \
     -ignore 'Name target' \

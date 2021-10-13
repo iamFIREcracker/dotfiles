@@ -9,6 +9,7 @@ date
 unisonw \
     "$HOME/my-env" \
     "$HOME/Dropbox/unison/my-env" \
+    -ignore 'Name dotfiles/.vim/pack/bundle/opt/fzf/bin/fzf' \
     -ignore 'Regex .*/\.mutt/cache' \
     -ignore 'Regex .*/\.mutt/temp' \
     -ignore 'Regex .*/\.vim/spell' \
