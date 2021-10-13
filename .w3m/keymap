@@ -1,6 +1,8 @@
 keymap  r      RELOAD
 keymap  H      PREV
 keymap  L      NEXT
+keymap  j    COMMAND "MOVE_DOWN; CENTER_V"
+keymap  k    COMMAND "MOVE_UP; CENTER_V"
 keymap  C-U    COMMAND "PREV_PAGE; CENTER_V"
 keymap  C-D    COMMAND "NEXT_PAGE; CENTER_V"
 
@@ -28,11 +30,9 @@ keymap :o OPTIONS
 keymap :q QUIT
 
 keymap gs SOURCE
-keymap xx EXTERN
-keymap gx EXTERN_LINK
 
 keymap p  GOTO      /cgi-bin/cb.cgi
 keymap P  TAB_GOTO  /cgi-bin/cb.cgi
-keymap ss EXTERN "url=%s dest=~/Dropbox/links.txt && echo "$url" >> $dest && echo "$url added to $dest" && read s"
-keymap yy EXTERN "url=%s && printf %s "$url" | cb && printf %s "$url" &"
-keymap gy EXTERN_LINK "url=%s && printf %s "$url" | cb && printf %s "$url" &"
+keymap ,x EXTERN
+keymap ,s EXTERN "url=%s dest=~/Dropbox/links.txt && echo "$url" >> $dest && echo "$url added to $dest" && read s"
+keymap ,y EXTERN "url=%s && printf %s "$url" | cb && printf %s "$url" &"
