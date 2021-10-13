@@ -731,7 +731,6 @@ prompt_command() {
 
 
 if [[ $- == *i* ]]; then
-    clear-screen-and-position-cursor-at-the-bottom
     export PROMPT_COMMAND='prompt_command'
 fi
 

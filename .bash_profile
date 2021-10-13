@@ -2,6 +2,12 @@
 # see /usr/share/doc/bash/examples/startup-files for examples.
 # the files are located in the bash-doc package.
 
+if [[ $- == *i* ]]; then
+    # Use full path here.. ~/bin will be added to PATH only later
+    ~/bin/clear-screen-and-position-cursor-at-the-bottom
+    ~/bin/motd
+fi
+
 if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
 elif [ -f /usr/local/etc/profile.d/bash_completion.sh ]; then
