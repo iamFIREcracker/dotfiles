@@ -7,12 +7,14 @@ __pycache__
 .mutt/temp/
 .newsboat/cache.db
 .newsboat/history.search
+.newsboat/history.cmdline
 .vim/.netrwbook
 .vim/.netrwhist
 .vim/spell
 .vim/tmp
 .w3m/cookie
 .w3m/history
+.w3m/request.log
 .w3m/w3mcache*
 .w3m/w3mcookie*
 .w3m/w3msrc*
