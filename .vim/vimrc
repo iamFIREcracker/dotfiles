@@ -1496,8 +1496,6 @@ function! s:SelectAndSendToUrlview(motion) abort " {{{
     call winrestview(view)
 endfunction "}}}
 
-nnoremap gx :<C-U>call <SID>SelectAndSendToUrlview('viW')<CR>
-xnoremap gx :<C-U>call <SID>SendSelectionToUrlview()<CR>
 nnoremap ,u :<C-U>call <SID>SelectAndSendToUrlview('VHoL')<CR>
 
 " }}}
