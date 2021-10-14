@@ -1,7 +1,3 @@
-" Add ` and * to iskeyword, so we can use word boundaries, in the syntax file,
-" to better identify inline-code, and strong blocks
-setlocal iskeyword+=`,*
-
 " I use dashes for bullet lists, but the default configuration is not quite
 " all right.
 "
@@ -19,7 +15,7 @@ setlocal iskeyword+=`,*
 " This is mostly fault of the default configuration, that ships with `fb:-`
 " stuffed inside &comments -- this basically tells Vim to indent the next
 " line, but not to add a leading dash (which kind of makes sense, if &wrap
-" was enabled.
+" was enabled (read more at `:h format-comments`)
 "
 " Anyway, let's remove this default, and add a new one that would add the
 " leading dash to the line:
@@ -44,7 +40,13 @@ setlocal comments+=b:+
 "
 " This is happening because &comments contains 'n:>' by default
 " (read `:help format-comments` for additional info)
-setlocal comments-=n:>
+" setlocal comments-=n:>
+
+" Make sure @ is included in the current keyword -- quite handy when working
+" with tags (read `:help isfname` for additional info)
+setlocal iskeyword+=@-@
+
+setlocal spell
 
 setlocal synmaxcol=0
 setlocal wrap textwidth=0
@@ -68,9 +70,8 @@ function! s:CreateNewPlanEntry() abort "{{{
 
     let &l:autoindent=l:last_ai
 endfunction "}}}
-nnoremap <buffer> <localleader>n :<C-U>call <SID>CreateNewPlanEntry()<cr>o
+nnoremap <buffer> <localleader>n :<C-U>call <SID>CreateNewPlanEntry()<cr>o<C-G>u
 nnoremap <buffer> <localleader>o :silent lgrep '^\?' %<cr>:lopen<cr>:redraw!<cr>
-nnoremap <buffer> <localleader>O :execute 'lgrep "^\?.*\@' . input('Tag? ') . '" %'<cr>
 
 nnoremap <buffer> <localleader>cc :STTConnect
 nnoremap <buffer> <localleader>cd :STTDisconnect
@@ -79,6 +80,51 @@ xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
 nmap <buffer> [[ zk
 nmap <buffer> ]] zj
 
+nnoremap [I :execute 'lgrep! "' . expand('<cword>') . '" %'<cr>:lopen<cr>:redraw!<cr>
+
+" Quote/Unquote {{{
+
+function s:quote(lnum1, lnum2) abort
+  for lnum in range(a:lnum1, a:lnum2)
+    let line = getline(lnum)
+    if line[0] == '>' || line == ''
+      let line = '>' . line
+    else
+      let line = '> ' . line
+    endif
+    call setline(lnum,line)
+  endfor
+endfunction
+
+function s:unquote(lnum1, lnum2) abort
+  for lnum in range(a:lnum1, a:lnum2)
+    let line = getline(lnum)
+    if line[0] == '>'
+      if line[0:1] == '> '
+        let line = line[2:]
+      else
+        let line = line[1:]
+      endif
+    endif
+    call setline(lnum,line)
+  endfor
+endfunction
+
+xnoremap <silent> <Plug>PlQuote :<C-U>call <SID>quote(line("'<"), line("'>"))<CR>
+"            \ :silent! call repeat#set("\<Plug>PlQuote", v:count)<CR>
+xnoremap <silent> <Plug>PlUnquote :<C-U>call <SID>unquote(line("'<"), line("'>"))<CR>
+"            \ :silent! call repeat#set("\<Plug>PlUnquote", v:count)<CR>
+
+nnoremap <buffer> g! ^s+<esc>
+nmap <buffer> gq V<Plug>PlQuote
+xmap <buffer> gq <Plug>PlQuote
+nmap <buffer> gQ V<Plug>PlUnquote
+xmap <buffer> gQ <Plug>PlUnquote
+
+command! -range -bar PlQuote call s:quote(<line1>,<line2>)
+command! -range -bar PlUnuote call s:unquote(<line1>,<line2>)
+
+" }}}
 " Folding {{{
 setlocal foldmethod=expr foldexpr=GetPlanFold(v:lnum)
 
