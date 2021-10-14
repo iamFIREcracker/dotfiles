@@ -248,46 +248,7 @@ function cleancodes() { sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"; }
 function collapse() { sed -e 's/  */ /g'; }
 function cols() { collapse | cuts -f "$@"; }
 function cuts() { cut -d' ' "$@"; }
-# Dockerfile templates {{{
-
-function Dockerfile-ng() {
-    cat <<EOF >> Dockerfile
-FROM node:8.11.3-alpine
-
-WORKDIR /usr/src/app
-
-COPY package.json package.json
-RUN npm install
-RUN npm install @angular-devkit/core
-
-ADD . ./
-
-EXPOSE 4200
-CMD npm start
-EOF
-    echo 'created Dockerfile...'
-    cat Dockerfile
-    echo 'build with:'
-    echo 'docker build -t web-exercise .'
-    echo 'run with:'
-    echo 'docker run -it --rm -p 4200:4200 --name web-exercise web-exercise'
-}
-function Dockerfile-tomcat() {
-    cat <<EOF >> Dockerfile
-FROM tomcat:8-jre8
-
-# Copy to images tomcat path
-ADD target/BE-ION.war /usr/local/tomcat/webapps/
-EOF
-    echo 'created Dockerfile...'
-    cat Dockerfile
-    echo 'build with:'
-    echo 'docker build -t web-exercise-tomcat .'
-    echo 'run with:'
-    echo 'docker run -it --rm -p 8080:8080 --name web-exercise-tomcat web-exercise-tomcat'
-}
-
-# }}}
+function dabox() { ssh pisa299linux; }
 function de() { deactivate; }
 function ungron() { gron --ungron "$@"; }
 function uniqdiff() {
@@ -303,6 +264,11 @@ function fucking-kill-nfsd() {
     # https://github.com/hashicorp/vagrant/issues/8103
     sudo sh -c "> /etc/exports"
     sudo nfsd restart
+}
+function fucking-restart-bluetooth() {
+    # https://gist.github.com/nicolasembleton/afc19940da26716f8e90
+    sudo kextunload -b com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport
+    sudo kextload -b com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport
 }
 # Git {{{
 
@@ -569,20 +535,6 @@ function tac() {
 }
 
 # }}}
-function to() { sed "/$1/q"; }
-function tf() { tail -f "$@"; }
-function tunnel() {
-    local _server
-    local _local_port
-    local _service_host
-    local _service_port
-    read -p "server: " _server
-    read -p "local port: " _local_port
-    read -p "service host: " _service_host
-    read -p "service port: " _service_port
-
-    echo_n_run ssh ${_server} -L ${_local_port}:${_service_host}:${_service_port} -N
-}
 function unfuck() { echo "${D}"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
