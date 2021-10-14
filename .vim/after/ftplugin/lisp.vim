@@ -164,8 +164,6 @@ xnoremap <buffer> <silent> g<C-J> :<C-U>call SendSelectionToTerminal(visualmode(
 nmap <buffer> <silent> K <localleader>ddo
 nmap <buffer> <silent> <C-]> <localleader>xd
 nmap <buffer> <silent> <C-^> <localleader>xc
-" nmap <buffer> <silent> <localleader>i vie<localleader>I
-" nmap <buffer> <silent> <localleader>I <localleader>IN
 nnoremap <buffer> <C-W>o :call LispCurrentWindowPlusVlimeOnes()<cr>
 nnoremap <buffer> <C-W>O :call LispCurrentWindowPlusVlimeOnes()<cr>
 nnoremap <buffer> <C-W><C-O> :call LispCurrentWindowPlusVlimeOnes()<cr>
