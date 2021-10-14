@@ -10,4 +10,4 @@ echo "India:    $(TZ=:Asia/Calcutta date)"
 echo "Italy:    $(TZ=:Europe/Rome date)"
 echo "England:  $(TZ=:Europe/London date)"
 echo "New York: $(TZ=:America/New_York date)"
-press-any-key-to-exit
+press-enter-to-exit
