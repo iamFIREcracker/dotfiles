@@ -39,4 +39,4 @@ keymap ,y EXTERN "url=%s && printf %s "$url" | cb && printf %s "$url" &"
 
 keymap ,m MARK
 keymap ]' NEXT_MARK
-keymap ]' PREV_MARK
+keymap [' PREV_MARK
