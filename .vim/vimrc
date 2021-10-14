@@ -210,7 +210,7 @@ augroup relative_fname_completion
     au!
 
     au InsertEnter * let w:save_cwd = getcwd() | set autochdir
-    au InsertLeave,WinLeave * if exists('w:save_cwd') | set noautochdir | execute 'lchdir' fnameescape(w:save_cwd) | endif
+    au InsertLeave,WinLeave * if exists('w:save_cwd') | set noautochdir | execute 'lchdir' fnameescape(w:save_cwd) | unlet w:save_cwd | endif
 augroup END
 
 " }}}
