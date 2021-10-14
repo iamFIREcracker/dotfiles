@@ -1341,6 +1341,15 @@ nnoremap gp :call <SID>PasteCycle(1)<CR>
 nnoremap gP :call <SID>PasteCycle(0)<CR>
 
 " }}}
+" ScratchThis {{{
+
+function! s:ScratchThis() abort
+    setlocal buftype=nowrite bufhidden=delete noswapfile
+endfunction
+
+command! ScratchThis call s:ScratchThis()
+
+" }}}
 " SendToTerminal {{{
 
 let g:stt_trailing_new_lines = 1
