@@ -36,3 +36,7 @@ keymap P  TAB_GOTO  /cgi-bin/cb.cgi
 keymap ,x EXTERN
 keymap ,s EXTERN "url=%s dest=~/Dropbox/links.txt && echo "$url" >> $dest && echo "$url added to $dest" && read s"
 keymap ,y EXTERN "url=%s && printf %s "$url" | cb && printf %s "$url" &"
+
+keymap ,m MARK
+keymap ]' NEXT_MARK
+keymap ]' PREV_MARK
