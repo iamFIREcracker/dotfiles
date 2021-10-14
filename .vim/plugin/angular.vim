@@ -1,5 +1,7 @@
 function! CheckIfAngularProject() abort " {{{
     return filereadable(".angular-cli.json") || filereadable('angular.json')
+                \ || system('grep angular package.json') != ""
+
 endfunction " }}}
 function! InitAngularMappings() abort " {{{
     nnoremap <localleader>Ns  :Dispatch! ng serve<cr>
