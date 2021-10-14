@@ -601,13 +601,13 @@ let g:fugitive_gitlab_domains = ['https://gitlabdev01.iontrading.com']
 
 nnoremap <leader>gd :vert Git diff %<cr>
 nnoremap <leader>gD :vert Git diff<cr>
-nnoremap <leader>gp :Gpush<cr>
-nnoremap <leader>gP :Gpush -f<cr>
-nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gp :Git! push<cr>
+nnoremap <leader>gP :Git! push -f<cr>
+nnoremap <leader>gs :Git<cr>
 nnoremap <leader>gw :Gwrite<cr>
-nnoremap <leader>gb :Gblame<cr>
+nnoremap <leader>gb :.Git blame<cr>
 nnoremap <leader>ge :Gedit<cr>
-nnoremap <leader>gci :Gcommit<cr>
+nnoremap <leader>gci :Git commit<cr>
 function! GitWithMaster() abort " {{{
     if systemlist('git rev-parse --abbrev-ref HEAD')[0] != 'master'
         return 'master..'
@@ -616,6 +616,7 @@ function! GitWithMaster() abort " {{{
 endfunction " }}}
 nnoremap <leader>gl :Gclog! <C-R>=GitWithMaster()<CR> -12<CR>
 nnoremap <leader>gL :Gclog! <C-R>=GitWithMaster()<CR><Space>
+nnoremap <leader>gmr :Start git mr <C-R>=FugitiveHead()<CR><CR>
 nnoremap <silent> <leader>y<C-G> :<C-U>call cb#copy(fugitive#Object(@%))<CR>
 
 augroup ft_fugitive " {{{
