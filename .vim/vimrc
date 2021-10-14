@@ -510,8 +510,10 @@ nnoremap <silent> <up> :lprevious<CR>zvzz
 nnoremap <silent> <down> :lnext<CR>zvzz
 
 " Folds
+" Move to the beginning of the next fold, and open it
+nnoremap <silent> zj zjzv
+" Move to the beginning of the previous fold, and open it
 nnoremap <silent> zk zkzv[z
-nnoremap <silent> zj zjzv]z
 
 " Macros
 nnoremap Q @q
