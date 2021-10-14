@@ -33,7 +33,7 @@ silent! call RefreshManualRegexpFolding()
 
 setlocal suffixesadd+=.js,.ts
 
-let b:stt_substitute_eol_with = '@'
+let b:stt_substitute_eol_with = '@@'
 
 function! SelectTopLevelExpression(around) abort " {{{
     let motion = ''
@@ -107,13 +107,13 @@ function! JavascriptCurrentWindowPlusNodeOnes() abort " {{{
 endfunction " }}}
 
 function! SetupJavascriptProjectMappings() abort " {{{
-    nnoremap <C-W>o :call JavascriptCurrentWindowPlusNodeOnes()<cr>
-    nnoremap <C-W>O :call JavascriptCurrentWindowPlusNodeOnes()<cr>
-    nnoremap <C-W><C-O> :call JavascriptCurrentWindowPlusNodeOnes()<cr>
+    nnoremap <buffer> <C-W>o :call JavascriptCurrentWindowPlusNodeOnes()<cr>
+    nnoremap <buffer> <C-W>O :call JavascriptCurrentWindowPlusNodeOnes()<cr>
+    nnoremap <buffer> <C-W><C-O> :call JavascriptCurrentWindowPlusNodeOnes()<cr>
 endfunction " }}}
 
 function! OpenNodeRepl() abort "{{{
-    call term_start("bash -c node-rlwrap", {
+    call term_start("bash -c node-repl", {
                 \ "term_finish": "close",
                 \ "vertical": 1
                 \ })
@@ -125,7 +125,7 @@ nnoremap <buffer> <localleader>o :call OpenNodeRepl()<cr>
 function! ConnectNodeInspect() abort "{{{
     let l:host = input("Host: ", "localhost")
     let l:port = input("Port: ", "9229")
-    let l:cmd = "node inspect " . l:host . ":" . l:port
+    let l:cmd = "node --experimental-repl-await inspect " . l:host . ":" . l:port
 
     belowright call term_start(l:cmd, {
                 \ "term_finish": "close",
@@ -142,6 +142,21 @@ nnoremap <buffer> <localleader>cd :STTDisconnect
 " - <c-w>H: move it to the far right (and expand vertically)
 nnoremap <buffer> <localleader>W <c-w>j<c-w>J<c-w>k<c-w>H
 
+
+function! InModule() abort "{{{
+    let modules = split(system('grep --fixed-strings "inModule(module.id)" ' . fnameescape(expand("%")) . '| uniq')) " its fine
+    if len(modules) == 0
+        echom "Could not find any inModule lines..."
+        return
+    elseif len(modules) > 1
+        echom "Found too many inModule lines..."
+        return
+    endif
+
+    call SendToTerminal('inModule("' . fnameescape(expand("%:p")) . '")')
+endfunction " }}}
+
+nnoremap <buffer> <silent> <localleader>i :call InModule()<cr>
 nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('Vaf')<cr>
 xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
 nnoremap <buffer> <C-^> :LspReferences<cr>
