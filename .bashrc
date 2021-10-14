@@ -537,10 +537,6 @@ function tac() {
 # }}}
 # tmuxinator {{{
 
-function mux() {
-    rvm-exec default tmuxinator "$@"
-}
-
 # Courtesy of: https://github.com/tmuxinator/tmuxinator/blob/master/completion/tmuxinator.bash
 _tmuxinator() {
     COMPREPLY=()
