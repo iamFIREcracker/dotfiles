@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# NODE_NO_READLINE=1 rlwrap \
 rlwrap \
   --polling \
   --always-readline \
@@ -10,4 +11,4 @@ rlwrap \
   --quote-characters='"' \
   --histsize 10000 \
   --history-filename "$HOME/.rlwrap-node-history" \
-  -- node --inspect -- "$@"
+  -- node --inspect --experimental-repl-await --require ~/.node/index.js "$@"
