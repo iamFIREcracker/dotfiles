@@ -156,8 +156,8 @@ bind index g        noop
 bind index <tab>    sync-mailbox
 bind index k        previous-thread
 bind index j        next-thread
-bind index <prev>   previous-entry
-bind index <down>   next-entry
+bind index gk       previous-entry
+bind index gj       next-entry
 bind index gg       first-entry
 bind index G        last-entry
 bind index p        recall-message
@@ -188,8 +188,8 @@ bind pager   G   bottom
 
 bind pager N  search-opposite
 
-macro pager ,x "|lg-fzf<enter>" "call urlview to open links"
-macro pager s "<pipe-message>cat > ~/Desktop/"  "save message as"
+macro pager ,u "|lg-fzf<enter>" "call urlview to open links"
+macro pager ,s "<pipe-message>cat > ~/Desktop/"  "save message as"
 
 # }}}
 # Index/Pager {{{
