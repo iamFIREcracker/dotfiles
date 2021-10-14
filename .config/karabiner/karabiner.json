@@ -376,7 +376,7 @@
                     "type": "frontmost_application_if"
                   }
                 ],
-                "description": "Brave: ctrl+w to backspace",
+                "description": "Brave: ctrl+w to backward-delete a word",
                 "from": {
                   "key_code": "h",
                   "modifiers": {
