@@ -52,7 +52,12 @@ set ttimeout
 set ttimeoutlen=10
 
 set autowrite
-set shiftround
+" The only time I am using the `>` or `<` operators is when pasting code
+" in a .plan or .markdown file, and want to create a _code_ region out of it
+" (i.e. 4 spaces indented region).  However, `shiftround` will mess up
+" with pre-existing indentation of the pasted code, so I am going to disable it
+" for now. For additional info, `:h shiftround`
+set noshiftround
 set autoread
 set title
 set linebreak
