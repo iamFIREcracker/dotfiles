@@ -557,7 +557,6 @@ let delimitMate_expand_space = 0 " or custom abbreviations wouldn't work
 " Dispatch {{{
 
 nnoremap <leader>d :Dispatch<cr>
-nnoremap <leader>m :Dispatch<cr>
 
 " }}}
 " editorconfig-vim {{{
