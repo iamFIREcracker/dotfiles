@@ -426,12 +426,27 @@ nnoremap <Leader>S :%s/<C-r>=expand("<cword>")<cr>//c<left><left>
 vnoremap <Leader>S y:%s/<C-r>"//c<left><left>
 
 " Heresy
-inoremap <C-a> <home>
+" <C-g>u is for breaking the change into two different undo blocks (see `:help
+" i_CTRL-G_u`)
+inoremap <C-a> <C-g>u<home>
 cnoremap <C-a> <home>
-inoremap <C-e> <end>
+inoremap <C-e> <C-g>u<end>
 cnoremap <C-e> <end>
-inoremap <C-d> <Del>
+inoremap <C-d> <C-g>u<Del>
 cnoremap <C-d> <Del>
+inoremap <C-u> <C-g>u<C-u>
+imap <C-h> <C-g>u<Plug>delimitMateBS
+inoremap <silent> <Plug>delimitMateCtrlW <C-R>=<SID>delimitMate_CtrlW()<CR>
+function s:delimitMate_CtrlW() abort "{{{
+    let ch = getline('.')[col('.') - 2]
+    if ch == '('
+        return delimitMate#BS()
+    else
+        return ""
+    endif
+endfunction
+" }}}
+imap <C-w> <C-g>u<Plug>delimitMateCtrlW
 
 " Skip automatically to next difference
 nnoremap do do]c
