@@ -1085,13 +1085,7 @@ function! CloseOnLast()
 " gives you one color of highlighting.  Now you can use <leader>N where N is
 " a number from 1-6 to highlight the current word in a specific color.
 
-function! HiInterestingWord(n) " {{{
-    " Save our location.
-    normal! mz
-
-    " Yank the current word into the z register.
-    normal! "zyiw
-
+function! HiInterestingWord(data, n) " {{{
     " Calculate an arbitrary match ID.  Hopefully nothing else is using it.
     let mid = 86750 + a:n
 
@@ -1099,33 +1093,67 @@ function! HiInterestingWord(n) " {{{
     silent! call matchdelete(mid)
 
     " Construct a literal pattern that has to match at boundaries.
-    let pat = '\V\<' . escape(@z, '\') . '\>'
+    let pat = '\V\<' . escape(a:data, '\') . '\>'
 
     " Actually match the words.
     call matchadd("InterestingWord" . a:n, pat, 1, mid)
-
-    " Move back to our original location.
-    normal! `z
 endfunction " }}}
+function! HiSelectionInterestingWord(type, n) abort " {{{
+    call HiInterestingWord(GetCurrentSelection(a:type), a:n)
+endfunction " }}}
+function! SelectAndHiInterestingWord(motion, n) abort " {{{
+    " Save screen
+    let view = winsaveview()
+
+    " Ripped from [vim-glance](https://github.com/arzg/vim-glance/blob/master/autoload/glance.vim)
+    " Scrolloff conflicts with the mapping, so we set it to zero after saving
+    " its value (for future restoration)
+    let s:scrolloffsave = &scrolloff
+    set scrolloff=0
+
+    " Select the content of the visible screen.  Couple of notes:
+    " 1. Certain commands might fail under certain conditions (e.g. [z will
+    "    fail when on the first line of a fold already); `silent!` should take
+    "    care of that.
+    " 2. We use `normal` instead of `normal!` because we expect users/plugins
+    "    to use custom visual eselectors that would not work with the latter
+    execute "silent! normal ". a:motion ."\<Esc>"
+    call HiSelectionInterestingWord(visualmode(), a:n)
+
+    " Restore scrolloff
+    let &scrolloff = s:scrolloffsave
+
+    " Restore screen
+    call winrestview(view)
+endfunction "}}}
 
 " Mappings {{{
 
-nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
-nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
-nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
-nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
-nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
-nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
+nnoremap <silent> <leader>1 :call SelectAndHiInterestingWord('viw', 1)<cr>
+xnoremap <silent> <leader>1 :<C-U> call HiSelectionInterestingWord(visualmode(), 1)<cr>
+nnoremap <silent> <leader>2 :call SelectAndHiInterestingWord('viw', 2)<cr>
+xnoremap <silent> <leader>2 :<C-U> call HiSelectionInterestingWord(visualmode(), 2)<cr>
+nnoremap <silent> <leader>3 :call SelectAndHiInterestingWord('viw', 3)<cr>
+xnoremap <silent> <leader>3 :<C-U> call HiSelectionInterestingWord(visualmode(), 3)<cr>
+nnoremap <silent> <leader>4 :call SelectAndHiInterestingWord('viw', 4)<cr>
+xnoremap <silent> <leader>4 :<C-U> call HiSelectionInterestingWord(visualmode(), 4)<cr>
+nnoremap <silent> <leader>5 :call SelectAndHiInterestingWord('viw', 5)<cr>
+xnoremap <silent> <leader>5 :<C-U> call HiSelectionInterestingWord(visualmode(), 5)<cr>
+nnoremap <silent> <leader>6 :call SelectAndHiInterestingWord('viw', 6)<cr>
+xnoremap <silent> <leader>6 :<C-U> call HiSelectionInterestingWord(visualmode(), 6)<cr>
+nnoremap <silent> <leader>7 :call SelectAndHiInterestingWord('viw', 7)<cr>
+xnoremap <silent> <leader>7 :<C-U> call HiSelectionInterestingWord(visualmode(), 7)<cr>
 
 " }}}
 " Default Highlights {{{
 
-hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
-hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
-hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
-hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
-hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
-hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+hi def InterestingWord1 ctermfg=16 ctermbg=214
+hi def InterestingWord2 ctermfg=16 ctermbg=154
+hi def InterestingWord3 ctermfg=16 ctermbg=121
+hi def InterestingWord4 ctermfg=16 ctermbg=137
+hi def InterestingWord5 ctermfg=16 ctermbg=211
+hi def InterestingWord6 ctermfg=16 ctermbg=195
+hi def InterestingWord7 ctermfg=16 ctermbg=39
 
 " }}}
 
