@@ -9,12 +9,6 @@ windows:
       root: ~/Workspace/job/ConnectION/connection/docs/
       panes:
         - vim
-  - admin:
-      layout: main-vertical
-      root: ~/Workspace/job/ConnectION/connection/admin/
-      panes:
-        - vim
-        - n run start-dev
   - server:
       layout: main-vertical
       root: ~/Workspace/job/ConnectION/connection/server/
@@ -34,23 +28,6 @@ windows:
       panes:
         - vim
         - echo n run test-local
-  - integration:
-      layout: main-vertical
-      root: ~/Workspace/job/ConnectION/connection/services/connection-integration/
-      panes:
-        - vim
-  - qsearch-api:
-      layout: main-horizontal
-      root: ~/Workspace/job/ConnectION/connection/qst/elastic-qsearch/
-      panes:
-        - vim
-        - echo mvn exec:java -Dexec.mainClass='com.iontrading.qst.elastic_qsearch.ElasticqsearchIndexApplication' -Dexec.args='server qsearch_index.yml'
-        - echo mvn exec:java -Dexec.mainClass='com.iontrading.qst.elastic_qsearch.ElasticqsearchSearchApplication' -Dexec.args='server qsearch_search.yml'
-  - qsearch-jira:
-      layout: main-vertical
-      root: ~/Workspace/job/ConnectION/connection/qst/qsearch-jira-plugin/
-      panes:
-        - vim
   - kafka-rest-service:
       layout: main-vertical
       root: ~/Workspace/job/ConnectION/connection/services/kafka-rest-service
