@@ -28,9 +28,6 @@ function! LispCurrentWindowPlusVlimeOnes() abort " {{{
 endfunction " }}}
 
 function! SetupLispProjectMappings() abort " {{{
-    nnoremap <C-W>o :call LispCurrentWindowPlusVlimeOnes()<cr>
-    nnoremap <C-W>O :call LispCurrentWindowPlusVlimeOnes()<cr>
-    nnoremap <C-W><C-O> :call LispCurrentWindowPlusVlimeOnes()<cr>
 endfunction " }}}
 
 function! OpenLispReplSBCL() abort "{{{
@@ -95,7 +92,7 @@ function! QuickprojectMakePrompt() abort "{{{
     let l:guessed_name = split(l:path, '/')[-1]
     let l:name = input("? ", guessed_name)
 
-    call SendToTerminal("(quickproject:make-project #p\"" . l:path . "\" :name \"" . l:name . "\")\n")
+    call vlime#plugin#SendToREPL("(quickproject:make-project #p\"" . l:path . "\" :name \"" . l:name . "\")\n")
 endfunction " }}}
 
 function! QuickloadLispSystem() abort "{{{
@@ -108,11 +105,11 @@ function! QuickloadLispSystem() abort "{{{
         return
     endif
 
-    call SendToTerminal("(ql:quickload :" . systems[0] . ")")
+    call vlime#plugin#SendToREPL("(ql:quickload :" . systems[0] . ")")
 endfunction " }}}
 
 function! QuickloadLispPrompt() abort "{{{
-    call SendToTerminal("(ql:quickload :" . input("? ") . ")\n")
+    call vlime#plugin#SendToREPL("(ql:quickload :" . input("? ") . ")\n")
 endfunction " }}}
 
 function! TestLispSystem() abort "{{{
@@ -125,24 +122,11 @@ function! TestLispSystem() abort "{{{
         return
     endif
 
-    call SendToTerminal("(asdf:test-system :" . systems[0] . ")")
+    call vlime#plugin#SendToREPL("(asdf:test-system :" . systems[0] . ")")
 endfunction " }}}
 
 function! TestLispPrompt() abort "{{{
-    call SendToTerminal("(asdf:test-system :" . input("? ") . ")\n")
-endfunction " }}}
-
-function! InPackage() abort "{{{
-    let packages = split(system('grep "(in-package .*" '. fnameescape(expand("%")) .' --only-matching | grep -v cl-user | cut -d" " -f2 | uniq')) " its fine
-    if len(packages) == 0
-        echom "Could not find any defpackage lines..."
-        return
-    elseif len(packages) > 1
-        echom "Found too many defpackage lines..."
-        return
-    endif
-
-    call SendToTerminal("(in-package " . packages[0])
+    call vlime#plugin#SendToREPL("(asdf:test-system :" . input("? ") . ")\n")
 endfunction " }}}
 
 setlocal iskeyword+=!,?,%,-
@@ -172,7 +156,6 @@ nnoremap <buffer> <silent> <localleader>q :call QuickloadLispSystem()<cr>
 nnoremap <buffer> <silent> <localleader>Q :call QuickloadLispPrompt()<cr>
 nnoremap <buffer> <silent> <localleader>t :call TestLispSystem()<cr>
 nnoremap <buffer> <silent> <localleader>T :call TestLispPrompt()<cr>
-nnoremap <buffer> <silent> <localleader>i :call InPackage()<cr>
 nnoremap <buffer> <silent> <C-I> :call IndentToplevelLispForm()<cr>
 nnoremap <buffer> <silent> <C-J> :<C-U>call SelectToplevelLispFormAndSendToVlimeREPL()<CR>
 xmap <buffer> <silent> <C-J> <localleader>s
@@ -181,3 +164,8 @@ xnoremap <buffer> <silent> g<C-J> :<C-U>call SendSelectionToTerminal(visualmode(
 nmap <buffer> <silent> K <localleader>ddo
 nmap <buffer> <silent> <C-]> <localleader>xd
 nmap <buffer> <silent> <C-^> <localleader>xc
+" nmap <buffer> <silent> <localleader>i vie<localleader>I
+" nmap <buffer> <silent> <localleader>I <localleader>IN
+nnoremap <buffer> <C-W>o :call LispCurrentWindowPlusVlimeOnes()<cr>
+nnoremap <buffer> <C-W>O :call LispCurrentWindowPlusVlimeOnes()<cr>
+nnoremap <buffer> <C-W><C-O> :call LispCurrentWindowPlusVlimeOnes()<cr>
