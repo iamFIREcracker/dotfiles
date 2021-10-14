@@ -29,6 +29,11 @@ $endif
 $if chez
   "\C-x\C-e": rlwrap-call-editor
 $endif
+$if node-repl
+  "\C-x\C-e": rlwrap-call-editor
+  # https://stackoverflow.com/questions/21863836/using-rlwrap-with-node-js-repl-how-could-node-break-ctrl-c-not-be-interpre/21975508#21975508
+  "\C-c": rlwrap-direct-keypress
+$endif
 $if node
   "\C-x\C-e": rlwrap-call-editor
   # https://stackoverflow.com/questions/21863836/using-rlwrap-with-node-js-repl-how-could-node-break-ctrl-c-not-be-interpre/21975508#21975508
