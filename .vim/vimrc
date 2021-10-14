@@ -1385,6 +1385,8 @@ function! SendToTerminal(data) abort " {{{
         echom "No terminal selected"
     elseif !bufexists(g:stt_buffnr)
         echom "Terminal buffer does not exist: " . g:stt_buffnr
+        unlet g:stt_buffnr
+        call SendToTerminal(a:data)
     else
         " Strip the last new-line (later we will re-add as many new-lines
         " as required)
