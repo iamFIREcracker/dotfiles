@@ -624,10 +624,21 @@ else
 end
 nnoremap <C-P> :<C-u>FZF<CR>
 
+let g:fzf_layout = { 'down': '40%' }
+
 " }}}
 " JK-Jumps {{{
 
 let g:jk_jumps_minimum_lines = 2
+
+" }}}
+" Lightline {{{
+
+let g:lightline = {
+    \ 'component': {
+    \   'filename': '%t%{exists("w:quickfix_title")? " ".w:quickfix_title : ""}'
+    \   },
+    \ }
 
 " }}}
 " Neoformat {{{
