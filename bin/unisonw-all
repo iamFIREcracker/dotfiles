@@ -1,0 +1,5 @@
+set -e
+
+unisonw-me "$@"
+unisonw-plan "$@"
+unisonw-workspace "$@"
