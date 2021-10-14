@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+set -e
+sbcl-rlwrap --load "${HOME}/.lisp/vlime-rswank.lisp" "$@"
