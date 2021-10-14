@@ -114,6 +114,12 @@ let maplocalleader = "\\"
 " }}}
 " Color scheme {{{
 
+" The following enables support for cterm=undercurl
+" https://github.com/vim/vim/issues/6174
+" Should this be supported at termcap/terminfo level instead?
+let &t_Cs = "\e[4:3m"
+let &t_Ce = "\e[4:0m"
+
 syntax on
 
 set termguicolors
