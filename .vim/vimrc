@@ -156,8 +156,6 @@ augroup theme_customizations
             \ hi! markdownItalic cterm=italic |
             \ hi! link markdownH2 markdownH1delimiter |
             \ hi! link markdownH3 markdownH1delimiter |
-            \ hi! link lispBarSymbol lispString |
-            \ hi! link lispEscapeSpecial lispString |
             \ call GoodWolfHL('CursorLineNr', 'dalespale', '', 'none') |
             \ call GoodWolfHL('DiffText', 'orange', 'deepergravel', 'none')
 augroup END
