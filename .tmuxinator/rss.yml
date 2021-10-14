@@ -1,0 +1,8 @@
+name: rss
+root: ~/
+
+windows:
+  - nb:
+      layout: main-vertical
+      panes:
+        - nb
