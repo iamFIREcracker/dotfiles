@@ -399,11 +399,12 @@ nnoremap <leader>eR :e ~/Dropbox/rest<cr>
 nnoremap <leader>eb :e ~/dotfiles/.bashrc<cr>
 nnoremap <leader>eg :e ~/dotfiles/.gitconfig<cr>
 nnoremap <leader>eh :e ~/dotfiles/.hgrc<cr>
-nnoremap <leader>em :e ~/.muttrc<cr>
+nnoremap <leader>em :e ~/.mutt/muttrc<cr>
 nnoremap <leader>ep :e ~/plan/.plan<cr>
 nnoremap <leader>eP :e ~/plan/.<C-D>
 nnoremap <leader>et :e ~/dotfiles/.tmux.conf<cr>
 nnoremap <leader>ev :e ~/dotfiles/.vim/vimrc<cr>
+nnoremap <leader>eV :e ~/dotfiles/.vim<cr>
 
 " }}}
 " Quick reload ------------------------------------------------------------ {{{
