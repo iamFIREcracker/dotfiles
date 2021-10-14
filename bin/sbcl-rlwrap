@@ -8,4 +8,4 @@ rlwrap \
   --quote-characters='"' \
   --histsize 10000 \
   --history-filename "$HOME/.rlwrap-lisp-history" \
-  -- sbcl --dynamic-space-size 4000 --load ~/.sbclrc "$@"
+  -- sbcl --dynamic-space-size 2000 --load ~/.sbclrc "$@"
