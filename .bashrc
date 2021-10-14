@@ -535,6 +535,37 @@ function tac() {
 }
 
 # }}}
+# tmuxinator {{{
+
+function mux() {
+    rvm-exec default tmuxinator "$@"
+}
+
+# Courtesy of: https://github.com/tmuxinator/tmuxinator/blob/master/completion/tmuxinator.bash
+_tmuxinator() {
+    COMPREPLY=()
+    local word
+    word="${COMP_WORDS[COMP_CWORD]}"
+
+    if [ "$COMP_CWORD" -eq 1 ]; then
+        local commands="$(compgen -W "$(tmuxinator commands)" -- "$word")"
+        local projects="$(compgen -W "$(tmuxinator completions start)" -- "$word")"
+
+        COMPREPLY=( $commands $projects )
+    elif [ "$COMP_CWORD" -eq 2 ]; then
+        local words
+        words=("${COMP_WORDS[@]}")
+        unset words[0]
+        unset words[$COMP_CWORD]
+        local completions
+        completions=$(tmuxinator completions "${words[@]}")
+        COMPREPLY=( $(compgen -W "$completions" -- "$word") )
+    fi
+}
+
+complete -F _tmuxinator tmuxinator mux
+
+# }}}
 function unfuck() { echo "${D}"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
