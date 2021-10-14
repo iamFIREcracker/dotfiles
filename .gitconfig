@@ -33,15 +33,11 @@
 [alias]
     tags = tag -l
     branches = branch -a
+    remotes = remote -v
+    stashes = stash list
 
     b = "!f() { git branch --color --verbose | tr -d '\\r'; }; f"
     bd = branch -d
-    bD = branch -D
-    bclean = "!f() { git branch --merged ${1-master} | grep -v \" ${1-master}$\" | xargs -r git branch -d; }; f"
-    bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
-
-    remotes = remote -v
-    stashes = stash list
 
     st = status --short --ignore-submodules=untracked
     ci = commit -v
@@ -50,10 +46,12 @@
 
     co = checkout
     cob = checkout -b
-
     com = checkout master
+
     mo = !git-merge-origin
     mom = !git-merge-origin master
+
+    mr = "!f() { git com && git up && git mo \"${@}\" && git push && git bd \"${@}\"; }; f"
 
     peek = "!f() { git fetch && git log HEAD..FETCH_HEAD; }; f"
     peekd = "!f() { git fetch && git diff HEAD..FETCH_HEAD | vim -c 'set ft=diff' -R -; }; f"
@@ -61,7 +59,7 @@
         if [ \"$(git currentbranch)\" != \"master\" ]; then \
             args=master..; \
         fi; \
-        git log \"${@}\" --color=always $args --topo-order --pretty='tformat:%C(white bold)%h%Creset %s (by %an)%C(white bold)%d%Creset'; \
+        git log \"${@}\" --color=always $args --date=\"$GIT_LOG_DATE\" --topo-order --pretty='tformat:%C(white bold)%h%Creset %s (%ad by %an)%C(white bold)%d%Creset'; \
     }; f"
     pl   = !git pretty-log -18
     pll  = !git pretty-log -36
@@ -74,9 +72,12 @@
     ll   = !git pll
     lll  = !git plll
 
-    gl   = log -12 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(by %an)%Creset%C(yellow bold)%d%Creset%n'
-    gll  = log -24 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
-    glll = log -36 --color=always --all --graph --topo-order --pretty='tformat:%Cgreen%h%Creset %s %C(blue bold)(%cr by %an)%Creset%C(yellow bold)%d%Creset%n'
+    graph-log = "!f() { \
+        git log \"${@}\" --color=always --all --graph --date=\"$GIT_LOG_DATE\" --topo-order --pretty='tformat:%C(white bold)%h%Creset %s (%ad by %an)%C(white bold)%d%Creset'; \
+    }; f"
+    gl   = !git graph-log -18
+    gll  = !git graph-log -36
+    glll = !git graph-log -72
 
     ack = log --color=always --all --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset' --full-history -S
 
@@ -101,17 +102,8 @@
     in = !git fetch && git log --pretty=oneline --abbrev-commit --graph ..@{u}
     ind = !git fetch && git diff ..@{u}
 
-    shelve = stash save --include-untracked
-    shelver = stash save --patch
-    unshelve = "!f() { \
-        if git stash list | grep . >/dev/null; then \
-            if ! git stash pop; then \
-                if git status --short | grep '^UU '; then \
-                    git mergetool && git reset && git stash drop; \
-                fi; \
-            fi; \
-        fi; \
-    }; f"
+    shelve = "!f() { cd ${GIT_PREFIX:-.}; git add . ; git stash; }; f"
+    unshelve = "!f() { cd ${GIT_PREFIX:-.}; git stash pop; }; f"
 
     r = "!f() { \
         git add -p -- $@; \
@@ -121,14 +113,6 @@
         git add -p -- $@; \
     }; f"
 
-    rb = "!f() { \
-        need_stash=$(git st | grep -v '^.?'); \
-        [ -n \"$need_stash\" ] && git stash save; \
-        git rebase --interactive $@; \
-        [ -n \"$need_stash\" ] && git stash pop; \
-    }; f"
-
-    rollback = reset --soft HEAD^
     unfuck-merge = reset --hard HEAD
 
     zip = archive -o latest.zip HEAD
@@ -146,7 +130,9 @@
     find-merge = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
     show-merge = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
 
-    pull-request-summary = "!f() { git log ${1-origin/master}.. --reverse --pretty='format:## %s%n%n%b' | vipe | cb; }; f"
+    br-summary = "!f() { git log ${1-origin/master}.. --reverse --pretty='format:## %s%n%n%b' | vipe | cb; }; f"
+    br-stat = "!f() { git diff --stat ${1-origin/master}; }; f"
+    br-files = "!f() { git diff --name-only ${1-origin/master}; }; f"
 
 [pull]
     ff = only
@@ -162,7 +148,8 @@
     prompt = false
 
 [difftool]
-  prompt = false
+    prompt = false
+    trustExitCode = true
 
 [web]
     browser = br
