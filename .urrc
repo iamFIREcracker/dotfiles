@@ -1,0 +1,22 @@
+(ur:define-url-rewriter sjl-hg-w-port->sjl-hg-wo-port
+    ("http://hg.stevelosh.com:8000/(.*)" (profile))
+  (format nil "https://hg.stevelosh.com/~a" profile))
+
+
+(ur:define-url-rewriter twitter-profile->nitter
+    ("https://twitter.com/(\\w+)$" (profile))
+  (unless (string= profile "home")
+    (format nil "https://nitter.net/~a" profile)))
+
+(ur:define-url-rewriter twitter-status->nitter
+    ("https://twitter.com/(\\w+)/status/(.*)" (profile status-id))
+  (format nil "https://nitter.net/~a/status/~a" profile status-id))
+
+
+(ur:define-url-rewriter youtube-com->yewtu-be
+    ("https://www.youtube.com/watch(.*)" (rest))
+  (format nil "https://yewtu.be/watch?nojs=1&~a" rest))
+
+(ur:define-url-rewriter youtu-be->yewtu-be
+    ("https://youtu.be/watch(.*)" (rest))
+  (format nil "https://yewtu.be/watch?nojs=1&~a" rest))
