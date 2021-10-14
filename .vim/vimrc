@@ -807,8 +807,8 @@ function! s:vim_sexp_mappings() " {{{
     xmap <silent><buffer>   ]]   <Plug>(sexp_move_to_next_top_element)
     omap <silent><buffer>   ]]   <Plug>(sexp_move_to_next_top_element)
 
-    nmap <silent><buffer>   ((   <Plug>(sexp_move_to_prev_bracket)
-    nmap <silent><buffer>   ))   <Plug>(sexp_move_to_next_bracket)
+    nmap <silent><buffer>   (    <Plug>(sexp_move_to_prev_bracket)
+    nmap <silent><buffer>   )    <Plug>(sexp_move_to_next_bracket)
 
     " Easy getting around
     nmap <silent><buffer>   B    <Plug>(sexp_move_to_prev_element_head)
@@ -820,12 +820,12 @@ function! s:vim_sexp_mappings() " {{{
     " nmap <buffer> dsf <Plug>(sexp_splice_list)
 
     " Raise the current element or list
-    nmap <silent><buffer> ^e <Plug>(sexp_raise_element)<C-I>
-    nmap <silent><buffer> ^f <Plug>(sexp_raise_list)<C-I>
+    nmap <silent><buffer> 'e <Plug>(sexp_raise_element)<C-I>
+    nmap <silent><buffer> 'f <Plug>(sexp_raise_list)<C-I>
 
     " Wrap the current element or list
-    nmap <silent><buffer> ,e ysie)
-    nmap <silent><buffer> ,f ysif)
+    nmap <silent><buffer> _e ysie)
+    nmap <silent><buffer> _f ysif)
 
     " Swap elements / forms
     "
