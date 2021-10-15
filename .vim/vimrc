@@ -965,6 +965,8 @@ augroup end
 
 augroup CustomVlimeInputBuffer
     autocmd!
+
+    autocmd FileType vlime_input let b:delimitMate_quotes = "\""
     autocmd FileType vlime_input inoremap <buffer> <buffer> <tab> <c-r>=vlime#plugin#VlimeKey("tab")<cr>
     autocmd FileType vlime_input setlocal omnifunc=vlime#plugin#CompleteFunc
     autocmd FileType vlime_input setlocal indentexpr=vlime#plugin#CalcCurIndent()
