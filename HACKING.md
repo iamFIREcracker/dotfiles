@@ -14,3 +14,6 @@
 
     ln -sf ~/Dropbox/newsboat/urls ~/.newsboat/urls
 
+- SSH config
+
+    ln -sf ~/Dropbox/ssh/$(hostname).config ~/.ssh/config
