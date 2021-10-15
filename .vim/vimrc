@@ -1502,7 +1502,7 @@ function! s:SelectAndSendToUrlview(motion) abort " {{{
     call winrestview(view)
 endfunction "}}}
 
-nnoremap ,u :<C-U>call <SID>SelectAndSendToUrlview('VHoL')<CR>
+nnoremap ,u :call <SID>SelectAndSendToUrlview('VHoL')<CR>
 
 " }}}
 " Star search plugin {{{
