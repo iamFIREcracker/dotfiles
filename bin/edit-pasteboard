@@ -1,16 +1,21 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -eu
 
-vipe() {
-    # http://stackoverflow.com/a/10686830
-    local tmpfile
+# The following was mostly inspired by this SO question:
+#
+#   http://stackoverflow.com/a/10686830
+# 
+# Have fun!
 
-    tmpfile=$(mktemp /tmp/vipe.bashXXXXXXXX)
-    cat > ${tmpfile}
-    vim ${tmpfile} < /dev/tty > /dev/tty
-    cat ${tmpfile}
-    rm ${tmpfile}
-}
+TMPFILE=$(mktemp /tmp/vipe.bashXXXXXXXX)
 
-cb | vipe | cb
+trap "rm -f $TMPFILE" EXIT
+
+# Copy OS clipboard into the temp file
+cb > $TMPFILE
+# Edit the file -- making sure the editor does not hang because stdin/stdout
+# are not properly set up
+$EDITOR $TMPFILE < /dev/tty > /dev/tty \
+# Finally copy the content of the temp file back into the OS clipboard
+cb < $TMPFILE
