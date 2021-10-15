@@ -2,4 +2,26 @@ anchor_color blue
 emacs_like_lineedit 1
 cgi_bin ~/.w3m/cgi-bin/
 extbrowser br
+
+# Auto preview link url
+display_link 1
+# Don't treat URL-like strings as links in all pages
+mark_all_pages 0
+
+# follow meta refresh
 meta_refresh 1
+
+# Enable colors
+color 1
+anchor_color blue
+
+# Enable marks
+mark 1
+mark_color yellow
+
+# Modify user-agent string and languages accepted
+user_agent 
+accept_language en;q=1.0
+
+# auto-populate with current URL in URL open command
+default_url 1
