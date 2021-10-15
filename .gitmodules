@@ -82,9 +82,6 @@
 [submodule ".vim/bundle/vim-javacomplete2"]
 	path = .vim/pack/bundle/start/vim-javacomplete2
 	url = https://github.com/artur-shaik/vim-javacomplete2.git
-[submodule ".vim/pack/bundle/start/vim-visual-star-search"]
-	path = .vim/pack/bundle/start/vim-visual-star-search
-	url = https://github.com/bronson/vim-visual-star-search.git
 [submodule ".vim/pack/bundle/start/badwolf"]
 	path = .vim/pack/bundle/start/badwolf
 	url = https://github.com/sjl/badwolf.git
