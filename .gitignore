@@ -8,6 +8,7 @@ __pycache__
 .newsboat/cache.db
 .newsboat/history.search
 .newsboat/history.cmdline
+.newsboat/urls
 .vim/.netrwbook
 .vim/.netrwhist
 .vim/spell
