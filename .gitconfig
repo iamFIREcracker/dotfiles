@@ -96,8 +96,8 @@
     do = "!f() { git diff origin/\"${@}\".. | vim -c 'set ft=diff' -R -; }; f"
     dom = !git do master
 
-    in = !git fetch && git log --pretty=oneline --abbrev-commit --graph ..@{u}
-    ind = !git fetch && git diff ..@{u}
+    in = !git fetch && git graph-log --graph ..@{u}
+    ind = "!f() { git fetch; git diff ..@{u} | vim -c 'set ft=diff' -R -; }; f"
 
     shelve = "!f() { cd ${GIT_PREFIX:-.}; git add . ; git stash; }; f"
     unshelve = "!f() { cd ${GIT_PREFIX:-.}; git stash pop; }; f"
