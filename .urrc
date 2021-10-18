@@ -14,9 +14,9 @@
 
 
 (ur:define-url-rewriter youtube-com->yewtu-be
-    ("https://www.youtube.com/watch(.*)" (rest))
+    ("https://www.youtube.com/watch\\?(.*)" (rest))
   (format nil "https://yewtu.be/watch?nojs=1&~a" rest))
 
 (ur:define-url-rewriter youtu-be->yewtu-be
-    ("https://youtu.be/watch(.*)" (rest))
+    ("https://youtu.be/watch\\?(.*)" (rest))
   (format nil "https://yewtu.be/watch?nojs=1&~a" rest))
