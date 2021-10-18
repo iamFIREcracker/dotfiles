@@ -33,11 +33,24 @@ NEEDS_MUX=': mux'
 # `tmux switchc`/`tmux attach`
 all-possible-sessions() {
   tmux list-sessions
-  mux list --newline 2>/dev/null | awk 'NR>1' | sed "s/$/$NEEDS_MUX/"
+  # The following kind-of intuitive solution, runs very slowly on my laptop:
+  #
+  #     mux list --newline 2>/dev/null | awk 'NR>1' | sed "s/$/$NEEDS_MUX/"
+  #
+  # I am not exactly sure what's going on here, honestly, but since all my
+  # tmuxinator sessions live inside ~/.tmuxinator, why not simply list all the
+  # *.yml files in there?
+  #
+  # This is exactly what the following snippet does, plus the trimming of the
+  # file extensions, plus the adding of the "mux" marker so we can _easily_
+  # remove duplicates
+  /bin/ls -1 ~/.tmuxinator/*.yml \
+      | sed "s/.*\/\([^\/]*\)\.yml$/\1/" \
+      | sed "s/$/$NEEDS_MUX/"
 }
 
 remove-duplicate-sessions() {
-  sort --field-separator=: --key=1,1 --unique 
+  sort --field-separator=: --key=1,1 --unique
 }
 
 ta-fzft() {
