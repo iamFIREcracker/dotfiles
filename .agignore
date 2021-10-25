@@ -3,7 +3,6 @@
 *\.min\.js
 *\.js\.map
 *\.orig
-build
 dist
 obj
 target
