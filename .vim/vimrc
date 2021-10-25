@@ -832,6 +832,50 @@ function! s:vim_sexp_mappings() " {{{
     nmap <silent><buffer>   <I    <Plug>(sexp_insert_at_list_head)
     nmap <silent><buffer>   >I    <Plug>(sexp_insert_at_list_tail)
 
+    " Comment out the current form / element
+    function! ToggleCommonLispComment(toggle_form) abort "{{{
+        " Move at the start of the current element / form; if on an open paren
+        " already, do nothing
+        if getline('.')[col('.') - 1] != "("
+            let motion = ""
+            if a:toggle_form
+                let motion = "\<Plug>(sexp_move_to_prev_bracket)"
+            else
+                let motion = "\<Plug>(sexp_move_to_prev_element_head)"
+            endif
+            execute "normal " . motion
+        endif
+
+        " Figure out if we need to add a comment, or remove the existing one
+        let should_add_comment = 1
+        let save_cursor = getcurpos()
+        let reg_save = @@
+        " Move back to the previous element
+        " Yank it
+        " Check if it's a #+nil marker
+        execute "normal \<Plug>(sexp_move_to_prev_element_head)"
+        normal yW
+        if @@ =~? "#+nil"
+            let should_add_comment = 0
+        endif
+        let @@ = reg_save
+        call setpos('.', save_cursor)
+
+        " Do the needed
+        if should_add_comment
+            " Insert the comment marker, and move back to the element / form
+            execute "normal! i#+nil "
+            execute "normal \<Plug>(sexp_move_to_next_element_head)"
+        else
+            " Move back, and the delete forward
+            execute "normal \<Plug>(sexp_move_to_prev_element_head)"
+            normal dW
+        endif
+    endfunction
+    " }}}
+    nmap <silent><buffer>   gce  :call ToggleCommonLispComment(0)<CR>
+    nmap <silent><buffer>   gcf  :call ToggleCommonLispComment(1)<CR>
+
 "     " Operate on forms by default
 "     nmap <silent><buffer>   yy   yaf<C-O>
 "     nmap <silent><buffer>   dd   daf
