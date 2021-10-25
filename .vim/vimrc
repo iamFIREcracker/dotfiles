@@ -455,7 +455,7 @@ set complete=.,w,b,u,t " By deafult it includes 'i', which tells vim to look ins
 set completeopt=longest,menuone
 
 " Unfuck my screen
-nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
+nnoremap U :syntax off<cr>:syntax on<cr>:redraw!<cr>
 
 " Quickreturn -- on my terminal, C-CR generates ◊
 inoremap ◊ <esc>A<cr>
@@ -1016,6 +1016,11 @@ augroup CustomVlimeInputBuffer
     autocmd FileType vlime_input setlocal indentexpr=vlime#plugin#CalcCurIndent()
 augroup end
 
+augroup CustomVlimeReplBuffer
+    autocmd!
+
+    autocmd FileType vlime_repl setlocal textwidth=0
+augroup end
 augroup VlimeSldb
     autocmd!
 
