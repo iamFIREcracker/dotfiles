@@ -1,0 +1,8 @@
+name: mail
+root: ~/
+
+windows:
+  - nb:
+      layout: main-vertical
+      panes:
+        - mutt
