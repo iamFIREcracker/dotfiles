@@ -11,3 +11,11 @@ syn cluster lispBaseListCluster add=lispExcludedForm
 syntax match lispExcludedElement /\v\#\+nil [^(][^ ]+/
 highlight link lispExcludedElement lispComment
 syn cluster lispBaseListCluster add=lispExcludedElement
+
+syntax match lispExcludedFormWithComment /\v\#\+\#:[^ ]+ \([^)]+\)/
+highlight link lispExcludedFormWithComment lispComment
+syn cluster lispBaseListCluster add=lispExcludedFormWithComment
+
+syntax match lispExcludedElementWithComment /\v\#\+\#:[^ ]+ [^(][^ ]+/
+highlight link lispExcludedElementWithComment lispComment
+syn cluster lispBaseListCluster add=lispExcludedElementWithComment

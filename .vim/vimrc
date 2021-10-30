@@ -855,7 +855,7 @@ function! s:vim_sexp_mappings() " {{{
         " Check if it's a #+nil marker
         execute "normal \<Plug>(sexp_move_to_prev_element_head)"
         normal yW
-        if @@ =~? "#+nil"
+        if @@ =~? "#+#:"
             let should_add_comment = 0
         endif
         let @@ = reg_save
@@ -864,7 +864,7 @@ function! s:vim_sexp_mappings() " {{{
         " Do the needed
         if should_add_comment
             " Insert the comment marker, and move back to the element / form
-            execute "normal! i#+nil "
+            execute "normal! i#+#:excluded "
             execute "normal \<Plug>(sexp_move_to_next_element_head)"
         else
             " Move back, and the delete forward
