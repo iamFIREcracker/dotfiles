@@ -624,9 +624,23 @@ if $OS == 'Windows_NT'
 else
     packadd fzf
 end
-nnoremap <C-P> :<C-u>FZF<CR>
+nnoremap <C-P> :FZF<CR>
 
 let g:fzf_layout = { 'down': '40%' }
+
+function! s:GetActiveBuffers() " {{{
+    let l:blist = getbufinfo({'bufloaded': 1, 'buflisted': 1})
+    let l:result = []
+    for l:item in l:blist
+        " "skip unnamed buffers; also skip hidden buffers?
+        " if empty(l:item.name) || l:item.hidden
+        "     continue
+        " endif
+        call add(l:result, l:item.name)
+    endfor
+    return l:result
+endfunction " }}}
+command! B call fzf#run(extendnew(g:fzf_layout, { 'source': s:GetActiveBuffers(), 'sink': 'e', }))
 
 " }}}
 " JK-Jumps {{{
