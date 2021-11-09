@@ -10,3 +10,4 @@ set formatlistpat=^\\s*[0-9*\\-]\\+[\\]:.)}\\t\ ]\\s*
 
 " Enable diff chunk folding -- https://github.com/tpope/vim-fugitive/issues/146
 set foldmethod=syntax
+set foldlevel=1
