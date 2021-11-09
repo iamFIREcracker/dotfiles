@@ -45,6 +45,7 @@ function create_dir {
                      ensure_link ".bashrc"                ".bashrc"
 test -n "$OS_MAC" && ensure_link ".config/alacritty"      ".config/alacritty"
 test -n "$OS_MAC" && ensure_link ".config/karabiner"      ".config/karabiner"
+                     ensure_link ".config/nvim"           ".config/nvim"
                      ensure_link ".cgrc"                  ".cgrc"
                      ensure_link ".ctags"                 ".ctags"
                      ensure_link ".gitconfig"             ".gitconfig"
