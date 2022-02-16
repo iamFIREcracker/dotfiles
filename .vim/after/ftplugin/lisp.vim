@@ -132,6 +132,8 @@ function! TestLispPrompt() abort "{{{
 endfunction " }}}
 
 setlocal iskeyword+=!,?,%,-
+" Stop on package qualifier
+setlocal iskeyword-=:
 setlocal suffixesadd+=.lisp
 
 RainbowParenthesesActivate
