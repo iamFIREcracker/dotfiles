@@ -584,8 +584,8 @@ let g:fugitive_gitlab_domains = ['https://gitlabdev01.iontrading.com']
 
 nnoremap <leader>gd :vert Git diff %<cr>
 nnoremap <leader>gD :vert Git diff<cr>
-nnoremap <leader>gp :Git! push<cr>
-nnoremap <leader>gP :Git! push -f<cr>
+nnoremap <leader>gp :Git push<cr>
+nnoremap <leader>gP :Git push -f<cr>
 nnoremap <leader>gs :Git<cr>
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gb :.Git blame<cr>
