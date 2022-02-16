@@ -1628,13 +1628,13 @@ xnoremap ,u :<C-U>call <SID>SendSelectionToUrlview()<CR>
 nnoremap <Plug>NormalStarSearchForward
             \ :let star_search_cword = expand('<cword>')<CR>
             \ :let star_search_view = winsaveview()<CR>
-            \ /\<<C-R>=escape(star_search_cword, '*\')<CR>\><CR>
+            \ /\<<C-R>=escape(star_search_cword, '*\[]')<CR>\><CR>
             \ :call winrestview(star_search_view)<CR>
             \ :execute "normal! " . (getline('.')[col('.') - 1:] !~# '^' . star_search_cword ? "b" : "")<CR>
 nnoremap <Plug>NormalStarSearchBackward
             \ :let star_search_cword = expand('<cword>')<CR>
             \ :let star_search_view = winsaveview()<CR>
-            \ ?\<<C-R>=escape(star_search_cword, '*\')<CR>\><CR>
+            \ ?\<<C-R>=escape(star_search_cword, '*\[]')<CR>\><CR>
             \ :call winrestview(star_search_view)<CR>
             \ :execute "normal! " . (getline('.')[col('.') - 1:] !~# '^' . star_search_cword ? "b" : "")<CR>
 nmap * <Plug>NormalStarSearchForward
@@ -1648,11 +1648,11 @@ nmap # <Plug>NormalStarSearchBackward
 " - Restores to the previous view -- effectively undoing the first jump
 xnoremap <Plug>VisualStarSearchForward
             \ :<C-U>let star_search_view = winsaveview()<CR>
-            \ /<C-R>=escape(GetCurrentSelection(visualmode()), '*\')<CR><CR>
+            \ /<C-R>=escape(GetCurrentSelection(visualmode()), '*\[]')<CR><CR>
             \ :call winrestview(star_search_view)<CR>
 xnoremap <Plug>VisualStarSearchBackward
             \ :<C-U>let star_search_view = winsaveview()<CR>
-            \ ?<C-R>=escape(GetCurrentSelection(visualmode()), '*\')<CR><CR>
+            \ ?<C-R>=escape(GetCurrentSelection(visualmode()), '*\[]')<CR><CR>
             \ :call winrestview(star_search_view)<CR>
 xmap * <Plug>VisualStarSearchForward
 xmap # <Plug>VisualStarSearchBackward
