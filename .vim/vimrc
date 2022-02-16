@@ -657,6 +657,20 @@ let g:lightline = {
     \ }
 
 " }}}
+" NrrwRgn {{{
+
+let g:nrrw_rgn_vert = 1
+if g:nrrw_rgn_vert == 1
+    let g:nrrw_rgn_wdth = 100
+    let g:nrrw_topbot_leftright = 'rightbelow'
+else
+    let g:nrrw_rgn_wdth = 50
+    let g:nrrw_topbot_leftright = 'leftabove'
+endif
+" let g:nrrw_rgn_nomap_nr = 1
+" let g:nrrw_rgn_nomap_Nr = 1
+
+" }}}
 " Neoformat {{{
 
 augroup neoformat_neoformat

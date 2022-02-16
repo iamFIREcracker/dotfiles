@@ -142,3 +142,6 @@
 [submodule ".vim/pack/iamFIREcracker/start/vim-lispindent"]
 	path = .vim/pack/iamFIREcracker/start/vim-lispindent
 	url = git@github.com:iamFIREcracker/vim-lispindent.git
+[submodule ".vim/pack/bundle/start/NrrwRgn"]
+	path = .vim/pack/bundle/start/NrrwRgn
+	url = https://github.com/chrisbra/NrrwRgn.git
