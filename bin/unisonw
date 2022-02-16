@@ -30,6 +30,10 @@ unison "$ROOT1" "$ROOT2" \
     -ignore 'Name tags*' \
     -ignore 'Name target' \
     -ignore 'Name venv' \
+    -ignore 'Name w3mcache*' \
+    -ignore 'Name w3mcookie*' \
+    -ignore 'Name w3msrc*' \
+    -ignore 'Name w3mtmp*' \
     "${@:3}"
 
 test $? -le 1 # exit code: 1 means something was skipped but rest went fine
