@@ -15,3 +15,16 @@
 
 (setf sb-int:*repl-prompt-fun* #'package-prompt)
 (setf sb-debug:*debug-beginner-help-p* nil)
+
+;;; [Sbcl-help] How to catch storage-condition without entering to low level debugger?
+;;; https://groups.google.com/g/sbcl-help-archive/c/qEucl64lMik
+(defvar *heap-full-watermark* .75)
+(push (lambda ()
+        (let* ((size (sb-ext:dynamic-space-size))
+               (used (sb-kernel:dynamic-usage)))
+          (when (> used (* size *heap-full-watermark*))
+            (unless (with-simple-restart (full-gc "Run full GC") (break) t)
+              (format t "Running full GC...~%")
+              (sb-ext:gc :full t)
+              (format t "Done!~%") ))))
+      sb-ext:*after-gc-hooks*)
