@@ -1030,7 +1030,11 @@ let g:vlime_window_settings = {
         \ }
     \ }
 
-let g:vlime_indent_keywords = {"if": 1}
+let g:vlime_compiler_policy = {
+            \ "DEBUG": 2,
+            \ "SAFETY": 3,
+            \ "SPEED": 1
+            \ }
 
 augroup RemoveVlimeMappings
     autocmd!
@@ -1041,12 +1045,6 @@ augroup RemoveVlimeMappings
             silent! unmap <buffer> <localleader>of
             silent! unmap <buffer> <localleader>ot
             silent! unmap <buffer> <localleader>oe
-            silent! unmap <buffer> <localleader>Tt
-            silent! unmap <buffer> <localleader>TT
-            silent! unmap <buffer> <localleader>Ti
-            silent! unmap <buffer> <localleader>TI
-            silent! unmap <buffer> <localleader>Td
-            silent! unmap <buffer> <localleader>TD
         endif
     endfunction " }}}
     autocmd FileType lisp call <SID>RemoveVlimeMappings()
@@ -1064,8 +1062,16 @@ augroup end
 augroup CustomVlimeReplBuffer
     autocmd!
 
+    autocmd FileType vlime_repl nnoremap <C-P> :call vlime#ui#repl#NextField(v:false)<CR>
     autocmd FileType vlime_repl setlocal textwidth=0
 augroup end
+
+augroup CustomVlimeTraceBuffer
+    autocmd!
+
+    autocmd FileType vlime_trace nnoremap <C-P> :call vlime#ui#trace_dialog#NextField(v:false)<CR>
+augroup end
+
 augroup VlimeSldb
     autocmd!
 
