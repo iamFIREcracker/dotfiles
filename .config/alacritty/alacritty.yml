@@ -1,9 +1,9 @@
 window:
   dynamic_title: true
   # https://github.com/alacritty/alacritty/issues/4796
-  # padding:
-  #   x: 5
-  #   y: 5
+  padding:
+    x: 2
+    y: 2
 
 scrolling:
   # Disable scroll history (use Tmux's)
@@ -11,6 +11,11 @@ scrolling:
 
 font:
   size: 11
+  normal:
+    # family: iosevka
+    # family: Droid Sans Mono for Powerline
+    family: JetBrains Mono
+    # family: Courier
 
 draw_bold_text_with_bright_colors: true
 
@@ -23,8 +28,12 @@ colors:
     background:   '0x141413'
 
   cursor:
-    text: '0xbbbbbb'
-    cursor: '0xaf00ff'
+    # Magenta
+    # text: '0xbbbbbb'
+    # cursor: '0xaf00ff'
+    # Orange
+    text: '0x444444'
+    cursor: '0xffa724'
 
   # Normal colors
   normal:
