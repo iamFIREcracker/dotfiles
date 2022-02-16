@@ -1,0 +1,16 @@
+name: local-services
+root: ~/
+
+windows:
+  - b1:
+      root: ~/opt/bunny1
+      panes:
+        - vpython b1_custom.py --host localhost
+  - cb: cb --listen
+  - br: br --listen
+  - proxy: ssh -vN -D 7072 pisa299-sock5
+  - unison:
+      panes:
+        - echo watch --interval 60 --beep --errexit --exec unisonw-me
+        - echo watch --interval 60 --beep --errexit --exec unisonw-plan
+        - echo watch --interval 60 --beep --errexit --exec unisonw-workspace
