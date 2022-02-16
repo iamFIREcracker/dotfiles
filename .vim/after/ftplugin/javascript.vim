@@ -58,7 +58,7 @@ function! SelectTopLevelExpression(around) abort " {{{
     " - array definitions (single, and nested ones)
     " - function parameters (i.e. its signature)
     " - or simply inside a nested block
-    let motion .= '99[%'
+    let motion .= '99[{%'
 
     if a:around
         let motion .= 'V%'
@@ -156,9 +156,18 @@ function! InModule() abort "{{{
     call SendToTerminal('inModule("' . fnameescape(expand("%:p")) . '")')
 endfunction " }}}
 
+setl formatexpr=NeoformatExpr()
+nmap <buffer> <C-Q> Vaf:Neoformat<CR>
+
+" Sometimes I create a Javascript buffer starting from a .plan one (via
+" :NarrowRegion); the problem with that though, is that I have a custom `gq`
+" mapping defined for plan files, a mapping which I don't want to use while
+" editing javascript files.
+"
+" Hence we nuke it!
+silent! unmap <buffer> gq
+
 nnoremap <buffer> <silent> <localleader>i :call InModule()<cr>
-nnoremap <buffer> <C-J> :<C-U>call SelectAndSendToTerminal('Vaf')<cr>
-xnoremap <buffer> <C-J> :<C-U>call SendSelectionToTerminal(visualmode())<cr>
 nnoremap <buffer> <C-^> :LspReferences<cr>
 nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
 nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
@@ -166,8 +175,45 @@ nnoremap <buffer> <silent> ,S :LspRename<cr>
 nnoremap <buffer> <silent> ◊ :LspCodeAction<cr>
 nnoremap <buffer> <silent> K :LspHover<cr>
 setlocal omnifunc=lsp#complete
+nnoremap <buffer> <down> :LspNextDiagnostic<cr>zvzz
+nnoremap <buffer> <up> :LspPreviousDiagnostic<cr>zvzz
 
-inoremap <buffer> <c-n> <c-x><c-o>
+inoremap <buffer> <c-n> <c-x><c-n>
+
+xnoremap <buffer> <silent> <C-J> :<C-U>call SaveSelectedExpression(visualmode(), v:count)<CR>
+nnoremap <buffer> <silent> <C-J> :<C-U>call EvalSavedExpression()<CR>
+
+if !exists('g:javascript_saved_expressions')
+    let g:javascript_saved_expressions = [v:null, v:null, v:null, v:null, v:null]
+endif
+
+function! SaveSelectedExpression(type, index) abort " {{{
+    let expr = GetCurrentSelection(a:type)
+    if a:index == 0
+        call SendToTerminal(expr)
+    elseif a:index < 1 || a:index > len(g:javascript_saved_expressions)
+        echoerr "v:count should be between 1 and" len(g:javascript_saved_expressions) "but was" v:count
+        return
+    endif
+    let g:javascript_saved_expressions[a:index] = {
+                \ "expr": expr }
+endfunction " }}}
+
+function! EvalSavedExpression() abort " {{{
+    if v:count == 0
+        call SelectAndSendToTerminal('Vaf')
+        return
+    elseif v:count < 1 || v:count > len(g:javascript_saved_expressions)
+        echoerr "v:count should be between 1 and" len(g:javascript_saved_expressions) "but was" v:count
+        return
+    elseif empty(g:javascript_saved_expressions[v:count])
+        echoerr "No expression previously saved at position" v:count
+        return
+    endif
+    " XXX add support for _modules_, and executing expressions inside them
+    let expr = g:javascript_saved_expressions[v:count].expr
+    call SendToTerminal(expr)
+endfunction " }}}
 
 RainbowParenthesesActivate
 RainbowParenthesesLoadRound
