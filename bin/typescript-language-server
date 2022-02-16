@@ -1,1 +1,1 @@
-node ~/opt/typescript-language-server/server/lib/cli.js "$@"
+node ~/opt/typescript-language-server/lib/cli.js "$@"
