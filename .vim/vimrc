@@ -999,7 +999,10 @@ let g:vitality_always_assume_mintty = 1
 
 if !exists('g:vlime_added_to_rtp')
     let g:vlime_added_to_rtp = 1
-    set rtp+=~/my-env/opt/vlime/vim
+    set rtp+=~/my-env/opt/vlime/__main__/vim
+    " set rtp+=~/my-env/opt/vlime/fix-input-reading/vim
+    " set rtp+=~/my-env/opt/vlime/phmarek-master/vim
+    " set rtp+=~/my-env/opt/vlime/upstream-master/vim
 endif
 
 let g:vlime_window_settings = {
