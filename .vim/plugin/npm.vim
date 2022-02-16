@@ -1,3 +1,10 @@
+function! NpmTryInit() abort "{{{
+    if CheckIfNpmProject()
+        call InitNpmMappings()
+        call UpdatePath()
+    endif
+endfunction " }}}
+
 function! CheckIfNpmProject() abort "{{{
     return filereadable("package.json")
 endfunction " }}}
@@ -13,8 +20,5 @@ function! UpdatePath() abort " {{{
         let $PATH .= ':' . $PWD . '/node_modules/.bin'
     endif
 endfunction " }}}
-au VimEnter *
-            \ if CheckIfNpmProject()
-            \ | call InitNpmMappings()
-            \ | call UpdatePath()
-            \ | endif
+
+au VimEnter * call NpmTryInit()
