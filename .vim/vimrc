@@ -673,12 +673,22 @@ endif
 " }}}
 " Neoformat {{{
 
-augroup neoformat_neoformat
-  autocmd!
+" let g:neoformat_verbose = 1
 
-  " Thanks: https://github.com/sbdchd/neoformat/issues/134#issuecomment-347180213
-  au BufWritePre * try | undojoin | Neoformat | catch /^Vim\%((\a\+)\)\=:E790/ | finally | silent Neoformat | endtry
-augroup END
+" XXX Let's disable automatic formatting for now -- let's manually trigger it
+" instead
+" augroup neoformat_neoformat
+"   autocmd!
+
+"   " Thanks: https://github.com/sbdchd/neoformat/issues/134#issuecomment-347180213
+"   au BufWritePre * try | undojoin | Neoformat | catch /E790/ | Neoformat | endtry
+" augroup END
+
+function! NeoformatExpr() abort " {{{
+    let line1 = v:lnum
+    let line2 = v:lnum + v:count - 1
+    execute ':' . line1 . ',' . line2 . 'Neoformat'
+endfunction "}}}
 
 " }}}
 " Neomake {{{
@@ -686,11 +696,12 @@ augroup END
 let g:neomake_open_list = 0
 let g:neomake_markdown_markdownlint_errorformat = '%f:%l %m'
 
-augroup neomake_neomake
-    au!
-
-    autocmd BufWritePost * Neomake
-augroup END
+" XXX disable for now, as I am experimenting with LSP diagnostics
+" augroup neomake_neomake
+"     au!
+"
+"     autocmd BufWritePost * Neomake
+" augroup END
 
 let g:neomake_error_sign = {
     \ 'text': '●',
