@@ -42,6 +42,7 @@ fi
 if [[ -z $TMUX ]]; then
     test -d /usr/sbin                      && export PATH="/usr/sbin:$PATH"
     test -d /usr/local/sbin                && export PATH="/usr/local/sbin:$PATH"
+    test -d /usr/local/opt/curl/bin        && export PATH="/usr/local/opt/curl/bin:$PATH"
     test -d /usr/local/opt/python@2/bin    && export PATH="/usr/local/opt/python@2/bin:$PATH"
     test -d /usr/local/opt/python@3.9/bin  && export PATH="/usr/local/opt/python@3.9/bin:$PATH"
     test -d /usr/local/opt/ruby/bin        && export PATH="/usr/local/opt/ruby/bin:$PATH"
