@@ -19,7 +19,7 @@ if [[ $- == *i* ]]; then
     shopt -s cmdhist
 
     # Disable terminal scroll lock
-    stty -ixon
+    stty -ixon -ixoff
 
     # Don't 'susp' with C-Z (default)
     stty susp undef
