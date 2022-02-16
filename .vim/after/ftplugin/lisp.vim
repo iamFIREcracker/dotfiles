@@ -31,20 +31,22 @@ function! SetupLispProjectMappings() abort " {{{
 endfunction " }}}
 
 function! OpenLispReplSBCL() abort "{{{
-    call term_start("bash -c sbcl-vlime", {
-        \ "term_finish": "close",
-        \ "vertical": 1
-    \ })
-    call InitializeLispRepl()
+    Start! -title=REPL "sbcl-vlime"
+    " call term_start("sbcl-vlime", {
+    "     \ "term_finish": "close",
+    "     \ "vertical": 1
+    " \ })
+    " call InitializeLispRepl()
     call SetupLispProjectMappings()
 endfunction "}}}
 
 function! OpenLispReplPrompt() abort "{{{
-    call term_start("bash -c " . input("? "), {
-        \ "term_finish": "close",
-        \ "vertical": 1
-    \ })
-    call InitializeLispRepl()
+    Start! -title=REPL input("? ")
+    " call term_start("bash -c " . input("? "), {
+    "     \ "term_finish": "close",
+    "     \ "vertical": 1
+    " \ })
+    " call InitializeLispRepl()
     call SetupLispProjectMappings()
 endfunction "}}}
 
