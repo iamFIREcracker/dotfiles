@@ -33,3 +33,16 @@
 
 ;;; Stop symlinking -- https://www.reddit.com/r/Common_Lisp/comments/lx6al4/loading_an_asdf_system_from_current_directory/gplgpww/
 (pushnew '*default-pathname-defaults* asdf:*central-registry*)
+(pushnew #P"~/opt/vlime/__main__/lisp/" asdf:*central-registry*)
+; (pushnew #P"~/opt/vlime/fix-input-reading/lisp/" asdf:*central-registry*)
+; (pushnew #P"~/opt/vlime/phmarek-master/lisp/" asdf:*central-registry*)
+; (pushnew #P"~/opt/vlime/upstream-master/lisp/" asdf:*central-registry*)
+(pushnew #P"~/opt/slime/__main__/" asdf:*central-registry*)
+; (pushnew #P"~/opt/slime/phmarek-master/" asdf:*central-registry*)
+; (pushnew #P"~/opt/slime/upstream-master/" asdf:*central-registry*)
+(pushnew #P"~/opt/yason/__main__/" asdf:*central-registry*)
+(pushnew #P"~/opt/trivial-build/__main__/" asdf:*central-registry*)
+
+;;; Enable specific behaviors when running locally
+(pushnew :running-locally *features*)
+
