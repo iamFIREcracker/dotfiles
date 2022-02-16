@@ -277,7 +277,7 @@ set sidescrolloff=10
 
 set virtualedit+=block
 
-noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
+nnoremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 
 packadd! matchit
 
