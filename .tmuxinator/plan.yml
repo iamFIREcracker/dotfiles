@@ -1,0 +1,5 @@
+name: plan
+root: ~/plan/
+
+windows:
+  - p: ep
