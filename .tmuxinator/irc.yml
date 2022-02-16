@@ -3,5 +3,6 @@ root: ~/
 
 windows:
   - weechat:
-    panes:
-      - weechat
+      layout: main-vertical
+      panes:
+        - weechat
