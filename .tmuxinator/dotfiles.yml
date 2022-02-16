@@ -1,4 +1,4 @@
-name: me
+name: dotfiles
 root: ~/my-env
 
 windows:
