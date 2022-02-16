@@ -2,7 +2,7 @@ name: mail
 root: ~/
 
 windows:
-  - nb:
+  - mail:
       layout: main-vertical
       panes:
         - mutt
