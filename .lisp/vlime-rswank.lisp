@@ -1,8 +1,21 @@
-(load "~/opt/vlime/lisp/load-vlime.lisp")
+(in-package #:cl-user)
+(defpackage #:vlime-rswank (:use #:cl))
+(in-package #:vlime-rswank)
+
+(ql:quickload "dns-client")
+(ql:quickload "split-sequence")
+
+(let ((vlime-dir (find-if (lambda (p) (search "vlime" (namestring p)))
+                          asdf:*central-registry*)))
+  (if (not vlime-dir)
+    (error "vlime not found inside ASDF:*CENTRAL-REGISTRY")
+    (let ((vlime-init (merge-pathnames "load-vlime.lisp"
+                                       vlime-dir)))
+      (format t "Loading Vlime from: ~a~%" vlime-init)
+      (load vlime-init))))
+
 ; (ql:quickload "cffi") ;; Solves: Package CFFI-FEATURES does not exist
 (swank-loader:init :load-contribs t) ;; Solves: The name SWANK-REPL does not designate any package
-
-(ql:quickload '("dns-client" "split-sequence"))
 
 (defun read-ip-address (&optional (prompt "a"))
   (format t "Enter ~a IP: " prompt)
