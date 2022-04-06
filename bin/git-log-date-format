@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+case $(hostname) in
+    dabox|hairstyle.local)
+        echo -n human
+        ;;
+    *)
+        echo -n default
+esac
+

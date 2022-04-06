@@ -59,7 +59,7 @@
         if [ \"$(git currentbranch)\" != \"master\" ]; then \
             args=master..; \
         fi; \
-        git log \"${@}\" --color=always $args --date=\"$GIT_LOG_DATE\" --topo-order --pretty='tformat:%C(white bold)%h%Creset %s (%ad by %an)%C(white bold)%d%Creset'; \
+        git log \"${@}\" --color=always $args --date=\"$(git-log-date-format)\" --topo-order --pretty='tformat:%C(white bold)%h%Creset %s (%ad by %an)%C(white bold)%d%Creset'; \
     }; f"
     pl   = !git pretty-log -18
     pll  = !git pretty-log -36
@@ -73,7 +73,7 @@
     lll  = !git plll
 
     graph-log = "!f() { \
-        git log \"${@}\" --color=always --all --graph --date=\"$GIT_LOG_DATE\" --topo-order --pretty='tformat:%C(white bold)%h%Creset %s (%ad by %an)%C(white bold)%d%Creset'; \
+        git log \"${@}\" --color=always --all --graph --date=\"$(git-log-date-format)\" --topo-order --pretty='tformat:%C(white bold)%h%Creset %s (%ad by %an)%C(white bold)%d%Creset'; \
     }; f"
     gl   = !git graph-log -18
     gll  = !git graph-log -36
