@@ -66,7 +66,37 @@ alias :qa=exit
 
 # FZF {{{
 
+export FZF_TMUX=1
 export FZF_DEFAULT_COMMAND='ag --hidden --nocolor -g ""'
+
+# Bash history search integration -- CTRL-R
+# Borrowed from: ~/.vim/pack/bundle/opt/fzf/shell/key-bindings.bash {{{
+__fzfcmd() {
+  [[ -n "$TMUX_PANE" ]] && { [[ "${FZF_TMUX:-0}" != 0 ]] || [[ -n "$FZF_TMUX_OPTS" ]]; } &&
+    echo "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} -- " || echo "fzf"
+}
+__fzf_history__() {
+  local output
+  output=$(
+    builtin fc -lnr -2147483648 |
+      last_hist=$(HISTTIMEFORMAT='' builtin history 1) perl -n -l0 -e 'BEGIN { getc; $/ = "\n\t"; $HISTCMD = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCMD - $. . "\t$_" if !$seen{$_}++' |
+      FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort,ctrl-z:ignore $FZF_CTRL_R_OPTS +m --read0" $(__fzfcmd) --query "$READLINE_LINE"
+  ) || return
+  READLINE_LINE=${output#*$'\t'}
+  if [[ -z "$READLINE_POINT" ]]; then
+    echo "$READLINE_LINE"
+  else
+    READLINE_POINT=0x7fffffff
+  fi
+}
+if [[ $- == *i* ]]; then
+    # CTRL-R - Paste the selected command from history into the command line
+    bind -m emacs-standard -x '"\C-r": __fzf_history__'
+    bind -m vi-command -x '"\C-r": __fzf_history__'
+    bind -m vi-insert -x '"\C-r": __fzf_history__'
+fi
+
+# }}}
 
 # }}}
 # General {{{
@@ -342,7 +372,11 @@ function hl4() { GREP_COLOR="1;34" grep -E --color=always "$1|\$"; }
 function hl5() { GREP_COLOR="1;35" grep -E --color=always "$1|\$"; }
 function hl6() { GREP_COLOR="1;36" grep -E --color=always "$1|\$"; }
 function hs() { history "$@"; }
-function j() { z "$@"; }
+function j() {
+  [ $# -gt 0 ] && _z "$*" && return
+  cd "$(_z -l 2>&1 | fzf-tmux --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+}
+
 # Join lines {{{
 
 function J() {
