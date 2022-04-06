@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+SEP=${1-.}
+NOW=$(date '+%Y%m%d')
+RND=$(gtr -dc 'A-Za-z0-9' </dev/urandom | head -c 6 | base32 | tr -d '=')
+echo "$NOW$SEP$RND"
