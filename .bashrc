@@ -130,24 +130,15 @@ headless_java() {
 
 export NVM_DIR="$HOME/.nvm"
 
-# MacOS
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-# Every other OS I use
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# if [[ $- == *i* ]]; then
-#     nvm use default
-#     eval "$(npm completion)"
-# fi
 
 # }}}
 # Ruby {{{
 
 [ -f "$HOME/.rvm/scripts/rvm" ] && \. "$HOME/.rvm/scripts/rvm"
 
+# XXX slow as balls -- manually run `rvm use` please
 # if [[ $- == *i* ]]; then
 #     # echo $PATH
 #     rvm use default
@@ -184,6 +175,15 @@ load_if_present() {
 }
 
 load_if_present ~/opt/z/z.sh
+
+# }}}
+# Shortcuts {{{
+
+alias g=git
+complete -o default -F _npm_completion n
+
+alias n=npm
+__git_complete g __git_main
 
 # }}}
 # Useful functions {{{
@@ -300,13 +300,6 @@ function fucking-restart-bluetooth() {
     sudo kextunload -b com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport
     sudo kextload -b com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport
 }
-# Git {{{
-
-function g() { git "$@"; }
-hash __git_complete 2>/dev/null && __git_complete g __git_main
-
-# }}}
-
 gimmeurjson() {
     local url=$1
     local method=${2:-GET}
@@ -445,26 +438,6 @@ function muttw() {
 function mutt()      { muttw -F ~/Dropbox/mutt/matteo-matteolandi.net.muttrc; }
 function mutt-work() { muttw -F ~/Dropbox/mutt/matteo.landi-iongroup.com.muttrc; }
 function mutt-pec()  { muttw -F ~/Dropbox/mutt/landimatte-pec.it.muttrc; }
-
-# }}}
-# Node.js/NPM {{{
-
-if hash winpty 2>/dev/null; then
-    _node='winpty node'
-else
-    _node=$(which node)
-fi
-node() { ${_node} "$@"; }
-
-if hash winpty 2>/dev/null; then
-    _npm='winpty npm.cmd'
-else
-    _npm=$(which npm)
-fi
-npm() { ${_npm} "$@"; }
-
-n() { npm "$@"; }
-hash _npm_completion 2>/dev/null && complete -o default -F _npm_completion n
 
 # }}}
 function median() { percentile 50; }
@@ -611,20 +584,48 @@ v() { vagrant "$@"; }
 
 # }}}
 function vw() { vim -R -; }
+# Work-on {{{
+function wopython() {
+    local venvactivate=$(find . | grep '/bin/activate$')
+
+    if [ ! -e "$venvactivate" ]; then
+        return 1
+    else
+        . ${venvactivate}
+        return 0
+    fi
+}
+
+function wonvm() {
+    local nvm=$(find . | grep '/bin/activate$')
+
+    if [ ! -e .nvmrc ]; then
+        return 1
+    else
+        nvm use
+        eval "$(npm completion)"
+        return 0
+    fi
+}
+
 function wo() {
-    local wd=`pwd`
+    local wd=$(pwd)
 
-    while [ $wd != '/' ]; do
-        local venvactivate=$(find . | grep '/bin/activate$')
-
-        if [ ! -e $venvactivate ]; then
-            wd=`dirname $wd`
+    while true; do
+        echo $wd
+        if [ $wd == '/' ]; then
+            echo "Nothing to work on..."
+            break
+        elif wopython; then
+            break
+        elif wonvm; then
+            break
         else
-            . ${venvactivate}
-            return
+            wd=$(dirname $wd)
         fi
     done
 }
+# }}}
 function wpk() {
     kill `cat .bgrun.pid`
 }
