@@ -16,9 +16,6 @@
 [submodule ".vim/bundle/jk-jumps"]
 	path = .vim/pack/bundle/start/jk-jumps
 	url = https://github.com/teranex/jk-jumps.vim.git
-[submodule ".vim/bundle/python-mode"]
-	path = .vim/pack/bundle/start/python-mode
-	url = https://github.com/klen/python-mode.git
 [submodule ".vim/bundle/ack.vim"]
 	path = .vim/pack/bundle/start/ack.vim
 	url = git@github.com:iamFIREcracker/ack.vim.git
