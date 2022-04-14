@@ -1,6 +1,14 @@
-# Platform {{{
+# Platform/Compat {{{
 
 OS_WIN=$(uname -rs | grep -e CYGWIN -e Microsoft)
+OS_MAC=$(uname -rs | grep -e Darwin)
+
+if [ -n "$OS_MAC" ]; then
+    alias cat=gcat
+    alias dircolors=gdircolors
+    alias sed=gsed
+    alias tac=gtac
+fi
 
 # }}}
 # Bash {{{
@@ -262,18 +270,6 @@ function b() { bower "$@"; }
 function banner() { figlet -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
 function b1() { ~/opt/bunny1/venv/bin/python ~/opt/bunny1/b1_custom.py --test "$*"; }
 function brewski() { brew update && brew upgrade && brew cleanup; brew doctor; }
-# cat {{{
-
-if hash gcat 2>/dev/null; then
-    _cat=gcat
-else
-    _cat=$(which cat)
-fi
-function cat() {
-    ${_cat} "$@"
-}
-
-# }}}
 function cleancodes() { sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"; }
 function collapse() { sed -e 's/  */ /g'; }
 function cols() { collapse | cuts -f "$@"; }
@@ -513,35 +509,11 @@ function ssh-purple() {
 
 # }}}
 function sb() { . ~/.bashrc; }
-# Sed cross-OS wrapper {{{
-
-if hash gsed 2>/dev/null; then
-    _sed=gsed
-else
-    _sed=$(which sed)
-fi
-function sed() {
-    ${_sed} "$@"
-}
-
-#}}}
 function serve-this() { python -m SimpleHTTPServer "$@"; }
-function sleeplees() {
+function sleepless() {
     pmset -g assertions | egrep '(PreventUserIdleSystemSleep|PreventUserIdleDisplaySleep)'
 }
 function sum() { awk '{s+=$1}END{print s}'; }
-# tac {{{
-
-if hash gtac 2>/dev/null; then
-    _tac=gtac
-else
-    _tac=$(which tac)
-fi
-function tac() {
-    ${_tac} "$@"
-}
-
-# }}}
 # tmuxinator {{{
 
 # Courtesy of: https://github.com/tmuxinator/tmuxinator/blob/master/completion/tmuxinator.bash
