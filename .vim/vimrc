@@ -147,13 +147,23 @@ augroup theme_customizations
             \ hi! link diffLine diffSubName |
             \ hi! link DiffAdd diffAdded |
             \ hi! link DiffDelete diffRemoved |
-            \ hi! link level2c level1c |
             \ hi! link javaDocTags Comment |
+            \ hi! link shSet Comment |
+            \ hi! link shStatement Comment |
+            \ hi! link bashStatement Comment |
+            \ hi! link shFunctionKey Comment |
+            \ hi! link shFunctionKey Comment |
             \ hi! link shDerefSimple Comment |
             \ hi! link shDerefVar Comment |
             \ hi! link PreProc Comment |
             \ hi! link javaScriptEmbed javaScriptStringT |
+            \ hi! link htmlArg Comment |
+            \ hi! link htmlTag Normal |
+            \ hi! link htmlEndTag Normal |
+            \ hi! link htmlTagName Normal |
             \ hi! markdownItalic cterm=italic |
+            \ hi! link markdownLinkText Normal |
+            \ hi! link markdownUrl markdownLinkDelimiter |
             \ hi! link markdownH2 markdownH1delimiter |
             \ hi! link markdownH3 markdownH1delimiter |
             \ call GoodWolfHL('CursorLineNr', 'dalespale', '', 'none') |
