@@ -2,12 +2,13 @@
 
 # Print the current time in a bunch of timezones where
 # people I work with, live
+# Also: https://www.ionstage.org/loclock/#QW1lcmljYS9OZXdfWW9yayxFdXJvcGUvTG9uZG9uLEV1cm9wZS9Sb21lLEFzaWEvS29sa2F0YSMvTmV3IERlbGhpLEFzaWEvSmFrYXJ0YQ
 
 set -euo pipefail
 
-echo "Jakarta:  $(TZ=:Asia/Jakarta date)"
-echo "India:    $(TZ=:Asia/Calcutta date)"
-echo "Italy:    $(TZ=:Europe/Rome date)"
-echo "England:  $(TZ=:Europe/London date)"
-echo "New York: $(TZ=:America/New_York date)"
-press-enter-to-exit
+echo "Jakarta:   "$(TZ=:Asia/Jakarta gdate "$@")
+echo "India:     "$(TZ=:Asia/Calcutta gdate "$@")
+echo "Italy:     "$(TZ=:Europe/Rome gdate "$@")
+echo "England:   "$(TZ=:Europe/London gdate "$@")
+echo "New York:  "$(TZ=:America/New_York gdate "$@")
+echo "Vancouver: "$(TZ=:America/Vancouver gdate "$@")
