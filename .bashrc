@@ -274,7 +274,7 @@ function cleancodes() { sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"; }
 function collapse() { sed -e 's/  */ /g'; }
 function cols() { collapse | cuts -f "$@"; }
 function cuts() { cut -d' ' "$@"; }
-function dabox() { ssh pisa299linux; }
+function dabox() { ssh pisa299linux "$@"; }
 function de() { deactivate; }
 function ungron() { gron --ungron "$@"; }
 function uniqdiff() {
