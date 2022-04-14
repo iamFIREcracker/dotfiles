@@ -275,7 +275,6 @@ function collapse() { sed -e 's/  */ /g'; }
 function cols() { collapse | cuts -f "$@"; }
 function cuts() { cut -d' ' "$@"; }
 function dabox() { ssh pisa299linux "$@"; }
-function de() { deactivate; }
 function ungron() { gron --ungron "$@"; }
 function uniqdiff() {
     local input=/tmp/uniqdiff_all.$$
@@ -387,7 +386,6 @@ function ll3() { tree --dirsfirst -ChFupDaL 3 "$@"; }
 function ll4() { tree --dirsfirst -ChFupDaL 4 "$@"; }
 function ll5() { tree --dirsfirst -ChFupDaL 5 "$@"; }
 function ll6() { tree --dirsfirst -ChFupDaL 6 "$@"; }
-function ls() { fortune; }
 # math {{{
 
 function math() {
