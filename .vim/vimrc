@@ -590,6 +590,20 @@ let g:EditorConfig_exclude_patterns = [
          \ 'scp://.*'
          \ ]
 
+ function! EditorconfigSoftWrapHook(config)
+     if has_key(a:config, 'soft_wrap')
+         if a:config['soft_wrap'] == 'true'
+             set wrap
+         else
+             set nowrap
+         endif
+     endif
+
+     return 0   " Return 0 to show no error happened
+ endfunction
+
+ call editorconfig#AddNewHook(function('EditorconfigSoftWrapHook'))
+
 " }}}
 " Fugitive {{{
 
