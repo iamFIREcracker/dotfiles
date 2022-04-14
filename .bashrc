@@ -558,7 +558,8 @@ v() { vagrant "$@"; }
 function vw() { vim -R -; }
 # Work-on {{{
 function wopython() {
-    local venvactivate=$(find . | grep '/bin/activate$')
+    local wd=$1
+    local venvactivate=$(find $wd | grep '/bin/activate$')
 
     if [ ! -e "$venvactivate" ]; then
         return 1
@@ -569,9 +570,10 @@ function wopython() {
 }
 
 function wonvm() {
-    local nvm=$(find . | grep '/bin/activate$')
+    local wd=$1
+    local nvmrc=$wd/.nvmrc
 
-    if [ ! -e .nvmrc ]; then
+    if [ ! -e "$nvmrc" ]; then
         return 1
     else
         nvm use
@@ -584,13 +586,13 @@ function wo() {
     local wd=$(pwd)
 
     while true; do
-        echo $wd
+        echo "Trying:" $wd
         if [ $wd == '/' ]; then
             echo "Nothing to work on..."
             break
-        elif wopython; then
+        elif wopython $wd; then
             break
-        elif wonvm; then
+        elif wonvm $wd; then
             break
         else
             wd=$(dirname $wd)
