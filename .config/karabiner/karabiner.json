@@ -44,6 +44,30 @@
           {
             "manipulators": [
               {
+                "description": "Hyper+Space -> Spotlight",
+                "from": {
+                  "key_code": "spacebar",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command",
+                      "left_control",
+                      "left_option",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "apple_vendor_keyboard_key_code": "spotlight"
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
+            "manipulators": [
+              {
                 "description": "Change caps_lock to left_control. (Post escape if pressed alone)",
                 "from": {
                   "key_code": "caps_lock",
@@ -61,70 +85,6 @@
                 "to_if_alone": [
                   {
                     "key_code": "escape"
-                  }
-                ],
-                "type": "basic"
-              }
-            ]
-          },
-          {
-            "manipulators": [
-              {
-                "conditions": [
-                  {
-                    "bundle_identifiers": [
-                      "^com\\.microsoft\\.Outlook$"
-                    ],
-                    "type": "frontmost_application_if"
-                  }
-                ],
-                "description": "Outlook: ctrl+a to move at the beginning of the line",
-                "from": {
-                  "key_code": "a",
-                  "modifiers": {
-                    "mandatory": [
-                      "left_control"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "left_arrow",
-                    "modifiers": [
-                      "left_command"
-                    ]
-                  }
-                ],
-                "type": "basic"
-              }
-            ]
-          },
-          {
-            "manipulators": [
-              {
-                "conditions": [
-                  {
-                    "bundle_identifiers": [
-                      "^com\\.microsoft\\.Outlook$"
-                    ],
-                    "type": "frontmost_application_if"
-                  }
-                ],
-                "description": "Outlook: ctrl+e to move at the end of the line",
-                "from": {
-                  "key_code": "e",
-                  "modifiers": {
-                    "mandatory": [
-                      "left_control"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "right_arrow",
-                    "modifiers": [
-                      "left_command"
-                    ]
                   }
                 ],
                 "type": "basic"
@@ -174,7 +134,72 @@
                     "type": "frontmost_application_if"
                   }
                 ],
-                "description": "Outlook: ctrl+u to delete the line behind the cursor",
+                "description": "Outlook: ctrl+a to move to the beginning of the current line",
+                "from": {
+                  "key_code": "a",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_control"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "left_arrow",
+                    "modifiers": [
+                      "command"
+                    ]
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
+            "manipulators": [
+              {
+                "conditions": [
+                  {
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.Outlook$"
+                    ],
+                    "type": "frontmost_application_if"
+                  }
+                ],
+                "description": "Outlook: ctrl+e to move to the end of the current line",
+                "from": {
+                  "key_code": "e",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_control"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "right_arrow",
+                    "modifiers": [
+                      "command"
+                    ]
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
+            "manipulators": [
+              {
+                "conditions": [
+                  {
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.teams$",
+                      "^com\\.microsoft\\.Outlook$"
+                    ],
+                    "type": "frontmost_application_if"
+                  }
+                ],
+                "description": "Microsoft: ctrl+u to delete the line behind the cursor",
                 "from": {
                   "key_code": "u",
                   "modifiers": {
@@ -550,70 +575,6 @@
                 "conditions": [
                   {
                     "bundle_identifiers": [
-                      "^com\\.microsoft\\.teams$"
-                    ],
-                    "type": "frontmost_application_if"
-                  }
-                ],
-                "description": "Teams: ctrl+a to move at the beginning of the line",
-                "from": {
-                  "key_code": "a",
-                  "modifiers": {
-                    "mandatory": [
-                      "left_control"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "left_arrow",
-                    "modifiers": [
-                      "left_command"
-                    ]
-                  }
-                ],
-                "type": "basic"
-              }
-            ]
-          },
-          {
-            "manipulators": [
-              {
-                "conditions": [
-                  {
-                    "bundle_identifiers": [
-                      "^com\\.microsoft\\.teams$"
-                    ],
-                    "type": "frontmost_application_if"
-                  }
-                ],
-                "description": "Teams: ctrl+e to move at the end of the line",
-                "from": {
-                  "key_code": "e",
-                  "modifiers": {
-                    "mandatory": [
-                      "left_control"
-                    ]
-                  }
-                },
-                "to": [
-                  {
-                    "key_code": "right_arrow",
-                    "modifiers": [
-                      "left_command"
-                    ]
-                  }
-                ],
-                "type": "basic"
-              }
-            ]
-          },
-          {
-            "manipulators": [
-              {
-                "conditions": [
-                  {
-                    "bundle_identifiers": [
                       "^com\\.apple\\.Terminal$",
                       "^io\\.alacritty$"
                     ],
@@ -742,29 +703,29 @@
             "manipulators": [
               {
                 "description": "Post ( if left_shift pressed alone",
-                "from": {
-                  "key_code": "left_shift",
-                  "modifiers": {
-                    "optional": [
-                      "any"
-                    ]
-                  }
-                },
-                "to": [
-                  {
+                  "from": {
                     "key_code": "left_shift",
-                    "modifiers": []
-                  }
-                ],
-                "to_if_alone": [
-                  {
-                    "key_code": "9",
-                    "modifiers": [
-                      "left_shift"
-                    ]
-                  }
-                ],
-                "type": "basic"
+                    "modifiers": {
+                      "optional": [
+                        "any"
+                      ]
+                    }
+                  },
+                  "to": [
+                    {
+                      "key_code": "left_shift",
+                      "modifiers": []
+                    }
+                  ],
+                  "to_if_alone": [
+                    {
+                      "key_code": "9",
+                      "modifiers": [
+                        "left_shift"
+                      ]
+                    }
+                  ],
+                  "type": "basic"
               },
               {
                 "description": "Post ) if right_shift is pressed alone",
@@ -821,120 +782,6 @@
                 "to_if_alone": [
                   {
                     "key_code": "tab"
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "conditions": [
-                  {
-                    "name": "tab_modifier",
-                    "type": "variable_if",
-                    "value": 1
-                  }
-                ],
-                "description": "tab + h as left_arrow",
-                "from": {
-                  "key_code": "h"
-                },
-                "to": [
-                  {
-                    "key_code": "left_arrow"
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "conditions": [
-                  {
-                    "name": "tab_modifier",
-                    "type": "variable_if",
-                    "value": 1
-                  }
-                ],
-                "description": "tab + j as left_arrow",
-                "from": {
-                  "key_code": "j"
-                },
-                "to": [
-                  {
-                    "key_code": "down_arrow"
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "conditions": [
-                  {
-                    "name": "tab_modifier",
-                    "type": "variable_if",
-                    "value": 1
-                  }
-                ],
-                "description": "tab + k as left_arrow",
-                "from": {
-                  "key_code": "k"
-                },
-                "to": [
-                  {
-                    "key_code": "up_arrow"
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "conditions": [
-                  {
-                    "name": "tab_modifier",
-                    "type": "variable_if",
-                    "value": 1
-                  }
-                ],
-                "description": "tab + l as left_arrow",
-                "from": {
-                  "key_code": "l"
-                },
-                "to": [
-                  {
-                    "key_code": "right_arrow"
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "conditions": [
-                  {
-                    "name": "tab_modifier",
-                    "type": "variable_if",
-                    "value": 1
-                  }
-                ],
-                "description": "tab + ctrl + h as ctrl + left_arrow",
-                "from": {
-                  "key_code": "h"
-                },
-                "to": [
-                  {
-                    "key_code": "left_arrow"
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "conditions": [
-                  {
-                    "name": "tab_modifier",
-                    "type": "variable_if",
-                    "value": 1
-                  }
-                ],
-                "description": "tab + j as left_arrow",
-                "from": {
-                  "key_code": "j"
-                },
-                "to": [
-                  {
-                    "key_code": "down_arrow"
                   }
                 ],
                 "type": "basic"
@@ -1016,116 +863,6 @@
                     "key_code": "v",
                     "modifiers": [
                       "left_shift",
-                      "left_command"
-                    ]
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "conditions": [
-                  {
-                    "name": "tab_modifier",
-                    "type": "variable_if",
-                    "value": 1
-                  }
-                ],
-                "description": "tab + w as left_alt + right_arrow (one word forward)",
-                "from": {
-                  "key_code": "w"
-                },
-                "to": [
-                  {
-                    "key_code": "right_arrow",
-                    "modifiers": [
-                      "left_alt"
-                    ]
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "conditions": [
-                  {
-                    "name": "tab_modifier",
-                    "type": "variable_if",
-                    "value": 1
-                  }
-                ],
-                "description": "tab + b as left_alt + left_arrow (one word backward)",
-                "from": {
-                  "key_code": "b"
-                },
-                "to": [
-                  {
-                    "key_code": "left_arrow",
-                    "modifiers": [
-                      "left_alt"
-                    ]
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "conditions": [
-                  {
-                    "name": "tab_modifier",
-                    "type": "variable_if",
-                    "value": 1
-                  }
-                ],
-                "description": "tab + x to undo",
-                "from": {
-                  "key_code": "x"
-                },
-                "to": [
-                  {
-                    "key_code": "x",
-                    "modifiers": [
-                      "left_command"
-                    ]
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "conditions": [
-                  {
-                    "name": "tab_modifier",
-                    "type": "variable_if",
-                    "value": 1
-                  }
-                ],
-                "description": "tab + c to copy selection",
-                "from": {
-                  "key_code": "c"
-                },
-                "to": [
-                  {
-                    "key_code": "c",
-                    "modifiers": [
-                      "left_command"
-                    ]
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "conditions": [
-                  {
-                    "name": "tab_modifier",
-                    "type": "variable_if",
-                    "value": 1
-                  }
-                ],
-                "description": "tab + v to paste selection",
-                "from": {
-                  "key_code": "v"
-                },
-                "to": [
-                  {
-                    "key_code": "v",
-                    "modifiers": [
                       "left_command"
                     ]
                   }
@@ -1230,9 +967,11 @@
               "from": {
                 "key_code": "fn"
               },
-              "to": {
-                "key_code": "f20"
-              }
+              "to": [
+                {
+                  "key_code": "f20"
+                }
+              ]
             }
           ]
         },
@@ -1252,17 +991,21 @@
               "from": {
                 "key_code": "escape"
               },
-              "to": {
-                "key_code": "grave_accent_and_tilde"
-              }
+              "to": [
+                {
+                  "key_code": "grave_accent_and_tilde"
+                }
+              ]
             },
             {
               "from": {
                 "key_code": "left_control"
               },
-              "to": {
-                "key_code": "f20"
-              }
+              "to": [
+                {
+                  "key_code": "f20"
+                }
+              ]
             }
           ]
         }
@@ -1272,97 +1015,121 @@
           "from": {
             "key_code": "f1"
           },
-          "to": {
-            "key_code": "vk_consumer_brightness_down"
-          }
+          "to": [
+            {
+              "key_code": "vk_consumer_brightness_down"
+            }
+          ]
         },
         {
           "from": {
             "key_code": "f2"
           },
-          "to": {
-            "key_code": "vk_consumer_brightness_up"
-          }
+          "to": [
+            {
+              "key_code": "vk_consumer_brightness_up"
+            }
+          ]
         },
         {
           "from": {
             "key_code": "f3"
           },
-          "to": {
-            "key_code": "vk_mission_control"
-          }
+          "to": [
+            {
+              "key_code": "vk_mission_control"
+            }
+          ]
         },
         {
           "from": {
             "key_code": "f4"
           },
-          "to": {
-            "key_code": "vk_launchpad"
-          }
+          "to": [
+            {
+              "key_code": "vk_launchpad"
+            }
+          ]
         },
         {
           "from": {
             "key_code": "f5"
           },
-          "to": {
-            "key_code": "vk_consumer_illumination_down"
-          }
+          "to": [
+            {
+              "key_code": "vk_consumer_illumination_down"
+            }
+          ]
         },
         {
           "from": {
             "key_code": "f6"
           },
-          "to": {
-            "key_code": "vk_consumer_illumination_up"
-          }
+          "to": [
+            {
+              "key_code": "vk_consumer_illumination_up"
+            }
+          ]
         },
         {
           "from": {
             "key_code": "f7"
           },
-          "to": {
-            "key_code": "vk_consumer_previous"
-          }
+          "to": [
+            {
+              "key_code": "vk_consumer_previous"
+            }
+          ]
         },
         {
           "from": {
             "key_code": "f8"
           },
-          "to": {
-            "key_code": "vk_consumer_play"
-          }
+          "to": [
+            {
+              "key_code": "vk_consumer_play"
+            }
+          ]
         },
         {
           "from": {
             "key_code": "f9"
           },
-          "to": {
-            "key_code": "vk_consumer_next"
-          }
+          "to": [
+            {
+              "key_code": "vk_consumer_next"
+            }
+          ]
         },
         {
           "from": {
             "key_code": "f10"
           },
-          "to": {
-            "key_code": "mute"
-          }
+          "to": [
+            {
+              "key_code": "mute"
+            }
+          ]
         },
         {
           "from": {
             "key_code": "f11"
           },
-          "to": {
-            "key_code": "volume_down"
-          }
+          "to": [
+            {
+              "key_code": "volume_down"
+            }
+          ]
         },
         {
           "from": {
             "key_code": "f12"
           },
-          "to": {
-            "key_code": "volume_up"
-          }
+          "to": [
+            {
+              "key_code": "volume_up"
+            }
+          ]
         }
       ],
       "name": "Default profile",
@@ -1370,27 +1137,11 @@
         "delay_milliseconds_before_open_device": 1000
       },
       "selected": true,
-      "simple_modifications": [
-        {
-          "from": {
-            "key_code": "left_command"
-          },
-          "to": {
-            "key_code": "left_option"
-          }
-        },
-        {
-          "from": {
-            "key_code": "left_option"
-          },
-          "to": {
-            "key_code": "left_command"
-          }
-        }
-      ],
+      "simple_modifications": [],
       "virtual_hid_keyboard": {
         "caps_lock_delay_milliseconds": 0,
         "country_code": 0,
+        "indicate_sticky_modifier_keys_state": true,
         "keyboard_type": "ansi",
         "mouse_key_xy_scale": 100,
         "standalone_keys_delay_milliseconds": 200
