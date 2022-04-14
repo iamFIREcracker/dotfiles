@@ -557,7 +557,7 @@ function vw() { vim -R -; }
 # Work-on {{{
 function wopython() {
     local wd=$1
-    local venvactivate=$(find $wd | grep '/bin/activate$')
+    local venvactivate=$(ls "$wd"/**/bin/activate 2>/dev/null)
 
     if [ ! -e "$venvactivate" ]; then
         return 1
