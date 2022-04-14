@@ -587,7 +587,7 @@ function wo() {
 
     while true; do
         echo "Trying:" $wd
-        if [ $wd == '/' ]; then
+        if [ $wd == "$HOME" ]; then
             echo "Nothing to work on..."
             break
         elif wopython $wd; then
