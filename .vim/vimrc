@@ -420,17 +420,21 @@ inoremap <C-d> <C-g>u<Del>
 cnoremap <C-d> <Del>
 inoremap <C-u> <C-g>u<C-u>
 imap <C-h> <C-g>u<Plug>delimitMateBS
+imap <C-w> <C-g>u<Plug>delimitMateCtrlW
 inoremap <silent> <Plug>delimitMateCtrlW <C-R>=<SID>delimitMate_CtrlW()<CR>
 function s:delimitMate_CtrlW() abort "{{{
-    let ch = getline('.')[col('.') - 2]
-    if ch == '('
+    let ch = getline('.')[col('.') - 2] " 1, is for 0-index,
+                                        " 1 because in insert mode we care
+                                        " about the char _before_ the cursor
+    let parens = ['(', '[', '{']
+    let quotes = exists('b:delimitMate_quotes') ? [b:delimitMate_quotes] : ['"', '\', '`']
+    if index(parens + quotes, ch) >= 0
         return delimitMate#BS()
     else
         return ""
     endif
 endfunction
 " }}}
-imap <C-w> <C-g>u<Plug>delimitMateCtrlW
 
 " Skip automatically to next difference
 nnoremap do do]c
