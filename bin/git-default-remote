@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+default_remote=$(git config default.remote)
+if [ -z "$default_remote" ]; then
+    default_remote=origin
+fi
+echo $default_remote

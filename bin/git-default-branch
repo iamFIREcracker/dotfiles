@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+default_branch=$(git config default.branch)
+if [ -z "$default_branch" ]; then
+    default_branch=main
+fi
+echo $default_branch
