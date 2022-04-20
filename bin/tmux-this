@@ -1,1 +1,12 @@
-tmux new -s ${PWD##*/}
+#!/usr/bin/env bash
+
+# Unset $TMUX **and** create the new tmux session in detached state
+# this way we can create the new session from within anoter existing tmux
+# session
+#
+# And once the session is created, all we have to do is switch to it!
+#
+# Read more: https://stackoverflow.com/a/16399160
+SESSION_NAME="${PWD##*/}"
+TMUX= tmux new -s "${SESSION_NAME}" -d
+tmux switch-client -t "${SESSION_NAME}"
