@@ -53,8 +53,6 @@
 
     mr = "!f() { git com && git up && git mo \"${@}\" && git push && git bd \"${@}\"; }; f"
 
-    peek = "!f() { git fetch && git log HEAD..FETCH_HEAD; }; f"
-    peekd = "!f() { git fetch && git diff HEAD..FETCH_HEAD | vim -c 'set ft=diff' -R -; }; f"
     pretty-log = "!f() { \
         git log \"${@}\" --color=always --date=\"$(git-log-date-format)\" --topo-order --pretty='tformat:%C(white bold)%h%Creset %s (%ad by %an)%C(white bold)%d%Creset'; \
     }; f"
@@ -71,9 +69,7 @@
     graph-log = "!f() { \
         git log \"${@}\" --color=always --all --graph --date=\"$(git-log-date-format)\" --topo-order --pretty='tformat:%C(white bold)%h%Creset %s (%ad by %an)%C(white bold)%d%Creset'; \
     }; f"
-    gl   = !git graph-log -18
-    gll  = !git graph-log -36
-    glll = !git graph-log -72
+    gl = graph-log
 
     ack = log --color=always --all --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset' --full-history -S
 
@@ -86,14 +82,14 @@
     root = rev-parse --show-toplevel
     currentbranch = !git rev-parse --abbrev-ref HEAD 2>/dev/null
 
-    d  = "!f() { cd ${GIT_PREFIX:-.}; git diff -- $@ | vim -c 'set ft=diff' -R -; }; f"
-    di = "!f() { cd ${GIT_PREFIX:-.}; git diff --cached -- $@ | vim -c 'set ft=diff' -R -; }; f"
+    d  = "!f() { cd ${GIT_PREFIX:-.}; git diff \"${@}\" | vim -c 'set ft=diff' -R -; }; f"
+    di = "!f() { cd ${GIT_PREFIX:-.}; git diff --cached \"${@}\" | vim -c 'set ft=diff' -R -; }; f"
 
     do = "!f() { git diff origin/\"${@}\".. | vim -c 'set ft=diff' -R -; }; f"
     dom = !git do master
 
-    in = !git fetch && git graph-log --graph ..@{u}
-    ind = "!f() { git fetch; git diff ..@{u} | vim -c 'set ft=diff' -R -; }; f"
+    in = !git graph-log --graph ..@{u}
+    ind = "!f() { git diff ..@{u} | vim -c 'set ft=diff' -R -; }; f"
 
     shelve = "!f() { cd ${GIT_PREFIX:-.}; git add . ; git stash; }; f"
     unshelve = "!f() { cd ${GIT_PREFIX:-.}; git stash pop; }; f"
