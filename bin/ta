@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 NEEDS_MUX=': mux'
+TMUX_THIS=': tmux-this'
 
 # the following function returns all the tmux sessions that can be activated:
 #
@@ -47,6 +48,12 @@ all-possible-sessions() {
   /bin/ls -1 ~/.tmuxinator/*.yml \
       | sed "s/.*\/\([^\/]*\)\.yml$/\1/" \
       | sed "s/$/$NEEDS_MUX/"
+  # List all the frequently used directories too
+  . ~/opt/z/z.sh
+  _z -l 2>&1 \
+      | sed -e 's/  */ /g' \
+      | cut -d ' ' -f 2- \
+      | sed "s/$/$TMUX_THIS/"
 }
 
 remove-duplicate-sessions() {
@@ -62,9 +69,12 @@ ta-fzft() {
   if [ -n "$session" ]; then
     name=$(echo $session | cut -d':' -f1)
     needs_mux=$(echo $session | grep "$NEEDS_MUX")
+    tmux_this=$(echo $session | grep "$TMUX_THIS")
 
     if [ -n "$needs_mux" ]; then
       mux $name
+    elif [ -n "$tmux_this" ]; then
+      cd $name && tmux-this
     else
       if [ -n "$TMUX" ]; then
         tmux switchc -t $name
