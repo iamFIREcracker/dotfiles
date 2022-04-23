@@ -4,11 +4,17 @@
 # people I work with, live
 # Also: https://www.ionstage.org/loclock/#QW1lcmljYS9OZXdfWW9yayxFdXJvcGUvTG9uZG9uLEV1cm9wZS9Sb21lLEFzaWEvS29sa2F0YSMvTmV3IERlbGhpLEFzaWEvSmFrYXJ0YQ
 
-set -euo pipefail
+set -e
 
-echo "Jakarta:   "$(TZ=:Asia/Jakarta gdate "$@")
-echo "India:     "$(TZ=:Asia/Calcutta gdate "$@")
-echo "Italy:     "$(TZ=:Europe/Rome gdate "$@")
-echo "England:   "$(TZ=:Europe/London gdate "$@")
-echo "New York:  "$(TZ=:America/New_York gdate "$@")
-echo "Vancouver: "$(TZ=:America/Vancouver gdate "$@")
+xdate=date
+if hash gdate 2>/dev/null; then
+    xdate=gdate
+fi
+
+echo "Singapore:  "$(TZ=:Asia/Singapore $xdate "$@")
+echo "Jakarta:    "$(TZ=:Asia/Jakarta $xdate "$@")
+echo "India:      "$(TZ=:Asia/Calcutta $xdate "$@")
+echo "Italy:      "$(TZ=:Europe/Rome $xdate "$@")
+echo "England:    "$(TZ=:Europe/London $xdate "$@")
+echo "New York:   "$(TZ=:America/New_York $xdate "$@")
+echo "Vancouver:  "$(TZ=:America/Vancouver $xdate "$@")
