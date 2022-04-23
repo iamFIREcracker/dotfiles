@@ -9,4 +9,8 @@
 # Read more: https://stackoverflow.com/a/16399160
 SESSION_NAME="${PWD##*/}"
 TMUX= tmux new -s "${SESSION_NAME}" -d
-tmux switch-client -t "${SESSION_NAME}"
+if [ -n "$TMUX" ]; then
+    tmux switch-client -t "${SESSION_NAME}"
+else
+    tmux attach-session -t "${SESSION_NAME}"
+fi
