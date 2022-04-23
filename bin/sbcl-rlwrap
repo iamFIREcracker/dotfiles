@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# Tab-completion:
+#
+# -i / --case-insensitive
+# -f / --file
+# -b / --break-chars
+# -c / --complete-filenames
+#
+# Read more about: https://www.reddit.com/r/Common_Lisp/comments/u8n08l/adding_symbols_and_files_completion_to_sbcls/
 rlwrap \
   --multi-line=@@ \
   --multi-line-ext .lisp \
@@ -8,4 +16,8 @@ rlwrap \
   --quote-characters='"' \
   --histsize 10000 \
   --history-filename "$HOME/.rlwrap-lisp-history" \
+  --case-insensitive \
+  --file "$HOME/.lisp/sbcl-rlwrap-completion" \
+  --break-chars "()" \
+  --complete-filenames \
   -- sbcl --dynamic-space-size 2000 --load ~/.sbclrc "$@"

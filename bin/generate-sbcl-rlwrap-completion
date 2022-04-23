@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+RLWRAP_COMPLETION=${1-$HOME/.lisp/sbcl-rlwrap-completion}
+sbcl --noinform --quit \
+    --eval "(dolist (package (list-all-packages)) \
+              (do-external-symbols (sym package) \
+                (format t \"~(~a~)~&\" sym)))" \
+    | tee $RLWRAP_COMPLETION
