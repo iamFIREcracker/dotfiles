@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -e
+
+exec 2>&1 | tee -a ~/unison-workspace.log
+date
+
+unisonw \
+    "$HOME/Downloads" \
+    "$HOME/Dropbox/unison/Downloads" \
+    "$@"
