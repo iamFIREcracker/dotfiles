@@ -215,10 +215,11 @@ function! EvalSavedExpression() abort " {{{
     call SendToTerminal(expr)
 endfunction " }}}
 
-RainbowParenthesesActivate
-RainbowParenthesesLoadRound
-RainbowParenthesesLoadSquare
-RainbowParenthesesLoadBrace
+" XXX temporarily moved inside syntax/
+" RainbowParenthesesActivate
+" RainbowParenthesesLoadRound
+" RainbowParenthesesLoadSquare
+" RainbowParenthesesLoadBrace
 
 " Abbreviations {{{
 
