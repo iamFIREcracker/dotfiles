@@ -1474,13 +1474,11 @@ endfunction
 
 function! s:PasteCycle(after) abort " {{{
   let l:now = localtime()
-  if (l:now - get(b:, 'paste_cycle_last_run', 0)) > 5
-    " This function was run more than 5 seconds ago, so let's assume
-    " the user is trying to starting from scratch
-    let b:paste_cycle_reg_num = 0
+  let l:start_anew = (l:now - get(b:, 'paste_cycle_last_run', 0)) > 5
+  if l:start_anew
+    let l:last_was_yank = (@" == @0)
+    let b:paste_cycle_reg_num = l:last_was_yank ? 1 : 0
   else
-    " Otherwise, paste the last used register + 1 (modulo 10 because Vim
-    " supports only 10 _redo_ registers)
     let b:paste_cycle_reg_num = (get(b:, 'paste_cycle_reg_num', -1) + 1) % 10
   endif
   let b:paste_cycle_last_run = l:now
@@ -1488,7 +1486,7 @@ function! s:PasteCycle(after) abort " {{{
   let l:normal_cmd = 'u"' . b:paste_cycle_reg_num . l:paste_op_cmd
 
   echo 'paste-cycle: ' . l:normal_cmd
-  exe 'normal ' . l:normal_cmd
+  exe 'normal! ' . l:normal_cmd
 endfunction " }}}
 
 nnoremap gp :call <SID>PasteCycle(1)<CR>
