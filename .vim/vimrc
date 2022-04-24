@@ -1695,11 +1695,11 @@ nmap # <Plug>NormalStarSearchBackward
 " - Restores to the previous view -- effectively undoing the first jump
 xnoremap <Plug>VisualStarSearchForward
             \ :<C-U>let star_search_view = winsaveview()<CR>
-            \ /<C-R>=escape(GetCurrentSelection(visualmode()), '*\[]')<CR><CR>
+            \ /<C-R>=escape(GetCurrentSelection(visualmode()), '*\[]$/!\^')<CR><CR>
             \ :call winrestview(star_search_view)<CR>
 xnoremap <Plug>VisualStarSearchBackward
             \ :<C-U>let star_search_view = winsaveview()<CR>
-            \ ?<C-R>=escape(GetCurrentSelection(visualmode()), '*\[]')<CR><CR>
+            \ ?<C-R>=escape(GetCurrentSelection(visualmode()), '*\[]$/!\^')<CR><CR>
             \ :call winrestview(star_search_view)<CR>
 xmap * <Plug>VisualStarSearchForward
 xmap # <Plug>VisualStarSearchBackward
