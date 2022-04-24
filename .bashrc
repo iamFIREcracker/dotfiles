@@ -59,6 +59,8 @@ CYAN=$'\e[0;36m'
 RED=$'\e[0;31m'
 WHITE=$'\e[0;97m'
 
+[[ $- == *i* ]] && eval "$(dircolors -b ~/.vim/pack/bundle/start/badwolf/contrib/badwolf.dircolors)"
+
 # }}}
 # Vim mode {{{
 
@@ -139,7 +141,7 @@ headless_java() {
 export NVM_DIR="$HOME/.nvm"
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[[ $- == *i* ]] && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # }}}
 # Ruby {{{
@@ -188,10 +190,11 @@ load_if_present ~/opt/z/z.sh
 # Shortcuts {{{
 
 alias g=git
-complete -o default -F _npm_completion n
+[[ $- == *i* ]] && complete -o default -F _npm_completion n
+
 
 alias n=npm
-__git_complete g __git_main
+[[ $- == *i* ]] && __git_complete g __git_main
 
 # }}}
 # Useful functions {{{
@@ -227,9 +230,9 @@ et()  { vim ~/dotfiles/.tmux.conf; }
 ev()  { vim ~/dotfiles/.vim/vimrc; }
 
 function ew() { vim $(which "$1"); }
-complete -c ew -w which
+[[ $- == *i* ]] && complete -c ew -w which
 function cw() { cat $(which "$1"); }
-complete -c cw -w which
+[[ $- == *i* ]] && complete -c cw -w which
 
 elinks() { $EDITOR ~/Dropbox/links.txt; }
 etodos() { $EDITOR ~/Dropbox/todos.txt; }
@@ -536,7 +539,7 @@ _tmuxinator() {
     fi
 }
 
-complete -F _tmuxinator tmuxinator mux
+[[ $- == *i* ]] && complete -F _tmuxinator tmuxinator mux
 
 # }}}
 function unfuck() { echo "${D}"; }
