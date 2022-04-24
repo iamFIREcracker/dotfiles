@@ -628,7 +628,7 @@ nnoremap <leader>gl0 :Gclog! <C-R>=GitWithDefault()<CR><CR>
 nnoremap <leader>gl9 :Gclog!<CR>
 nnoremap <leader>gl8 :Gclog!<Space>
 nnoremap <leader>gmr :Start git mr <C-R>=FugitiveHead()<CR><CR>
-nnoremap <silent> <leader>y<C-G> :<C-U>call cb#copy(fugitive#Object(@%))<CR>
+nnoremap <silent> <leader>y<C-G> :call cb#copy(fugitive#Object(@%))<CR>
 
 augroup ft_fugitive " {{{
     au!
