@@ -5,6 +5,7 @@ OS_MAC=$(uname -rs | grep -e Darwin)
 
 if [ -n "$OS_MAC" ]; then
     alias cat=gcat
+    alias date=gdate
     alias dircolors=gdircolors
     alias sed=gsed
     alias tac=gtac
