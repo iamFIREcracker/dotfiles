@@ -27,6 +27,12 @@ silent! call RefreshManualRegexpFolding()
 
 setlocal suffixesadd+=.ts,.js
 
+" XXX temporarily moved inside syntax/
+" RainbowParenthesesActivate
+" RainbowParenthesesLoadRound
+" RainbowParenthesesLoadSquare
+" RainbowParenthesesLoadBrace
+
 nnoremap <buffer> <C-^> :LspReferences<cr>
 nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
 nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
