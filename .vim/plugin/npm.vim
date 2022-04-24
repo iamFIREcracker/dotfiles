@@ -1,7 +1,6 @@
 function! NpmTryInit() abort "{{{
     if CheckIfNpmProject()
         call InitNpmMappings()
-        call UpdatePath()
     endif
 endfunction " }}}
 
@@ -13,12 +12,6 @@ function! InitNpmMappings() abort "{{{
     nnoremap <localleader>ni  :Dispatch npm install --save<space>
     nnoremap <localleader>nr  :Dispatch npm run<space>
     nnoremap <localleader>nn  :Dispatch npm<space>
-endfunction " }}}
-
-function! UpdatePath() abort " {{{
-    if isdirectory($PWD .'/node_modules')
-        let $PATH .= ':' . $PWD . '/node_modules/.bin'
-    endif
 endfunction " }}}
 
 au VimEnter * call NpmTryInit()

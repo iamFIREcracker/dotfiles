@@ -702,6 +702,9 @@ endif
 " Neoformat {{{
 
 " let g:neoformat_verbose = 1
+" Add support for local node_modules/.bin executables
+" https://github.com/sbdchd/neoformat/pull/363
+let g:neoformat_try_node_exe = 1
 
 " XXX Let's disable automatic formatting for now -- let's manually trigger it
 " instead
