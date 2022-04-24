@@ -995,6 +995,18 @@ if executable('typescript-language-server')
         \ })
 endif
 
+function! SetupLspBindings() abort "{{{
+    nnoremap <buffer> <C-^> :LspReferences<cr>
+    nnoremap <buffer> <C-]> :LspDefinition<cr>zvzz
+    nnoremap <buffer> gd :LspDefinition<cr>zvzz
+    nnoremap <buffer> ,S :LspRename<cr>
+    nnoremap <buffer> ◊ :LspCodeAction<cr>
+    nnoremap <buffer> K :LspHover<cr>
+    nnoremap <buffer> <down> :LspNextDiagnostic<cr>zvzz
+    nnoremap <buffer> <up> :LspPreviousDiagnostic<cr>zvzz
+    setlocal omnifunc=lsp#complete
+endfunction " }}}
+
 " }}}
 " vim-json {{{
 

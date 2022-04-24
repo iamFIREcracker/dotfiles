@@ -33,14 +33,7 @@ setlocal suffixesadd+=.ts,.js
 " RainbowParenthesesLoadSquare
 " RainbowParenthesesLoadBrace
 
-nnoremap <buffer> <C-^> :LspReferences<cr>
-nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
-nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
-nnoremap <buffer> <silent> ,S :LspRename<cr>
-nnoremap <buffer> <silent> ◊ :LspCodeAction<cr>
-nnoremap <buffer> <silent> K :LspHover<cr>
-setlocal omnifunc=lsp#complete
-
+call SetupLspBindings()
 inoremap <buffer> <c-n> <c-x><c-o>
 
 RainbowParenthesesActivate

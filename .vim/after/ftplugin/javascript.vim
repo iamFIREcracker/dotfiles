@@ -168,15 +168,7 @@ nmap <buffer> <C-Q> Vaf:Neoformat<CR>
 silent! unmap <buffer> gq
 
 nnoremap <buffer> <silent> <localleader>i :call InModule()<cr>
-nnoremap <buffer> <C-^> :LspReferences<cr>
-nnoremap <buffer> <silent> <C-]> :LspDefinition<cr>zvzz
-nnoremap <buffer> <silent> gd :LspDefinition<cr>zvzz
-nnoremap <buffer> <silent> ,S :LspRename<cr>
-nnoremap <buffer> <silent> ◊ :LspCodeAction<cr>
-nnoremap <buffer> <silent> K :LspHover<cr>
-setlocal omnifunc=lsp#complete
-nnoremap <buffer> <down> :LspNextDiagnostic<cr>zvzz
-nnoremap <buffer> <up> :LspPreviousDiagnostic<cr>zvzz
+call SetupLispProjectMappings()
 
 inoremap <buffer> <c-n> <c-x><c-n>
 
