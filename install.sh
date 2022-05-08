@@ -73,22 +73,6 @@ test -n "$OS_WIN" && ensure_link ".minttyrc"              ".minttyrc"
                      ensure_link "ccl-init.lisp"          "ccl-init.lisp"
 
 (
-    cd .vim/pack/bundle/start/vimproc.vim/
-    test $FORCE -eq 1 && make clean
-    if [ -z "$(find lib/ -name 'vimproc*')" ]; then
-        make
-    fi
-)
-
-(
-    cd .vim/pack/bundle/start/vim-javacomplete2/libs/javavi/
-    test $FORCE -eq 1 && mvn clean
-    if [ ! -d target ]; then
-        mvn compile
-    fi
-)
-
-(
     fzf_dir=
     if [ -n "$OS_WIN" ]; then
       fzf_dir=.vim/pack/bundle/opt/fzf-ruby
