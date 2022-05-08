@@ -262,6 +262,33 @@ augroup sane_folds
 augroup END
 
 " }}}
+" Send a delayed SIGWINCH to unfuck the screen {{{
+
+" https://github.com/neovim/neovim/issues/11330
+augroup delayed_sigwinch
+    au!
+    autocmd VimEnter * sleep 20m | silent exec "!kill -s SIGWINCH $PPID" | echom "SIGWINCH'D"
+augroup END
+
+" }}}
+" Automatically create parent directories {{{
+
+" https://stackoverflow.com/a/4294176
+function s:MkNonExDir(file, buf)
+    if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
+        let dir=fnamemodify(a:file, ':h')
+        if !isdirectory(dir)
+            call mkdir(dir, 'p')
+        endif
+    endif
+endfunction
+
+augroup BWCCreateDir
+    autocmd!
+    autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+augroup END
+
+" }}}
 
 " }}}
 
