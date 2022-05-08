@@ -130,3 +130,6 @@
 [submodule ".vim/pack/bundle/start/NrrwRgn"]
 	path = .vim/pack/bundle/start/NrrwRgn
 	url = https://github.com/chrisbra/NrrwRgn.git
+[submodule ".vim/pack/bundle/start/vim-nix"]
+	path = .vim/pack/bundle/start/vim-nix
+	url = https://github.com/LnL7/vim-nix.git
