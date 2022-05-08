@@ -1,11 +1,13 @@
 (require 'asdf)
 
-;;; The following lines added by ql:add-to-init-file:
+;; Install/load quicklisp
 #-quicklisp
-(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
-                                       (user-homedir-pathname))))
-  (when (probe-file quicklisp-init)
-    (load quicklisp-init)))
+(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname))))
+  (if (probe-file quicklisp-init)
+      (load quicklisp-init)
+      (progn
+        (load (merge-pathnames "quicklisp.lisp" *load-truename*))
+        (funcall (find-symbol "INSTALL" (find-package "QUICKLISP-QUICKSTART"))))))
 
 ;;; General
 (setf *print-escape* t
