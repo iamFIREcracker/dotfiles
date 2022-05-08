@@ -9,6 +9,7 @@ set encoding=utf-8
 set nomodeline
 set modelines=0
 set mouse=a
+set ttymouse=xterm2
 set autoindent
 set showmode
 set showcmd
