@@ -142,6 +142,8 @@ augroup theme_customizations
     " autocmd ColorScheme goodwolf
     "         \ hi! CursorLineNr cterm=none guifg=#af00ff guibg=#141413
     autocmd ColorScheme goodwolf
+            \ hi! link cssProp Comment |
+            \ hi! link cssNoise Comment |
             \ hi! link diffFile diffIndexLine |
             \ hi! link diffOldFile diffIndexLine |
             \ hi! link diffNewFile diffIndexLine |
@@ -152,7 +154,7 @@ augroup theme_customizations
             \ hi! link shSet Comment |
             \ hi! link shStatement Comment |
             \ hi! link bashStatement Comment |
-            \ hi! link shFunctionKey Comment |
+            \ hi! link bashStatement Comment |
             \ hi! link shFunctionKey Comment |
             \ hi! link shDerefSimple Comment |
             \ hi! link shDerefVar Comment |
@@ -162,6 +164,12 @@ augroup theme_customizations
             \ hi! link htmlTag Normal |
             \ hi! link htmlEndTag Normal |
             \ hi! link htmlTagName Normal |
+            \ hi! link typescriptCase Comment |
+            \ hi! link typescriptDefault Comment |
+            \ hi! link typescriptExport Comment |
+            \ hi! link typescriptImport Comment |
+            \ hi! link typescriptStatementKeyword Comment |
+            \ hi! link typescriptVariable Comment |
             \ hi! markdownItalic cterm=italic |
             \ hi! link markdownLinkText Normal |
             \ hi! link markdownUrl markdownLinkDelimiter |
