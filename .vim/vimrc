@@ -556,6 +556,9 @@ nnoremap <Leader>q :let @t = 'let @q = "' . @q<CR>:<C-f>o<ESC>"tp$a"<Esc>
 nnoremap Y y$
 nnoremap D d$
 
+" Run commands
+nnoremap <leader>! :terminal<space>
+
 " Insert Mode Completion {{{
 
 inoremap <c-l> <c-x><c-l>
