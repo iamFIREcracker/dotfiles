@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#
+# Reads a mermaid compatible specification from stdin
+#
+# $ cat ... | mmdc-it --output some-output.pdf
+OUTPUT=${1:-mermaid-stdin.pdf}
+docker run \
+    --name "mmdc-it" \
+    --rm \
+    --volume $HOME/tmp:/data \
+    --interactive \
+    minlag/mermaid-cli:8.14.0 --output "/data/$OUTPUT" "$@"
+open "$HOME/tmp/$OUTPUT"
