@@ -1,7 +1,7 @@
 # ~/.tmuxinator/cg.yml
 
 name: cg
-root: ~/Workspace/adventofcode/
+root: ~/opt/cg/
 
 windows:
   - root:
