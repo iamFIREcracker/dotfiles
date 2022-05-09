@@ -21,6 +21,7 @@
     pkgs.tmux
     pkgs.tmuxinator
     pkgs.tree
+    pkgs.unison
     pkgs.unzip
     pkgs.vim
   ];
