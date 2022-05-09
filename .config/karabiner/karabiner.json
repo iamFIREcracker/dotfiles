@@ -273,12 +273,12 @@
                 "conditions": [
                   {
                     "bundle_identifiers": [
-                      "^com\\.microsoft\\.Outlook$"
+                      "^XXX_DISABLED_XXX_com\\.microsoft\\.Outlook$"
                     ],
                     "type": "frontmost_application_if"
                   }
                 ],
-                "description": "Outlook: ctrl+j to send a message",
+                "description": "DISABLED_Outlook: ctrl+j to send a message",
                 "from": {
                   "key_code": "j",
                   "modifiers": {
@@ -305,12 +305,12 @@
                 "conditions": [
                   {
                     "bundle_identifiers": [
-                      "^com\\.brave\\.Browser$"
+                      "^XXX_DISABLED_XXX_com\\.brave\\.Browser$"
                     ],
                     "type": "frontmost_application_if"
                   }
                 ],
-                "description": "Brave: ctrl+j to submit",
+                "description": "DISABLED Brave: ctrl+j to submit",
                 "from": {
                   "key_code": "j",
                   "modifiers": {
@@ -485,12 +485,12 @@
                 "conditions": [
                   {
                     "bundle_identifiers": [
-                      "^com\\.microsoft\\.teams$"
+                      "^XXX_DISABLED_XXX_com\\.microsoft\\.teams$"
                     ],
                     "type": "frontmost_application_if"
                   }
                 ],
-                "description": "Teams: ctrl+j to send a message (control+Enter)",
+                "description": "DISABLED Teams: ctrl+j to send a message (control+Enter)",
                 "from": {
                   "key_code": "j",
                   "modifiers": {
