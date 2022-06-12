@@ -572,6 +572,11 @@ function wopython() {
     fi
 }
 
+function nvmuse() {
+    nvm use "$@"
+    eval "$(npm completion)"
+}
+
 function wonvm() {
     local wd=$1
     local nvmrc=$wd/.nvmrc
@@ -579,8 +584,19 @@ function wonvm() {
     if [ ! -e "$nvmrc" ]; then
         return 1
     else
-        nvm use
-        eval "$(npm completion)"
+        nvmuse "$(cat $nvmrc)"
+        return 0
+    fi
+}
+
+function worvm() {
+    local wd=$1
+    local rubyversion=$wd/.ruby-version
+
+    if [ ! -e "$rubyversion" ]; then
+        return 1
+    else
+        rvm use
         return 0
     fi
 }
@@ -596,6 +612,8 @@ function wo() {
         elif wopython $wd; then
             break
         elif wonvm $wd; then
+            break
+        elif worvm $wd; then
             break
         else
             wd=$(dirname $wd)
