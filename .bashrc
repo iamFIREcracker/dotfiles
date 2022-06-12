@@ -197,6 +197,8 @@ alias g=git
 alias n=npm
 [[ $- == *i* ]] && __git_complete g __git_main
 
+alias v=vim
+
 # }}}
 # Useful functions {{{
 
@@ -554,7 +556,6 @@ else
     _vagrant=$(which vagrant)
 fi
 vagrant() { ${_vagrant} "$@"; }
-v() { vagrant "$@"; }
 
 # }}}
 function vw() { vim -R -; }
