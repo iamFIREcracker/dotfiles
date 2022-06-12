@@ -511,7 +511,7 @@ function ssh-purple() {
 
 # }}}
 function sb() { . ~/.bashrc; }
-function serve-this() { python -m SimpleHTTPServer "$@"; }
+function serve-this() { python3 -m http.server "$@"; }
 function sleepless() {
     pmset -g assertions | egrep '(PreventUserIdleSystemSleep|PreventUserIdleDisplaySleep)'
 }
