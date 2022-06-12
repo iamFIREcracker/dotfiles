@@ -1,6 +1,6 @@
 function whenWorking(thenDo, otherwiseDo)
   return function()
-    output, status = hs.execute('ps aux | grep pisa299-sock5 | grep -v grep')
+    output, status = hs.execute('ps aux | grep ssh.*sock5 | grep -v grep')
     if status ~= nil then
       thenDo()
     else
