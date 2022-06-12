@@ -200,6 +200,38 @@
                     "type": "frontmost_application_if"
                   }
                 ],
+                "description": "Microsoft: Mouse+d to delete the word after the cursor",
+                "from": {
+                  "key_code": "f21"
+                },
+                "to": [
+                  {
+                    "key_code": "right_arrow",
+                    "modifiers": [
+                      "shift",
+                      "command"
+                    ]
+                  },
+                  {
+                    "key_code": "delete_or_backspace"
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
+            "manipulators": [
+              {
+                "conditions": [
+                  {
+                    "bundle_identifiers": [
+                      "^com\\.microsoft\\.teams$",
+                      "^com\\.microsoft\\.Outlook$"
+                    ],
+                    "type": "frontmost_application_if"
+                  }
+                ],
                 "description": "Microsoft: ctrl+u to delete the line behind the cursor",
                 "from": {
                   "key_code": "u",
