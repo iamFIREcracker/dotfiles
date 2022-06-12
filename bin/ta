@@ -48,12 +48,17 @@ all-possible-sessions() {
   /bin/ls -1 ~/.tmuxinator/*.yml \
       | sed "s/.*\/\([^\/]*\)\.yml$/\1/" \
       | sed "s/$/$NEEDS_MUX/"
-  # List all the frequently used directories too
-  . ~/opt/z/z.sh
-  _z -l 2>&1 \
-      | sed -e 's/  */ /g' \
-      | cut -d ' ' -f 2- \
-      | sed "s/$/$TMUX_THIS/"
+  # # List all the frequently used directories too
+  # . ~/opt/z/z.sh
+  # _z -l 2>&1 \
+  #     | sed -e 's/  */ /g' \
+  #     | cut -d ' ' -f 2- \
+  #     | sed "s/$/$TMUX_THIS/"
+  # List all the Workspace directories
+  /bin/ls -1 ~/Workspace/ \
+      | sed "s/$/$TMUX_MUX/"
+  /bin/ls -1 ~/opt/ \
+      | sed "s/$/$TMUX_MUX/"
 }
 
 remove-duplicate-sessions() {
