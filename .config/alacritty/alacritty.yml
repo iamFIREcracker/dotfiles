@@ -10,11 +10,16 @@ scrolling:
   history: 0
 
 font:
-  size: 11
+  # size: 11
+  # size: 16
+  size: 12
   normal:
     # family: iosevka
     # family: Droid Sans Mono for Powerline
-    family: JetBrains Mono
+    # family: JetBrains Mono
+    # family: Menlo
+    # family: DM Mono
+    family: Berkeley Mono
     # family: Courier
 
 draw_bold_text_with_bright_colors: true
@@ -29,11 +34,11 @@ colors:
 
   cursor:
     # Magenta
-    # text: '0xbbbbbb'
-    # cursor: '0xaf00ff'
-    # Orange
-    text: '0x444444'
-    cursor: '0xffa724'
+    text: '0xbbbbbb'
+    cursor: '0xaf00ff'
+    # # Orange
+    # text: '0x444444'
+    # cursor: '0xffa724'
 
   # Normal colors
   normal:
@@ -45,6 +50,14 @@ colors:
    magenta: '0xf996e2'
    cyan:    '0x23edda'
    white:   '0xc7c7c7'
+   # black:   '0x070807'
+   # red:     '0xe93f40'
+   # green:   '0x88dc02'
+   # yellow:  '0xfb7d01'
+   # blue:    '0x0abcfe'
+   # magenta: '0xfe5691'
+   # cyan:    '0x76dff3'
+   # white:   '0xf4f4f4'
 
   # Bright colors
   bright:
@@ -56,6 +69,14 @@ colors:
     magenta: '0xfddef6'
     cyan:    '0x6bf3e6'
     white:   '0xf9f9f9'
+    # black:   '0x5d5d5d'
+    # red:     '0xe93f40'
+    # green:   '0x9df903'
+    # yellow:  '0xfadf31'
+    # blue:    '0x40cdfe'
+    # magenta: '0xfe2b74'
+    # cyan:    '0x09cef2'
+    # white:   '0xfefffe'
 
 bell:
   # Disable visual bell
@@ -74,3 +95,42 @@ live_config_reload: true
 
 key_bindings:
   - { key: N,        mods: Command, command: { program: "open", args: ["-n", "/Applications/Alacritty.app"] } }
+  # https://github.com/alacritty/alacritty/issues/1359
+  - { key: Q, mods: Control, chars: "\x11" }
+  # https://github.com/alacritty/alacritty/issues/62#issuecomment-347552058
+  - { key: A,         mods: Alt,       chars: "\x1ba"                       }
+  - { key: B,         mods: Alt,       chars: "\x1bb"                       }
+  - { key: C,         mods: Alt,       chars: "\x1bc"                       }
+  - { key: D,         mods: Alt,       chars: "\x1bd"                       }
+  - { key: E,         mods: Alt,       chars: "\x1be"                       }
+  - { key: F,         mods: Alt,       chars: "\x1bf"                       }
+  - { key: G,         mods: Alt,       chars: "\x1bg"                       }
+  - { key: H,         mods: Alt,       chars: "\x1bh"                       }
+  - { key: I,         mods: Alt,       chars: "\x1bi"                       }
+  - { key: J,         mods: Alt,       chars: "\x1bj"                       }
+  - { key: K,         mods: Alt,       chars: "\x1bk"                       }
+  - { key: L,         mods: Alt,       chars: "\x1bl"                       }
+  - { key: M,         mods: Alt,       chars: "\x1bm"                       }
+  - { key: N,         mods: Alt,       chars: "\x1bn"                       }
+  - { key: O,         mods: Alt,       chars: "\x1bo"                       }
+  - { key: P,         mods: Alt,       chars: "\x1bp"                       }
+  - { key: Q,         mods: Alt,       chars: "\x1bq"                       }
+  - { key: R,         mods: Alt,       chars: "\x1br"                       }
+  - { key: S,         mods: Alt,       chars: "\x1bs"                       }
+  - { key: T,         mods: Alt,       chars: "\x1bt"                       }
+  - { key: U,         mods: Alt,       chars: "\x1bu"                       }
+  - { key: V,         mods: Alt,       chars: "\x1bv"                       }
+  - { key: W,         mods: Alt,       chars: "\x1bw"                       }
+  - { key: X,         mods: Alt,       chars: "\x1bx"                       }
+  - { key: Y,         mods: Alt,       chars: "\x1by"                       }
+  - { key: Z,         mods: Alt,       chars: "\x1bz"                       }
+  - { key: Key1,      mods: Alt,       chars: "\x1b1"                       }
+  - { key: Key2,      mods: Alt,       chars: "\x1b2"                       }
+  - { key: Key3,      mods: Alt,       chars: "\x1b3"                       }
+  - { key: Key4,      mods: Alt,       chars: "\x1b4"                       }
+  - { key: Key5,      mods: Alt,       chars: "\x1b5"                       }
+  - { key: Key6,      mods: Alt,       chars: "\x1b6"                       }
+  - { key: Key7,      mods: Alt,       chars: "\x1b7"                       }
+  - { key: Key8,      mods: Alt,       chars: "\x1b8"                       }
+  - { key: Key9,      mods: Alt,       chars: "\x1b9"                       }
+  - { key: Key0,      mods: Alt,       chars: "\x1b0"                       }
