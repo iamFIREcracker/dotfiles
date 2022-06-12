@@ -2,7 +2,15 @@
 
 RLWRAP_COMPLETION=${1-$HOME/.lisp/sbcl-rlwrap-completion}
 sbcl --noinform --quit \
+    --load ~/.sbclrc \
     --eval "(dolist (package (list-all-packages)) \
-              (do-external-symbols (sym package) \
-                (format t \"~(~a~)~&\" sym)))" \
+              (let ((package-name (package-name package))) \
+                (do-external-symbols (sym package) \
+                  (cond
+                    ((string= package-name \"COMMON-LISP\") \
+                      (format t \"~(~a~)~&\" sym)) \
+                    ((string= package-name \"KEYWORD\") \
+                      (format t \"~(:~a~)~&\" sym)) \
+                    (t (format t \"~(~a:~a~)~&\" package-name sym))))))" \
+    | sort \
     | tee $RLWRAP_COMPLETION
