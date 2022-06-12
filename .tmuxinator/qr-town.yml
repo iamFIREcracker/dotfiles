@@ -1,0 +1,19 @@
+
+# ~/.tmuxinator/cnxt.yml
+
+name: cnxt
+root: ~/Workspace/qr-town/
+
+windows:
+  - docker:
+      root: ~/Workspace/qr-town/
+      panes:
+        - echo docker-compose up
+        - pscale connect --org=qr-town qr-town
+        - wo; npx prisma studio
+  - vim:
+      root: ~/Workspace/qr-town/
+      panes:
+        - wo; v .
+        - wo; npm run dev
+
