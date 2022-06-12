@@ -9,11 +9,16 @@
   home.packages = [
     pkgs.bash-completion
     pkgs.cowsay
+    pkgs.editorconfig-core-c
     pkgs.figlet
     pkgs.fortune
+    pkgs.fzf
     pkgs.git
     pkgs.jq
     pkgs.lolcat
+    pkgs.nodePackages.prettier
+    pkgs.nodePackages.typescript-language-server
+    pkgs.nodejs-16_x
     pkgs.python39Packages.virtualenv
     pkgs.rlwrap
     pkgs.sbcl
@@ -24,6 +29,7 @@
     pkgs.unison
     pkgs.unzip
     pkgs.vim
+    pkgs.w3m
   ];
 
   # This value determines the Home Manager release that your
@@ -39,4 +45,3 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
-
