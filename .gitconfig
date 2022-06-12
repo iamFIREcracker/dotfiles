@@ -46,10 +46,10 @@
 
     co = checkout
     cob = checkout -b
-    com = checkout master
+    com = !git checkout $(git-default-branch)
 
     mo = !git-merge-origin
-    mom = !git-merge-origin master
+    mom = !git-merge-origin $(git-default-branch)
 
     mr = "!f() { git com && git up && git mo \"${@}\" && git push && git bd \"${@}\"; }; f"
 
@@ -57,9 +57,12 @@
         git log \"${@}\" --color=always --date=\"$(git-log-date-format)\" --topo-order --pretty='tformat:%C(white bold)%h%Creset %s (%ad by %an)%C(white bold)%d%Creset'; \
     }; f"
     l0 = "!f() { \
+        git pretty-log ..$(git-default-remote)/$(git-default-branch); \
+    }; f"
+    l9 = "!f() { \
         git pretty-log $(git-default-remote)/$(git-default-branch)..; \
     }; f"
-    l9 = pretty-log
+    l8 = pretty-log
 
     lv   = "!f() { \
         cmd=\"Shell git p$1\"; \
@@ -83,10 +86,6 @@
     currentbranch = !git rev-parse --abbrev-ref HEAD 2>/dev/null
 
     d  = "!f() { cd ${GIT_PREFIX:-.}; git diff \"${@}\" | vim -c 'set ft=diff' -R -; }; f"
-    di = "!f() { cd ${GIT_PREFIX:-.}; git diff --cached \"${@}\" | vim -c 'set ft=diff' -R -; }; f"
-
-    do = "!f() { git diff origin/\"${@}\".. | vim -c 'set ft=diff' -R -; }; f"
-    dom = !git do master
 
     in = gl ..@{u}
     ind = d ..@{u}
@@ -119,22 +118,25 @@
     find-merge = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
     show-merge = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
 
-    br-summary = "!f() { git log ${1-origin/master}.. --reverse --pretty='format:## %s%n%n%b' | vipe | cb; }; f"
-    br-stat = "!f() { git diff --stat ${1-origin/master}; }; f"
-    br-files = "!f() { git diff --name-only ${1-origin/master}; }; f"
+    br-summary = "!f() { git log ${1-$(git-default-remote)/$(git-default-branch)}.. --reverse --pretty='format:## %s%n%n%b' | vipe | cb; }; f"
+    br-stat = "!f() { git diff --stat ${1-$(git-default-remote)/$(git-default-branch)}; }; f"
+    br-files = "!f() { git diff --name-only ${1-$(git-default-remote)/$(git-default-branch)}; }; f"
 
 [pull]
     ff = only
 
 [merge]
-    tool = vimdiff
+    tool = fugitive
     ; conflictstyle = diff3
     ff = false
 
 [mergetool]
-    cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"
     trustExitCode = true
     prompt = false
+
+[mergetool "fugitive"]
+    ; https://github.com/tpope/vim-fugitive/issues/1306#issuecomment-1025124663
+    cmd = vim -f -c \"Gvdiffsplit!\" \"$MERGED\"
 
 [difftool]
     prompt = false
