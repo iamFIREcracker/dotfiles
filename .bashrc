@@ -702,13 +702,6 @@ prompt_string() {
             prompt="$prompt,nix"
         fi
     fi
-    if [ -n "$VIRTUAL_ENV" ]; then
-        if [ -z "$prompt" ]; then
-            prompt=$(basename $VIRTUAL_ENV)
-        else
-            prompt="$prompt,$(basename $VIRTUAL_ENV)"
-        fi
-    fi
 
     if [ -n "$prompt" ]; then
         echo -n "[$prompt]"
