@@ -681,24 +681,48 @@ rcs_ps1() {
         echo
     else
         if git root >/dev/null 2>&1; then
-            git_ps1
+            echo " "$(git_ps1)
         elif hg st >/dev/null 2>&1; then
-            hg_ps1
+            echo " "$(hg_ps1)
         fi
     fi
 }
 
 venv_ps1() {
-    [ $VIRTUAL_ENV ] && echo "${ORANGE}>>"`basename $VIRTUAL_ENV`"<<${D}"
+    [ $VIRTUAL_ENV ] && echo " ${ORANGE}>>$(basename $VIRTUAL_ENV)<<${D}"
+}
+
+prompt_string() {
+    local prompt=""
+
+    if [ -n "$IN_NIX_SHELL" ]; then
+        if [ -z "$prompt" ]; then
+            prompt=nix
+        else
+            prompt="$prompt,nix"
+        fi
+    fi
+    if [ -n "$VIRTUAL_ENV" ]; then
+        if [ -z "$prompt" ]; then
+            prompt=$(basename $VIRTUAL_ENV)
+        else
+            prompt="$prompt,$(basename $VIRTUAL_ENV)"
+        fi
+    fi
+
+    if [ -n "$prompt" ]; then
+        echo -n "[$prompt]"
+    fi
+    echo -n "$"
 }
 
 actual_prompt() {
     local exit=$1
 
     if [[ $exit -eq 0 ]]; then
-        echo -n "$ "
+        echo -n "$(prompt_string) "
     else
-        echo -n "$exit $ "
+        echo -n "$exit $(prompt_string) "
     fi
 }
 
@@ -731,8 +755,8 @@ prompt_command() {
     PS1="$PS1${WHITE}${USER}${D}"                 # username
     PS1="$PS1 at ${CYAN}${HOSTNAME}${D}"          # hostname
     PS1="$PS1 in ${UNDERLINE}${PWD}${D}"          # cwd
-    PS1="$PS1 $(rcs_ps1)"                         # git/mercurial/svn
-    PS1="$PS1 $(venv_ps1)"                        # python's virtualenv
+    PS1="$PS1$(rcs_ps1)"                          # git/mercurial/svn
+    PS1="$PS1$(venv_ps1)"                         # python's virtualenv
     PS1="$PS1\n"                                  # new line
     PS1="$PS1${actual}"                           # the actual prompt
     export PS1
