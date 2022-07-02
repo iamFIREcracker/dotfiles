@@ -1,1 +1,1 @@
-au BufNewFile,BufRead *.plan* setf plan
+au BufNewFile,BufRead *.plan setf plan
