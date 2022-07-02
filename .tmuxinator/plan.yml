@@ -2,4 +2,6 @@ name: plan
 root: ~/plan/
 
 windows:
-  - p: ep
+  - personal: cd ~/plan/; v .
+  - private: cd ~/plan/private/; v .
+  - work: cd ~/plan/work/; v .

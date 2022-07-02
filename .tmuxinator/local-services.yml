@@ -8,7 +8,7 @@ windows:
         - vpython b1_custom.py --host localhost
   - cb: cb --listen
   - br: br --listen
-  - proxy: ssh -vN -D 7072 pisa299-sock5
+  - proxy: ssh -vN -D 7072 dabox.tailscale.internal-sock5
   - unison:
       panes:
         - echo watch --interval 60 --beep --errexit --exec unisonw-me
