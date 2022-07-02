@@ -37,6 +37,7 @@
     stashes = stash list
 
     b = "!f() { git branch --color --verbose | tr -d '\\r'; }; f"
+    bb = "!f() { git branch --color --verbose --verbose | tr -d '\\r'; }; f"
     bd = branch -d
 
     st = status --short --ignore-submodules=untracked
@@ -89,6 +90,8 @@
 
     in = gl ..@{u}
     ind = d ..@{u}
+    out = gl @{u}..
+    outd = d @{u}..
 
     shelve = "!f() { cd ${GIT_PREFIX:-.}; git add . ; git stash; }; f"
     unshelve = "!f() { cd ${GIT_PREFIX:-.}; git stash pop; }; f"
