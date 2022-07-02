@@ -1037,10 +1037,25 @@ if executable('typescript-language-server')
         \ 'whitelist': ['javascript', 'typescript', 'typescriptreact'],
         \ })
 endif
+if executable('pyls')
+  au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ })
+endif
+if executable('terraform-ls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'terraform-ls',
+        \ 'cmd': {server_info->['terraform-ls', 'serve']},
+        \ 'whitelist': ['terraform'],
+        \ })
+endif
 
 function! SetupLspBindings() abort "{{{
     nnoremap <buffer> <C-^> :LspReferences<cr>
     nnoremap <buffer> <C-]> :LspDefinition<cr>zvzz
+    nnoremap <buffer> <C-W><C-]> :vertical LspDefinition<cr>zvzz
     nnoremap <buffer> gd :LspDefinition<cr>zvzz
     nnoremap <buffer> ,S :LspRename<cr>
     nnoremap <buffer> ◊ :LspCodeAction<cr>
