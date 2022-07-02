@@ -45,8 +45,6 @@
 ; (pushnew #P"~/opt/slime/phmarek-master/" asdf:*central-registry*)
 ; (pushnew #P"~/opt/slime/upstream-master/" asdf:*central-registry*)
 (pushnew #P"~/opt/yason/__main__/" asdf:*central-registry*)
-(pushnew #P"~/opt/trivial-build/__main__/" asdf:*central-registry*)
 
 ;;; Enable specific behaviors when running locally
 (pushnew :running-locally *features*)
-
