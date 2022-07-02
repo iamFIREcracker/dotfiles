@@ -4,7 +4,7 @@ RLWRAP_COMPLETION=${1-$HOME/.lisp/sbcl-rlwrap-completion}
 sbcl --noinform --quit \
     --load ~/.sbclrc \
     --eval "(dolist (package (list-all-packages)) \
-              (let ((package-name (package-name package))) \
+              (dolist (package-name (package-nicknames package)) \
                 (do-external-symbols (sym package) \
                   (cond
                     ((string= package-name \"COMMON-LISP\") \
