@@ -651,20 +651,21 @@ let g:fugitive_gitlab_domains = ['https://gitlabdev01.iontrading.com']
 
 nnoremap <leader>gd :vert Git diff %<cr>
 nnoremap <leader>gD :vert Git diff<cr>
-nnoremap <leader>gp :Git push<cr>
-nnoremap <leader>gP :Git push -f<cr>
+nnoremap <leader>gp :Git! push<cr>
+nnoremap <leader>gP :Git! push<Space>
 nnoremap <leader>gs :Git<cr>
 nnoremap <leader>gw :Gwrite<cr>
 nnoremap <leader>gb :.Git blame<cr>
 nnoremap <leader>ge :Gedit<cr>
+nnoremap <leader>gr :Gread<cr>
 nnoremap <leader>gci :Git commit<cr>
 function! GitWithDefault() abort " {{{
     let remote = systemlist("git-default-remote")[0]
     let branch = systemlist("git-default-branch")[0]
-    return remote . "/" . branch . ".."
+    return remote . "/" . branch
 endfunction " }}}
-nnoremap <leader>gl0 :Gclog! <C-R>=GitWithDefault()<CR><CR>
-nnoremap <leader>gl9 :Gclog!<CR>
+nnoremap <leader>gl0 :Gclog! ..<C-R>=GitWithDefault()<CR><CR>
+nnoremap <leader>gl9 :Gclog! <C-R>=GitWithDefault()<CR>..<CR>
 nnoremap <leader>gl8 :Gclog!<Space>
 nnoremap <leader>gmr :Start git mr <C-R>=FugitiveHead()<CR><CR>
 nnoremap <silent> <leader>y<C-G> :call cb#copy(fugitive#Object(@%))<CR>
