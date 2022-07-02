@@ -79,6 +79,7 @@ alias :qa=exit
 
 export FZF_TMUX=1
 export FZF_DEFAULT_COMMAND='ag --hidden --nocolor -g ""'
+export FZF_DEFAULT_OPTS='--bind=ctrl-n:down,ctrl-p:up,ctrl-r:previous-history,alt-r:next-history'
 
 # Bash history search integration -- CTRL-R
 # Borrowed from: ~/.vim/pack/bundle/opt/fzf/shell/key-bindings.bash {{{
