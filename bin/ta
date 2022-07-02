@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+set -x
+
 NEEDS_MUX=': mux'
-TMUX_THIS=': tmux-this'
+WORKSPACE_TMUX_THIS=': workspace-tmux-this'
+OPT_TMUX_THIS=': opt-tmux-this'
 
 # the following function returns all the tmux sessions that can be activated:
 #
@@ -56,9 +59,9 @@ all-possible-sessions() {
   #     | sed "s/$/$TMUX_THIS/"
   # List all the Workspace directories
   /bin/ls -1 ~/Workspace/ \
-      | sed "s/$/$TMUX_MUX/"
+      | sed "s/$/$WORKSPACE_TMUX_THIS/"
   /bin/ls -1 ~/opt/ \
-      | sed "s/$/$TMUX_MUX/"
+      | sed "s/$/$OPT_TMUX_THIS/"
 }
 
 remove-duplicate-sessions() {
@@ -70,16 +73,19 @@ ta-fzft() {
   local name
   local needs_mux
 
-  session=$(all-possible-sessions | remove-duplicate-sessions | fzf-tmux --no-sort --exit-0)
+  session=$(all-possible-sessions | remove-duplicate-sessions | fzf --no-sort --exit-0)
   if [ -n "$session" ]; then
     name=$(echo $session | cut -d':' -f1)
     needs_mux=$(echo $session | grep "$NEEDS_MUX")
-    tmux_this=$(echo $session | grep "$TMUX_THIS")
+    workspace_tmux_this=$(echo $session | grep "$WORKSPACE_TMUX_THIS")
+    opt_tmux_this=$(echo $session | grep "$OPT_TMUX_THIS")
 
     if [ -n "$needs_mux" ]; then
       mux $name
-    elif [ -n "$tmux_this" ]; then
-      cd $name && tmux-this
+    elif [ -n "$workspace_tmux_this" ]; then
+      cd ~/Workspace/$name && tmux-this
+    elif [ -n "$opt_tmux_this" ]; then
+      cd ~/opt/$name && tmux-this
     else
       if [ -n "$TMUX" ]; then
         tmux switchc -t $name
