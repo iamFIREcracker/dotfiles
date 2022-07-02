@@ -1,0 +1,15 @@
+# USE:
+#
+# $ plan-references NEEDLE          # List all the references to NEEDLE in any plan files inside ./
+# $ plan-references NEEDLE ARGS     # Like above, but also pass ARGS, as is, to `ag`
+function _sort() {
+  if hash gsort 2>/dev/null; then
+    gsort "$@"
+  else
+    sort "$@"
+  fi
+}
+
+DEFAULT_ARGS="--vimgrep --hidden --smart-case --nogroup --nocolor --column"
+ag $DEFAULT_ARGS "${1}" "${@:2}" |\
+    sort --reverse

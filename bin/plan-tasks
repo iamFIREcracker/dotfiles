@@ -1,0 +1,24 @@
+# USE:
+#
+# $ plan-tasks                 # List all the tasks in any plan files inside ./
+# $ plan-tasks NEEDLE          # Like above, but limit to the todos containing the given tag
+# $ plan-tasks NEEDLE ARGS     # Like above, but also pass ARGS, as is, to `ag`
+function _sort() {
+  if hash gsort 2>/dev/null; then
+    gsort "$@"
+  else
+    sort "$@"
+  fi
+}
+
+HERE=$(echo $RANDOM | base64 | head -c 20)
+plan-references "^ *[?*+~] .*${1}" "${@:2}" |\
+    sed "s/: *[?] /:!#$HERE/" |\
+    sed "s/: *[*] /:!\$$HERE/" |\
+    sed "s/: *[+] /:!%$HERE/" |\
+    sed "s/: *[~] /:!\&$HERE/" |\
+    gsort -t ":" -k 4 |\
+    sed "s/:!\&$HERE/:~ /" |\
+    sed "s/:!%$HERE/:+ /" |\
+    sed "s/:!\$$HERE/:* /" |\
+    sed "s/:!#$HERE/:? /"
