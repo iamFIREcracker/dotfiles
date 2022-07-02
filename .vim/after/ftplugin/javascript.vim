@@ -1,35 +1,35 @@
-function! TurnOnJavascriptFolding() abort "{{{
-    let export       = '%(module\.)?export(s)?%(\.)?.*\{'
-    let class        = 'class%(\s+\S+)*\s*\{'
-    let method       = '%(static |async )?%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
-    let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
-    let functiondec  = '%(async )?function%(\s+\S+)?\s*\([^)]*' . functionwrap
-    let functiondef  = '%(%(const|var|let)\s)?\S+\s*\=\s*' . functiondec
-    let arrowdefwrap = '\s*[a-zA-Z0-9:]*\)\s*\=\>\s*\{'
-    let arrowdef     = '%(%(const|var|let)\s)?\S+\s*\=\s*\([^)]*' . arrowdefwrap
-    let router       = 'router\.\S+\([^}]*\{'
-    let mocha_descr  = 'describe%(\.only)?\([^}]*\{'
-    let mocha_it     = 'it\([^}]*\{'
+" function! TurnOnJavascriptFolding() abort "{{{
+"     let export       = '%(module\.)?export(s)?%(\.)?.*\{'
+"     let class        = 'class%(\s+\S+)*\s*\{'
+"     let method       = '%(static |async )?%(\S*\.\S*|if|for|switch)@!\S+\s*\([^)]*\)\s*\{'
+"     let functionwrap = '\s*[a-zA-Z0-9:]*\S*\)\s*\{'
+"     let functiondec  = '%(async )?function%(\s+\S+)?\s*\([^)]*' . functionwrap
+"     let functiondef  = '%(%(const|var|let)\s)?\S+\s*\=\s*' . functiondec
+"     let arrowdefwrap = '\s*[a-zA-Z0-9:]*\)\s*\=\>\s*\{'
+"     let arrowdef     = '%(%(const|var|let)\s)?\S+\s*\=\s*\([^)]*' . arrowdefwrap
+"     let router       = 'router\.\S+\([^}]*\{'
+"     let mocha_descr  = 'describe%(\.only)?\([^}]*\{'
+"     let mocha_it     = 'it\([^}]*\{'
 
-    let folded_statements = [
-                \ export,
-                \ class,
-                \ method,
-                \ functionwrap,
-                \ functiondec,
-                \ functiondef,
-                \ arrowdefwrap,
-                \ arrowdef,
-                \ router,
-                \ mocha_descr,
-                \ mocha_it
-                \ ]
+"     let folded_statements = [
+"                 \ export,
+"                 \ class,
+"                 \ method,
+"                 \ functionwrap,
+"                 \ functiondec,
+"                 \ functiondef,
+"                 \ arrowdefwrap,
+"                 \ arrowdef,
+"                 \ router,
+"                 \ mocha_descr,
+"                 \ mocha_it
+"                 \ ]
 
-    let b:manual_regexp_folding_statements_re_bare = '\v^\s*%(' . join(folded_statements, '|') . ')\s*$'
-    call TurnOnManualRegexpFolding()
-endfunction "}}}
-silent! call TurnOnJavascriptFolding()
-silent! call RefreshManualRegexpFolding()
+"     let b:manual_regexp_folding_statements_re_bare = '\v^\s*%(' . join(folded_statements, '|') . ')\s*$'
+"     call TurnOnManualRegexpFolding()
+" endfunction "}}}
+" silent! call TurnOnJavascriptFolding()
+" silent! call RefreshManualRegexpFolding()
 
 setlocal suffixesadd+=.js,.ts
 
@@ -156,9 +156,6 @@ function! InModule() abort "{{{
     call SendToTerminal('inModule("' . fnameescape(expand("%:p")) . '")')
 endfunction " }}}
 
-setl formatexpr=NeoformatExpr()
-nmap <buffer> <C-Q> Vaf:Neoformat<CR>
-
 " Sometimes I create a Javascript buffer starting from a .plan one (via
 " :NarrowRegion); the problem with that though, is that I have a custom `gq`
 " mapping defined for plan files, a mapping which I don't want to use while
@@ -168,7 +165,6 @@ nmap <buffer> <C-Q> Vaf:Neoformat<CR>
 silent! unmap <buffer> gq
 
 nnoremap <buffer> <silent> <localleader>i :call InModule()<cr>
-call SetupLispProjectMappings()
 
 inoremap <buffer> <c-n> <c-x><c-n>
 
@@ -212,6 +208,13 @@ endfunction " }}}
 " RainbowParenthesesLoadRound
 " RainbowParenthesesLoadSquare
 " RainbowParenthesesLoadBrace
+
+call SetupLspBindings()
+inoremap <buffer> <c-n> <c-x><c-o>
+
+setl formatexpr=NeoformatExpr()
+nmap <buffer> <C-Q> Vaf:Neoformat<CR>
+call PrettierIndentInit()
 
 " Abbreviations {{{
 
