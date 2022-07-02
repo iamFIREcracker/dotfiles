@@ -522,8 +522,8 @@ nnoremap <localleader>D :windo diffoff!<cr>
 nnoremap <silent> gw :ArgWrap<cr>
 
 
-" Go back to the previous edited file with backspace
-nnoremap <BS> <C-^>
+" Go back to the previous edited file with <C-W><Backspace>
+nnoremap <C-W><BS> <C-^>
 nnoremap <C-^> <Nop>
 
 "JSON prettify mappings
@@ -557,7 +557,7 @@ nnoremap Y y$
 nnoremap D d$
 
 " Run commands
-nnoremap <leader>! :terminal<space>
+nnoremap <C-W>! :terminal<space>
 
 " Insert Mode Completion {{{
 
@@ -691,7 +691,7 @@ if $OS == 'Windows_NT'
 else
     packadd fzf
 end
-nnoremap <C-P> :FZF<CR>
+nnoremap <C-W><C-P> :FZF<CR>
 
 let g:fzf_layout = { 'down': '40%' }
 
@@ -708,6 +708,7 @@ function! s:GetActiveBuffers() " {{{
     return l:result
 endfunction " }}}
 command! B call fzf#run(extendnew(g:fzf_layout, { 'source': s:GetActiveBuffers(), 'sink': 'e', }))
+nnoremap <C-W>S :B<cr>
 
 " }}}
 " JK-Jumps {{{
