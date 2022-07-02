@@ -88,10 +88,9 @@ test -n "$OS_WIN" && ensure_link ".minttyrc"              ".minttyrc"
     # I want the `install' script to download the binary (instead
     # of symlinking my wrapper...lol) I have to make sure ~/bin
     # is not covered by `$PATH'
-    test $FORCE -eq 1 && rm -f bin/fzf*
+    test $FORCE -eq 1 && rm -f bin/fzf bin/fzf.exe
     if [ ! -f bin/fzf -a ! -f bin/fzf.exe ]; then
         PATH=/bin:/usr/bin ./install --bin
-        git co bin/fzf-tmux # XXX why on earth would the install script delete fzf-tmux
     fi
     cd -
 
