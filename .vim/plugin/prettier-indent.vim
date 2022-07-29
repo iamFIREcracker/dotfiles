@@ -1,4 +1,7 @@
 function! PrettierIndentCalcIndentLvl(lnum) abort " {{{
+    " XXX use &commentstring
+    let l:sentinel = '// prettier-indent-was-here ' . rand()
+
     " Get the content of the current buffer
     "
     " Note: `prettier` would not try to indent _empty_ lines (i.e. lines
@@ -6,17 +9,17 @@ function! PrettierIndentCalcIndentLvl(lnum) abort " {{{
     " _empty_, we replace it with something else (i.e. something that hopefully
     " would not break the syntax)
     let l:buff_lines = getline(1, '$')
-    if l:buff_lines[a:lnum - 1] !~ '\v\S'
-        " XXX use &commentstring
-        let l:buff_lines[a:lnum - 1] = '// prettier-indent-was-here'
-    endif
+    let l:buff_lines[a:lnum - 1] = l:sentinel
     let l:buff = join(l:buff_lines, "\n")
 
     " Send the current buffer to `prettier` and extract the line
     " which we are trying to calculate the indentation level for
     let l:cmd = 'prettier --stdin-filepath ' . expand('%')
-    let l:indented_line = systemlist(l:cmd, buff)[a:lnum - 1]
-    echom l:indented_line
+    for l:line in systemlist(l:cmd, buff)
+        if l:line =~ l:sentinel
+            let l:indented_line = l:line
+        endif
+    endfor
 
     " Return the position of the first non-whitespace character
     let l:level = 0
