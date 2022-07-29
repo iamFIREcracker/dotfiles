@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  nixpkgs.config.unison.enableX11 = false; # MacOS would otherwise start XQuartz
+
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "ubuntu";
@@ -8,21 +10,27 @@
 
   home.packages = [
     pkgs.bash-completion
+    pkgs.bashInteractive # pkgs.bash does not have completion support: https://github.com/NixOS/nixpkgs/issues/59209 :(
+    pkgs.coreutils
     pkgs.cowsay
     pkgs.editorconfig-core-c
     pkgs.figlet
     pkgs.fortune
     pkgs.fzf
     pkgs.git
+    pkgs.gnused # Needed on MacOS
     pkgs.jq
     pkgs.lolcat
+    pkgs.mysql-client # mostly when messing around with vim-dadbod
     pkgs.nodePackages.prettier
     pkgs.nodePackages.typescript-language-server
     pkgs.nodejs-16_x
+    pkgs.pandoc # plan -> markdown
     pkgs.python39Packages.virtualenv
     pkgs.rlwrap
     pkgs.sbcl
     pkgs.silver-searcher
+    pkgs.tailscale
     pkgs.tmux
     pkgs.tmuxinator
     pkgs.tree
