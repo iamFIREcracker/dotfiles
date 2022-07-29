@@ -33,6 +33,10 @@ set splitbelow
 set splitright
 set path=.,,
 set cursorline
+" I am probably going to regret for toggling this on, but let's see how that
+" goes.  Should this be toggled on only while in normal mode?  I don't know,
+" let's see...
+set cursorcolumn
 
 " Don't increment numbers in octal notation, please
 set nrformats-=octal
