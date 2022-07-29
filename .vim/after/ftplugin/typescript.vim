@@ -40,6 +40,12 @@ setl formatexpr=NeoformatExpr()
 nnoremap <buffer> <C-Q> :Neoformat<CR>
 call PrettierIndentInit()
 
+" Soft-wrap: automatic indentation of 3 characters (it's 2 there, but then there
+" is an additional one used by `:h showbreak`
+setl wrap
+setl breakindent
+setl breakindentopt+=shift:2
+
 " Abbreviations {{{
 
 call MakeSpacelessBufferIabbrev('if',      'if (HERE)')
