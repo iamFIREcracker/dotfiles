@@ -665,6 +665,14 @@ function matteolandi {
 # }}}
 # Prompt {{{
 
+colored_hostname() {
+    if [ -n "$SSH_CONNECTION" ]; then
+        echo " at ${RED}${HOSTNAME}${D}"
+    else
+        echo " at ${CYAN}${HOSTNAME}${D}"
+    fi
+}
+
 git_ps1() {
     local branch=$(git currentbranch)
     local status=$(git_prompt_status)
@@ -691,6 +699,10 @@ rcs_ps1() {
 
 venv_ps1() {
     [ $VIRTUAL_ENV ] && echo " ${ORANGE}>>$(basename $VIRTUAL_ENV)<<${D}"
+}
+
+nvm_ps1() {
+    [ $NVM_BIN ] && echo " ${ORANGE}>>$(nvm version)<<${D}"
 }
 
 prompt_string() {
@@ -720,6 +732,7 @@ actual_prompt() {
     fi
 }
 
+
 # Inspired by: https://gist.github.com/3083586
 prompt_command() {
     local actual=$(actual_prompt $?)
@@ -747,10 +760,11 @@ prompt_command() {
     PS1=
     PS1="$PS1\n"                                  # gracious new line
     PS1="$PS1${WHITE}${USER}${D}"                 # username
-    PS1="$PS1 at ${CYAN}${HOSTNAME}${D}"          # hostname
+    PS1="$PS1$(colored_hostname)"                 # hostname
     PS1="$PS1 in ${UNDERLINE}${PWD}${D}"          # cwd
     PS1="$PS1$(rcs_ps1)"                          # git/mercurial/svn
     PS1="$PS1$(venv_ps1)"                         # python's virtualenv
+    PS1="$PS1$(nvm_ps1)"                          # nvm
     PS1="$PS1\n"                                  # new line
     PS1="$PS1${actual}"                           # the actual prompt
     export PS1
