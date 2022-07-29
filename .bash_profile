@@ -8,7 +8,34 @@ if [[ $- == *i* ]]; then
     ~/bin/motd
 fi
 
-if [ -d $HOME/.nix-profile/share ]; then export XDG_DATA_DIRS="$HOME/.nix-profile/share:$XDG_DATA_DIRS"; fi
+envvarcontains() {
+    eval "echo \$$1" | grep -Eq "(^|:)$2($|:)"
+}
+
+envvarmunge () {
+    if ! envvarcontains $2 ; then
+        if [ "$3" = "after" ] ; then
+            eval $1=\$$1:$2
+        else
+            eval $1=$2:\$$1
+        fi
+    fi
+}
+
+envvarremovepart() {
+    eval $1=:\$$1:
+    if [ "$3" = "all" ]; then
+        eval $1=\${$1//:$2:/:}
+    else
+        eval $1=\${$1/:$2:/:}
+    fi
+    eval $1=\${$1#:}
+    eval $1=\${$1%:}
+}
+
+if [ -d $HOME/.nix-profile/share ]; then
+    envvarmunge XDG_DATA_DIRS $HOME/.nix-profile/share
+fi
 
 if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
@@ -41,7 +68,7 @@ if [ -z "$JAVA_HOME" ]; then
     fi
 fi
 
-export MANPATH="$HOME/local/man:$MANPATH"
+envvarmunge MANPATH $HOME/local/man
 
 if [ -z "${LANG}" ]; then
     LANG=en_US.UTF-8
@@ -59,20 +86,6 @@ if [ -z "${MM_CHARSET}" ]; then
 fi
 
 
-pathcontains() {
-    echo "$PATH" | grep -Eq "(^|:)$1($|:)"
-}
-
-pathmunge () {
-    if ! pathcontains $1 ; then
-        if [ "$2" = "after" ] ; then
-            PATH="$PATH:$1"
-        else
-            PATH="$1:$PATH"
-        fi
-    fi
-}
-
 pathremove() {
     PATH=:$PATH:
     if [ "$2" = "all" ]; then
@@ -83,8 +96,8 @@ pathremove() {
     PATH=${PATH#:}; PATH=${PATH%:}
 }
 
-pathmunge /usr/sbin
-pathmunge /usr/local/sbin
+envvarmunge PATH /usr/sbin
+envvarmunge PATH /usr/local/sbin
 
 # test -d /usr/local/opt/python@2/bin    && export PATH="/usr/local/opt/python@2/bin:$PATH"
 # test -d /usr/local/opt/python@3.9/bin  && export PATH="/usr/local/opt/python@3.9/bin:$PATH"
@@ -104,15 +117,15 @@ if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . /home/ubuntu/.nix-prof
 #   is still contained inside $PATH, and if it is (i.e. nested login shell),
 #   then we move on and rely on the fact that nix was loaded at the right time;
 #   otherwise, we manually add $HOME/.nix-proifile/bin to $PATH
-pathremove $HOME/.nix-profile/bin
-if ! pathcontains $HOME/.nix-profile/bin; then 
-    pathmunge $HOME/.nix-profile/bin
+envvarremovepart PATH $HOME/.nix-profile/bin
+if ! envvarcontains PATH $HOME/.nix-profile/bin; then 
+    envvarmunge PATH $HOME/.nix-profile/bin
 fi
 
-pathmunge ~/local/bin
-# test -d ~/perl5/bin                    && export PATH="$HOME/perl5/bin$:$PATH"
-# test -d ~/.rvm/bin                     && export PATH="$HOME/.rvm/bin:$PATH"
-pathmunge ~/bin
+envvarmunge PATH $HOME/local/bin
+# test -d $HOME/perl5/bin                    && export PATH="$HOME/perl5/bin$:$PATH"
+# test -d $HOME/.rvm/bin                     && export PATH="$HOME/.rvm/bin:$PATH"
+envvarmunge PATH $HOME/bin
 
 if [ -e $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh ]; then . $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh; fi
 export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
