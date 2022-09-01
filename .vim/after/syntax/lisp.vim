@@ -1,7 +1,11 @@
 syntax match lispScratchMarker /\v\#;.*/
 highlight link lispScratchMarker lispComment
 
-syntax match lispEscapeChar /\v\#\\./
+" lispEscapeSpecial which is defined inside $RUNTIME, ends up matching
+" escape chars first, so to tell Vim to to still process our lispEscapeChar
+" definition, we have to add a `containedin=lispEscapeSpecial`
+" https://stackoverflow.com/a/27687580
+syntax match lispEscapeChar /\v\#[^ ()|]+/ containedin=lispEscapeSpecial
 highlight link lispEscapeChar lispString
 
 " Excluded forms {{{
