@@ -476,9 +476,9 @@ function s:delimitMate_CtrlW() abort "{{{
     let ch = getline('.')[col('.') - 2] " 1, is for 0-index,
                                         " 1 because in insert mode we care
                                         " about the char _before_ the cursor
-    let parens = ['(', '[', '{']
-    let quotes = exists('b:delimitMate_quotes') ? [b:delimitMate_quotes] : ['"', '\', '`']
-    if index(parens + quotes, ch) >= 0
+    let parens = get(b:, 'delimitMate_matchpairs', &matchpairs)
+    let quotes = get(b:, 'delimitMate_quotes', "\" ' `")
+    if stridx(parens . quotes, ch) >= 0
         return delimitMate#BS()
     else
         return ""
