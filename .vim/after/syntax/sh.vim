@@ -1,0 +1,5 @@
+" XXX temporarily borrowed from ftplugin
+RainbowParenthesesActivate
+RainbowParenthesesLoadRound
+RainbowParenthesesLoadSquare
+RainbowParenthesesLoadBrace
