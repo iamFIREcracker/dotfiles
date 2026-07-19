@@ -87,16 +87,6 @@ eval "$(gdircolors ~/.vim/pack/bundle/start/vim-bruin/contrib/bruin.dircolors)"
 BLOCK=$'\e[2 q'
 BEAM=$'\e[5 q'
 
-# Vim mode {{{
-
-# set -o vi
-
-# I give up
-alias :e=vim
-alias :q=exit
-alias :qa=exit
-
-# }}}
 # FZF
 export FZF_TMUX=1
 export FZF_DEFAULT_COMMAND='rg --files --hidden --smart-case --glob "!.git/*"'
@@ -151,8 +141,6 @@ __fzf_history__() {
 }
 # CTRL-R - Paste the selected command from history into the command line
 bind -m emacs-standard -x '"\C-r": __fzf_history__'
-bind -m vi-command -x '"\C-r": __fzf_history__'
-bind -m vi-insert -x '"\C-r": __fzf_history__'
 
 # Bash completion ---------------------------------------------------------{{{
 # Homebrew {{{
@@ -224,7 +212,6 @@ eval "$(cat ${XDG_CACHE_DIR-$HOME/.cache}/beads/bash-completion.sh)"
 
 export EDITOR="vim"
 export PAGER="/usr/bin/less"
-export HGEDITOR="~/bin/hgeditor"
 export BROWSER=pn
 
 # Let's speed things up!
@@ -297,24 +284,7 @@ headless_java() {
 export PYTHONSTARTUP="~/.pythonrc.py"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-# Extra {{{
 
-if [ -f ~/lib/bash/mobile.sh ]; then
-    source ~/lib/bash/mobile.sh
-fi
-
-export LOADED_SCRIPTS=${BASH_SOURCE}
-
-load_if_present() {
-    if [ -f "$1" ]; then
-        LOADED_SCRIPTS="$1:$LOADED_SCRIPTS"
-        source "$1"
-    fi
-}
-
-load_if_present ~/opt/z/z.sh
-
-# }}}
 # Shortcuts {{{
 
 alias g=git
@@ -369,53 +339,13 @@ enburls() { $EDITOR ~/.newsboat/urls; }
 # }}}
 
 function ..() {    cd ../"$@"; }
-function ...() {   cd ../../"$@"; }
-function ....() {  cd ../../../"$@"; }
-function .....() { cd ../../../../"$@"; }
 
 
-echo_n_run() {
-    echo "$@"
-    "$@"
-}
-
-function -() {
-    if [ $# == 1 ]; then
-        grep -v -E "$1" | hl "$@"
-    elif [ $# == 2 ]; then
-        grep -v -E "$1|$2" | hl "$@"
-    elif [ $# == 3 ]; then
-        grep -v -E "$1|$2|$3" | hl "$@"
-    elif [ $# == 4 ]; then
-        grep -v -E "$1|$2|$3|$4" | hl "$@"
-    elif [ $# == 5 ]; then
-        grep -v -E "$1|$2|$3|$4|$5" | hl "$@"
-    elif [ $# == 6 ]; then
-        grep -v -E "$1|$2|$3|$4|$5|$6" | hl "$@"
-    elif [ $# -gt 6 ]; then
-        grep -v -E "$1|$2|$3|$4|$5|$6" | - "${@:7}"
-    fi
-}
-function a() { ag --hidden --smart-case "$@"; }
-function b() { bower "$@"; }
 function banner() { figlet -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
-function b1() { ~/opt/bunny1/venv/bin/python ~/opt/bunny1/b1_custom.py --test "$*"; }
 function brewski() { brew update && brew upgrade && brew cleanup; brew doctor; }
 function cleancodes() { sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"; }
 function collapse() { sed -e 's/  */ /g'; }
-function cols() { collapse | cuts -f "$@"; }
 function cuts() { cut -d' ' "$@"; }
-function dabox() { ssh pisa299linux "$@"; }
-function ungron() { gron --ungron "$@"; }
-function uniqdiff() {
-    local input=/tmp/uniqdiff_all.$$
-    trap "kill -TERM $PID; rm '${input}'" TERM INT
-    cat > ${input}
-    </dev/tty vimdiff <(cat ${input}) <(cat ${input} | uniq "$@")
-    rm "${input}"
-}
-function uniqdiff1() { uniqdiff --skip-fields 1; }
-function from() { tac "$1" | sed "/$2/q" | tac; }
 function fucking-kill-nfsd() {
     # https://github.com/hashicorp/vagrant/issues/8103
     sudo sh -c "> /etc/exports"
@@ -426,83 +356,23 @@ function fucking-restart-bluetooth() {
     sudo kextunload -b com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport
     sudo kextload -b com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport
 }
-gimmeurjson() {
-    local url=$1
-    local method=${2:-GET}
-    local data="$3"
-    local line
 
-    [ ${method} = "GET" ] && url="${url}?${data}"
-
-    curl -i -s -w'\n' \
-        --header 'Accept: application/json' \
-        --header 'Content-Type: application/json' \
-        "${@:4}" \
-        "${url}" -X "${method}" -d "${data}"
-}
-
-function grep() { $(which grep) --line-buffered "$@"; }
-function gc() {
-    if [ $# == 1 ]; then
-        grep -E "$1" | hl "$@"
-    elif [ $# == 2 ]; then
-        grep -E "$1|$2" | hl "$@"
-    elif [ $# == 3 ]; then
-        grep -E "$1|$2|$3" | hl "$@"
-    elif [ $# == 4 ]; then
-        grep -E "$1|$2|$3|$4" | hl "$@"
-    elif [ $# == 5 ]; then
-        grep -E "$1|$2|$3|$4|$5" | hl "$@"
-    elif [ $# == 6 ]; then
-        grep -E "$1|$2|$3|$4|$5|$6" | hl "$@"
-    else
-        exit Too many arguments
-    fi
-}
-# Mercurial {{{
-
-function h() { hg "$@"; }
-
-# }}}
-function histgrep() { history | grep "$@" | tac; }
 function hn() { head -n "$@"; }
 function hn1() { hn 1; }
-function hl() {
-    if [ $# == 1 ]; then
-        hl1 "$1"
-    elif [ $# == 2 ]; then
-        hl1 "$1" | hl2 "$2"
-    elif [ $# == 3 ]; then
-        hl1 "$1" | hl2 "$2" | hl3 "$3"
-    elif [ $# == 4 ]; then
-        hl1 "$1" | hl2 "$2" | hl3 "$3" | hl4 "$4"
-    elif [ $# == 5 ]; then
-        hl1 "$1" | hl2 "$2" | hl3 "$3" | hl4 "$4" | hl5 "$5"
-    elif [ $# == 6 ]; then
-        hl1 "$1" | hl2 "$2" | hl3 "$3" | hl4 "$4" | hl5 "$5" | hl6 "$6"
-    elif [ $# -gt 6 ]; then
-        hl1 "$1" | hl2 "$2" | hl3 "$3" | hl4 "$4" | hl5 "$5" | hl6 "$6" | hl "${@:7}"
-    fi
-}
-function hl1() { GREP_COLOR="1;31" grep -E --color=always "$1|\$"; }
-function hl2() { GREP_COLOR="1;32" grep -E --color=always "$1|\$"; }
-function hl3() { GREP_COLOR="1;33" grep -E --color=always "$1|\$"; }
-function hl4() { GREP_COLOR="1;34" grep -E --color=always "$1|\$"; }
-function hl5() { GREP_COLOR="1;35" grep -E --color=always "$1|\$"; }
-function hl6() { GREP_COLOR="1;36" grep -E --color=always "$1|\$"; }
-function hs() { history "$@"; }
+
 function j() {
-  [ $# -gt 0 ] && _z "$*" && return
-  cd "$(_z -l 2>&1 | fzf-tmux --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+
+    if [ "$1" == "-" ]; then
+        cd -
+    elif [ "$1" == "." ]; then
+        cd "$(find . -type d | fzf --select-1 --query "${*}")"
+    else
+        cd "$(mydirs | fzf --select-1 --query "${*}")"
+    fi
+    ls
 }
 
-# Join lines {{{
 
-function J() {
-    tr '' '\n' | tr -s '\n' '	'
-}
-
-# }}}
 function l() { l1 "$@"; }
 function l1() { tree --dirsfirst -ChFL 1 "$@"; }
 function l2() { tree --dirsfirst -ChFL 2 "$@"; }
@@ -517,13 +387,6 @@ function ll3() { tree --dirsfirst -ChFupDaL 3 "$@"; }
 function ll4() { tree --dirsfirst -ChFupDaL 4 "$@"; }
 function ll5() { tree --dirsfirst -ChFupDaL 5 "$@"; }
 function ll6() { tree --dirsfirst -ChFupDaL 6 "$@"; }
-# math {{{
-
-function math() {
-    bc -l -q <(echo "$@"; echo "quit")
-}
-
-# }}}
 # maven {{{
 
 function m() {
@@ -556,14 +419,11 @@ function mutt-work() { muttw -F ~/Dropbox/mutt/matteo.landi-iongroup.com.muttrc;
 function mutt-pec()  { muttw -F ~/Dropbox/mutt/landimatte-pec.it.muttrc; }
 
 # }}}
-function median() { percentile 50; }
-function o() { open "$@"; }
-function oo() { open .; }
+
 function password() {
   cat /dev/urandom | LC_ALL=C tr -dc _A-Z-a-z-0-9 | head -c${1:-32}
   echo # new lines are good!
 }
-function percentile() { awk "{ a[i++]=\$0; } END { print a[int(i*$1/100)]; }"; }
 function pip() {
     if [ -n "$VIRTUAL_ENV" ]; then
         $(which pip) "$@"
@@ -571,69 +431,14 @@ function pip() {
         echo "Not currently in a venv -- use pip-sys to work system-wide."
     fi
 }
-function pipf() { pip freeze > requirements.txt; }
-function pipir() { pip install -r requirements.txt; }
 function pip-sys() { $(which pip) "$@"; }
-function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n | gc "${1-.}"; }
-function psa { ps aux | grep '${@}'; }
-function psg() { ps auxww | grep -i --color=always "$@" | grep -v grep | collapse | cuts -f 2,11-; }
-# react-native {{{
+function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n | grep --color "${1-.}"; }
 
-function rn() { react-native "$@"; }
-function rnri() { rn run-ios "$@"; }
-function rnri5s() { rnri --simulator "iPhone 5s"; }
-
-# }}}
-function s() {
-    local oldifs host customcmd uberscript cmd
-
-    oldifs=$IFS
-    host="$1"
-    customcmd="${2:-true}"
-    IFS=:
-    set -- $LOADED_SCRIPTS
-    uberscript=$(cat "$@" | base64)
-    IFS=$oldifs
-
-    cmd="${cmd} $customcmd;"
-    cmd="${cmd} echo '$uberscript' | base64 --decode > /tmp/.bashrc_temp;"
-    cmd="${cmd} bash --rcfile /tmp/.bashrc_temp"
-    ssh -R 5556:localhost:5556 -t $host "$cmd"
-}
-# SSH monochrome {{{
-
-function ssh-mono() {
-    TERM=vt220 ssh "$@" -t "clear;bash"
-    unfuck && clear
-}
-function ssh-red() {
-    printf "\x1b[41m"
-    ssh-mono "$@"
-}
-function ssh-green() {
-    printf "\x1b[42m"
-    ssh-mono "$@"
-}
-function ssh-orange() {
-    printf "\x1b[43m"
-    ssh-mono "$@"
-}
-function ssh-blue() {
-    printf "\x1b[44m"
-    ssh-mono "$@"
-}
-function ssh-purple() {
-    printf "\x1b[45m"
-    ssh-mono "$@"
-}
-
-# }}}
 function sb() { . ~/.bashrc; }
-function serve-this() { python3 -m http.server "$@"; }
+
 function sleepless() {
     pmset -g assertions | egrep '(PreventUserIdleSystemSleep|PreventUserIdleDisplaySleep)'
 }
-function sum() { awk '{s+=$1}END{print s}'; }
 # tmuxinator {{{
 
 # Courtesy of: https://github.com/tmuxinator/tmuxinator/blob/master/completion/tmuxinator.bash
@@ -661,9 +466,6 @@ _tmuxinator() {
 complete -F _tmuxinator tmuxinator mux
 
 # }}}
-function unfuck() { echo "${D}"; }
-function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
-function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
 function vw() { vim -R -; }
 
 # Work-on
@@ -791,47 +593,9 @@ function wo() {
     # Keep this last... if successful, it will spawn a new shell
     wonix
 }
-function wpk() {
-    kill `cat .bgrun.pid`
-}
-function wpr() {
-    wpk; bgrun "python run_app.py"
-    watchmedo shell-command \
-        --recursive \
-        --wait \
-        --patterns='*.py;*.html;*.js' \
-        --command='echo "${watch_src_path}"; bash -c "kill `cat .bgrun.pid`; bgrun \"python run_app.py\""'
-}
-function x() {
-    if [ $# == 1 ]; then
-        grep -o -E "$1"
-    elif [ $# == 2 ]; then
-        grep -o -E "$1|$2"
-    elif [ $# == 3 ]; then
-        grep -o -E "$1|$2|$3"
-    elif [ $# == 4 ]; then
-        grep -o -E "$1|$2|$3|$4"
-    elif [ $# == 5 ]; then
-        grep -o -E "$1|$2|$3|$4|$5"
-    elif [ $# == 6 ]; then
-        grep -o -E "$1|$2|$3|$4|$5|$6"
-    else
-        exit Too many arguments
-    fi
-}
-function xvim() {
-    xargs "$@" sh -c 'vim "$@" </dev/tty' dummy_script_name
-}
+
 function zombies() {  ps ex | awk "\$3==\"Z\"{print \$0}"; }
 
-# }}}
-# Hosts {{{
-
-function matteolandi {
-    echo_n_run ssh-red matteo@matteolandi.net
-}
-
-# }}}
 # Prompt
 
 compact_cwd() {
