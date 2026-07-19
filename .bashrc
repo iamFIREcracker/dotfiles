@@ -146,6 +146,52 @@ bind -m emacs-standard -x '"\C-r": __fzf_history__'
 bind -m vi-command -x '"\C-r": __fzf_history__'
 bind -m vi-insert -x '"\C-r": __fzf_history__'
 
+# Bash completion ---------------------------------------------------------{{{
+# Homebrew {{{
+
+if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]
+then
+  source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+else
+  for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*
+  do
+    [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+  done
+fi
+
+# }}}
+# Nix {{{
+
+if [ -f $HOME/.nix-profile/etc/profile.d/bash_completion.sh ]; then
+    # We get basic bash completion from the OS.
+    # However, nix's bash completion would refuse to load
+    # if BASH_COMPLETION_VERSINFO is not empty (it wants
+    # to avoid double loading).
+    # So here we temporarily unset BASH_COMPLETION_VERSINFO
+    # to force load completions
+    BASH_COMPLETION_VERSINFO= . $HOME/.nix-profile/etc/profile.d/bash_completion.sh
+fi
+
+# }}}
+# Everything else {{{
+
+if [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
+# elif [ -f /usr/local/etc/profile.d/bash_completion.sh ]; then
+#     # brew bash-completion@2
+#     source /usr/local/etc/profile.d/bash_completion.sh
+# elif [ -f /usr/local/etc/bash_completion ]; then
+#     # brew bash-completion
+#     source /usr/local/etc/bash_completion
+elif [ -f /usr/share/bash-completion/bash_completion ]; then
+    source /usr/share/bash-completion/bash_completion
+elif [ -f /usr/local/share/bash-completion/bash_completion ]; then
+    source /usr/local/share/bash-completion/bash_completion
+fi
+
+# }}}
+# }}}
+
 # General {{{
 
 export EDITOR="vim"
