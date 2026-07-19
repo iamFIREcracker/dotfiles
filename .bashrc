@@ -49,7 +49,7 @@ stty susp undef
 # Avoid duplicate entries, and skip entries with a leading whitespace
 export HISTCONTROL="erasedups:ignoreboth:ignorespace"
 
-export HISTSIZE=10000
+export HISTSIZE=1000000
 
 # Don't record some commands
 export HISTIGNORE="&:exit:ls:bg:fg:history:hs:clear"
