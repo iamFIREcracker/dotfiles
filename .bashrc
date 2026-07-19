@@ -16,6 +16,13 @@ case $HOSTNAME in
     skinny.local) OS_MAC=true;;
 esac
 
+if [ -f ~/.env ]; then
+    set -a; source ~/.env; set +a
+fi
+if [ -f ~/.env.properties ]; then
+    set -a; source ~/.env.properties; set +a
+fi
+
 # Bash
 
 # Abort piped command ASAP
@@ -77,8 +84,6 @@ alias :q=exit
 alias :qa=exit
 
 # }}}
-# Environment variables {{{
-
 # FZF {{{
 
 export FZF_TMUX=1
@@ -163,14 +168,6 @@ export NVM_DIR="$HOME/.nvm"
 
 export PYTHONSTARTUP="~/.pythonrc.py"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-
-# }}}
-
-if [ -f ~/.env.properties ]; then
-    set -a # export all variables created next
-    source ~/.env.properties
-    set +a # stop exporting
-fi
 
 # }}}
 # Extra {{{
