@@ -212,15 +212,60 @@ eval "$(cat ${XDG_CACHE_DIR-$HOME/.cache}/beads/bash-completion.sh)"
 # }}}
 # }}}
 
-# General {{{
+# General
 
 export EDITOR="vim"
 export PAGER="/usr/bin/less"
 export HGEDITOR="~/bin/hgeditor"
 export BROWSER=pn
 
-# }}}
-# Java et al. {{{
+# Let's speed things up!
+BASH_ONCE_DIR=${XDG_CACHE_DIR-$HOME/.cache}/bash-once
+mkdir -p $BASH_ONCE_DIR
+if [ ! -f "${BASH_ONCE_DIR}/lock" ]; then
+    date > "${BASH_ONCE_DIR}/lock"
+    set -x
+    ta daemon start &
+    # (pyenv init - bash > ${BASH_ONCE_DIR}/pyenv_init) &
+    # (nodenv init - bash > ${BASH_ONCE_DIR}/nodenv_init) &
+    (rbenv init - bash > ${BASH_ONCE_DIR}/rbenv_init) &
+    (goenv init - bash > ${BASH_ONCE_DIR}/goenv_init) &
+    (mise activate bash > ${BASH_ONCE_DIR}/mise_init) &
+
+    set +x
+    wait
+fi
+
+eval "$(cat ${BASH_ONCE_DIR}/mise_init)"
+
+function lazy_load_pyenv() {
+  if [ "${PYENV_LAZY_LOADED:-0}" == "0" ]; then
+    export PYENV_LAZY_LOADED=1
+    eval "$(cat ${BASH_ONCE_DIR}/pyenv_init)"
+  fi
+}
+# function lazy_load_nodenv() {
+#   if [ "${NODENV_LAZY_LOADED:-0}" == "0" ]; then
+#     export NODENV_LAZY_LOADED=1
+#     eval "$(cat ${BASH_ONCE_DIR}/nodenv_init)"
+#   fi
+# }
+function lazy_load_rbenv() {
+  if [ "${RBENV_LAZY_LOADED:-0}" == "0" ]; then
+    export RBENV_LAZY_LOADED=1
+    eval "$(cat ${BASH_ONCE_DIR}/rbenv_init)"
+  fi
+}
+function lazy_load_goenv() {
+  if [ "${GOENV_LAZY_LOADED:-0}" == "0" ]; then
+    export GOENV_LAZY_LOADED=1
+    eval "$(cat ${BASH_ONCE_DIR}/goenv_init)"
+  fi
+}
+
+# Tool version management
+
+# Java et al.
 
 export MAVEN_OPTS="-Xmx2048m -Xss2M -XX:ReservedCodeCacheSize=128m -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 export _JAVA_OPTIONS="-Djava.awt.headless=true"
@@ -238,32 +283,12 @@ headless_java() {
     echo "  to: $_JAVA_OPTIONS"
 }
 
-# }}}
-# Nvm {{{
 
-export NVM_DIR="$HOME/.nvm"
-
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# }}}
-# Ruby {{{
-
-[ -f "$HOME/.rvm/scripts/rvm" ] && \. "$HOME/.rvm/scripts/rvm"
-
-# XXX slow as balls -- manually run `rvm use` please
-# if [[ $- == *i* ]]; then
-#     # echo $PATH
-#     rvm use default
-# fi
-
-# }}}
-# Python {{{
+# Python
 
 export PYTHONSTARTUP="~/.pythonrc.py"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-# }}}
 # Extra {{{
 
 if [ -f ~/lib/bash/mobile.sh ]; then
@@ -773,10 +798,6 @@ venv_ps1() {
     [ $VIRTUAL_ENV ] && echo " ${ORANGE}>>$(basename $VIRTUAL_ENV)<<${D}"
 }
 
-nvm_ps1() {
-    [ $NVM_BIN ] && echo " ${ORANGE}>>$(nvm version)<<${D}"
-}
-
 prompt_string() {
     local prompt=""
 
@@ -836,7 +857,6 @@ prompt_command() {
     PS1="$PS1 in ${UNDERLINE}${PWD}${D}"          # cwd
     PS1="$PS1$(rcs_ps1)"                          # git/mercurial/svn
     PS1="$PS1$(venv_ps1)"                         # python's virtualenv
-    PS1="$PS1$(nvm_ps1)"                          # nvm
     PS1="$PS1\n"                                  # new line
     PS1="$PS1${actual}"                           # the actual prompt
     export PS1
