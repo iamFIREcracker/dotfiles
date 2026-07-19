@@ -46,6 +46,11 @@ stty -ixoff
 # Don't 'susp' with C-Z (default)
 stty susp undef
 
+# Disable colors (manually opt-in, when needed)
+# I am sure I am going to regret this pretty soon
+# https://no-color.org/
+export NO_COLOR=1
+
 # Avoid duplicate entries, and skip entries with a leading whitespace
 export HISTCONTROL="erasedups:ignoreboth:ignorespace"
 
@@ -72,7 +77,7 @@ CYAN=$'\e[0;36m'
 RED=$'\e[0;31m'
 WHITE=$'\e[0;97m'
 
-eval "$(gdircolors -b ~/.vim/pack/bundle/start/badwolf/contrib/badwolf.dircolors)"
+eval "$(gdircolors ~/.vim/pack/bundle/start/vim-bruin/contrib/bruin.dircolors)"
 
 # Vim mode {{{
 
