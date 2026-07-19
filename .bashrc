@@ -89,14 +89,40 @@ alias :q=exit
 alias :qa=exit
 
 # }}}
-# FZF {{{
-
+# FZF
 export FZF_TMUX=1
-export FZF_DEFAULT_COMMAND='ag --hidden --nocolor -g ""'
-export FZF_DEFAULT_OPTS='--bind=ctrl-j:ignore,ctrl-k:ignore,ctrl-n:down,ctrl-p:up,ctrl-r:previous-history,alt-r:next-history'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --smart-case --glob "!.git/*"'
+# removed --exact to test emac-ivy mode
+export FZF_DEFAULT_OPTS='
+  --sort
+  --reverse
+  --highlight-line
+  --height=~13
+  --pointer=
+  --marker=
+  --scrollbar=
+  --info=inline-right
+  --input-border=bottom
+  --color="
+    bw
+    list-fg:reverse
+    list-bg:reverse
+    current-fg:regular:bright-white
+    current-bg:regular:bright-magenta
+    current-hl:regular:bright-white
+    selected-fg:regular:bright-white
+    selected-bg:regular:cyan
+    hl:reverse
+    prompt:magenta
+    input-bg:regular
+    query:regular
+  "
+  --bind="end:accept,ctrl-k:kill-line,ctrl-n:down,ctrl-p:up,ctrl-r:previous-history,alt-r:next-history,alt-a:toggle-all,ctrl-g:become(printf \"%s\n\" {} | vipe)"
+'
+
 
 # Bash history search integration -- CTRL-R
-# Borrowed from: ~/.vim/pack/bundle/opt/fzf/shell/key-bindings.bash {{{
+# Borrowed from: ~/.vim/pack/bundle/opt/fzf/shell/key-bindings.bash
 __fzfcmd() {
   [[ -n "$TMUX_PANE" ]] && { [[ "${FZF_TMUX:-0}" != 0 ]] || [[ -n "$FZF_TMUX_OPTS" ]]; } &&
     echo "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} -- " || echo "fzf"
@@ -120,9 +146,6 @@ bind -m emacs-standard -x '"\C-r": __fzf_history__'
 bind -m vi-command -x '"\C-r": __fzf_history__'
 bind -m vi-insert -x '"\C-r": __fzf_history__'
 
-# }}}
-
-# }}}
 # General {{{
 
 export EDITOR="vim"
