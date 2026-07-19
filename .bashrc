@@ -10,20 +10,12 @@ case $PPROC in
     *aider*) return;;
 esac
 
-# Platform/Compat {{{
+OS_MAC=
+case $HOSTNAME in
+    beast.local) OS_MAC=true;;
+    skinny.local) OS_MAC=true;;
+esac
 
-OS_WIN=$(uname -rs | grep -e CYGWIN -e Microsoft)
-OS_MAC=$(uname -rs | grep -e Darwin)
-
-if [ -n "$OS_MAC" ]; then
-    alias cat=gcat
-    alias date=gdate
-    alias dircolors=gdircolors
-    alias sed=gsed
-    alias tac=gtac
-fi
-
-# }}}
 # Bash
 
 # Abort piped command ASAP
@@ -73,7 +65,7 @@ CYAN=$'\e[0;36m'
 RED=$'\e[0;31m'
 WHITE=$'\e[0;97m'
 
-eval "$(dircolors -b ~/.vim/pack/bundle/start/badwolf/contrib/badwolf.dircolors)"
+eval "$(gdircolors -b ~/.vim/pack/bundle/start/badwolf/contrib/badwolf.dircolors)"
 
 # Vim mode {{{
 
@@ -222,7 +214,7 @@ eb()  { vim ~/dotfiles/.bashrc; }
 eb1() { vim ~/my-env/opt/bunny1/b1_custom.py; }
 eg()  { vim ~/dotfiles/.gitconfig; }
 ek()  {
-  if [ -n "${OS_WIN}" ]; then
+  if [ -z $OS_MAC ]; then
     vim ~/my-env/Windows/AutoHotkey/KeyMappings.ahk
   else
     vim ~/.config/karabiner/karabiner.json
@@ -232,8 +224,6 @@ em()  { vim ~/.muttrc; }
 ep()  {
   if [ -n "$1" ]; then
     vim ~/plan/.$1.plan
-  elif [ -n "${OS_WIN}" ]; then
-    vim ~/plan/.work.plan
   else
     vim ~/plan/.plan
   fi
@@ -412,15 +402,6 @@ function math() {
 # }}}
 # maven {{{
 
-
-function mvn() {
-    if [ -n "${OS_WIN}" ]; then
-        winpty "$(cygpath -u $M2_HOME/bin)" "$@"
-    else
-        $(which mvn) "$@"
-    fi
-}
-
 function m() {
     mvn --batch-mode --threads 1.0C "$@" | mvn-colorify
 }
@@ -559,16 +540,6 @@ complete -F _tmuxinator tmuxinator mux
 function unfuck() { echo "${D}"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
-# Vagrant {{{
-
-if hash winpty 2>/dev/null; then
-    _vagrant='winpty vagrant'
-else
-    _vagrant=$(which vagrant)
-fi
-vagrant() { ${_vagrant} "$@"; }
-
-# }}}
 function vw() { vim -R -; }
 # Work-on {{{
 function wopython() {
