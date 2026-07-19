@@ -190,6 +190,26 @@ elif [ -f /usr/local/share/bash-completion/bash_completion ]; then
 fi
 
 # }}}
+# Aider {{{
+
+if [ ! -f ${XDG_CACHE_DIR-$HOME/.cache}/aider-chat/bash-completion.sh ]; then
+    mkdir -p ${XDG_CACHE_DIR-$HOME/.cache}/aider-chat
+    aider --shell-completions bash > ${XDG_CACHE_DIR-$HOME/.cache}/aider-chat/bash-completion.sh
+fi
+eval "$(cat ${XDG_CACHE_DIR-$HOME/.cache}/aider-chat/bash-completion.sh)"
+# the above will add completion for `aider'
+# here we do the same for `aiderw', our custom wrapper
+complete -o filenames -F _shtab_aider aiderw
+
+# }}}
+# Beads {{{
+
+if [ ! -f ${XDG_CACHE_DIR-$HOME/.cache}/beads/bash-completion.sh ]; then
+    mkdir -p ${XDG_CACHE_DIR-$HOME/.cache}/beads
+    beads --shell-completions bash > ${XDG_CACHE_DIR-$HOME/.cache}/beads/bash-completion.sh
+fi
+eval "$(cat ${XDG_CACHE_DIR-$HOME/.cache}/beads/bash-completion.sh)"
+# }}}
 # }}}
 
 # General {{{
