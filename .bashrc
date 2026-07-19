@@ -657,68 +657,132 @@ function unfuck() { echo "${D}"; }
 function urldecode() { python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])" "$@"; }
 function urlencode() { python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);" "$@"; }
 function vw() { vim -R -; }
-# Work-on {{{
-function wopython() {
-    local wd=$1
+
+# Work-on
+
+# export PYENV_VERSION=${PYENV_VERSION-}
+
+# function pyenvuse() {
+#     lazy_load_pyenv
+
+#     export PYENV_VERSION="$@"
+#     pyenv shell "$@"
+# }
+
+# function wopyenv() {
+#     local wd=${1-$(pwd)}
+
+#     if [ $wd == "$HOME" ]; then
+#         return 1
+#     fi
+
+#     local pythonversionrc=$wd/.python-version
+
+#     if [ -e "$pythonversionrc" ]; then
+#         pyenvuse "$(cat $pythonversionrc)"
+#         return 0
+#     else
+#         wopyenv $(dirname $wd)
+#         return $?
+#     fi
+# }
+
+
+function wovenv() {
+    local wd=${1-$(pwd)}
+
+    if [ $wd == "$HOME" ]; then
+        return 1
+    fi
     local venvactivate=$(ls "$wd"/**/bin/activate 2>/dev/null)
 
-    if [ ! -e "$venvactivate" ]; then
-        return 1
-    else
+    if [ -e "$venvactivate" ]; then
         . ${venvactivate}
         return 0
-    fi
-}
-
-function nvmuse() {
-    nvm use "$@"
-    eval "$(npm completion)"
-}
-
-function wonvm() {
-    local wd=$1
-    local nvmrc=$wd/.nvmrc
-
-    if [ ! -e "$nvmrc" ]; then
-        return 1
     else
-        nvmuse "$(cat $nvmrc)"
-        return 0
+        wovenv $(dirname $wd)
+        return $?
     fi
+}
+
+# export NODENV_VERSION=${NODENV_VERSION-}
+
+# function nodenvuse() {
+#     lazy_load_nodenv
+
+#     export NODENV_VERSION="$@"
+#     nodenv shell "$@"
+#     eval "$(npm completion)"
+# }
+
+# function wonodenv() {
+#     local wd=${1-$(pwd)}
+
+#     if [ $wd == "$HOME" ]; then
+#         return 1
+#     fi
+
+#     local nodeversionrc=$wd/.node-version
+
+#     if [ -e "$nodeversionrc" ]; then
+#         nodenvuse "$(cat $nodeversionrc)"
+#         return 0
+#     else
+#         wonodenv $(dirname $wd)
+#         return $?
+#     fi
+# }
+
+function rvmuse() {
+    . "$HOME/.rvm/scripts/rvm"
+    rvm use
 }
 
 function worvm() {
-    local wd=$1
+    local wd=${1-$(pwd)}
+
+    if [ $wd == "$HOME" ]; then
+        return 1
+    fi
+
     local rubyversion=$wd/.ruby-version
 
-    if [ ! -e "$rubyversion" ]; then
-        return 1
-    else
-        rvm use
+    if [ -e "$rubyversion" ]; then
+        rvmuse
         return 0
+    else
+        worvm $(dirname $wd)
+        return $?
     fi
 }
 
-function wo() {
-    local wd=$(pwd)
+function wonix() {
+    local wd=${1-$(pwd)}
 
-    while true; do
-        echo "Trying:" $wd
-        if [ $wd == "$HOME" ]; then
-            echo "Nothing to work on..."
-            break
-        elif wopython $wd; then
-            break
-        elif wonvm $wd; then
-            break
-        elif worvm $wd; then
-            break
-        else
-            wd=$(dirname $wd)
-        fi
-    done
+    if [ $wd == "$HOME" ]; then
+        return 1
+    fi
+
+    local nixshell=$wd/shell.nix
+    echo $nixshell
+    if [ -e "$nixshell" ]; then
+        nix-shell $nixshell
+        return 0
+    else
+        wonix $(dirname $wd)
+        return $?
+    fi
 }
-# }}}
+
+
+function wo() {
+    wopyenv
+    wovenv
+    # wonodenv
+    worvm
+    # Keep this last... if successful, it will spawn a new shell
+    wonix
+}
 function wpk() {
     kill `cat .bgrun.pid`
 }
