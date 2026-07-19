@@ -25,6 +25,9 @@ fi
 
 # Bash
 
+# Reset
+PROMPT_COMMAND=
+
 # Abort piped command ASAP
 set -o pipefail
 
@@ -69,6 +72,7 @@ D=$'\e[0m'
 BOLD=$'\e[1m'
 ITALIC=$'\e[3m'
 UNDERLINE=$'\e[4m'
+REVERSE=$'\e[7m'
 GREEN=$'\e[0;32m'
 ORANGE=$'\e[0;33m'
 BLUE=$'\e[0;34m'
@@ -78,6 +82,10 @@ RED=$'\e[0;31m'
 WHITE=$'\e[0;97m'
 
 eval "$(gdircolors ~/.vim/pack/bundle/start/vim-bruin/contrib/bruin.dircolors)"
+
+# Cursor
+BLOCK=$'\e[2 q'
+BEAM=$'\e[5 q'
 
 # Vim mode {{{
 
@@ -824,43 +832,53 @@ function matteolandi {
 }
 
 # }}}
-# Prompt {{{
+# Prompt
 
-colored_hostname() {
-    if [ -n "$SSH_CONNECTION" ]; then
-        echo " at ${RED}${HOSTNAME}${D}"
-    else
-        echo " at ${CYAN}${HOSTNAME}${D}"
-    fi
+compact_cwd() {
+    local location=$(pwd | sed "s,$HOME,~,")
+    local limit=31
+    while true; do
+        local next=${location#*/}
+        if [ ${#location} -le 31 ] || [ "$next" = "$location" ]; then
+            # echo " in ${UNDERLINE}${location}${D}"
+            # echo " in ${WHITE}${location}${D}"
+            # echo " in ${BOLD}${location}${D}"
+            echo "[${location}]"
+            break
+        fi
+        location=...$next
+    done
 }
 
 git_ps1() {
     local branch=$(git currentbranch)
     local status=$(git_prompt_status)
-    echo "on ${PINK}${branch}${D}${GREEN}${status}${D}"
-}
-
-hg_ps1() {
-    local branch=$(hg branch)
-    local status=$(hg_prompt_status)
-    echo "on ${PINK}${branch}${D}${GREEN}${status}${D}"
+    # echo "on ${ITALIC}${branch}${BOLD}${status}${D}"
+    echo "[${branch}${status}]"
 }
 
 rcs_ps1() {
-    if [ -n "$PROMPT_NO_RCS" ]; then
-        echo
-    else
-        if git root >/dev/null 2>&1; then
-            echo " "$(git_ps1)
-        elif hg st >/dev/null 2>&1; then
-            echo " "$(hg_ps1)
-        fi
+    if git root >/dev/null 2>&1; then
+        echo " "$(git_ps1)
     fi
 }
 
-venv_ps1() {
-    [ $VIRTUAL_ENV ] && echo " ${ORANGE}>>$(basename $VIRTUAL_ENV)<<${D}"
+pyenv_ps1() {
+    [ $PYENV_VERSION ] && echo "Python: ${PYENV_VERSION}\n"
 }
+
+venv_ps1() {
+    local prompt
+    # [ $VIRTUAL_ENV ] && echo " ${ORANGE}>>$(basename $VIRTUAL_ENV)<<${D}"
+    if [ $VIRTUAL_ENV ]; then
+        prompt=$(echo $VIRTUAL_ENV | tr '/' '\n' | tail -n2 | tr '\n' '/')
+        echo "Venv: ${prompt%/}\n"
+    fi
+}
+
+# nodenv_ps1() {
+#     [ $NODENV_VERSION ] && echo "Node: ${NODENV_VERSION}\n"
+# }
 
 prompt_string() {
     local prompt=""
@@ -880,13 +898,54 @@ prompt_string() {
 }
 
 actual_prompt() {
-    local exit=$1
+    local lvl=$SHLVL  exit=$1
 
-    if [[ $exit -eq 0 ]]; then
-        echo -n "$(prompt_string) "
-    else
-        echo -n "$exit $(prompt_string) "
+    if [[ -n "$TMUX" ]]; then
+        if [[ -n "$OS_MAC" ]]; then
+            lvl=$(($lvl - 3))
+        else
+            lvl=$(($lvl - 2))
+        fi
     fi
+    if [[ $lvl -gt 1 ]]; then
+        echo -n "[$((lvl - 1))]"
+    fi
+    if [[ $exit -eq 0 ]]; then
+        echo -n "$(prompt_string)"
+    else
+        echo -n "$exit $(prompt_string)"
+    fi
+}
+
+ring_a_bell() {
+  echo -n -e "\a"
+}
+
+refresh_env() {
+    [ -z "$TMUX" ] && return
+
+    local line
+
+    while read line; do
+        case $line in
+            -*)
+                # Strip the leading `-'
+                line=${line:1}
+                unset $line
+                ;;
+
+            *)
+                # Add quotes around the var value
+                line=${line/=/=\"}
+                line=${line/%/\"}
+                eval export $line
+                ;;
+        esac
+    done < <(tmux show-environment)
+}
+
+cursor_style() {
+    echo -n "$BEAM"
 }
 
 
@@ -894,10 +953,16 @@ actual_prompt() {
 prompt_command() {
     local actual=$(actual_prompt $?)
 
-    z --add `pwd`
+    ring_a_bell
+
+    refresh_env
 
     # Record each line as it gets issued
     history -a
+
+    # OSC 133 -- prompt marker
+    printf '\e]133;A\e'
+
 
     # The following sets up a prompt like the following (the first leading empty line
     # is intentional... it separates prompts better):
@@ -916,17 +981,25 @@ prompt_command() {
     # https://superuser.com/questions/301353/escape-non-printing-characters-in-a-function-for-a-bash-prompt
     PS1=
     PS1="$PS1\n"                                  # gracious new line
-    PS1="$PS1${WHITE}${USER}${D}"                 # username
-    PS1="$PS1$(colored_hostname)"                 # hostname
-    PS1="$PS1 in ${UNDERLINE}${PWD}${D}"          # cwd
+    PS1="$PS1\n"                                  # gracious new line 2x
+    PS1="$PS1[$HOSTNAME]"                         # hostname
+    PS1="$PS1 $(compact_cwd)"                     # cwd
     PS1="$PS1$(rcs_ps1)"                          # git/mercurial/svn
-    PS1="$PS1$(venv_ps1)"                         # python's virtualenv
-    PS1="$PS1\n"                                  # new line
+    PS1="$PS1 $(date +'%e - %I:%M %p')"           # Now
+    PS1="$PS1\n"
+    PS1="$PS1$(pyenv_ps1)"                        # pyenv
+    PS1="$PS1$(venv_ps1)"                         # virtualenv
+    # PS1="$PS1$(nodenv_ps1)"                       # nodenv
+    PS1="$PS1\[${REVERSE}\]"
     PS1="$PS1${actual}"                           # the actual prompt
+    PS1="$PS1\[$D\]"                              # reset
+    PS1="$PS1 "                                   # gratuitus space
+    PS1="$PS1\[$(cursor_style)\]"                 # cursor style
     export PS1
 }
 
 
-export PROMPT_COMMAND='prompt_command'
+export PROMPT_COMMAND="prompt_command $PROMPT_COMMAND"
 
-# }}}
+# Use full path here.. ~/bin will be added to PATH only later
+~/bin/clear-screen-and-position-cursor-at-the-bottom
