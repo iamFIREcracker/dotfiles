@@ -944,6 +944,55 @@ refresh_env() {
     done < <(tmux show-environment)
 }
 
+export LAST_DIR=${LAST_DIR-}
+poor_man_direnv() {
+    if [ "$LAST_DIR" != "$PWD" ]; then
+        export LAST_DIR=$PWD
+        case "${PWD#"$HOME"/}" in
+            Workspace/aider)
+                # lazy_load_pyenv
+                # pyenv shell 3.12.10
+                wovenv || (python -m venv venv && wovenv)
+                ;;
+            Workspace/grep-ast)
+                # lazy_load_pyenv
+                # pyenv shell 3.12.10
+                wovenv || (python -m venv venv && wovenv)
+                ;;
+            Workspace/job/license-server*)
+                set -a; source .env; set +a
+                # wonodenv
+                ;;
+            Workspace/job/token-server*)
+                set -a; source .env; set +a
+                # wonodenv
+                ;;
+            Workspace/job/ConnectION/connection*)
+                # wonodenv
+                wopyenv
+                ;;
+            Workspace/job/ConnectION/cnxt*)
+                # wonodenv
+                ;;
+            Workspace/job/ConnectION/ingest-alogs)
+                set -a; source .env; set +a
+                wopyenv
+                wovenv || (python -m venv venv && wovenv)
+                ;;
+            Workspace/job/Tracker/web-portal)
+                set -a; source .env; set +a
+                ;;
+            Workspace/projections-scripts)
+                # lazy_load_pyenv
+                # pyenv shell 3.12.10
+                wovenv || (python -m venv venv && wovenv)
+                ;;
+        esac
+
+    fi
+
+}
+
 cursor_style() {
     echo -n "$BEAM"
 }
@@ -956,6 +1005,8 @@ prompt_command() {
     ring_a_bell
 
     refresh_env
+
+    poor_man_direnv
 
     # Record each line as it gets issued
     history -a
