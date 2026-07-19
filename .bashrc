@@ -1,3 +1,15 @@
+# If shell is not interactive: do nothing
+if [[ $- != *i* ]] ; then
+  return
+fi
+
+# Do nothing if inside specific applications
+PPROC=$(ps -o comm= $PPID)
+case $PPROC in
+    *vim*) return;;
+    *aider*) return;;
+esac
+
 # Platform/Compat {{{
 
 OS_WIN=$(uname -rs | grep -e CYGWIN -e Microsoft)
@@ -12,27 +24,28 @@ if [ -n "$OS_MAC" ]; then
 fi
 
 # }}}
-# Bash {{{
+# Bash
 
-if [[ $- == *i* ]]; then
-    # Abort piped command ASAP
-    set -o pipefail
+# Abort piped command ASAP
+set -o pipefail
 
-    # Update window size after every command
-    shopt -s checkwinsize
+# Update window size after every command
+shopt -s checkwinsize
 
-    # merge / append histories
-    shopt -s histappend
+# merge / append histories
+shopt -s histappend
 
-    # Save multi-line commands as one command
-    shopt -s cmdhist
+# Save multi-line commands as one command
+shopt -s cmdhist
 
-    # Disable terminal scroll lock
-    stty -ixon -ixoff
+# Stop terminal from swalloing C-S
+stty -ixon
 
-    # Don't 'susp' with C-Z (default)
-    stty susp undef
-fi
+# Stop terminal from swalloing C-Q
+stty -ixoff
+
+# Don't 'susp' with C-Z (default)
+stty susp undef
 
 # Avoid duplicate entries, and skip entries with a leading whitespace
 export HISTCONTROL="erasedups:ignoreboth:ignorespace"
@@ -60,9 +73,8 @@ CYAN=$'\e[0;36m'
 RED=$'\e[0;31m'
 WHITE=$'\e[0;97m'
 
-[[ $- == *i* ]] && eval "$(dircolors -b ~/.vim/pack/bundle/start/badwolf/contrib/badwolf.dircolors)"
+eval "$(dircolors -b ~/.vim/pack/bundle/start/badwolf/contrib/badwolf.dircolors)"
 
-# }}}
 # Vim mode {{{
 
 # set -o vi
@@ -101,12 +113,10 @@ __fzf_history__() {
     READLINE_POINT=0x7fffffff
   fi
 }
-if [[ $- == *i* ]]; then
-    # CTRL-R - Paste the selected command from history into the command line
-    bind -m emacs-standard -x '"\C-r": __fzf_history__'
-    bind -m vi-command -x '"\C-r": __fzf_history__'
-    bind -m vi-insert -x '"\C-r": __fzf_history__'
-fi
+# CTRL-R - Paste the selected command from history into the command line
+bind -m emacs-standard -x '"\C-r": __fzf_history__'
+bind -m vi-command -x '"\C-r": __fzf_history__'
+bind -m vi-insert -x '"\C-r": __fzf_history__'
 
 # }}}
 
@@ -143,7 +153,7 @@ headless_java() {
 export NVM_DIR="$HOME/.nvm"
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[[ $- == *i* ]] && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # }}}
 # Ruby {{{
@@ -192,11 +202,11 @@ load_if_present ~/opt/z/z.sh
 # Shortcuts {{{
 
 alias g=git
-[[ $- == *i* ]] && complete -o default -F _npm_completion n
+complete -o default -F _npm_completion n
 
 
 alias n=npm
-[[ $- == *i* ]] && __git_complete g __git_main
+__git_complete g __git_main
 
 alias v=vim
 
@@ -234,9 +244,9 @@ et()  { vim ~/dotfiles/.tmux.conf; }
 ev()  { vim ~/dotfiles/.vim/vimrc; }
 
 function ew() { vim $(which "$1"); }
-[[ $- == *i* ]] && complete -c ew -w which
+complete -c ew -w which
 function cw() { cat $(which "$1"); }
-[[ $- == *i* ]] && complete -c cw -w which
+complete -c cw -w which
 
 elinks() { $EDITOR ~/Dropbox/links.txt; }
 etodos() { $EDITOR ~/Dropbox/todos.txt; }
@@ -543,7 +553,7 @@ _tmuxinator() {
     fi
 }
 
-[[ $- == *i* ]] && complete -F _tmuxinator tmuxinator mux
+complete -F _tmuxinator tmuxinator mux
 
 # }}}
 function unfuck() { echo "${D}"; }
@@ -771,8 +781,6 @@ prompt_command() {
 }
 
 
-if [[ $- == *i* ]]; then
-    export PROMPT_COMMAND='prompt_command'
-fi
+export PROMPT_COMMAND='prompt_command'
 
 # }}}
