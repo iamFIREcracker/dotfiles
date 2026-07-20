@@ -679,7 +679,7 @@ actual_prompt() {
 
     if [[ -n "$TMUX" ]]; then
         if [[ -n "$OS_MAC" ]]; then
-            lvl=$(($lvl - 3))
+            lvl=$(($lvl - 4)) # XXX was 3 before... now 4?! did something change on macos?
         else
             lvl=$(($lvl - 2))
         fi
