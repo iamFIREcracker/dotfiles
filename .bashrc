@@ -211,7 +211,7 @@ eval "$(cat ${XDG_CACHE_DIR-$HOME/.cache}/beads/bash-completion.sh)"
 # General
 
 export EDITOR="vim"
-export PAGER="/usr/bin/less"
+export PAGER="less"
 export BROWSER=pn
 
 # Let's speed things up!
