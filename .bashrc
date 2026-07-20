@@ -376,7 +376,7 @@ etodos() { $EDITOR ~/Dropbox/todos.txt; }
 enburls() { $EDITOR ~/.newsboat/urls; }
 
 
-function ..() {    cd ../"$@"; }
+function ..() {    cd ..; pwd; ll; }
 
 
 function banner() { figlet -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
