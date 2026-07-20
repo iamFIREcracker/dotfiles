@@ -305,6 +305,30 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 alias n=npm
 complete -o default -F _npm_completion n
 
+alias mux=tmuxinator
+# Courtesy of: https://github.com/tmuxinator/tmuxinator/blob/master/completion/tmuxinator.bash
+_tmuxinator() {
+    COMPREPLY=()
+    local word
+    word="${COMP_WORDS[COMP_CWORD]}"
+
+    if [ "$COMP_CWORD" -eq 1 ]; then
+        local commands="$(compgen -W "$(tmuxinator commands)" -- "$word")"
+        local projects="$(compgen -W "$(tmuxinator completions start)" -- "$word")"
+
+        COMPREPLY=( $commands $projects )
+    elif [ "$COMP_CWORD" -eq 2 ]; then
+        local words
+        words=("${COMP_WORDS[@]}")
+        unset words[0]
+        unset words[$COMP_CWORD]
+        local completions
+        completions=$(tmuxinator completions "${words[@]}")
+        COMPREPLY=( $(compgen -W "$completions" -- "$word") )
+    fi
+}
+complete -F _tmuxinator tmuxinator mux
+
 alias v=vim
 
 # Useful functions
@@ -447,33 +471,8 @@ function sb() { . ~/.bashrc; }
 function sleepless() {
     pmset -g assertions | egrep '(PreventUserIdleSystemSleep|PreventUserIdleDisplaySleep)'
 }
-# tmuxinator {{{
 
-# Courtesy of: https://github.com/tmuxinator/tmuxinator/blob/master/completion/tmuxinator.bash
-_tmuxinator() {
-    COMPREPLY=()
-    local word
-    word="${COMP_WORDS[COMP_CWORD]}"
 
-    if [ "$COMP_CWORD" -eq 1 ]; then
-        local commands="$(compgen -W "$(tmuxinator commands)" -- "$word")"
-        local projects="$(compgen -W "$(tmuxinator completions start)" -- "$word")"
-
-        COMPREPLY=( $commands $projects )
-    elif [ "$COMP_CWORD" -eq 2 ]; then
-        local words
-        words=("${COMP_WORDS[@]}")
-        unset words[0]
-        unset words[$COMP_CWORD]
-        local completions
-        completions=$(tmuxinator completions "${words[@]}")
-        COMPREPLY=( $(compgen -W "$completions" -- "$word") )
-    fi
-}
-
-complete -F _tmuxinator tmuxinator mux
-
-# }}}
 function vw() { vim -R -; }
 
 # Work-on
