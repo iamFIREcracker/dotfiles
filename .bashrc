@@ -352,10 +352,12 @@ ek()  {
 }
 em()  { vim ~/.muttrc; }
 ep()  {
-  if [ -n "$1" ]; then
-    vim ~/plan/.$1.plan
-  else
-    vim ~/plan/.plan
+  if [ -z "$1" ]; then
+      cd ~/plan; vim .plan; cd -
+  elif [ "$1" == "private" ]; then
+      cd ~/plan/private; vim .; cd -
+  elif [ "$1" == "work" ]; then
+      cd ~/plan/work; vim .; cd -
   fi
 }
 eP()  { vim ~/plan/; }
