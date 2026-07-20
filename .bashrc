@@ -285,7 +285,7 @@ export PYTHONSTARTUP="~/.pythonrc.py"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 
-# Shortcuts {{{
+# Shortcuts
 
 alias g=git
 complete -o default -F _npm_completion n
@@ -296,10 +296,9 @@ __git_complete g __git_main
 
 alias v=vim
 
-# }}}
-# Useful functions {{{
+# Useful functions
 
-# Quick editing {{{
+# Quick editing
 
 ea()  { vim ~/.config/alacritty/alacritty.yml; }
 eS()  { vim ~/.ssh/config; }
@@ -336,7 +335,6 @@ elinks() { $EDITOR ~/Dropbox/links.txt; }
 etodos() { $EDITOR ~/Dropbox/todos.txt; }
 enburls() { $EDITOR ~/.newsboat/urls; }
 
-# }}}
 
 function ..() {    cd ../"$@"; }
 
@@ -408,8 +406,8 @@ function mvn-colorify() {
         -e "s/\[INFO\] \(.*\)/\1/g"
 }
 
-# }}}
-# mutt {{{
+
+# mutt
 
 function muttw() {
     (cd ~/Downloads && "$(which mutt)" "$@")
@@ -418,7 +416,6 @@ function mutt()      { muttw -F ~/Dropbox/mutt/matteo-matteolandi.net.muttrc; }
 function mutt-work() { muttw -F ~/Dropbox/mutt/matteo.landi-iongroup.com.muttrc; }
 function mutt-pec()  { muttw -F ~/Dropbox/mutt/landimatte-pec.it.muttrc; }
 
-# }}}
 
 function password() {
   cat /dev/urandom | LC_ALL=C tr -dc _A-Z-a-z-0-9 | head -c${1:-32}
