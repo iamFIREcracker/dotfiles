@@ -380,7 +380,7 @@ function ..() {    cd ..; pwd; ll; }
 
 
 function banner() { figlet -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
-function brewski() { brew update && brew upgrade && brew cleanup; brew doctor; }
+function brewski() { brew update && brew upgrade && brew upgrade --cask --greedy && brew cleanup && brew doctor; }
 function cleancodes() { sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"; }
 function collapse() { sed -e 's/  */ /g'; }
 function cuts() { cut -d' ' "$@"; }
