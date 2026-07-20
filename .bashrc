@@ -336,7 +336,7 @@ alias v=vim
 
 # Quick editing
 
-ea()  { vim ~/.config/alacritty/alacritty.yml; }
+ea()  { vim ~/.config/alacritty/alacritty.toml; }
 eS()  { vim ~/.ssh/config; }
 eT()  { vim ~/.tmuxinator/$(tmux display-message -p '#S').yml; }
 eb()  { vim ~/dotfiles/.bashrc; }
