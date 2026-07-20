@@ -340,6 +340,7 @@ ea()  { vim ~/.config/alacritty/alacritty.toml; }
 eS()  { vim ~/.ssh/config; }
 eT()  { vim ~/.tmuxinator/$(tmux display-message -p '#S').yml; }
 eb()  { vim ~/dotfiles/.bashrc; }
+eB()  { vim ~/dotfiles/.bash_profile; }
 eb1() { vim ~/my-env/opt/bunny1/b1_custom.py; }
 eg()  { vim ~/dotfiles/.gitconfig; }
 ek()  {
@@ -361,6 +362,7 @@ eP()  { vim ~/plan/; }
 es()  { vim ~/dotfiles/.slate; }
 et()  { vim ~/dotfiles/.tmux.conf; }
 ev()  { vim ~/dotfiles/.vim/vimrc; }
+eV()  { vim ~/dotfiles/.vim/; }
 
 function ew() { vim $(which "$1"); }
 complete -c ew -w which
@@ -468,6 +470,7 @@ function pip-sys() { $(which pip) "$@"; }
 function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n | grep --color "${1-.}"; }
 
 function sb() { . ~/.bashrc; }
+function sB() { . ~/.bash_profile; }
 
 function sleepless() {
     pmset -g assertions | egrep '(PreventUserIdleSystemSleep|PreventUserIdleDisplaySleep)'
