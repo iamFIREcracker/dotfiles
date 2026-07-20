@@ -287,12 +287,23 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # Shortcuts
 
-alias g=git
-complete -o default -F _npm_completion n
+# # For God knows what reason, `git` completion function, __git_complete, is not
+# # available until the first time command completion is invoked...
+# # loaded until you manually trigger them:
+# #
+# #   > git <tab>
+# #
+# # Or, the completion file is manually sourced...
+# #
+# # Here is me, manually sourcing that file, so we can get completion for `g`
+# if [ -f $HOME/.nix-profile/share/bash-completion/completions/git ]; then
+#   source $HOME/.nix-profile/share/bash-completion/completions/git
+# fi
+# __git_complete g __git_main
 
 
 alias n=npm
-__git_complete g __git_main
+complete -o default -F _npm_completion n
 
 alias v=vim
 
