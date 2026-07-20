@@ -212,7 +212,8 @@ eval "$(cat ${XDG_CACHE_DIR-$HOME/.cache}/beads/bash-completion.sh)"
 
 export EDITOR="vim"
 export PAGER="less"
-export BROWSER=pn
+# export BROWSER=pn
+export BROWSER=br
 
 # Let's speed things up!
 BASH_ONCE_DIR=${XDG_CACHE_DIR-$HOME/.cache}/bash-once
