@@ -16,6 +16,23 @@ case $HOSTNAME in
     skinny.local) OS_MAC=true;;
 esac
 
+# Shell-nesting baseline for the prompt's [N] indicator (see actual_prompt).
+# SHLVL is unreliable inside tmux: a pane inherits SHLVL from the server's
+# global environment, frozen at whatever depth the server was first started --
+# so the pane's "top" shell can read as 5 instead of 1. Anchor a per-pane
+# baseline so nesting depth is measured relative to the pane's own top shell.
+# The TMUX_PANE guard is essential: __SHLVL_BASE itself gets frozen into the
+# server's global env (it's not in update-environment), so re-anchor whenever
+# the pane id changes and only keep the base across subshells in the same pane.
+if [[ -n "$TMUX" ]]; then
+    if [[ "$__SHLVL_PANE" != "$TMUX_PANE" ]]; then
+        export __SHLVL_PANE="$TMUX_PANE"
+        export __SHLVL_BASE=$((SHLVL - 1))
+    fi
+else
+    : "${__SHLVL_BASE:=$((SHLVL - 1))}"; export __SHLVL_BASE
+fi
+
 if [ -f ~/.env ]; then
     set -a; source ~/.env; set +a
 fi
@@ -675,15 +692,10 @@ prompt_string() {
 }
 
 actual_prompt() {
-    local lvl=$SHLVL  exit=$1
+    # Nesting depth relative to this pane's top shell (see __SHLVL_BASE above);
+    # this is how many C-d's it takes to get back to the top-level shell.
+    local lvl=$((SHLVL - __SHLVL_BASE))  exit=$1
 
-    if [[ -n "$TMUX" ]]; then
-        if [[ -n "$OS_MAC" ]]; then
-            lvl=$(($lvl - 4)) # XXX was 3 before... now 4?! did something change on macos?
-        else
-            lvl=$(($lvl - 2))
-        fi
-    fi
     if [[ $lvl -gt 1 ]]; then
         echo -n "[$((lvl - 1))]"
     fi
