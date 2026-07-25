@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Use TMUX_PANE if set; otherwise, fetch the unique #{pane_id} (e.g., %27)
+PANE_ID="${TMUX_PANE:-$(tmux display-message -p '#{pane_id}')}"
+
+# OSC52 does not work very well with background tmux scripts
+# so here we call `cb` disabling OSC52
+printf "%s" "$PANE_ID" | CB_OSC52= cb
+
+# Replace % with %% for tmux display-message
+DISPLAY_ID=$(echo "$PANE_ID" | sed 's/%/%%/g')
+tmux display-message -d 5000 "$DISPLAY_ID was copied to clipboard..."
