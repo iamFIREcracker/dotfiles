@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+## Heavily inspired by: https://github.com/alacritty/alacritty/issues/5999#issuecomment-2968900466
+
+CONFIG=$(readlink -f "$HOME/.config/alacritty/local-override.toml")
+
+get_theme() {
+  if [[ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" == "Dark" ]]; then
+    echo "dark"
+  else
+    echo "light"
+  fi
+}
+
+apply_theme() {
+  if [[ "$1" == "dark" ]]; then
+    # Comment out light: Add ## right before the text, preserving indentation
+    # Uncomment dark: Strip ## and keep the alignment
+    sed -i '' -E '/# light/s/^([[:space:]]*)([^#])/\1## \2/; /# dark/s/^([[:space:]]*)##[[:space:]]*(.*)/\1\2/' "$CONFIG"
+  else
+    # Comment out dark: Add ## right before the text, preserving indentation
+    # Uncomment light: Strip ## and keep the alignment
+    sed -i '' -E '/# dark/s/^([[:space:]]*)([^#])/\1## \2/; /# light/s/^([[:space:]]*)##[[:space:]]*(.*)/\1\2/' "$CONFIG"
+  fi
+}
+
+last_mode=""
+while true; do
+  current_mode=$(get_theme)
+  if [[ "$current_mode" != "$last_mode" ]]; then
+    echo "# $(date) theme switch: $current_mode"
+    apply_theme "$current_mode"
+    last_mode="$current_mode"
+  fi
+  sleep 1
+done
