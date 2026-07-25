@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -e
+
+exec 2>&1 | tee -a ~/unison-config.log
+date
+
+case $HOSTNAME in
+    beast.local)
+        unisonw \
+            "$HOME/.config" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/.config" \
+            -ignorenot "Name io.datasette.llm/logs.db" \
+            "$@"
+        ;;
+    EU-C3GB434-L)
+        unisonw \
+            "$HOME/.config" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/.config" \
+            -ignorenot "Name io.datasette.llm/logs.db" \
+            "$@"
+        ;;
+    *)
+        unisonw \
+            "$HOME/.config" \
+            "ssh://beast.tailscale.internal//Users/matteolandi/.config" \
+            -ignorenot "Name io.datasette.llm/logs.db" \
+            "$@"
+        ;;
+esac

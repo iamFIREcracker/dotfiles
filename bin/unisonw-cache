@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+set -e
+
+exec 2>&1 | tee -a ~/unison-cache.log
+date
+
+case $HOSTNAME in
+    beast.local)
+        unisonw \
+            "$HOME/.cache" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/.cache" \
+            -path "huggingface" \
+            -path "ollama" \
+            -path "llama.cpp" \
+            -path "quicklisp" \
+            -path "qmd" \
+            "$@"
+        ;;
+    EU-C3GB434-L)
+        unisonw \
+            "$HOME/.cache" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/.cache" \
+            -path "huggingface" \
+            -path "ollama" \
+            -path "llama.cpp" \
+            -path "quicklisp" \
+            -path "qmd" \
+            "$@"
+        ;;
+    *)
+        unisonw \
+            "$HOME/.cache" \
+            "ssh://beast.tailscale.internal//Users/matteolandi/.cache" \
+            -path "huggingface" \
+            -path "ollama" \
+            -path "llama.cpp" \
+            -path "quicklisp" \
+            -path "qmd" \
+            "$@"
+        ;;
+esac

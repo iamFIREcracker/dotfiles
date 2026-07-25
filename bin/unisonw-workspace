@@ -5,7 +5,32 @@ set -e
 exec 2>&1 | tee -a ~/unison-workspace.log
 date
 
-unisonw \
-    "$HOME/Workspace" \
-    "$HOME/Dropbox/unison/Workspace" \
-    "$@"
+case $HOSTNAME in
+    beast.local)
+        unisonw \
+            "$HOME/Workspace" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/Workspace" \
+            -ignore "Name job" \
+            -ignore "Name reallythebestgrocerylistappever.com/data/app.db" \
+            -ignore "Name fzf/bin/fzf" \
+            "$@"
+        ;;
+    EU-C3GB434-L)
+        unisonw \
+            "$HOME/Workspace" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/Workspace" \
+            -ignore "Name job" \
+            -ignore "Name reallythebestgrocerylistappever.com/data/app.db" \
+            -ignore "Name fzf/bin/fzf" \
+            "$@"
+        ;;
+    *)
+        unisonw \
+            "$HOME/Workspace" \
+            "ssh://beast.tailscale.internal//Users/matteolandi/Workspace" \
+            -ignore "Name job" \
+            -ignore "Name reallythebestgrocerylistappever.com/data/app.db" \
+            -ignore "Name fzf/bin/fzf" \
+            "$@"
+        ;;
+esac

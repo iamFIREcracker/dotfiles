@@ -6,14 +6,44 @@ exec 2>&1 | tee -a ~/unison-me.log
 date
 
 
-unisonw \
-    "$HOME/my-env" \
-    "$HOME/Dropbox/unison/my-env" \
-    -ignore 'Name dotfiles/.vim/pack/bundle/opt/fzf/bin/fzf' \
-    -ignore 'Regex .*/\.mutt/cache' \
-    -ignore 'Regex .*/\.mutt/temp' \
-    -ignore 'Regex .*/\.vim/spell' \
-    -ignore 'Regex .*/\.vim/tmp' \
-    -ignore 'Regex .*/\.vim/.netrwbook' \
-    -ignore 'Regex .*/\.vim/.netrwhist' \
-    "$@"
+case $HOSTNAME in
+    beast.local)
+        unisonw \
+            "$HOME/my-env" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/my-env" \
+            -ignore 'Name dotfiles/.vim/pack/bundle/opt/fzf/bin/fzf' \
+            -ignore 'Regex .*/\.mutt/cache' \
+            -ignore 'Regex .*/\.mutt/temp' \
+            -ignore 'Regex .*/\.vim/spell' \
+            -ignore 'Regex .*/\.vim/tmp' \
+            -ignore 'Regex .*/\.vim/.netrwbook' \
+            -ignore 'Regex .*/\.vim/.netrwhist' \
+            "$@"
+        ;;
+    EU-C3GB434-L)
+        unisonw \
+            "$HOME/my-env" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/my-env" \
+            -ignore 'Name dotfiles/.vim/pack/bundle/opt/fzf/bin/fzf' \
+            -ignore 'Regex .*/\.mutt/cache' \
+            -ignore 'Regex .*/\.mutt/temp' \
+            -ignore 'Regex .*/\.vim/spell' \
+            -ignore 'Regex .*/\.vim/tmp' \
+            -ignore 'Regex .*/\.vim/.netrwbook' \
+            -ignore 'Regex .*/\.vim/.netrwhist' \
+            "$@"
+        ;;
+    *)
+        unisonw \
+            "$HOME/my-env" \
+            "ssh://beast.tailscale.internal//Users/matteolandi/my-env" \
+            -ignore 'Name dotfiles/.vim/pack/bundle/opt/fzf/bin/fzf' \
+            -ignore 'Regex .*/\.mutt/cache' \
+            -ignore 'Regex .*/\.mutt/temp' \
+            -ignore 'Regex .*/\.vim/spell' \
+            -ignore 'Regex .*/\.vim/tmp' \
+            -ignore 'Regex .*/\.vim/.netrwbook' \
+            -ignore 'Regex .*/\.vim/.netrwhist' \
+            "$@"
+        ;;
+esac

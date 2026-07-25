@@ -2,10 +2,29 @@
 
 set -e
 
-exec 2>&1 | tee -a ~/unison-workspace.log
+exec 2>&1 | tee -a ~/unison-downloads.log
 date
 
-unisonw \
-    "$HOME/Downloads" \
-    "$HOME/Dropbox/unison/Downloads" \
-    "$@"
+case $HOSTNAME in
+    beast.local)
+        unisonw \
+            "$HOME/Downloads" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/Downloads" \
+            -perms 0 \
+            "$@"
+        ;;
+    EU-C3GB434-L)
+        unisonw \
+            "$HOME/Downloads" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/Downloads" \
+            -perms 0 \
+            "$@"
+        ;;
+    *)
+        unisonw \
+            "$HOME/Downloads" \
+            "ssh://beast.tailscale.internal//Users/matteolandi/Downloads" \
+            -perms 0 \
+            "$@"
+        ;;
+esac

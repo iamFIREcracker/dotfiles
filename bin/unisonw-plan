@@ -5,7 +5,35 @@ set -e
 exec 2>&1 | tee -a ~/unison-plan.log
 date
 
-unisonw \
-    "$HOME/plan" \
-    "$HOME/Dropbox/plan" \
-    "$@"
+case $HOSTNAME in
+    beast.local)
+        unisonw \
+            "$HOME/plan" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/plan" \
+            "$@"
+        unisonw \
+            "$HOME/plan" \
+            "$HOME/Dropbox/plan" \
+            "$@"
+        ;;
+    EU-C3GB434-L)
+        unisonw \
+            "$HOME/plan" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/plan" \
+            "$@"
+        unisonw \
+            "$HOME/plan" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/Dropbox/plan" \
+            "$@"
+        ;;
+    *)
+        unisonw \
+            "$HOME/plan" \
+            "ssh://beast.tailscale.internal//Users/matteolandi/plan" \
+            "$@"
+        unisonw \
+            "$HOME/plan" \
+            "ssh://beast.tailscale.internal//Users/matteolandi/Dropbox/plan" \
+            "$@"
+        ;;
+esac

@@ -1,6 +1,10 @@
+#!/usr/bin/env bash
+
 set -e
 
+unisonw-config "$@"
+# unisonw-cache "$@"
 unisonw-me "$@"
 unisonw-plan "$@"
-unisonw-workspace "$@"
 unisonw-downloads "$@"
+unisonw-workspace "$@"
