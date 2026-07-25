@@ -276,77 +276,11 @@ function lazy_load_goenv() {
   fi
 }
 
-# Tool version management
-
-# Java et al.
-
-export MAVEN_OPTS="-Xmx2048m -Xss2M -XX:ReservedCodeCacheSize=128m -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
-export _JAVA_OPTIONS="-Djava.awt.headless=true"
-
-headed_java() {
-    echo "Chaning _JAVA_OPTIONS"
-    echo "from: $_JAVA_OPTIONS"
-    export _JAVA_OPTIONS=""
-    echo "  to: $_JAVA_OPTIONS"
-}
-headless_java() {
-    echo "Chaning _JAVA_OPTIONS"
-    echo "from: $_JAVA_OPTIONS"
-    export _JAVA_OPTIONS="-Djava.awt.headless=true"
-    echo "  to: $_JAVA_OPTIONS"
-}
-
-
 # Python
-
-export PYTHONSTARTUP="~/.pythonrc.py"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 
 # Shortcuts
-
-# # For God knows what reason, `git` completion function, __git_complete, is not
-# # available until the first time command completion is invoked...
-# # loaded until you manually trigger them:
-# #
-# #   > git <tab>
-# #
-# # Or, the completion file is manually sourced...
-# #
-# # Here is me, manually sourcing that file, so we can get completion for `g`
-# if [ -f $HOME/.nix-profile/share/bash-completion/completions/git ]; then
-#   source $HOME/.nix-profile/share/bash-completion/completions/git
-# fi
-# __git_complete g __git_main
-
-
-alias n=npm
-complete -o default -F _npm_completion n
-
-alias mux=tmuxinator
-# Courtesy of: https://github.com/tmuxinator/tmuxinator/blob/master/completion/tmuxinator.bash
-_tmuxinator() {
-    COMPREPLY=()
-    local word
-    word="${COMP_WORDS[COMP_CWORD]}"
-
-    if [ "$COMP_CWORD" -eq 1 ]; then
-        local commands="$(compgen -W "$(tmuxinator commands)" -- "$word")"
-        local projects="$(compgen -W "$(tmuxinator completions start)" -- "$word")"
-
-        COMPREPLY=( $commands $projects )
-    elif [ "$COMP_CWORD" -eq 2 ]; then
-        local words
-        words=("${COMP_WORDS[@]}")
-        unset words[0]
-        unset words[$COMP_CWORD]
-        local completions
-        completions=$(tmuxinator completions "${words[@]}")
-        COMPREPLY=( $(compgen -W "$completions" -- "$word") )
-    fi
-}
-complete -F _tmuxinator tmuxinator mux
-
 alias v=vim
 
 # Useful functions
@@ -355,7 +289,6 @@ alias v=vim
 
 ea()  { vim ~/.config/alacritty/alacritty.toml; }
 eS()  { vim ~/.ssh/config; }
-eT()  { vim ~/.tmuxinator/$(tmux display-message -p '#S').yml; }
 eb()  { vim ~/dotfiles/.bashrc; }
 eB()  { vim ~/dotfiles/.bash_profile; }
 eb1() { vim ~/my-env/opt/bunny1/b1_custom.py; }
@@ -368,17 +301,6 @@ ek()  {
   fi
 }
 em()  { vim ~/.muttrc; }
-ep()  {
-  if [ -z "$1" ]; then
-      cd ~/plan; vim .plan; cd -
-  elif [ "$1" == "private" ]; then
-      cd ~/plan/private; vim .; cd -
-  elif [ "$1" == "work" ]; then
-      cd ~/plan/work; vim .; cd -
-  fi
-}
-eP()  { vim ~/plan/; }
-es()  { vim ~/dotfiles/.slate; }
 et()  { vim ~/dotfiles/.tmux.conf; }
 ev()  { vim ~/dotfiles/.vim/vimrc; }
 eV()  { vim ~/dotfiles/.vim/; }
@@ -388,19 +310,11 @@ complete -c ew -w which
 function cw() { cat $(which "$1"); }
 complete -c cw -w which
 
-elinks() { $EDITOR ~/Dropbox/links.txt; }
-etodos() { $EDITOR ~/Dropbox/todos.txt; }
-enburls() { $EDITOR ~/.newsboat/urls; }
-
-
 function ..() {    cd ..; pwd; ll; }
-
 
 function banner() { figlet -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
 function brewski() { brew update && brew upgrade && brew upgrade --cask --greedy && brew cleanup && brew doctor; }
 function cleancodes() { sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"; }
-function collapse() { sed -e 's/  */ /g'; }
-function cuts() { cut -d' ' "$@"; }
 function fucking-kill-nfsd() {
     # https://github.com/hashicorp/vagrant/issues/8103
     sudo sh -c "> /etc/exports"
@@ -428,64 +342,13 @@ function j() {
 }
 
 
-function l() { l1 "$@"; }
-function l1() { tree --dirsfirst -ChFL 1 "$@"; }
-function l2() { tree --dirsfirst -ChFL 2 "$@"; }
-function l3() { tree --dirsfirst -ChFL 3 "$@"; }
-function l4() { tree --dirsfirst -ChFL 4 "$@"; }
-function l5() { tree --dirsfirst -ChFL 5 "$@"; }
-function l6() { tree --dirsfirst -ChFL 6 "$@"; }
-function ll() { ll1 "$@"; }
-function ll1() { tree --dirsfirst -ChFupDaL 1 "$@"; }
-function ll2() { tree --dirsfirst -ChFupDaL 2 "$@"; }
-function ll3() { tree --dirsfirst -ChFupDaL 3 "$@"; }
-function ll4() { tree --dirsfirst -ChFupDaL 4 "$@"; }
-function ll5() { tree --dirsfirst -ChFupDaL 5 "$@"; }
-function ll6() { tree --dirsfirst -ChFupDaL 6 "$@"; }
-# maven {{{
-
-function m() {
-    mvn --batch-mode --threads 1.0C "$@" | mvn-colorify
-}
-function mvn-colorify() {
-    sed --unbuffered \
-        -e "s/Tests run: \([^,]*\), Failures: \([^,]*\), Errors: \([^,]*\), Skipped: \([^,]*\)/${GREEN}Tests run: \1${D}, Failures: ${ORANGE}\2${D}, Errors: ${RED}\3${D}, Skipped: ${CYAN}\4${D}/g" \
-        -e "s/\[INFO\] \(--- .* ---\)/$BOLD\1$D/g" \
-        -e "s/\[INFO\] \(Building [^jar].*\)/$CYAN\1$D/g" \
-        -e "s/\[INFO\] \(BUILD SUCCESS\)/$GREEN\1$D/g" \
-        -e "s/\[INFO\] \(BUILD FAILURE\)/$RED\1$D/g" \
-        -e "s/\[WARNING\] \(.*\)/$ORANGE\1$D/g" \
-        -e "s/\[ERROR\] \(.*\)/$RED\1$D/g" \
-        -e "s/\(.*\)| \(PASS\) |/\1| ${GREEN}\2$D |/g" \
-        -e "s/\(.*\)| \(FAIL\) |/\1| ${RED}\2$D |/g" \
-    | \
-    sed --unbuffered \
-        -e "s/\[INFO\] \(.*\)/\1/g"
-}
-
-
-# mutt
-
-function muttw() {
-    (cd ~/Downloads && "$(which mutt)" "$@")
-}
-function mutt()      { muttw -F ~/Dropbox/mutt/matteo-matteolandi.net.muttrc; }
-function mutt-work() { muttw -F ~/Dropbox/mutt/matteo.landi-iongroup.com.muttrc; }
-function mutt-pec()  { muttw -F ~/Dropbox/mutt/landimatte-pec.it.muttrc; }
-
+function .ll() { tree -ChFupDaL 1 "$@"; }
 
 function password() {
   cat /dev/urandom | LC_ALL=C tr -dc _A-Z-a-z-0-9 | head -c${1:-32}
   echo # new lines are good!
 }
-function pip() {
-    if [ -n "$VIRTUAL_ENV" ]; then
-        $(which pip) "$@"
-    else
-        echo "Not currently in a venv -- use pip-sys to work system-wide."
-    fi
-}
-function pip-sys() { $(which pip) "$@"; }
+
 function ports { sudo lsof -iTCP -sTCP:LISTEN -P -n | grep --color "${1-.}"; }
 
 function sb() { . ~/.bashrc; }

@@ -1,6 +1,3 @@
-[submodule ".vim/bundle/rainbow_parentheses.vim"]
-	path = .vim/pack/bundle/start/rainbow_parentheses.vim
-	url = git@github.com:iamFIREcracker/rainbow_parentheses.vim.git
 [submodule ".vim/bundle/vim-surround"]
 	path = .vim/pack/bundle/start/vim-surround
 	url = https://github.com/tpope/vim-surround.git
@@ -13,9 +10,6 @@
 [submodule ".vim/bundle/jk-jumps"]
 	path = .vim/pack/bundle/start/jk-jumps
 	url = https://github.com/teranex/jk-jumps.vim.git
-[submodule ".vim/bundle/ack.vim"]
-	path = .vim/pack/bundle/start/ack.vim
-	url = git@github.com:iamFIREcracker/ack.vim.git
 [submodule ".vim/bundle/vim-jinja"]
 	path = .vim/pack/bundle/start/vim-jinja
 	url = https://github.com/lepture/vim-jinja.git
@@ -33,7 +27,7 @@
 	url = https://github.com/ekalinin/Dockerfile.vim
 [submodule ".vim/bundle/vim-fugitive"]
 	path = .vim/pack/bundle/start/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive.git
+	url = git@github.com:iamFIREcracker/vim-fugitive.git
 [submodule ".vim/bundle/vim-json"]
 	path = .vim/pack/bundle/start/vim-json
 	url = https://github.com/elzr/vim-json.git
@@ -85,9 +79,6 @@
 [submodule ".vim/pack/bundle/start/vim-rhubarb"]
 	path = .vim/pack/bundle/start/vim-rhubarb
 	url = https://github.com/tpope/vim-rhubarb.git
-[submodule ".vim/pack/bundle/start/fzf"]
-	path = .vim/pack/bundle/opt/fzf
-	url = https://github.com/junegunn/fzf.git
 [submodule ".vim/pack/bundle/start/vim-goobook"]
 	path = .vim/pack/bundle/start/vim-goobook
 	url = git@github.com:iamFIREcracker/vim-goobook.git
@@ -101,20 +92,14 @@
 	path = .tmux-plugins/tmux-externalpipe
 	url = git@github.com:iamFIREcracker/tmux-externalpipe.git
 [submodule ".vim/pack/iamFIREcracker/start/cb.vim"]
-	path = .vim/pack/iamFIREcracker/start/cb.vim
+	path = .vim/pack/iamFIREcracker/opt/cb.vim
 	url = git@github.com:iamFIREcracker/cb.vim.git
 [submodule ".vim/pack/bundle/start/vim-prettier.git"]
 	path = .vim/pack/bundle/start/vim-prettier
 	url = https://github.com/prettier/vim-prettier.git
-[submodule ".vim/pack/bundle/start/lightline.vim"]
-	path = .vim/pack/bundle/start/lightline.vim
-	url = https://github.com/itchyny/lightline.vim.git
 [submodule ".vim/pack/bundle/start/editorconfig-vim"]
 	path = .vim/pack/bundle/start/editorconfig-vim
 	url = https://github.com/editorconfig/editorconfig-vim.git
-[submodule ".vim/pack/bundle/opt/fzf-ruby"]
-	path = .vim/pack/bundle/opt/fzf-ruby
-	url = https://github.com/me-and/fzf.git
 [submodule ".vim/pack/bundle/start/neoformat"]
 	path = .vim/pack/bundle/start/neoformat
 	url = git@github.com:iamFIREcracker/neoformat.git
@@ -133,3 +118,36 @@
 [submodule ".vim/pack/bundle/start/vim-nix"]
 	path = .vim/pack/bundle/start/vim-nix
 	url = https://github.com/LnL7/vim-nix.git
+[submodule ".vim/pack/bundle/start/vim-bruin"]
+	path = .vim/pack/bundle/start/vim-bruin
+	url = https://git.sr.ht/~romainl/vim-bruin
+[submodule ".vim/pack/bundle/start/vim-rails"]
+	path = .vim/pack/bundle/start/vim-rails
+	url = https://github.com/tpope/vim-rails.git
+[submodule ".vim/pack/bundle/start/vim-ruby"]
+	path = .vim/pack/bundle/start/vim-ruby
+	url = https://github.com/vim-ruby/vim-ruby.git
+[submodule ".vim/pack/bundle/start/vim-git"]
+	path = .vim/pack/bundle/start/vim-git
+	url = https://github.com/tpope/vim-git.git
+[submodule ".vim/pack/bundle/start/vim-maximizer"]
+	path = .vim/pack/bundle/start/vim-maximizer
+	url = https://github.com/szw/vim-maximizer.git
+[submodule ".vim/pack/bundle/start/vim-tmux-navigator"]
+	path = .vim/pack/bundle/start/vim-tmux-navigator
+	url = https://github.com/christoomey/vim-tmux-navigator.git
+[submodule ".vim/pack/bundle/start/vim-tbone"]
+	path = .vim/pack/bundle/start/vim-tbone
+	url = https://github.com/tpope/vim-tbone.git
+[submodule ".vim/pack/bundle/start/vim-system-copy"]
+	path = .vim/pack/bundle/start/vim-system-copy
+	url = https://github.com/christoomey/vim-system-copy.git
+[submodule ".vim/pack/bundle/start/vlime"]
+	path = .vim/pack/bundle/start/vlime
+	url = https://github.com/vlime/vlime.git
+[submodule ".vim/pack/iamFIREcracker/start/hyperspec.vim"]
+	path = .vim/pack/iamFIREcracker/start/hyperspec.vim
+	url = git@github.com:iamFIREcracker/hyperspec.vim.git
+[submodule ".vim/pack/iamFIREcracker/start/dwim.vim"]
+	path = .vim/pack/iamFIREcracker/start/dwim.vim
+	url = git@github.com:iamFIREcracker/dwim.vim.git
