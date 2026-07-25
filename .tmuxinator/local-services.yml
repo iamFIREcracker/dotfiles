@@ -8,9 +8,6 @@ windows:
         - vpython b1_custom.py --host localhost
   - cb: cb --listen
   - br: br --listen
-  - proxy: ssh -vN -D 7072 dabox.tailscale.internal-sock5
-  - unison:
-      panes:
-        - echo watch --interval 60 --beep --errexit --exec unisonw-me
-        - echo watch --interval 60 --beep --errexit --exec unisonw-plan
-        - echo watch --interval 60 --beep --errexit --exec unisonw-workspace
+  - sync-theme: alacritty-sync-theme
+  # - ollama: echo sh -c "while : ; do ssh -v ollama.beast.tailscale.internal -N; sleep 3; echo -ne '\a'; done"
+  # - proxy: ssh -t dabox.tailscale.internal bash -l "cb"; ssh -vN dabox.tailscale.internal-sock5

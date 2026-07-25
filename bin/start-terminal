@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+function start() {
+    case $1 in
+        editor)
+            if [ $HOSTNAME == "EU-C3GB434-L" ]; then
+                pushd "$HOME/OneDrive - ION/personal/alacritty"
+                cmd.exe /c "EDITOR.bat"
+                popd
+            elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/editor.toml >/dev/null 2>&1 &)
+            fi
+            ;;
+        llm)
+            if [ $HOSTNAME == "EU-C3GB434-L" ]; then
+                pushd "$HOME/OneDrive - ION/personal/alacritty"
+                cmd.exe /c "LLM.bat"
+                popd
+                sleep 0.5
+            elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/llm.toml >/dev/null 2>&1 &)
+            fi
+            ;;
+        plan)
+            if [ $HOSTNAME == "EU-C3GB434-L" ]; then
+                pushd "$HOME/OneDrive - ION/personal/alacritty"
+                cmd.exe /c "PLAN.bat"
+                popd
+                sleep 0.5
+            elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/plan.toml >/dev/null 2>&1 &)
+            fi
+            ;;
+        start)
+            if [ $HOSTNAME == "EU-C3GB434-L" ]; then
+                pushd "$HOME/OneDrive - ION/personal/alacritty"
+                cmd.exe /c "START.bat"
+                popd
+                sleep 0.5
+            elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/start.toml >/dev/null 2>&1 &)
+            fi
+            ;;
+        *)
+            if [ $HOSTNAME == "EU-C3GB434-L" ]; then
+                pushd "$HOME/OneDrive - ION/personal/alacritty"
+                cmd.exe /c "TERMINAL.bat"
+                popd
+                sleep 0.5
+            elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/alacritty.toml >/dev/null 2>&1 &)
+            fi
+            ;;
+    esac
+}
+
+start ${1-terminal}

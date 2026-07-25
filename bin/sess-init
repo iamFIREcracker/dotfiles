@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -xe
+
+if [ -f "${TMP}/started.lock" ]; then
+    exit 0
+fi
+
+~/bin/local-services
+if [ $HOSTNAME == "beast.local" ]; then
+    # (cd ~/Workspace/local-proxy; tmuxinator start --no-attach)
+    # (cd ~/Workspace/nix-cache-proxy; tmuxinator start --no-attach)
+    tmuxinator start --no-attach ollama
+fi
+
+if [ $HOSTNAME == "EU-C3GB434-L" ]; then
+    cmd.exe /c "$(wslpath -w ~/my-env/Windows/AutoHotkey/KeyMappings.ahk)" > /dev/null 2>&1 &
+    disown
+fi
+
+~/bin/start-terminal editor
+sleep 0.5
+~/bin/start-terminal llm
+sleep 0.5
+~/bin/start-terminal plan
+sleep 0.5
+~/bin/start-terminal start
+sleep 0.5
+
+printf "\033]0;$LC_TERMINAL_TYPE\007"
+
+date > "${TMP}/started.lock"
+exit 0
