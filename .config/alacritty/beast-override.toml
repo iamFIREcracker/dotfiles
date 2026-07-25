@@ -1,0 +1,40 @@
+[window]
+option_as_alt = "Both" # Map both left and right Option keys to Alt
+
+[font]
+size = 13
+
+  [font.offset]
+  x = 0
+
+
+[[keyboard.bindings]]
+# Via karabiner: pressing <tab> alone is mapped to <option>+7 (i.e., ¶)
+# However, since we have `option_as_alt` set, the above will generate
+# <alt>+7, so here we map that back to our beloved unicode character
+# (which Tmux later on will interpret as leader)
+key = "7"
+mods = "Alt"
+chars = "¶"
+
+[font.normal]
+family = "TX-02"
+style = "Regular"
+
+[font.bold]
+family = "TX-02"
+style = "Bold"
+
+[font.italic]
+family = "TX-02"
+style = "Oblique"
+
+[font.bold_italic]
+family = "TX-02"
+style = "Bold Oblique"
+
+[colors.primary]
+## foreground = "0xf4f4f4" # dark
+## background = "0x020202" # dark
+foreground = "0x020202" # light
+background = "0xf4f4f4" # light

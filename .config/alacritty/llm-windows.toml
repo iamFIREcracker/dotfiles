@@ -1,0 +1,26 @@
+# On Windows, **copy** this file to /mnt/c/Users/mlandi/AppData/Roaming/alacritty/llm.toml
+#
+# As an administrator, symlink the current directory:
+# mklink /D "C:\Users\mlandi\AppData\Roaming\alacritty\wsl" \\wsl$\Ubuntu\home\mlandi\.config\alacritty\
+
+[general]
+# disable live reload until we know it works with symlinks
+# https://github.com/alacritty/alacritty/issues/8412
+# seems to be working now!?
+live_config_reload = true
+import = [
+  "./wsl/alacritty.toml",
+  # Symlinks don't work on Windows, not between Windows and WSL2 at least
+  # so the workaround is to just load the Windows override, knowing that
+  # it would be skipped on macOS!
+  # Note: this works only because we need _one_ different overrides for Windows;
+  # if we needed two, we would have to figure out a different way to load one
+  # or the other.
+  "./wsl/work-override.toml",
+]
+
+[env]
+LC_TERMINAL_TYPE = "LLM"
+
+[window]
+title = "LLM"

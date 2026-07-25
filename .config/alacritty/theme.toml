@@ -1,0 +1,28 @@
+# On Windows, **copy** this to /mnt/c/Users/mlandi/AppData/Roaming/alacritty/theme.toml
+
+[colors.selection]
+text = "CellBackground"
+background = "0x008a8a"
+
+[colors.cursor]
+cursor = "0xd100d1"
+
+[colors.normal]
+black = "0x020202"
+red = "0xab0000"
+green = "0x1f991f"
+yellow = "0x8b8b00"
+blue = "0x3344DD"
+magenta = "0x8a148a"
+cyan = "0x008a8a"
+white = "0xc0c0c0"
+
+[colors.bright]
+black = "0x808080"
+red = "0xd54a49"
+green = "0x3ad63a"
+yellow = "0xa7964d"
+blue = "0x0088FF"
+magenta = "0xd100d1"
+cyan = "0x00b3b3"
+white = "0xf4f4f4"

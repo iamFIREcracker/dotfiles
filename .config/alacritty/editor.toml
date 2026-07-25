@@ -1,0 +1,10 @@
+[general]
+import = [
+  "./alacritty.toml",
+]
+
+[env]
+LC_TERMINAL_TYPE = "EDITOR"
+
+[window]
+title = "EDITOR"

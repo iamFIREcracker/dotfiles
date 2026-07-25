@@ -1,0 +1,38 @@
+# On Windows, **copy** this to /mnt/c/Users/mlandi/AppData/Roaming/alacritty/local-override.toml
+
+[terminal.shell]
+program = "wsl"
+args = [ "~ -d Ubuntu" ]
+
+[font]
+size = 10
+
+  [font.offset]
+  x = 1
+
+
+[font.normal]
+family = "TX-02"
+## style = "Medium" # dark
+style = "SemiBold" # light
+
+[font.bold]
+family = "TX-02"
+## style = "Bold" # dark
+style = "ExtraBold" # light
+
+[font.italic]
+family = "TX-02"
+## style = "Medium Oblique" # dark
+style = "SemiBold Oblique" # light
+
+[font.bold_italic]
+family = "TX-02"
+## style = "Bold Oblique" # dark
+style = "ExtraBold Oblique" # light
+
+[colors.primary]
+## foreground = "0xf4f4f4" # dark
+## background = "0x020202" # dark
+foreground = "0x020202" # light
+background = "0xf4f4f4" # light

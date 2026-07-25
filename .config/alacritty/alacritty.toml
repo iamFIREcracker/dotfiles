@@ -1,0 +1,75 @@
+[general]
+live_config_reload = true
+import = [
+  "./theme.toml",
+  "./local-override.toml",
+]
+
+
+# On Windows run:
+# setx WSLENV "TERM/u:CB_OSC52/u:LC_TERMINAL_TYPE/u"
+[env]
+TERM = "alacritty"
+CB_OSC52 = "1"
+LC_TERMINAL_TYPE = "TERMINAL"
+
+[window]
+title = "TERMINAL"
+dynamic_title = true
+
+  [window.dimensions]
+  columns = 80
+  lines = 24
+
+  [window.padding]
+  x = 4
+  y = 4
+
+[scrolling]
+history = 0 # Disable scroll history (use Tmux's)
+
+[selection]
+save_to_clipboard = true
+
+[bell]
+duration = 0 # Disable visual bell
+
+[cursor]
+thickness = 0.3
+
+  [cursor.style]
+  shape = "Beam"
+  blinking = "Never"
+
+[hints]
+enabled = [ ]
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001b\u000a"
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Control"
+chars = "\u001b\u000d"
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Control|Shift"
+chars = "\u001b[13;6u"
+
+# Without these, at least on Windows, pressing End inside/outside of tmux would yield different raw codes:
+# - Outside: ^[[F
+# - Inside: ^[[4~
+[[keyboard.bindings]]
+key = "End"
+chars = "\u001b[4~"
+[[keyboard.bindings]]
+key = "Home"
+chars = "\u001b[1~"
+
+[[keyboard.bindings]]
+key = "N"
+mods = "Control|Shift"
+action = "CreateNewWindow"
