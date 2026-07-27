@@ -2,7 +2,12 @@
 
 # Print the current time in a bunch of timezones where
 # people I work with, live
+#
 # Also: https://www.ionstage.org/loclock/#QW1lcmljYS9OZXdfWW9yayxFdXJvcGUvTG9uZG9uLEV1cm9wZS9Sb21lLEFzaWEvS29sa2F0YSMvTmV3IERlbGhpLEFzaWEvSmFrYXJ0YQ
+#
+# Also, it's possible to manipulate the current date:
+#
+#   dates -d "+1 days"
 
 set -e
 
@@ -11,10 +16,14 @@ if hash gdate 2>/dev/null; then
     xdate=gdate
 fi
 
-echo "Singapore:  "$(TZ=:Asia/Singapore $xdate "$@")
-echo "Jakarta:    "$(TZ=:Asia/Jakarta $xdate "$@")
-echo "India:      "$(TZ=:Asia/Calcutta $xdate "$@")
+# echo "Singapore:  "$(TZ=:Asia/Singapore $xdate "$@")
+# echo "Jakarta:    "$(TZ=:Asia/Jakarta $xdate "$@")
+echo "India:      "$(TZ=:Asia/Kolkata $xdate "$@")
 echo "Italy:      "$(TZ=:Europe/Rome $xdate "$@")
 echo "England:    "$(TZ=:Europe/London $xdate "$@")
 echo "New York:   "$(TZ=:America/New_York $xdate "$@")
+echo "Houston:    "$(TZ=:CST6CDT $xdate "$@")
 echo "Vancouver:  "$(TZ=:America/Vancouver $xdate "$@")
+echo "# Also, it's possible to manipulate the current date:"
+echo "#"
+echo "#  dates -d \"+1 days\""
