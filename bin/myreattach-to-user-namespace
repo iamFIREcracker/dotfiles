@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-reattach=`which reattach-to-user-namespace 2> /dev/null`
-
-if [ -n "${reattach}" ]; then
-    exec "${reattach}" "$@"
-else
-    exec "$@"
-fi

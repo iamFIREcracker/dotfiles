@@ -1,2 +1,0 @@
-printf '\033\143'
-clear-screen-and-position-cursor-at-the-bottom

@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-exec sbcl --script ~/opt/scmindent/__main__/lispindent.lisp

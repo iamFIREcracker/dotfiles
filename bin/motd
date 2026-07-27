@@ -1,5 +1,0 @@
-if [ -f /run/motd.dynamic ]; then
-  cat /run/motd.dynamic
-else
-  fortune | cowsay
-fi
