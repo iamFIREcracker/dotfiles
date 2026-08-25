@@ -598,7 +598,7 @@ compact_cwd() {
             # echo " in ${UNDERLINE}${location}${D}"
             # echo " in ${WHITE}${location}${D}"
             # echo " in ${BOLD}${location}${D}"
-            echo "[${location}]"
+            echo "${location}"
             break
         fi
         location=...$next
@@ -609,12 +609,12 @@ git_ps1() {
     local branch=$(git currentbranch)
     local status=$(git_prompt_status)
     # echo "on ${ITALIC}${branch}${BOLD}${status}${D}"
-    echo "[${branch}${status}]"
+    echo "${branch}${status}"
 }
 
 rcs_ps1() {
     if git root >/dev/null 2>&1; then
-        echo " "$(git_ps1)
+        echo " · $(git_ps1)"
     fi
 }
 
@@ -783,10 +783,10 @@ prompt_command() {
     PS1=
     PS1="$PS1\n"                                  # gracious new line
     PS1="$PS1\n"                                  # gracious new line 2x
-    PS1="$PS1[$HOSTNAME]"                         # hostname
-    PS1="$PS1 $(compact_cwd)"                     # cwd
+    PS1="$PS1$HOSTNAME"                           # hostname
+    PS1="$PS1 · $(compact_cwd)"                   # cwd
     PS1="$PS1$(rcs_ps1)"                          # git/mercurial/svn
-    PS1="$PS1 $(date +'%e - %I:%M %p')"           # Now
+    PS1="$PS1 · $(date +'%e - %I:%M %p')"         # Now
     PS1="$PS1\n"
     PS1="$PS1$(pyenv_ps1)"                        # pyenv
     PS1="$PS1$(venv_ps1)"                         # virtualenv
