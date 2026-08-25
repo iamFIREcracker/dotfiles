@@ -1,0 +1,103 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(challenge)",
+      "Skill(claim)",
+      "Skill(desire-paths)",
+      "Skill(eli5)",
+      "Skill(handoff)",
+      "Skill(implement)",
+      "Skill(loose-ends)",
+      "Skill(panel)",
+      "Skill(ready)",
+      "Skill(seal)",
+      "Skill(serve)",
+      "Skill(showcase)",
+      "Skill(spec-interview)"
+    ],
+    "deny": []
+  },
+  "model": "claude-fable-5[1m]",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/Workspace/claude-code-scripts/bin/no-cd.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.config/claude/skills/handoff/session-start.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "startup|clear|resume|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/Workspace/claude-code-scripts/bin/agent-name.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/Workspace/claude-code-scripts/bin/status-line.sh"
+  },
+  "enabledPlugins": {
+    "pyright-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
+  },
+  "effortLevel": "high",
+  "tui": "default",
+  "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "theme": "light-daltonized",
+  "preferredNotifChannel": "terminal_bell",
+  "autoCompactEnabled": false,
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "Bash(bd ready:*)",
+      "Bash(bd show:*)",
+      "Bash(bd update:*)",
+      "Bash(bd close:*)"
+    ],
+    "environment": [
+      "### Org-wide",
+      "**Organization**: None configured",
+      "**Cloud provider(s)**: None configured",
+      "**Repository visibility**: assume private (no git remotes configured; repo has no remote host to check, and no public visibility signal found)",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: None configured",
+      "**Default / protected branches**: not queryable here (no remotes; org/repo not derivable)",
+      "**CI/CD deploy targets**: None configured",
+      "**Network posture**: LAN-only by design (game/controller pages and WebSocket relay are intended to run entirely on the local network per README; not a configured trust boundary)",
+      "**Source control**: The trusted repo only — no remotes are configured",
+      "**Trusted internal domains**: None configured",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: None configured",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material; preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar; locally, .env, .env.local, and .beads-credential-key are gitignored and should be treated as credential material",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment",
+      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development (local party-game project, MMVX — Three.js/WebSocket LAN game)",
+      "**Trusted repo**: /Users/matteolandi/Workspace/mmvx (no remotes configured)",
+      "**Org-specific CLIs**: None configured — `bd` (beads issue tracker) is used routinely in this repo per CLAUDE.md and observed usage, but is a general tool, not org-specific"
+    ]
+  }
+}
