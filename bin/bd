@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+exec ${HOMEBREW_PREFIX}/bin/bd "$@"
+# exec ~/Workspace/beads/bd "$@"
