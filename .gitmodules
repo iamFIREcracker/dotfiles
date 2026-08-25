@@ -58,9 +58,6 @@
 [submodule ".vim/bundle/writegooder.vim"]
 	path = .vim/pack/bundle/start/writegooder.vim
 	url = https://github.com/JKirchartz/writegooder.vim.git
-[submodule ".vim/bundle/commentary.vim"]
-	path = .vim/pack/bundle/start/commentary.vim
-	url = https://github.com/tpope/vim-commentary.git
 [submodule ".vim/bundle/vim-javacomplete2"]
 	path = .vim/pack/bundle/start/vim-javacomplete2
 	url = https://github.com/artur-shaik/vim-javacomplete2.git
