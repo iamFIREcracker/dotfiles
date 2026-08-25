@@ -33,11 +33,22 @@ else
     : "${__SHLVL_BASE:=$((SHLVL - 1))}"; export __SHLVL_BASE
 fi
 
+function dot_env() {
+    local env_file=$1
+
+    if [ ! -f "$env_file" ]; then
+        echo "$env_file is not a file"
+    else
+        echo "Loading env from: $env_file"
+        set -a; source "$env_file"; set +a
+    fi
+}
+
 if [ -f ~/.env ]; then
-    set -a; source ~/.env; set +a
+    dot_env ~/.env
 fi
 if [ -f ~/.env.properties ]; then
-    set -a; source ~/.env.properties; set +a
+    dot_env ~/.env.properties
 fi
 
 # Bash
@@ -326,8 +337,95 @@ function fucking-restart-bluetooth() {
     sudo kextload -b com.apple.iokit.BroadcomBluetoothHostControllerUSBTransport
 }
 
-function hn() { head -n "$@"; }
-function hn1() { hn 1; }
+function fucking-restart-network() {
+    local probe iface gw target_ip
+
+    probe="${1:-git.iontrading.com}"
+
+    echo "== WSL network repair: probing $probe =="
+
+    iface="$(
+        ip -o route show default 2>/dev/null |
+            awk '{print $5; exit}'
+    )"
+
+    if [[ -z "$iface" ]]; then
+        iface="$(
+            ip -o -4 addr show scope global 2>/dev/null |
+                awk '{print $2; exit}' |
+                cut -d@ -f1
+        )"
+    fi
+
+    if [[ -z "$iface" || ! -e "/sys/class/net/$iface" ]]; then
+        echo "No usable network interface found."
+        ip -br addr 2>/dev/null || true
+        return 1
+    fi
+
+    gw="$(
+        ip route show default 2>/dev/null |
+            awk '{print $3; exit}'
+    )"
+
+    if [[ -z "$gw" ]]; then
+        gw="$(
+            awk '/^nameserver / {print $2; exit}' /etc/resolv.conf 2>/dev/null
+        )"
+    fi
+
+    if [[ -z "$gw" ]]; then
+        echo "Could not determine gateway."
+        echo
+        echo "Interfaces:"
+        ip -br addr 2>/dev/null || true
+        echo
+        echo "Routes:"
+        ip route 2>/dev/null || true
+        return 1
+    fi
+
+    echo "Interface: $iface"
+    echo "Gateway:   $gw"
+
+    sudo ip route replace default via "$gw" dev "$iface" 2>/dev/null ||
+        sudo ip route replace default via "$gw" dev "$iface" onlink
+
+    sudo ip neigh flush all 2>/dev/null || true
+    sudo ip route flush cache 2>/dev/null || true
+
+    if command -v resolvectl >/dev/null 2>&1 && resolvectl status >/dev/null 2>&1; then
+        sudo resolvectl flush-caches 2>/dev/null || true
+    fi
+
+    if command -v powershell.exe >/dev/null 2>&1; then
+        powershell.exe -NoProfile -Command "Clear-DnsClientCache" >/dev/null 2>&1 || true
+    fi
+
+    echo
+    echo "Interface state:"
+    ip -br addr show dev "$iface" 2>/dev/null || true
+
+    echo
+    echo "Routes:"
+    ip route show default 2>/dev/null || true
+
+    echo
+    echo "DNS probe:"
+    if getent hosts "$probe"; then
+        target_ip="$(getent ahostsv4 "$probe" | awk '{print $1; exit}')"
+        echo "OK: DNS resolves $probe"
+
+        if [[ -n "$target_ip" ]]; then
+            echo
+            echo "Route probe:"
+            ip route get "$target_ip" || return 2
+        fi
+    else
+        echo "FAIL: DNS does not resolve $probe"
+        return 2
+    fi
+}
 
 function j() {
 
@@ -612,11 +710,11 @@ poor_man_direnv() {
                 wovenv || (python -m venv venv && wovenv)
                 ;;
             Workspace/job/license-server*)
-                set -a; source .env; set +a
+                dot_env .env
                 # wonodenv
                 ;;
             Workspace/job/token-server*)
-                set -a; source .env; set +a
+                dot_env .env
                 # wonodenv
                 ;;
             Workspace/job/ConnectION/connection*)
@@ -627,12 +725,12 @@ poor_man_direnv() {
                 # wonodenv
                 ;;
             Workspace/job/ConnectION/ingest-alogs)
-                set -a; source .env; set +a
+                dot_env .env
                 wopyenv
                 wovenv || (python -m venv venv && wovenv)
                 ;;
             Workspace/job/Tracker/web-portal)
-                set -a; source .env; set +a
+                dot_env .env
                 ;;
             Workspace/projections-scripts)
                 # lazy_load_pyenv
