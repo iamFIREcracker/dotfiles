@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+
+# The only reason why I wanted this, is so we could cache things on local.
+#
+# Turns out it's very complicated to implement caching over https.
+#
+# An alternate solution, that would work for `brew` only, would be to set up
+# a nginx cache proxy, and make brew aware of it via BREW_ARTIFACT_DOMAIN
+# (similar to what we did for nix, I think).
+#
+# export all_proxy=http://192.168.1.2:3128
+export HOMEBREW_NO_ANALYTICS=1
+exec ${HOMEBREW_PREFIX}/bin/brew "$@"

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [ ! -f ~/Workspace/grep-ast/venv/bin/grep-ast ]; then
+    pushd ~/Workspace/grep-ast
+    python3 -m venv venv \
+        && source ./venv/bin/activate \
+         && pip3 install -e . \
+         && pip3 install -r requirements.txt
+    popd
+fi
+
+~/Workspace/grep-ast/venv/bin/grep-ast "$@"

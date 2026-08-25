@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+export CB_OSC52=${CB_OSC52:-1}
+exec ~/opt/cb/cb "$@"

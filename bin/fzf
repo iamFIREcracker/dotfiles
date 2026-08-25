@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+repo=~/Workspace/fzf
+local_build="$repo/bin/fzf"
+
+if [ "${FZF_USE_BREW:-0}" != "1" ]; then
+    if [ ! -x "$local_build" ]; then
+        mise exec -- make -C "$repo" bin/fzf 1>&2
+    fi
+    if [ -x "$local_build" ]; then
+        exec "$local_build" "$@"
+    fi
+fi
+exec "${HOMEBREW_PREFIX:-/opt/homebrew}"/bin/fzf "$@"

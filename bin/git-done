@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+exec ~/Workspace/git-done/git-done "$@"

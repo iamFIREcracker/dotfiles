@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# See: https://github.com/anthropics/claude-code/issues/29816
+if [[ "$OSTYPE" == "darwin"* ]] && [ -n "$SSH_CONNECTION" ]; then
+    if ! security show-keychain-info ~/Library/Keychains/login.keychain-db 2>/dev/null; then
+        security unlock-keychain ~/Library/Keychains/login.keychain-db 2>/dev/null || true
+    fi
+fi
+
+export CLAUDE_CONFIG_DIR=${CLAUDE_CONFIG_DIR:-~/.config/claude}
+# export CLAUDE_CODE_DISABLE_1M_CONTEXT=${CLAUDE_CODE_DISABLE_1M_CONTEXT:-1}
+export CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING=${CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING:-1}
+export CLAUDE_CODE_DISABLE_AUTO_MEMORY=${CLAUDE_CODE_DISABLE_AUTO_MEMORY:-1}
+# if [ "${NO_IS_DEMO:-0}" != "1" ]; then
+#     export IS_DEMO=${IS_DEMO:-1} # https://github.com/anthropics/claude-code/issues/17573
+# fi
+exec ${HOMEBREW_PREFIX}/bin/claude \
+    --permission-mode auto \
+    "$@"
