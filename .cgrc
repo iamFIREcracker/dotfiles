@@ -1,3 +1,6 @@
+#|
+Error response from daemon: Conflict. The container name "/cnxt-console" is already in use by container "a58a0b4ab20aa08dddca42659b61a64aa9fda22d48f71f70a3252a527913b320". You have to remove (or rename) that container to be able to reuse that name.
+|#
 (cg:define-guesser apt-install
     ;; On Ubuntu, Bash suggests you to `apt install XXX` when the command
     ;; you just run was not found inside PATH.
@@ -31,6 +34,50 @@
 (cg:define-guesser gem-pristine
     ("(gem pristine [^ ]* --version [^ ]*)" (gem-pristine-cmd))
   (format NIL "~a " gem-pristine-cmd))
+
+(cg:define-guesser git-push-rebased-branch
+    ;; git rebase outputs escape sequences to incrementally replace
+    ;; previous output:
+    ;;
+    ;;    Created autostash: c8442eee9
+    ;;    Rebasing (3/4)Rebasing (4/4)Applied autostash.
+    ;;    [KSuccessfully rebased and updated refs/heads/cleanup-sync-logic.
+    ;;    Updated the following refs with --update-refs:
+    ;;    	refs/heads/hotfix/merge-sync-once-and-for-all
+    ;;
+    ;; So even though, on the terminal, "Successfully rebased" appears
+    ;; at the beginning of a line; in practice, there would be additional
+    ;; characters before it, so we cannot use `^' inside the pattern.
+    ("Successfully rebased and updated refs/heads/(.*)\\." (updated-ref))
+  (format NIL "git push --force-with-lease ~a ~a"
+          (format NIL "$(git config 'branch.~a.remote' | git-remotes-fzf 'push ')" updated-ref)
+          updated-ref))
+
+(cg:define-guesser cb-rebased-branch
+    ;; git rebase outputs escape sequences to incrementally replace
+    ;; previous output:
+    ;;
+    ;;    Created autostash: c8442eee9
+    ;;    Rebasing (3/4)Rebasing (4/4)Applied autostash.
+    ;;    [KSuccessfully rebased and updated refs/heads/cleanup-sync-logic.
+    ;;    Updated the following refs with --update-refs:
+    ;;    	refs/heads/hotfix/merge-sync-once-and-for-all
+    ;;
+    ;; So even though, on the terminal, "Successfully rebased" appears
+    ;; at the beginning of a line; in practice, there would be additional
+    ;; characters before it, so we cannot use `^' inside the pattern.
+    ("Successfully rebased and updated refs/heads/(.*)\\." (updated-ref))
+  (format NIL "echo ~a | cb" updated-ref))
+
+(cg:define-guesser git-push-updated-refs
+    ("^\\s+refs/heads/(.*)" (updated-ref))
+  (format NIL "git push --force-with-lease ~a ~a"
+          (format NIL "$(git config 'branch.~a.remote' | git-remotes-fzf push)" updated-ref)
+          updated-ref))
+
+(cg:define-guesser cb-updated-refs
+    ("^\\s+refs/heads/(.*)" (updated-ref))
+  (format NIL "echo ~a | cb" updated-ref))
 
 (cg:define-guesser git-b-git-checkout
     ;; Parses `git branch -v`'s output and suggests you to switch to one of the
@@ -190,3 +237,7 @@
 (cg:define-guesser ssh-keygen-remove-key
     ("(ssh-keygen -f .* -R [^ ]*)" (ssh-keygen-cmd))
   (format NIL "~a " ssh-keygen-cmd))
+
+(cg:define-guesser nix-log
+    ("run '(nix log .*)'" (nix-log-cmd))
+  (format NIL "~a " nix-log-cmd))
