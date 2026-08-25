@@ -1,0 +1,15 @@
+/tags/
+*\.log
+*\.min\.js
+*\.js\.map
+*\.orig
+.dependenciesSources
+.ropeproject
+/.git/
+Resources
+bower_components
+build
+dist
+node_modules
+obj
+target
