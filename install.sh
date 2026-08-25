@@ -40,66 +40,64 @@ function create_dir {
                      ensure_dir ".gnupg"
 
                      ensure_link "bin"                    "bin"
+                     ensure_link ".abclrc"                ".abclrc"
                      ensure_link ".agignore"              ".agignore"
                      ensure_link ".bash_profile"          ".bash_profile"
                      ensure_link ".bashrc"                ".bashrc"
+                     ensure_link ".bunfig.toml"           ".bunfig.toml"
                      ensure_dir  ".config"
-test -n "$OS_MAC" && ensure_link ".config/alacritty"      ".config/alacritty"
+
+                     ensure_dir  ".config/claude"
+                     ensure_link ".claude/CLAUDE.md"		".config/claude/CLAUDE.md"           
+                     ensure_link ".claude/settings.json"	".config/claude/settings.json"       
+                     ensure_link ".claude/statusline.sh"	".config/claude/statusline.sh"       
+                     ensure_link ".claude/hooks"		".config/claude/hooks"               
+                     ensure_link ".claude/skills"		".config/claude/skills"              
+                     ensure_dir  ".config/claude-work"
+                     ensure_link ".claude/CLAUDE.md"		".config/claude-work/CLAUDE.md"      
+                     ensure_link ".claude/settings.json"	".config/claude-work/settings.json"  
+                     ensure_link ".claude/statusline.sh"	".config/claude-work/statusline.sh"  
+                     ensure_link ".claude/hooks"		".config/claude-work/hooks"          
+                     ensure_link ".claude/skills"		".config/claude-work/skills"         
+
 test -n "$OS_MAC" && ensure_link ".config/karabiner"      ".config/karabiner"
+                     ensure_link ".config/home-manager"   ".config/home-manager"
+
+                     ensure_dir  ".config/opencode"
+                     ensure_link ".config/opencode/opencode.json" ".config/opencode/opencode.json"
+                     ensure_link ".config/opencode/tui.json"      ".config/opencode/tui.json"
+
+                     ensure_link ".config/nix"            ".config/nix"
                      ensure_link ".config/nixpkgs"        ".config/nixpkgs"
                      ensure_link ".config/nvim"           ".config/nvim"
+                     ensure_link ".config/tridactyl"      ".config/tridactyl"
                      ensure_link ".cgrc"                  ".cgrc"
                      ensure_link ".ctags"                 ".ctags"
+                     ensure_link ".eclrc"                 ".eclrc"
                      ensure_link ".gitconfig"             ".gitconfig"
                      ensure_link ".hammerspoon"           ".hammerspoon"
                      ensure_link ".hgignore"              ".hgignore"
                      ensure_link ".hgrc"                  ".hgrc"
+                     ensure_link ".ignore"                ".ignore"
                      ensure_link ".inputrc"               ".inputrc"
                      ensure_link ".lisp"                  ".lisp"
 test -n "$OS_WIN" && ensure_link ".minttyrc"              ".minttyrc"
                      ensure_link ".mutt"                  ".mutt"
+                     ensure_link ".npmrc"                 ".npmrc"
                      ensure_link ".newsboat"              ".newsboat"
                      ensure_link ".node"                  ".node"
                      ensure_link ".pypirc"                ".pypirc"
                      ensure_link ".pythonrc.py"           ".pythonrc.py"
+                     ensure_link ".projections.json"      ".projections.json"
                      ensure_link ".sbclrc"                ".sbclrc"
                      ensure_link ".tmuxinator"            ".tmuxinator"
                      ensure_link ".tmux-plugins"          ".tmux-plugins"
                      ensure_link ".tmux.conf"             ".tmux.conf"
+                     ensure_link ".tmux-login.conf"       ".tmux-login.conf"
                      ensure_link ".vim"                   ".vim"
                      ensure_link ".vimfx"                 ".vimfx"
                      ensure_link ".w3m"                   ".w3m"
                      ensure_link ".gnupg/gpg.conf"        ".gnupg/gpg.conf"
                      ensure_link "ccl-init.lisp"          "ccl-init.lisp"
-
-(
-    fzf_dir=
-    if [ -n "$OS_WIN" ]; then
-      fzf_dir=.vim/pack/bundle/opt/fzf-ruby
-    else 
-      fzf_dir=.vim/pack/bundle/opt/fzf
-    fi
-
-    cd $fzf_dir
-    # the install script checks if `fzf' ware already installed
-    # and if found, would symlink it to ./bin
-    #
-    # the problem is, I have a wrapper for `fzf' under ~/bin, so
-    # I want the `install' script to download the binary (instead
-    # of symlinking my wrapper...lol) I have to make sure ~/bin
-    # is not covered by `$PATH'
-    test $FORCE -eq 1 && rm -f bin/fzf bin/fzf.exe
-    if [ ! -f bin/fzf -a ! -f bin/fzf.exe ]; then
-        PATH=/bin:/usr/bin ./install --bin
-    fi
-    cd -
-
-    ensure_link "$fzf_dir/bin/fzf" "local/bin/fzf"
-    ensure_link "$fzf_dir/bin/fzf-tmux" "local/bin/fzf-tmux"
-    if [ -f "$fzf_dir/man/man1/fzf-tmux.1" ]; then
-      ensure_link "$fzf_dir/man/man1/fzf-tmux.1" "local/man/man1/fzf-tmux.1"
-    fi
-    ensure_link "$fzf_dir/man/man1/fzf.1" "local/man/man1/fzf.1"
-)
 
 vim -c 'helptags ALL | quit'
