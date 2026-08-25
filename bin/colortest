@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+#
+# colortest - Display terminal color swatches with names
+#
+# Usage: colortest [--bold] [--only-usable]
+#
+
+set -euo pipefail
+
+bold=0
+only_usable=0
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --bold)
+            bold=1
+            shift
+            ;;
+        --only-usable)
+            only_usable=1
+            shift
+            ;;
+        -h|--help)
+            echo "Usage: colortest [--bold] [--only-usable]"
+            echo ""
+            echo "Display terminal color swatches with names."
+            echo ""
+            echo "Options:"
+            echo "  --bold        Show bold variants of colors"
+            echo "  --only-usable Show only colors readable across common themes"
+            echo "  -h, --help    Show this help message"
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1" >&2
+            exit 1
+            ;;
+    esac
+done
+
+# Color pairs: name, code, usable, bright_name, bright_code, bright_usable
+declare -a color_pairs=(
+    "black:30:0:brblack:90:1"
+    "red:31:1:brred:91:1"
+    "green:32:1:brgreen:92:1"
+    "yellow:33:1:bryellow:93:1"
+    "blue:34:1:brblue:94:1"
+    "magenta:35:1:brmagenta:95:1"
+    "cyan:36:1:brcyan:96:1"
+    "white:37:0:brwhite:97:0"
+)
+
+format_color() {
+    local name="$1"
+    local code="$2"
+    local bold_attr=""
+
+    if [[ $bold -eq 1 ]]; then
+        bold_attr="1;"
+    fi
+
+    printf "\033[${bold_attr}${code}m██ %-10s\033[0m" "$name"
+}
+
+for entry in "${color_pairs[@]}"; do
+    IFS=':' read -r name code usable brname brcode brusable <<< "$entry"
+
+    show_normal=1
+    show_bright=1
+
+    if [[ $only_usable -eq 1 ]]; then
+        [[ $usable -eq 0 ]] && show_normal=0
+        [[ $brusable -eq 0 ]] && show_bright=0
+    fi
+
+    if [[ $show_normal -eq 1 ]]; then
+        format_color "$name" "$code"
+    else
+        printf "%-14s" ""
+    fi
+
+    printf "\t\t"
+
+    if [[ $show_bright -eq 1 ]]; then
+        format_color "$brname" "$brcode"
+    fi
+
+    printf "\n"
+done
