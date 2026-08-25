@@ -133,9 +133,6 @@
 [submodule ".vim/pack/bundle/start/vim-tbone"]
 	path = .vim/pack/bundle/start/vim-tbone
 	url = https://github.com/tpope/vim-tbone.git
-[submodule ".vim/pack/bundle/start/vim-system-copy"]
-	path = .vim/pack/bundle/start/vim-system-copy
-	url = https://github.com/christoomey/vim-system-copy.git
 [submodule ".vim/pack/bundle/start/vlime"]
 	path = .vim/pack/bundle/start/vlime
 	url = https://github.com/vlime/vlime.git
