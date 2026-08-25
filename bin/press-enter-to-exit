@@ -1,2 +1,4 @@
-echo
+#!/usr/bin/env bash
+
+echo -e '\a'
 read -p "Press any key to exit..."
