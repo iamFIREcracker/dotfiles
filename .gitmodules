@@ -130,9 +130,6 @@
 [submodule ".vim/pack/bundle/start/vim-maximizer"]
 	path = .vim/pack/bundle/start/vim-maximizer
 	url = https://github.com/szw/vim-maximizer.git
-[submodule ".vim/pack/bundle/start/vim-tmux-navigator"]
-	path = .vim/pack/bundle/start/vim-tmux-navigator
-	url = https://github.com/christoomey/vim-tmux-navigator.git
 [submodule ".vim/pack/bundle/start/vim-tbone"]
 	path = .vim/pack/bundle/start/vim-tbone
 	url = https://github.com/tpope/vim-tbone.git
