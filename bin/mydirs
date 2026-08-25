@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+function dir_names() {
+    # https://www.cyberciti.biz/faq/linux-list-just-directories-or-directory-names/
+    ls -1 -d $1/*/ 2>/dev/null || true
+}
+
+function dirs_inside() {
+    dir_names $1 \
+        | grep -v "$1/node_modules/" \
+        | sed "s/\/$//"
+}
+
+function interesting() {
+    echo        $HOME
+    echo        $HOME/.config/claude
+    echo        $HOME/.config/claude-work
+    dirs_inside $HOME/.tmux-plugins
+    dirs_inside $HOME/.vim/pack/bundle/opt
+    dirs_inside $HOME/.vim/pack/bundle/start
+    dirs_inside $HOME/.vim/pack/iamFIREcracker/start
+    dirs_inside $HOME/Workspace
+    dirs_inside $HOME/Workspace/job
+    dirs_inside $HOME/Workspace/job/ConnectION
+    dirs_inside $HOME/Workspace/job/Tracker
+    dirs_inside $HOME/Workspace/job/CAT
+    dirs_inside $HOME/opt
+    echo        $HOME/Workspace/job/ConnectION/cnxt/infrastructure/gitlab-runner
+    echo        $HOME/my-env
+    dirs_inside $HOME/my-env
+    echo        $HOME/plan
+    dirs_inside $HOME/plan
+    dirs_inside $HOME/plan | while read dir; do dirs_inside $dir; done
+}
+
+interesting | sort
