@@ -7,7 +7,7 @@ function start() {
                 cmd.exe /c "EDITOR.bat"
                 popd
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
-                (SHLVL=0 alacritty --config-file ~/.config/alacritty/editor.toml >/dev/null 2>&1 &)
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/editor.toml -o "env.TA_GROUP='$TA_GROUP'" >/dev/null 2>&1 &)
             fi
             ;;
         llm)
@@ -17,7 +17,7 @@ function start() {
                 popd
                 sleep 0.5
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
-                (SHLVL=0 alacritty --config-file ~/.config/alacritty/llm.toml >/dev/null 2>&1 &)
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/llm.toml  -o "env.TA_GROUP='$TA_GROUP'" >/dev/null 2>&1 &)
             fi
             ;;
         plan)
@@ -27,7 +27,7 @@ function start() {
                 popd
                 sleep 0.5
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
-                (SHLVL=0 alacritty --config-file ~/.config/alacritty/plan.toml >/dev/null 2>&1 &)
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/plan.toml  -o "env.TA_GROUP='$TA_GROUP'" >/dev/null 2>&1 &)
             fi
             ;;
         start)
@@ -37,7 +37,7 @@ function start() {
                 popd
                 sleep 0.5
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
-                (SHLVL=0 alacritty --config-file ~/.config/alacritty/start.toml >/dev/null 2>&1 &)
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/start.toml  -o "env.TA_GROUP='$TA_GROUP'" >/dev/null 2>&1 &)
             fi
             ;;
         *)
@@ -47,7 +47,7 @@ function start() {
                 popd
                 sleep 0.5
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
-                (SHLVL=0 alacritty --config-file ~/.config/alacritty/alacritty.toml >/dev/null 2>&1 &)
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/alacritty.toml  -o "env.TA_GROUP='$TA_GROUP'" >/dev/null 2>&1 &)
             fi
             ;;
     esac
