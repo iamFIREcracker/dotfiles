@@ -48,22 +48,53 @@ $endif
 $if sbcl
   "\C-x\C-e": rlwrap-call-editor
 $endif
+$if llm
+  "\C-x\C-e": rlwrap-call-editor
+$endif
+$if guile
+  "\C-x\C-e": rlwrap-call-editor
+$endif
 
 # Reload this file
 "\C-xr": re-read-init-file
 # Pipe last command to cg with C-Enter -- my terminal generates ◊ on C-Enter
-"◊": " !-1 2>&1 | strip-escapes | cg-fzf\015"
+# - `x`: adds a dummy char to make sure the prompt is non empty
+#   (https://unix.stackexchange.com/questions/509035/clear-the-kill-ring-in-bash-or-kill-an-empty-string-with-ctrl-k#comment1101115_509035)
+# - `\C-u`: cuts the existing prompt
+# - ` !-1 2>&1 ...` the command we want to run. Note: the leading space is
+#   intentional, as it prevents the command from being added to bash history
+# - `\C-m`: runs the command, as if the user had pressed Enter
+# - `\C-y`: yanks the original prompt back in
+# - `\C-h`: deletes the dummy character added at the beginning
+"◊": "x\C-u !-1 2>&1 | strip-escapes | cg-fzf\C-m\C-y\C-h"
 # Resume suspended program with C-Z
-"\C-z": " fg\015"
-# Nicer clear screen
-"\C-l": " clear-screen-and-position-cursor-at-the-bottom\015"
+# - `x`: adds a dummy char to make sure the prompt is non empty
+#   (https://unix.stackexchange.com/questions/509035/clear-the-kill-ring-in-bash-or-kill-an-empty-string-with-ctrl-k#comment1101115_509035)
+# - `\C-u`: cuts the existing prompt
+# - ` fg` the command we want to run. Note: the leading space is intentional,
+#   as it prevents the command from being added to bash history
+# - `\C-m`: runs the command, as if the user had pressed Enter
+# - `\C-y`: yanks the original prompt back in
+# - `\C-h`: deletes the dummy character added at the beginning
+"\C-z": "x\C-u fg\C-m\C-y\C-h"
+# Nicer clear screen:
+# - `x`: adds a dummy char to make sure the prompt is non empty
+#   (https://unix.stackexchange.com/questions/509035/clear-the-kill-ring-in-bash-or-kill-an-empty-string-with-ctrl-k#comment1101115_509035)
+# - `\C-u`: cuts the existing prompt
+# - ` clear-screen-and-position-cursor-at-the-bottom` the command we want to
+#   run. Note: the leading space is intentional, as it prevents the command
+#   from being added to bash history
+# - `\C-m`: runs the command, as if the user had pressed Enter
+# - `\C-y`: yanks the original prompt back in
+# - `\C-h`: deletes the dummy character added at the beginning
+"\C-l": "x\C-u clear-screen-and-position-cursor-at-the-bottom\C-m\C-y\C-h"
 
 # Keymaps for when we're in command mode (e.g., after hitting ESC)
-set keymap vi-command
-"gg": beginning-of-history
-"G": end-of-history
-"H": beginning-of-line
-"L": end-of-line
+# set keymap vi-command
+# "gg": beginning-of-history
+# "G": end-of-history
+# "H": beginning-of-line
+# "L": end-of-line
 
-set keymap vi-insert
-"\C-l": "clear-screen-and-position-cursor-at-the-bottom"
+# set keymap vi-insert
+# "\C-l": "clear-screen-and-position-cursor-at-the-bottom"
