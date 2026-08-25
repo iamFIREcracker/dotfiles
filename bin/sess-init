@@ -18,13 +18,15 @@ if [ $HOSTNAME == "EU-C3GB434-L" ]; then
     disown
 fi
 
-~/bin/start-terminal editor
+TA_GROUP=main ~/bin/start-terminal editor
 sleep 0.5
-~/bin/start-terminal llm
+TA_GROUP=main ~/bin/start-terminal llm
 sleep 0.5
-~/bin/start-terminal plan
+TA_GROUP=main ~/bin/start-terminal start
 sleep 0.5
-~/bin/start-terminal start
+TA_GROUP=main ~/bin/start-terminal terminal
+sleep 0.5
+TA_GROUP=off ~/bin/start-terminal plan
 sleep 0.5
 
 printf "\033]0;$LC_TERMINAL_TYPE\007"
