@@ -1,6 +1,14 @@
+" Test with :echo PrettierIndentCalcIndentLvl(line('.'))
 function! PrettierIndentCalcIndentLvl(lnum) abort " {{{
-    " XXX use &commentstring
-    let l:sentinel = '// prettier-indent-was-here ' . rand()
+    let l:comment_fmt = &commentstring
+    if a:lnum > 1 && index(['javascript', 'javascriptreact', 'typescript', 'typescriptreact'], &ft) >= 0
+        let l:pline = getline(a:lnum-1)
+        if l:pline =~ '\/\*\*' || l:pline =~ '\s*\*'
+            let l:comment_fmt = '*%s'
+        endif
+    endif
+
+    let l:sentinel = substitute(l:comment_fmt, '%s', ' prettier-indent-was-here ' . rand(), '')
 
     " Get the content of the current buffer
     "
