@@ -1,2 +1,3 @@
 clear
+tput E3  # clear scrollback buffer (terminfo equivalent of \e[3J)
 tput cup $(tput lines)
