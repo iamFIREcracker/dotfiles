@@ -19,3 +19,5 @@ cb > $TMPFILE
 $EDITOR $TMPFILE < /dev/tty > /dev/tty \
 # Finally copy the content of the temp file back into the OS clipboard
 cb < $TMPFILE
+# Also output the content so $0 can be used in a pipeline
+cb
