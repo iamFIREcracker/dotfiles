@@ -4,7 +4,7 @@ function start() {
         editor)
             if [ $HOSTNAME == "EU-C3GB434-L" ]; then
                 pushd "$HOME/OneDrive - ION/personal/alacritty"
-                cmd.exe /c "EDITOR.bat"
+                cmd.exe /c "EDITOR.bat" "$TA_GROUP"
                 popd
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
                 (SHLVL=0 alacritty --config-file ~/.config/alacritty/editor.toml -o "env.TA_GROUP='$TA_GROUP'" >/dev/null 2>&1 &)
@@ -13,7 +13,7 @@ function start() {
         llm)
             if [ $HOSTNAME == "EU-C3GB434-L" ]; then
                 pushd "$HOME/OneDrive - ION/personal/alacritty"
-                cmd.exe /c "LLM.bat"
+                cmd.exe /c "LLM.bat" "$TA_GROUP"
                 popd
                 sleep 0.5
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
@@ -23,7 +23,7 @@ function start() {
         plan)
             if [ $HOSTNAME == "EU-C3GB434-L" ]; then
                 pushd "$HOME/OneDrive - ION/personal/alacritty"
-                cmd.exe /c "PLAN.bat"
+                cmd.exe /c "PLAN.bat" "$TA_GROUP"
                 popd
                 sleep 0.5
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
@@ -33,7 +33,7 @@ function start() {
         start)
             if [ $HOSTNAME == "EU-C3GB434-L" ]; then
                 pushd "$HOME/OneDrive - ION/personal/alacritty"
-                cmd.exe /c "START.bat"
+                cmd.exe /c "START.bat" "$TA_GROUP"
                 popd
                 sleep 0.5
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
@@ -43,7 +43,7 @@ function start() {
         *)
             if [ $HOSTNAME == "EU-C3GB434-L" ]; then
                 pushd "$HOME/OneDrive - ION/personal/alacritty"
-                cmd.exe /c "TERMINAL.bat"
+                cmd.exe /c "TERMINAL.bat" "$TA_GROUP"
                 popd
                 sleep 0.5
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
