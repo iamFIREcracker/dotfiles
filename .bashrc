@@ -764,14 +764,10 @@ prompt_command() {
     # OSC 133 -- prompt marker
     printf '\e]133;A\e'
 
-    # Fixed terminal title, outside of tmux -- ta group plus terminal type,
-    # similar to tmux's set-titles-string
+    # Fixed terminal title, outside of tmux -- hostname plus cwd plus terminal
+    # type, similar to tmux's set-titles-string
     if [ -z "$TMUX" ]; then
-        if [ -n "$TA_GROUP" ]; then
-            printf "\033]0;{$TA_GROUP} ($LC_TERMINAL_TYPE)\007"
-        else
-            printf "\033]0;$LC_TERMINAL_TYPE\007"
-        fi
+        printf "\033]0;$HOSTNAME · $(compact_cwd) ($LC_TERMINAL_TYPE)\007"
     fi
 
     # The following sets up a prompt like the following (the first leading empty line
