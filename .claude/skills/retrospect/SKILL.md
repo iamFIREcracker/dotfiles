@@ -1,9 +1,9 @@
 ---
-name: retrospective
-description: Run the whole end-of-session retrospective pipeline — surface friction with desire-paths, surface follow-ups and tech debt with loose-ends, put every surfaced item through an adversarial challenge run, file the survivors as beads in the `bd` tracker, then hand off. Where desire-paths and loose-ends only describe, this one files what survives. Use when the user runs /retrospective, or asks to "run a retrospective", "wrap up the session properly", "do a proper end-of-session sweep", "close the session out and file the follow-ups".
+name: retrospect
+description: Run the whole end-of-session retrospective pipeline — surface friction with desire-paths, surface follow-ups and tech debt with loose-ends, put every surfaced item through an adversarial challenge run, file the survivors as beads in the `bd` tracker, then hand off. Where desire-paths and loose-ends only describe, this one files what survives. Use when the user runs /retrospect, or asks to "run a retrospective", "wrap up the session properly", "do a proper end-of-session sweep", "close the session out and file the follow-ups".
 ---
 
-# Retrospective
+# Retrospect
 
 The end of a session leaves two kinds of residue — friction (the wrong guesses, the
 flags that should have existed) and loose ends (the bug you noticed and didn't fix).
@@ -25,7 +25,7 @@ Three rules hold across every step:
   step's own empty or guard outcome below tells you to.
 - **Nothing reaches the tracker unchallenged.** An item that did not pass through step 3
   is never filed in step 4, for any reason.
-- **Don't re-ask.** Invoking `/retrospective` *is* the user's opt-in to all of it,
+- **Don't re-ask.** Invoking `/retrospect` *is* the user's opt-in to all of it,
   including the multi-agent challenge run and the tracker mutations. Run the pipeline
   through without pausing for permission between steps.
 
@@ -58,7 +58,7 @@ The challenge run is the filter. Everything surfaced above is a candidate; what 
 out the other side is the retrospective.
 
 **Write one self-contained items document** to the session scratchpad directory (the one
-named in your system prompt; if there is none, use `.claude/tmp/retrospective-items.md`).
+named in your system prompt; if there is none, use `.claude/tmp/retrospect-items.md`).
 Challenge's subagents have no conversation context, so the document is the only bridge —
 every item must carry its own evidence. It contains:
 
