@@ -44,6 +44,12 @@ This is a request, not a SIGTERM. Finish your thought first — "not yet, I want
 this test passing" is a legitimate answer (finish the piece, then hand off), and so is
 "nothing worth handing off yet".
 
+Before writing: if the note file already exists, **Read it first** (a few lines is
+enough). The Write tool refuses to overwrite a file that hasn't been Read in the
+current session, and the SessionStart hook injecting the note's content does not
+count — skipping this step is what causes the Write → "File has not been read yet"
+→ Read → Write dance.
+
 1. **Frontmatter** (the only imposed structure):
 
    ```markdown
