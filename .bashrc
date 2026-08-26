@@ -764,6 +764,8 @@ prompt_command() {
     # OSC 133 -- prompt marker
     printf '\e]133;A\e'
 
+    # Fixed terminal tile, outside of tmux
+    [ -z "$TMUX" ] && printf "\033]0;$LC_TERMINAL_TYPE\007"
 
     # The following sets up a prompt like the following (the first leading empty line
     # is intentional... it separates prompts better):

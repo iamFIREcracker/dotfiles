@@ -29,7 +29,5 @@ sleep 0.5
 TA_GROUP=off ~/bin/start-terminal plan
 sleep 0.5
 
-printf "\033]0;$LC_TERMINAL_TYPE\007"
-
 date > "${TMP}/started.lock"
 exit 0
