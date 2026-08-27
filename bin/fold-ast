@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-exec uv run --project $HOME/Workspace/fold-ast fold-ast "$@"
+exec uv run --project $HOME/my-env/dotfiles/.vim/pack/iamFIREcracker/start/fold-ast fold-ast "$@"
