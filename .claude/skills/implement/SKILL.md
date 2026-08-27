@@ -53,6 +53,12 @@ repo's EFFICIENCY.md where present):
   must satisfy — a prescribed algorithm is treated as ground truth and never reviewed.
 - **Don't restate repo commands, layout, or conventions the project's CLAUDE.md already
   carries** — subagents receive CLAUDE.md in their system prompts; reference, don't copy.
+- **Never delegate permission-config or out-of-tree edits to the workflow.** Edits to
+  Claude Code permission configuration (skill `allowed-tools` frontmatter, settings.json)
+  or to any file outside the project working tree are denied by the auto-mode permission
+  classifier, and the resulting `blocked` run bails before review — the in-repo half the
+  implementer did finish then lands unreviewed. Split them out: spec only the in-repo
+  work, and do the permission-config / out-of-tree half in the main session yourself.
 
 If the arguments named an existing spec file, read it first. If it already has acceptance
 criteria and constraints, pass that path straight through. If it needs topping up, **copy
