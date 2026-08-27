@@ -68,6 +68,12 @@ git show master:scripts/preseal 2>/dev/null | bash
   (typically `git rebase master`, then re-run the touched test suites). With uncommitted
   changes, don't touch anything — report the check's output verbatim and stop. After a
   fix, re-run the master copy of the check to confirm it now reports fresh.
+- Clean but diverged — the normal state after this worktree's last seal was landed as a
+  rebased pick: `git merge --ff-only master` fails with "Not possible to fast-forward".
+  When that happens, the tree is clean, and `git cherry master HEAD` prints only `-`
+  lines (every commit in master..HEAD is patch-equivalent to one already on master), use
+  `git checkout --detach master` instead. If `git cherry` prints any `+` line, HEAD has
+  real work master lacks — treat it as the local-commits case above.
 - If the fix itself fails, report the error verbatim and stop — don't claim on a stale
   HEAD.
 
