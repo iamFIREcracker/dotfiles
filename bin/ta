@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 export TA_DIRS_CMD='mydirs'
-export TA_DIRS=$($TA_DIRS_CMD | tr '\n' ':')
 export TA_TAGS="EDITOR PLAN LLM TERMINAL START"
 
 exec ~/Workspace/ta/ta "$@"
