@@ -1,6 +1,6 @@
 ---
 name: retrospect
-description: Run the whole end-of-session retrospective pipeline — surface friction with desire-paths, surface follow-ups and tech debt with loose-ends, put every surfaced item through an adversarial challenge run, file the survivors as beads in the `bd` tracker, then hand off. Where desire-paths and loose-ends only describe, this one files what survives. Use when the user runs /retrospect, or asks to "run a retrospective", "wrap up the session properly", "do a proper end-of-session sweep", "close the session out and file the follow-ups".
+description: Run the whole end-of-session retrospective pipeline — surface friction with desire-paths, surface follow-ups and tech debt with loose-ends, put every surfaced item through an adversarial challenge run, file the survivors in the `bd` tracker — directly, or staged until they recur — then hand off. Where desire-paths and loose-ends only describe, this one files what survives. Use when the user runs /retrospect, or asks to "run a retrospective", "wrap up the session properly", "do a proper end-of-session sweep", "close the session out and file the follow-ups".
 ---
 
 # Retrospect
@@ -10,7 +10,8 @@ flags that should have existed) and loose ends (the bug you noticed and didn't f
 `/desire-paths` and `/loose-ends` each surface one kind and then stop, deliberately, so
 the user can decide. This skill is the pipeline that doesn't stop: it surfaces both,
 runs the combined list through an adversarial `/challenge` to find out which items are
-real, **files the survivors in the tracker**, and ends with `/handoff`.
+real, **files the survivors in the tracker** — directly, or staged until they recur —
+and ends with `/handoff`.
 
 Filing is the one deliberate departure from the skills it chains. Everything else is
 theirs: steps 1, 2, 3 and 5 are performed by **invoking those skills by name with the
@@ -112,9 +113,42 @@ If it fails with `no beads database found` / `No active beads workspace found`, 
 project isn't tracked in beads. **Do not run `bd init`** — creating a tracker is the
 user's call. Report the survivors in your response text instead, with their titles,
 types, priorities and descriptions, so the user can track them elsewhere, then go to
-step 5.
+step 5. Don't improvise a substitute either — no side file, no alternative staging
+medium: without a beads database there is no staging, and the response text is the whole
+of the filing step.
 
-Otherwise create **one bead per surviving item**:
+Otherwise, **map every survivor's type and priority first** — the tier gate below reads
+those values, so nothing can be filed until they exist:
+
+- **Loose-ends items** already carry `type` (bug | feature | task | chore) and `priority`
+  (0–4). Map them straight through; don't re-judge them.
+- **Desire-paths items** carry neither, so derive both:
+  - **Type** from what the paving actually is. A capability that should exist and doesn't
+    — a flag, a subcommand, an alias, a script, a one-step version of a multi-step
+    workflow — is a `feature`. Something that exists but behaves contrary to its own docs
+    or help, or an error message that actively misleads, is a `bug`. Docs, README and
+    help-text work is a `task`. A rename, a config tweak, a tidy-up with no behaviour
+    change is a `chore`. When it's genuinely unclear, `task`.
+  - **Priority** from effort and recurrence — low effort and likely to recur is `1`; low
+    effort but isolated is `2`; medium effort is `2` if it recurs, else `3`; high effort
+    is `3` if it recurs, else `4`. Never `0`: that is reserved for critical bugs, and
+    friction is not one.
+
+With those values in hand, each survivor goes down one of two paths:
+
+- **Direct-file tier** — the mapped type is `bug`, **or** the mapped priority is `0` or
+  `1`. It becomes a permanent bead now.
+- **Staging tier** — everything else: tasks, chores and features at priority 2–4. It is
+  staged as an ephemeral wisp and only reaches the backlog once it has recurred across
+  sessions.
+
+The split is deliberate. A real bug shouldn't have to bite session after session before
+anyone tracks it, and neither should work that already arrived marked urgent; the
+recurrence threshold exists for the small stuff, where surviving the challenge proves an
+item is *valid* but says nothing about whether it *matters*. Only the sessions you
+haven't had yet can answer that.
+
+**Direct-file tier.** Create one bead per item:
 
 ```bash
 bd create "<title>" --type <type> -p <priority> --body-file - --actor <agent-name> <<'EOF'
@@ -130,23 +164,69 @@ EOF
   SessionStart hook (e.g. `altair`), so the tracker's audit trail names this session's
   agent. If no name was announced, omit the flag and let bd fall back on its own
   (`$BEADS_ACTOR`, git's `user.name`, `$USER`).
-- **Loose-ends items** already carry `type` (bug | feature | task | chore) and `priority`
-  (0–4). Map them straight through; don't re-judge them.
-- **Desire-paths items** carry neither, so derive both:
-  - **Type** from what the paving actually is. A capability that should exist and doesn't
-    — a flag, a subcommand, an alias, a script, a one-step version of a multi-step
-    workflow — is a `feature`. Something that exists but behaves contrary to its own docs
-    or help, or an error message that actively misleads, is a `bug`. Docs, README and
-    help-text work is a `task`. A rename, a config tweak, a tidy-up with no behaviour
-    change is a `chore`. When it's genuinely unclear, `task`.
-  - **Priority** from effort and recurrence — low effort and likely to recur is `1`; low
-    effort but isolated is `2`; medium effort is `2` if it recurs, else `3`; high effort
-    is `3` if it recurs, else `4`. Never `0`: that is reserved for critical bugs, and
-    friction is not one.
 
-Report every created bead id with its title. If a `bd create` fails, report the error
-**verbatim** and carry on with the remaining items — one bad item doesn't abort the
-pipeline, and a half-filed retrospective is better than none.
+**Staging tier.** Staged items live as wisps — ephemeral beads, created with
+`--ephemeral` and labelled `staged`. Before you process any of them, enumerate what is
+already staged, **once for the whole step**:
+
+```bash
+bd ready --include-ephemeral -l staged --json
+```
+
+That is the enumeration path: wisps are invisible to `bd list`, label filter or not, and
+to a plain `bd ready`. Don't reach for either and conclude the staging area is empty.
+
+Then, per staging-tier item:
+
+- **Match by meaning.** Is this the same underlying friction or debt as one of the staged
+  wisps, however differently the two are worded? That judgment is yours, over the titles
+  and descriptions you just enumerated; `bd find-duplicates` can suggest candidates, but
+  it is an assistant to the judgment, not a substitute for it. A wrong merge silently
+  corrupts a count, so when you are genuinely unsure, treat it as **no match**.
+- **Match found** → flag the wisp again, with what this session saw:
+
+  ```bash
+  bd note <wisp-id> "flagged again: <one-line evidence from this session>" --actor <agent-name>
+  ```
+
+  `bd note` appends newline-separated lines to the wisp's notes field (readable with
+  `bd show <id> --json`), so its **flag count** is 1 for its creation plus one per
+  `flagged again` line.
+- **Threshold reached** → if that append brings the flag count to **3** — creation plus
+  two recurrences, a deliberately tunable number — the item has earned the backlog:
+
+  ```bash
+  bd promote <wisp-id> --reason "flagged <count> times across sessions" --actor <agent-name>
+  bd label remove <wisp-id> staged
+  ```
+
+  Promotion preserves the id, body, notes and labels, so the whole flag history rides
+  along into the permanent bead — and the label removal is not optional: without it the
+  promoted bead keeps answering the staged-wisp query forever.
+- **No match** → stage it: the same `bd create` shape as direct filing, with the mapped
+  type and priority, plus `--ephemeral -l staged`:
+
+  ```bash
+  bd create "<title>" --type <type> -p <priority> --ephemeral -l staged --body-file - --actor <agent-name> <<'EOF'
+  <description>
+  EOF
+  ```
+
+  The evidence-preservation rule applies to a wisp exactly as it does to a bead, and for
+  a sharper reason: a future session has to be able to recognise its own friction in this
+  body to match against it.
+
+**Wisps decay, and that's the point.** They are subject to TTL compaction, so a staged
+item can evaporate before it is ever flagged again. Let it. A friction that didn't recur
+before its wisp expired wasn't recurrent enough to be worth the backlog. Don't refresh,
+re-create, back up or otherwise nurse staged wisps past their TTL.
+
+Report all four outcomes, each with ids and titles: **filed directly** (bead id),
+**promoted** (bead id and the flag count that promoted it), **re-flagged** (wisp id and
+its new count), **newly staged** (wisp id). If any mutating command fails — `bd create`,
+`bd note`, `bd promote`, `bd label remove` — report the error **verbatim** and carry on
+with the remaining items; one bad item doesn't abort the pipeline, and a half-filed
+retrospective is better than none.
 
 ## 5. Hand off
 
