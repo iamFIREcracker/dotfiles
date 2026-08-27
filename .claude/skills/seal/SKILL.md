@@ -2,7 +2,7 @@
 name: seal
 description: Seal finished work before handoff — close the claimed bead in the beads (`bd`) issue tracker and commit the work together with the tracker's state flip as one self-contained commit. Use when the user runs `/seal`, or says "seal the work", "seal it", "ship it", "close out the bead", "wrap this up and commit".
 argument-hint: "[bead-id]"
-allowed-tools: Bash(bd:*), Bash(git:*)
+allowed-tools: Bash(bd:*), Bash(git:*), Bash(git show master:scripts/preseal 2>/dev/null | bash)
 ---
 
 # Seal
@@ -46,7 +46,26 @@ any bead you've claimed). Beads assigned to someone else, or to nobody, aren't y
   mention of any of them), don't guess: list the candidates and ask the user to re-run
   `/seal <bead-id>`.
 
-## 3. Flip
+## 3. Repo preseal check
+
+If the workspace is a git repository, run **master's** copy of the repo's preseal check
+now — before the flip, while the tree holds nothing but the session's work:
+
+```bash
+git show master:scripts/preseal 2>/dev/null | bash
+```
+
+Master's copy, not the checkout's: the fresh/stale verdict only compares git refs, so
+any copy agrees — but the remedy prose printed on STALE is exactly as old as the
+checkout, and STALE is precisely the case where the checkout is behind master.
+
+The script is the repo's own seal precondition (e.g. "HEAD must contain the current
+master tip, or the merge session can't fast-forward"). If it exits non-zero, report its
+output **verbatim** and stop — do not flip, do not commit. Fix what it names (typically:
+get HEAD onto the tip it demands, re-run the tests it names), then re-run `/seal`. No
+script on master (empty pipe, exit 0 with no output), or exit zero: carry on.
+
+## 4. Flip
 
 Close the bead **before** committing — bd exports its state to a git-tracked file under
 `.beads/`, and closing first means the tracker's "this is done" lands in the same commit
@@ -57,12 +76,12 @@ bd close <id> --reason "<one-line summary of what was done>" --suggest-next
 ```
 
 Write the reason yourself from what the session did — one plain sentence, not the bead
-title echoed back. Keep whatever `--suggest-next` prints; it feeds step 5.
+title echoed back. Keep whatever `--suggest-next` prints; it feeds step 6.
 
 If the close fails, report the error **verbatim** and stop — don't commit a tracker
 state you failed to change.
 
-## 4. Commit
+## 5. Commit
 
 Skip this step if the workspace isn't a git repository at all — there's nothing to commit
 into, so the seal is tracker-only. Say so.
@@ -75,7 +94,7 @@ git status
 
 Stage the files this session touched for the bead, plus whatever changed under
 `.beads/`. Unrelated dirt — changes you don't recognize as this bead's work — stays in
-the tree untouched; you'll mention it in step 5, not commit it. When in doubt about a
+the tree untouched; you'll mention it in step 6, not commit it. When in doubt about a
 file, leave it out: a sealed commit that's missing a stray file is honest, one that
 smuggles unrelated changes isn't.
 
@@ -91,7 +110,7 @@ carries just the `.beads` flip, and says so.
 
 **Never push.**
 
-## 5. Close the loop
+## 6. Close the loop
 
 Finish with a short report: which bead closed and the reason, the commit hash, what
 `--suggest-next` says is now unblocked (with a pointer to `/claim` for grabbing it), and
