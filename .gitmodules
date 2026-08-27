@@ -139,3 +139,6 @@
 [submodule ".vim/pack/iamFIREcracker/start/dwim.vim"]
 	path = .vim/pack/iamFIREcracker/start/dwim.vim
 	url = git@github.com:iamFIREcracker/dwim.vim.git
+[submodule ".vim/pack/iamFIREcracker/start/fold-ast"]
+	path = .vim/pack/iamFIREcracker/start/fold-ast
+	url = git@github.com:iamFIREcracker/fold-ast.git
