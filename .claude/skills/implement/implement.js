@@ -71,7 +71,22 @@ const runAgent = async (prompt, opts, { retryOk = true, mutates = false } = {}) 
 // otherwise lands twice in the main session (truncated notification + file read).
 // The complete objects remain in this run's journal.jsonl and the task output file.
 const slimFinding = f => ({ id: f.id, lens: f.lens, severity: f.severity, file: f.file, line: f.line, claim: f.claim })
-const slimVerdict = v => ({ id: v.id, verdict: v.verdict, mergedFrom: v.mergedFrom || [], reason: String(v.reason || '').slice(0, 240) })
+// The reason is the one field the final report quotes verbatim, so never cut it
+// mid-sentence: a run has at most a handful of verdicts, so the cap is generous, and an
+// overflow is cut at a sentence end (word break as fallback) and marked with an ellipsis.
+const trimReason = (r) => {
+  const s = String(r || '')
+  if (s.length <= 1200) return s
+  const head = s.slice(0, 1200)
+  const cut = Math.max(head.lastIndexOf('. '), head.lastIndexOf('! '), head.lastIndexOf('? '))
+  if (cut > 0) return head.slice(0, cut + 1) + ' […]'
+  // No sentence end in the head: back off to the last word break, but only when it keeps
+  // most of the budget — a head that is one unbroken token (a path, an identifier, minified
+  // code) would otherwise be thrown away entirely. Else keep the whole head.
+  const sp = head.lastIndexOf(' ')
+  return (sp > 600 ? head.slice(0, sp) : head) + ' […]'
+}
+const slimVerdict = v => ({ id: v.id, verdict: v.verdict, mergedFrom: v.mergedFrom || [], reason: trimReason(v.reason) })
 
 const IMPL_SCHEMA = {
   type: 'object',
