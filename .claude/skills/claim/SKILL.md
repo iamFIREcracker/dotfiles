@@ -23,8 +23,18 @@ next ready one.
 `bd` resolves its database per workspace, so first probe cheaply:
 
 ```bash
-bd ready --json
+bd ready
 ```
+
+Plain `bd ready`, not `--json`: the listing carries everything steps 1 and 4 consume —
+order, ids, priorities, titles — at a fraction of the size (measured: 3.1KB vs 66KB on a
+33-bead queue; the JSON dump repeats every full description, which nothing here reads —
+the one bead that needs its full record gets it from `bd show` at prime time). If a later
+step genuinely needs machine-parseable records, `bd ready --json | jq 'map({id, title,
+priority, issue_type})'` is the trimmed form — but keep this guard keyed on the stderr
+failure text below, never on an exit code read through a pipe: jq succeeds on empty
+stdin, so the pipeline exits 0 and masks bd's failure. Un-piped `bd ready` has no such
+hazard.
 
 If it fails with `no beads database found` / `No active beads workspace found`, this
 project isn't tracked in beads. Say so, mention the user's two options — `bd init` here,
@@ -86,8 +96,9 @@ dependency in bd, and a parent is a container, not work, until its children are 
 don't use `bd ready --claim` — it grabs the first ready issue with no eligibility check,
 epics included.
 
-An empty ready list (`[]`) means nothing is claimable. Say that plainly and point at
-`bd status` for the overview or `bd blocked` for what's stuck — then stop.
+An empty queue — step 1's listing reported no ready issues — means nothing is claimable.
+Say that plainly and point at `bd status` for the overview or `bd blocked` for what's
+stuck — then stop.
 
 Otherwise check children for every id in the ready set, in **one** batched call:
 
