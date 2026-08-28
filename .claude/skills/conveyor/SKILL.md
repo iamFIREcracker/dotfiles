@@ -168,9 +168,20 @@ What the pass does instead:
    here instead, with unrelated dirt reviewed as if this bead wrote it. The review is not
    optional: the implement workflow's out-of-tree rule and the direct seal below step
    around *both* of this pipeline's review mechanisms, so skipping it would land the
-   change with zero review. Apply the surviving findings yourself, in the main
-   session — the same permission rule that keeps `/implement` away from these files
-   applies to any subagent's edit.
+   change with zero review. Don't expect to apply the surviving findings yourself:
+   whenever a finding survives arbitration, `/challenge` ends with a Fix phase — an Opus
+   agent applies every confirmed finding itself, keeping a per-finding veto — and because
+   step 1 has typically already put this pass in manual permission mode, nothing stops
+   that fixer's edits to these out-of-tree files. (The auto-mode classifier is what
+   enforces the audit policy, and only in auto mode — ta-et7 verified it denies these
+   edits even from the main session there; in manual mode the subagent's edit goes
+   through.) So the main session's job after the run is to **verify**, not apply: re-read
+   the diff of the touched files, check each `applied` outcome actually matches its
+   finding, and re-run whatever verification the review used, before sealing. A run that
+   reports `clean` or `all-refuted` never reached the Fix phase — nothing was applied and
+   there is nothing to verify. Only a finding the fixer could not land — a permission
+   denial mid-run, or a `rejected-at-apply` you judge wrong — falls back to you to apply
+   by hand here.
 3. **Seal the bead directly** — invoke the `seal` skill. The commit mechanics, the
    out-of-workspace case included, are its step 5's to define and are not restated here.
    This is a deliberate exception to "workers never close beads": there is nothing for
