@@ -107,8 +107,14 @@ Walk the ready list in its original order and claim the first actionable bead:
 bd update <id> --claim
 ```
 
-If that claim fails, report the error **verbatim** and stop — don't quietly try the next
-candidate.
+One failure is expected here and is not an error condition: a lost claim race. Several
+sessions drain the same queue, so a bead that looked open in the ready list may be
+claimed in the window before your `bd update --claim` — the claim's atomicity then fails
+yours with `already claimed by <someone>`. When the failure text says that, report the
+race (name the bead and who won it) and claim the next actionable candidate from the
+already-computed list, repeating as needed — never silently: the announcement is what
+keeps the switch transparent. Any other failure — bad id, dead DB, permission error —
+report the error **verbatim** and stop; don't quietly try the next candidate.
 
 If the ready list is non-empty but nothing in it is actionable, claim nothing. Say plainly
 that everything "ready" is a parent still waiting on children, name those parents with how
@@ -122,8 +128,9 @@ bd update <id> --claim
 ```
 
 An explicit id is the user overriding the selection logic on purpose, so claim it even if
-it's a parent. If the id doesn't exist or the claim fails, report the error **verbatim**
-and stop. Never fall back to claiming something else; the user asked for that bead.
+it's a parent. If the id doesn't exist or the claim fails — a lost claim race included —
+report the error **verbatim** and stop. Never fall back to claiming something else; the
+user asked for that bead.
 
 Then check its children:
 
