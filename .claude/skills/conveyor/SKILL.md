@@ -133,7 +133,11 @@ For these, steps 3–6 are wrong by construction, and the pass **skips them**:
 What the pass does instead:
 
 1. **Edit in the main session** — do the bead's work directly in this conversation, on
-   the real files.
+   the real files. Note the auto-mode classifier can deny these out-of-tree edits **even
+   from the main session**: this step may need manual permission mode. That is deliberate
+   policy, not an accident — the user wants every skill edit audited, and has explicitly
+   declined a settings rule allowing these paths (ta-et7) — so if the denial fires, ask
+   the user to switch modes and retry rather than stalling on it.
 2. **Review before sealing** — run `/challenge` on this bead's own changes in the owning
    repo: the diff of the files this bead touched, not that repo's whole tree. The
    clean-tree precondition guards *this* repo only, and an out-of-tree repo like dotfiles
