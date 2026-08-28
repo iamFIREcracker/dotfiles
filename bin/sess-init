@@ -2,6 +2,14 @@
 
 set -xe
 
+# TA_GROUP is ta's ONE-SHOT override: it beats LC_TA_GROUP and session stamps on
+# every invocation, and set-but-empty means "leave group". If the login
+# environment happens to carry it, every child booted below (the tmuxinator tmux
+# server, and the alacritty terminals via start-terminal) would inherit it
+# permanently and drag regrouped sessions back. Scrub it once, here, so the whole
+# boot path below sees only the sticky LC_TA_GROUP.
+unset TA_GROUP
+
 if [ -f "${TMP}/started.lock" ]; then
     exit 0
 fi
@@ -18,15 +26,15 @@ if [ $HOSTNAME == "EU-C3GB434-L" ]; then
     disown
 fi
 
-TA_GROUP=main ~/bin/start-terminal editor
+LC_TA_GROUP=main ~/bin/start-terminal editor
 sleep 0.5
-TA_GROUP=main ~/bin/start-terminal llm
+LC_TA_GROUP=main ~/bin/start-terminal llm
 sleep 0.5
-TA_GROUP=main ~/bin/start-terminal start
+LC_TA_GROUP=main ~/bin/start-terminal start
 sleep 0.5
-TA_GROUP=main ~/bin/start-terminal terminal
+LC_TA_GROUP=main ~/bin/start-terminal terminal
 sleep 0.5
-TA_GROUP=off ~/bin/start-terminal plan
+LC_TA_GROUP=off ~/bin/start-terminal plan
 sleep 0.5
 
 date > "${TMP}/started.lock"

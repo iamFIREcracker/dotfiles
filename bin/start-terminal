@@ -4,50 +4,50 @@ function start() {
         editor)
             if [ $HOSTNAME == "EU-C3GB434-L" ]; then
                 pushd "$HOME/OneDrive - ION/personal/alacritty"
-                cmd.exe /c "EDITOR.bat" "$TA_GROUP"
+                cmd.exe /c "EDITOR.bat" "$LC_TA_GROUP"
                 popd
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
-                (SHLVL=0 alacritty --config-file ~/.config/alacritty/editor.toml -o "env.TA_GROUP='$TA_GROUP'" >/dev/null 2>&1 &)
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/editor.toml -o "env.LC_TA_GROUP='$LC_TA_GROUP'" >/dev/null 2>&1 &)
             fi
             ;;
         llm)
             if [ $HOSTNAME == "EU-C3GB434-L" ]; then
                 pushd "$HOME/OneDrive - ION/personal/alacritty"
-                cmd.exe /c "LLM.bat" "$TA_GROUP"
+                cmd.exe /c "LLM.bat" "$LC_TA_GROUP"
                 popd
                 sleep 0.5
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
-                (SHLVL=0 alacritty --config-file ~/.config/alacritty/llm.toml  -o "env.TA_GROUP='$TA_GROUP'" >/dev/null 2>&1 &)
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/llm.toml  -o "env.LC_TA_GROUP='$LC_TA_GROUP'" >/dev/null 2>&1 &)
             fi
             ;;
         plan)
             if [ $HOSTNAME == "EU-C3GB434-L" ]; then
                 pushd "$HOME/OneDrive - ION/personal/alacritty"
-                cmd.exe /c "PLAN.bat" "$TA_GROUP"
+                cmd.exe /c "PLAN.bat" "$LC_TA_GROUP"
                 popd
                 sleep 0.5
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
-                (SHLVL=0 alacritty --config-file ~/.config/alacritty/plan.toml  -o "env.TA_GROUP='$TA_GROUP'" >/dev/null 2>&1 &)
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/plan.toml  -o "env.LC_TA_GROUP='$LC_TA_GROUP'" >/dev/null 2>&1 &)
             fi
             ;;
         start)
             if [ $HOSTNAME == "EU-C3GB434-L" ]; then
                 pushd "$HOME/OneDrive - ION/personal/alacritty"
-                cmd.exe /c "START.bat" "$TA_GROUP"
+                cmd.exe /c "START.bat" "$LC_TA_GROUP"
                 popd
                 sleep 0.5
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
-                (SHLVL=0 alacritty --config-file ~/.config/alacritty/start.toml  -o "env.TA_GROUP='$TA_GROUP'" >/dev/null 2>&1 &)
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/start.toml  -o "env.LC_TA_GROUP='$LC_TA_GROUP'" >/dev/null 2>&1 &)
             fi
             ;;
         *)
             if [ $HOSTNAME == "EU-C3GB434-L" ]; then
                 pushd "$HOME/OneDrive - ION/personal/alacritty"
-                cmd.exe /c "TERMINAL.bat" "$TA_GROUP"
+                cmd.exe /c "TERMINAL.bat" "$LC_TA_GROUP"
                 popd
                 sleep 0.5
             elif [ $HOSTNAME == "beast.local" -o $HOSTNAME == "skinny.local" ]; then
-                (SHLVL=0 alacritty --config-file ~/.config/alacritty/alacritty.toml  -o "env.TA_GROUP='$TA_GROUP'" >/dev/null 2>&1 &)
+                (SHLVL=0 alacritty --config-file ~/.config/alacritty/alacritty.toml  -o "env.LC_TA_GROUP='$LC_TA_GROUP'" >/dev/null 2>&1 &)
             fi
             ;;
     esac
