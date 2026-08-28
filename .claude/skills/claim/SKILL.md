@@ -49,8 +49,16 @@ overriding the guard on purpose.
 Otherwise check what's already in flight:
 
 ```bash
-bd list --status in_progress --json
+bd list --status in_progress --json | jq 'map({id, title, assignee})'
 ```
+
+Trimmed for the same reason step 1 refuses `bd ready --json`: the raw dump repeats
+every in-progress bead's full description, and this guard reads only id, title and
+assignee. The pipe brings step 1's hazard with it: jq succeeds on empty stdin, so the
+pipeline exits 0 even when `bd` itself failed — and here a masked failure reads as
+"nothing in flight", waving the guard through. Never infer bd's success from the
+pipeline's exit status; judge the guard on jq's output (`[]` means genuinely nothing
+in progress), and if stderr carries a bd error, report it and stop instead of claiming.
 
 If any entry's `assignee` is the current actor (bd assigns under `$BEADS_ACTOR`, else
 git's `user.name`, else `$USER` — the name is on any bead you've claimed), stop before
