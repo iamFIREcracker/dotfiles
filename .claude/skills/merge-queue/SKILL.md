@@ -1,6 +1,6 @@
 ---
 name: merge-queue
-description: Sweep the merge queue from the project's main checkout — find the beads workers have handed over for review in the beads (`bd`) tracker, review each work branch against its bead, merge the ones that pass onto master and seal them, bounce the ones that don't back to their worker, then stop. Use when the user runs `/merge-queue`, or asks "anything waiting to be merged", "drain the merge queue", "review and land the worker branches", "process the review queue" — and typically under `/loop` so it sweeps on an interval.
+description: Sweep the merge queue from the project's main checkout — find the beads workers have handed over for review in the beads (`bd`) tracker, review each work branch against its bead, merge the ones that pass onto the main branch and seal them, bounce the ones that don't back to their worker, then stop. Use when the user runs `/merge-queue`, or asks "anything waiting to be merged", "drain the merge queue", "review and land the worker branches", "process the review queue" — and typically under `/loop` so it sweeps on an interval.
 allowed-tools: Bash(bd:*), Bash(git:*)
 ---
 
@@ -8,8 +8,8 @@ allowed-tools: Bash(bd:*), Bash(git:*)
 
 This is the **merger side** of a two-agent pipeline. Workers run `/conveyor` in git
 worktrees, producing one branch per bead and handing each over by mutating the bead. This
-skill runs in the project's **main checkout**, and it is the only agent with
-commit-to-master authority.
+skill runs in the project's **main checkout**, and it is the only agent allowed to commit
+to the main branch.
 
 Every invocation is a **complete, idempotent sweep**: enumerate what's waiting, process each
 entry, report, stop. It is written to be safe under `/loop` — so when the queue is empty it
@@ -52,15 +52,22 @@ isn't tracked in beads — there is no queue. Say so and stop. **Do not run `bd 
 **Repository.** The merger must be standing where it can land work:
 
 ```bash
+git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || git branch --list main master
 git rev-parse --abbrev-ref HEAD
 git status --porcelain
 ```
 
-It must be a git repository, on `master` (or whatever this repo's main branch is called),
-with a clean tree. A detached HEAD, a checked-out feature branch, or a dirty tree means this
-is not the main checkout in its resting state — report what you found **verbatim** and stop.
-Don't repair that entry state yourself on the way past: no stashing, no switching branches
-to get onto master, no merging from where you happen to be standing.
+The first line names this repo's main branch: `origin/<name>` when the clone has recorded
+the remote's default branch (`git remote set-head origin -a` records it), else whichever
+of `main` / `master` exists locally. Never assume `master`; every `<main>` below is that
+name, `origin/` prefix dropped. Nothing printed, or two names: report what you saw
+**verbatim** and stop rather than guess.
+
+It must be a git repository, checked out on `<main>`, with a clean tree. A detached HEAD, a
+checked-out feature branch, or a dirty tree means this is not the main checkout in its
+resting state — report what you found **verbatim** and stop. Don't repair that entry state
+yourself on the way past: no stashing, no switching branches to get onto `<main>`, no
+merging from where you happen to be standing.
 
 ## 2. Enumerate
 
@@ -111,8 +118,8 @@ makes the rebase in step 4 apply to the fewest branches.
 Per bead, read the whole changeset the branch proposes:
 
 ```bash
-git log --oneline master..<branch>
-git diff master...<branch>
+git log --oneline <main>..<branch>
+git diff <main>...<branch>
 ```
 
 and read what the bead actually asked for, from the record you already fetched — description,
@@ -127,16 +134,16 @@ already happened on the worker side. Three questions, and no more:
   something that plainly can't work?
 
 If the repo has a known test command (its CLAUDE.md or its usual scripts will say), run it —
-and the tree has to be holding the branch's content first, or you are testing a master that
+and the tree has to be holding the branch's content first, or you are testing a `<main>` that
 doesn't contain the change:
 
 ```bash
 git checkout <branch>
 # run the repo's test command here
-git checkout master
+git checkout <main>
 ```
 
-Go back to master before step 4 whichever way the tests land. This checkout is for reading
+Go back to `<main>` before step 4 whichever way the tests land. This checkout is for reading
 and running only: don't fix anything on the branch, don't commit on it. And if step 4 has to
 rebase before it can fast-forward, re-run the test command on the rebased tip — what lands is
 then not what you tested. A failing test suite is a fail, not a footnote.
@@ -159,27 +166,27 @@ then not what you tested. A failing test suite is a fail, not a footnote.
 
 ## 4. Merge
 
-Land the branch on master. What must hold: master ends up containing the work, and history
+Land the branch on `<main>`. What must hold: `<main>` ends up containing the work, and history
 stays linear if this repo's history is linear.
 
 ```bash
 git merge --ff-only <branch>
 ```
 
-When master has moved since the branch was cut — commonly because an earlier bead in this
-same sweep just landed — the fast-forward is refused. Rebase the branch onto master, then
+When `<main>` has moved since the branch was cut — commonly because an earlier bead in this
+same sweep just landed — the fast-forward is refused. Rebase the branch onto `<main>`, then
 fast-forward:
 
 ```bash
-git rebase master <branch>
-git checkout master
+git rebase <main> <branch>
+git checkout <main>
 git merge --ff-only <branch>
 ```
 
 A **rebase conflict is a bounce**, never a merge resolved on the merger's own judgment:
-`git rebase --abort`, return to master, and take the step 3 fail path with the conflicting
+`git rebase --abort`, return to `<main>`, and take the step 3 fail path with the conflicting
 paths named in the note. The worker owns its code; guessing at a resolution here is how
-plausible-looking wrong merges reach master.
+plausible-looking wrong merges reach the main branch.
 
 Any other failing git command: report it **verbatim**, leave the bead in the queue untouched,
 and carry on with the next bead.
@@ -198,7 +205,7 @@ After a successful seal, the branch has served its purpose:
 git branch -d <branch>
 ```
 
-Use `-d`, not `-D`: it refuses to delete anything master doesn't already contain, which is
+Use `-d`, not `-D`: it refuses to delete anything `<main>` doesn't already contain, which is
 exactly the safety you want here. If it refuses, report that **verbatim** and leave the
 branch in place.
 
@@ -211,7 +218,7 @@ not.
 
 Report the sweep, in four buckets, omitting the ones that are empty:
 
-- **Merged & sealed** — bead id and title, branch, the commit master ended up at.
+- **Merged & sealed** — bead id and title, branch, the commit `<main>` ended up at.
 - **Bounced** — bead id, the worker it went back to, and why in one line.
 - **Skipped** — bead id and the reason verbatim: missing metadata, missing branch, a failing
   command, a seal that didn't complete.
@@ -220,5 +227,5 @@ Report the sweep, in four buckets, omitting the ones that are empty:
 Or, when there was nothing to do, the single line: the merge queue is empty.
 
 Then stop. Merge queue **never claims, never implements, never pushes** — it takes no bead
-off the ready queue, it writes no code to fix what it bounced, and pushing master is
+off the ready queue, it writes no code to fix what it bounced, and pushing `<main>` is
 somebody else's decision. No retrospectives either; that is a separate, deliberate call.

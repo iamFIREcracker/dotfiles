@@ -2,7 +2,7 @@
 name: claim
 description: Claim the next ready bead from the beads (`bd`) issue tracker — the first open issue with no active blockers — mark it in_progress and assigned, then prime the session with its full details so later turns can implement it without re-fetching. Use when the user runs `/claim`, or asks "what's next", "pick up the next task", "pick up the next bead", "grab the next issue", or names a specific bead to start on.
 argument-hint: "[bead-id]"
-allowed-tools: Bash(bd:*), Bash(git:*), Bash(git show master:scripts/preseal 2>/dev/null | bash)
+allowed-tools: Bash(bd:*), Bash(git:*), Bash(git show refs/heads/main:scripts/preseal | bash), Bash(git show refs/heads/master:scripts/preseal | bash)
 ---
 
 # Claim
@@ -69,29 +69,48 @@ ignore them and carry on.
 
 ## 3. Freshness guard (git repos)
 
-Worktrees drift: master can move while a worktree sits on an older commit, and anything
-this worktree reads from its own HEAD — including workflow docs and scripts — is exactly
-as stale as the checkout. So before claiming, run **master's** copy of the repo's
-freshness check, not the worktree's:
+Worktrees drift: the main branch can move while a worktree sits on an older commit, and
+anything this worktree reads from its own HEAD — including workflow docs and scripts — is
+exactly as stale as the checkout. So before claiming, run the **main branch's** copy of the
+repo's freshness check, not the worktree's. First find out what that branch is called
+here — never assume `master`; repos differ:
 
 ```bash
-git show master:scripts/preseal 2>/dev/null | bash
+git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || git branch --list main master
 ```
 
-- Not a git repo, or `master:scripts/preseal` doesn't exist (empty pipe, exit 0 with no
-  output): the repo has no freshness check — silently carry on to the claim.
+The first command prints `origin/<name>` when the clone has recorded the remote's default
+branch (`git remote set-head origin -a` records it); otherwise the second lists whichever
+of `main` / `master` exists locally. `<main>` below stands for that name, `origin/`
+prefix dropped. Nothing printed, or two names: don't guess — report what you saw and
+stop; `git remote set-head origin -a` is the fix. Then run the check, `<main>` spelled
+out, and with the `refs/heads/` prefix so a tag of the same name can't shadow the branch:
+
+```bash
+git show refs/heads/<main>:scripts/preseal | bash
+```
+
+No `2>/dev/null`: stderr is what tells "no script" apart from "no such branch". The pipe
+exits with `bash`'s status either way, so read the stderr line, not just the exit code.
+
+- Not a git repo: the repo has no freshness check — silently carry on to the claim.
+- `fatal: path 'scripts/preseal' does not exist in 'refs/heads/<main>'` (empty pipe,
+  exit 0): same — the repo has no freshness check; carry on.
+- `fatal: invalid object name 'refs/heads/<main>'`: the branch isn't there, so the guard
+  did not run. Report it verbatim and stop — a guard that could not run is not a guard
+  that passed.
 - Exit 0 with a "fresh" report: carry on.
 - Stale HEAD: fix it **before** claiming. With a clean tree and no local commits,
-  `git merge --ff-only master`. With local commits, follow the check's printed fix
-  (typically `git rebase master`, then re-run the touched test suites). With uncommitted
+  `git merge --ff-only <main>`. With local commits, follow the check's printed fix
+  (typically `git rebase <main>`, then re-run the touched test suites). With uncommitted
   changes, don't touch anything — report the check's output verbatim and stop. After a
-  fix, re-run the master copy of the check to confirm it now reports fresh.
+  fix, re-run the check to confirm it now reports fresh.
 - Clean but diverged — the normal state after this worktree's last seal was landed as a
-  rebased pick: `git merge --ff-only master` fails with "Not possible to fast-forward".
-  When that happens, the tree is clean, and `git cherry master HEAD` prints only `-`
-  lines (every commit in master..HEAD is patch-equivalent to one already on master), use
-  `git checkout --detach master` instead. If `git cherry` prints any `+` line, HEAD has
-  real work master lacks — treat it as the local-commits case above.
+  rebased pick: `git merge --ff-only <main>` fails with "Not possible to fast-forward".
+  When that happens, the tree is clean, and `git cherry <main> HEAD` prints only `-`
+  lines (every commit in `<main>..HEAD` is patch-equivalent to one already on `<main>`),
+  use `git checkout --detach <main>` instead. If `git cherry` prints any `+` line, HEAD
+  has real work `<main>` lacks — treat it as the local-commits case above.
 - If the fix itself fails, report the error verbatim and stop — don't claim on a stale
   HEAD.
 

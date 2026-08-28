@@ -9,7 +9,7 @@ allowed-tools: Bash(bd:*), Bash(git:*)
 
 This is the **worker side** of a two-agent pipeline. Workers run in git worktrees of a
 project repo and produce branches; a separate merger, running in the project's main
-checkout, is the only agent with commit-to-master authority. Conveyor never crosses that
+checkout, is the only agent allowed to commit to the main branch. Conveyor never crosses that
 line: it claims, implements, commits **on a work branch**, and hands the bead over by
 mutating the bead itself.
 
@@ -108,7 +108,7 @@ claim's argument; otherwise invoke it with no arguments so it takes the head of 
 
 Claim runs before the branch is cut, deliberately. Its guards — already-working, freshness —
 should fire before this pass has created any bead-specific state, and the checkout its
-freshness guard may fast-forward or detach onto master is then the plain pre-branch worktree
+freshness guard may fast-forward or detach onto the main branch is then the plain pre-branch worktree
 rather than a work branch cut moments earlier for this bead. The branch name needs the bead
 id claim produces, too.
 
@@ -192,16 +192,23 @@ What the pass does instead:
 
 ## 3. Branch
 
-Cut a fresh work branch for this bead off the current master tip:
+Cut a fresh work branch for this bead off the current tip of the main branch. `<main>` is
+the name claim's freshness guard resolved in step 2 (`main`, `master`, whatever this repo
+calls it); if it isn't in hand, resolve it again rather than guessing — `git checkout -b …
+master` on a `main` repo fails with `fatal: 'master' is not a commit`:
 
 ```bash
-git checkout -b conveyor/<bead-id> master
+git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || git branch --list main master
+```
+
+```bash
+git checkout -b conveyor/<bead-id> <main>
 ```
 
 The branch name is `conveyor/<bead-id>` — one bead, one branch, and the prefix keeps a
 worker's output distinguishable in `git branch` from whatever else the repo carries.
 
-Branching every bead from master is safe by construction: the ready queue is blocker-aware,
+Branching every bead from the main branch is safe by construction: the ready queue is blocker-aware,
 so a ready bead never depends on unmerged in-flight work.
 
 If the branch already exists, don't reuse it and don't force it — report the error
@@ -265,7 +272,7 @@ Commit on the work branch, bead id leading the message:
 <id>: <bead title>
 ```
 
-**Never commit to master, never merge, never push.** Commit-to-master authority belongs to
+**Never commit to the main branch, never merge, never push.** That authority belongs to
 the merger; a worker that lands its own work makes the review queue a fiction. If the commit
 fails, report the error **verbatim**, end the pass and say the enclosing loop must be
 stopped.
@@ -275,11 +282,11 @@ stopped.
 Put the checkout back where step 3 of the **next** pass expects to find it:
 
 ```bash
-git checkout --detach master
+git checkout --detach <main>
 ```
 
-Detached, not `git checkout master`: workers live in worktrees of a repo whose main checkout
-already holds master, and git refuses to check out the same branch twice. Leave the work
+Detached, not `git checkout <main>`: workers live in worktrees of a repo whose main checkout
+already holds that branch, and git refuses to check out the same branch twice. Leave the work
 branch behind exactly as committed — the merger reads it, merges it, and deletes it. Deleting
 it here would throw the work away.
 
@@ -298,7 +305,7 @@ Report this one pass — not a run of beads:
   means the `/loop` must be stopped and the user has a decision to make.
 - Any unrelated dirt left in the tree, and where the checkout is sitting now.
 
-Then stop. Conveyor **never commits to master, never merges, never pushes** — the merger does
+Then stop. Conveyor **never commits to the main branch, never merges, never pushes** — the merger does
 that, and `/merge-queue` is the skill that runs it. Don't review the branch you produced,
 don't chase the bead you handed over, and don't run a retrospective; those are separate,
 deliberate calls the user makes.

@@ -2,7 +2,7 @@
 name: seal
 description: Seal finished work before handoff — close the claimed bead in the beads (`bd`) issue tracker and commit the work together with the tracker's state flip as one self-contained commit. Use when the user runs `/seal`, or says "seal the work", "seal it", "ship it", "close out the bead", "wrap this up and commit".
 argument-hint: "[bead-id]"
-allowed-tools: Bash(bd:*), Bash(git:*), Bash(git show master:scripts/preseal 2>/dev/null | bash)
+allowed-tools: Bash(bd:*), Bash(git:*), Bash(git show refs/heads/main:scripts/preseal | bash), Bash(git show refs/heads/master:scripts/preseal | bash)
 ---
 
 # Seal
@@ -62,22 +62,38 @@ The one out-of-tree case that still runs the gate: if this workspace's `bd close
 to a git-tracked `.beads/` file, step 5 commits that flip *here*, on the very HEAD this
 check judges — so run it as usual. In-repo seals run the gate unchanged.
 
-Otherwise, if the workspace is a git repository, run **master's** copy of the repo's preseal check
-now — before the flip, while the tree holds nothing but the session's work:
+Otherwise, if the workspace is a git repository, run the **main branch's** copy of the
+repo's preseal check now — before the flip, while the tree holds nothing but the session's
+work. First find out what that branch is called here — never assume `master`; repos
+differ:
 
 ```bash
-git show master:scripts/preseal 2>/dev/null | bash
+git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || git branch --list main master
 ```
 
-Master's copy, not the checkout's: the fresh/stale verdict only compares git refs, so
-any copy agrees — but the remedy prose printed on STALE is exactly as old as the
-checkout, and STALE is precisely the case where the checkout is behind master.
+`origin/<name>` when the clone has recorded the remote's default branch, else whichever of
+`main` / `master` exists locally; `<main>` is that name without the `origin/` prefix.
+Nothing printed, or two names: don't guess — report what you saw and stop (`git remote
+set-head origin -a` is the fix). Then, with `<main>` spelled out and the `refs/heads/`
+prefix so a same-named tag can't shadow the branch:
+
+```bash
+git show refs/heads/<main>:scripts/preseal | bash
+```
+
+The main branch's copy, not the checkout's: the fresh/stale verdict only compares git
+refs, so any copy agrees — but the remedy prose printed on STALE is exactly as old as the
+checkout, and STALE is precisely the case where the checkout is behind the main branch.
 
 The script is the repo's own seal precondition (e.g. "HEAD must contain the current
-master tip, or the merge session can't fast-forward"). If it exits non-zero, report its
-output **verbatim** and stop — do not flip, do not commit. Fix what it names (typically:
-get HEAD onto the tip it demands, re-run the tests it names), then re-run `/seal`. No
-script on master (empty pipe, exit 0 with no output), or exit zero: carry on.
+main-branch tip, or the merge session can't fast-forward"). If it exits non-zero, report
+its output **verbatim** and stop — do not flip, do not commit. Fix what it names
+(typically: get HEAD onto the tip it demands, re-run the tests it names), then re-run
+`/seal`. Read stderr, not just the exit code — the pipe exits with `bash`'s status either
+way: `fatal: path 'scripts/preseal' does not exist in 'refs/heads/<main>'` means the repo
+has no check — carry on; `fatal: invalid object name 'refs/heads/<main>'` means the branch
+isn't there and the guard did not run — report it and stop, a guard that could not run is
+not a guard that passed. Exit zero with output: carry on.
 
 ## 4. Flip
 
