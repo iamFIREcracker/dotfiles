@@ -48,7 +48,21 @@ any bead you've claimed). Beads assigned to someone else, or to nobody, aren't y
 
 ## 3. Repo preseal check
 
-If the workspace is a git repository, run **master's** copy of the repo's preseal check
+**Skip this check for an out-of-tree bead** — one whose artifact resolves outside the
+workspace repo — when the seal will leave this repo with nothing to commit. The signal is
+there at claim time: the primer names the artifact, and it isn't a path in this repo (in
+this setup, typically a skill file under `~/.config/claude/skills/` that resolves into the
+dotfiles repo). The check's whole rationale is "sealing now would produce a commit the
+merge session cannot fast-forward" — but such a seal produces no commit here (in a
+Dolt-backed workspace the flip doesn't even dirty `.beads/`), so its verdict guards
+nothing and a STALE result is a spurious stop. Skip straight to step 4 and say in step 6's
+report that the check was skipped and why.
+
+The one out-of-tree case that still runs the gate: if this workspace's `bd close` exports
+to a git-tracked `.beads/` file, step 5 commits that flip *here*, on the very HEAD this
+check judges — so run it as usual. In-repo seals run the gate unchanged.
+
+Otherwise, if the workspace is a git repository, run **master's** copy of the repo's preseal check
 now — before the flip, while the tree holds nothing but the session's work:
 
 ```bash
@@ -86,7 +100,14 @@ state you failed to change.
 Skip this step if the workspace isn't a git repository at all — there's nothing to commit
 into, so the seal is tracker-only. Say so.
 
-Otherwise, look before staging:
+**Out-of-tree bead** (the step-3 case): the bead's work lives in the repo that *owns* the
+artifact — dotfiles, not this workspace — so that repo is the one this step commits into.
+Everything below applies there (`git -C <owning-repo> …`), with one extra care: an owning
+repo like dotfiles is routinely dirty with unrelated user work, so stage this bead's files
+by path and never `git add -A`. This workspace gets a commit only if the flip left
+`.beads/` dirt here — if it did, commit that here too, by the normal path below.
+
+In the repo that gets the commit, look before staging:
 
 ```bash
 git status
@@ -112,7 +133,8 @@ carries just the `.beads` flip, and says so.
 
 ## 6. Close the loop
 
-Finish with a short report: which bead closed and the reason, the commit hash, what
+Finish with a short report: which bead closed and the reason, the commit hash and which
+repo it landed in — or that nothing was committed — whether step 3's check ran, what
 `--suggest-next` says is now unblocked (with a pointer to `/claim` for grabbing it), and
 any unrelated dirt you left in the tree.
 
