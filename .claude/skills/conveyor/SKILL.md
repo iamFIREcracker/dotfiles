@@ -31,7 +31,11 @@ for permission part-way. Running `/conveyor` under `/loop` is likewise the opt-i
 stream of passes that follows.
 
 `$ARGUMENTS`, if present, is a bead id (e.g. `bd-42`): process **exactly that bead** — pass
-the id straight through to claim instead of letting it take the head of the queue.
+the id straight through to claim instead of letting it take the head of the queue. The
+argument can also be anaphoric — "it", "this one" — after a `/claim` earlier in this same
+conversation: resolve it to the bead that claim primed and hand that bead to step 2, which
+decides on its own conditions whether its skip-claim case applies or the claim is invoked
+again.
 
 ## The review handoff
 
@@ -80,8 +84,27 @@ bead's work. Let the user clean it up and re-run.
 
 ## 2. Claim
 
-Invoke the `claim` skill. If `$ARGUMENTS` named a bead id, pass it through as claim's
-argument; otherwise invoke it with no arguments so it takes the head of the queue.
+**Skip the claim for a bead this conversation already claimed.** When `$ARGUMENTS` —
+directly or anaphorically — names a bead that **this conversation itself claimed** (a
+`/claim` run earlier in the session) **and has not since handed off**, don't re-invoke the
+skill: the primer it exists to produce is already in the conversation, and claim's guards
+already ran for this bead. Take the bead id and the assignee from that in-hand primer and
+carry on exactly where a successful claim would have left you — the skip bypasses the claim
+invocation and nothing else. In particular the out-of-tree carve-out below still applies:
+check it against the primer already in hand, which names the artifact just as a fresh one
+would. Then go on to step 3.
+
+The claimed-in-this-conversation condition is load-bearing, not a convenience. A bead the
+merger bounced back is *also* in_progress and assigned to this worker, but the primer in
+hand for it is the stale pre-bounce one, and the merger's what-fell-short note reaches the
+pass only through claim's re-priming `bd show`. So a re-held bead this conversation did
+not claim itself — a bounce, or a resume of older half-done work — falls through to the
+normal claim invocation below. When in doubt, fall through too: claim's explicit-id path
+is documented idempotent, so re-claiming a bead you already hold is harmless, just
+redundant — the skip exists to avoid the redundancy, never to dodge a guard.
+
+Otherwise, invoke the `claim` skill. If `$ARGUMENTS` named a bead id, pass it through as
+claim's argument; otherwise invoke it with no arguments so it takes the head of the queue.
 
 Claim runs before the branch is cut, deliberately. Its guards — already-working, freshness —
 should fire before this pass has created any bead-specific state, and the checkout its
