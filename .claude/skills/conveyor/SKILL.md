@@ -116,6 +116,42 @@ prose:
 bd show <id> --json
 ```
 
+## Out-of-tree beads: the carve-out
+
+Some beads' artifact lies outside the project working tree — in this setup, typically a
+skill file under `~/.config/claude/skills/` that resolves into the dotfiles repo. Spot
+them at claim time: the primer names the artifact, and it isn't a path in this repo.
+For these, steps 3–6 are wrong by construction, and the pass **skips them**:
+
+- The work branch would be empty — the artifact isn't in this repo, and in a Dolt-backed
+  workspace the tracker flip leaves no `.beads/` dirt to carry either.
+- The `/implement` workflow can't make the edit: its own spec-writing rule routes
+  out-of-tree edits to the main session, because the auto-mode permission classifier
+  denies them to workflow subagents.
+- The merge queue can't merge an out-of-tree change from a branch in this repo.
+
+What the pass does instead:
+
+1. **Edit in the main session** — do the bead's work directly in this conversation, on
+   the real files.
+2. **Review before sealing** — run `/challenge` on this bead's own changes in the owning
+   repo: the diff of the files this bead touched, not that repo's whole tree. The
+   clean-tree precondition guards *this* repo only, and an out-of-tree repo like dotfiles
+   is routinely dirty — scope the diff by hand, or that precondition's rationale bites
+   here instead, with unrelated dirt reviewed as if this bead wrote it. The review is not
+   optional: the implement workflow's out-of-tree rule and the direct seal below step
+   around *both* of this pipeline's review mechanisms, so skipping it would land the
+   change with zero review. Apply the surviving findings yourself, in the main
+   session — the same permission rule that keeps `/implement` away from these files
+   applies to any subagent's edit.
+3. **Seal the bead directly** — invoke the `seal` skill. The commit mechanics, the
+   out-of-workspace case included, are its step 5's to define and are not restated here.
+   This is a deliberate exception to "workers never close beads": there is nothing for
+   the merger to merge, so the review handoff has no object.
+4. **Report the deviation** in step 7's pass report: that the bead was out-of-tree, the
+   review that ran and what it found, and what the seal committed and where — or that it
+   committed nothing.
+
 ## 3. Branch
 
 Cut a fresh work branch for this bead off the current master tip:
