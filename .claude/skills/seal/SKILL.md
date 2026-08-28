@@ -68,14 +68,19 @@ work. First find out what that branch is called here — never assume `master`; 
 differ:
 
 ```bash
-git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || git branch --list main master
+git rev-parse --verify --quiet refs/remotes/origin/HEAD >/dev/null && git symbolic-ref --short refs/remotes/origin/HEAD || git branch --list main master
 ```
 
-`origin/<name>` when the clone has recorded the remote's default branch, else whichever of
-`main` / `master` exists locally; `<main>` is that name without the `origin/` prefix.
-Nothing printed, or two names: don't guess — report what you saw and stop (`git remote
-set-head origin -a` is the fix). Then, with `<main>` spelled out and the `refs/heads/`
-prefix so a same-named tag can't shadow the branch:
+`origin/<name>` when the clone has recorded the remote's default branch and that record
+still resolves, else whichever of `main` / `master` exists locally; `<main>` is that name
+without the `origin/` prefix. The `rev-parse` is what keeps a **dangling** record from
+being trusted — `origin/HEAD` still pointing at a branch a `git fetch --prune` removed,
+which `git symbolic-ref` alone prints as if it were current; git then says `warning:
+ignoring dangling symref refs/remotes/origin/HEAD` on stderr and the branch list runs
+instead, which is the intended path, not a failure. Nothing printed, or two names: don't
+guess — report what you saw and stop (`git remote set-head origin -a` is the fix). Then,
+with `<main>` spelled out and the `refs/heads/` prefix so a same-named tag can't shadow
+the branch:
 
 ```bash
 git show refs/heads/<main>:scripts/preseal | bash
@@ -90,10 +95,17 @@ main-branch tip, or the merge session can't fast-forward"). If it exits non-zero
 its output **verbatim** and stop — do not flip, do not commit. Fix what it names
 (typically: get HEAD onto the tip it demands, re-run the tests it names), then re-run
 `/seal`. Read stderr, not just the exit code — the pipe exits with `bash`'s status either
-way: `fatal: path 'scripts/preseal' does not exist in 'refs/heads/<main>'` means the repo
-has no check — carry on; `fatal: invalid object name 'refs/heads/<main>'` means the branch
-isn't there and the guard did not run — report it and stop, a guard that could not run is
-not a guard that passed. Exit zero with output: carry on.
+way: `fatal: path 'scripts/preseal' does not exist in 'refs/heads/<main>'`, or `fatal:
+path 'scripts/preseal' exists on disk, but not in 'refs/heads/<main>'` — git prints the
+second variant when a copy is in the worktree but not yet on `<main>`, which is exactly
+the seal that *introduces* a repo's preseal script — both mean `<main>` carries no check,
+so carry on; `fatal: invalid object name 'refs/heads/<main>'` means the branch isn't there
+and the guard did not run — report it and stop, a guard that could not run is not a guard
+that passed. Exit zero with output: carry on.
+
+That guard command is pre-approved only for `main` and `master`; if `<main>` resolved to
+any other name the `| bash` half will ask for permission — expected, not a failure, and
+not something to route around by dropping `| bash` or piping somewhere else.
 
 ## 4. Flip
 

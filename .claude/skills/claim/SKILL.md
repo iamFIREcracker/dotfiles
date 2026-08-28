@@ -72,16 +72,25 @@ ignore them and carry on.
 Worktrees drift: the main branch can move while a worktree sits on an older commit, and
 anything this worktree reads from its own HEAD — including workflow docs and scripts — is
 exactly as stale as the checkout. So before claiming, run the **main branch's** copy of the
-repo's freshness check, not the worktree's. First find out what that branch is called
-here — never assume `master`; repos differ:
+repo's freshness check, not the worktree's.
+
+If the workspace is a git repository (`git rev-parse --show-toplevel` succeeds — if it
+fails with `fatal: not a git repository`, there is no freshness check to run at all:
+silently carry on to step 4), first find out what that branch is called here — never
+assume `master`; repos differ:
 
 ```bash
-git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || git branch --list main master
+git rev-parse --verify --quiet refs/remotes/origin/HEAD >/dev/null && git symbolic-ref --short refs/remotes/origin/HEAD || git branch --list main master
 ```
 
-The first command prints `origin/<name>` when the clone has recorded the remote's default
-branch (`git remote set-head origin -a` records it); otherwise the second lists whichever
-of `main` / `master` exists locally. `<main>` below stands for that name, `origin/`
+The first half prints `origin/<name>` when the clone has recorded the remote's default
+branch *and* that record still resolves (`git remote set-head origin -a` records it);
+otherwise the second lists whichever of `main` / `master` exists locally. The `rev-parse`
+is what keeps a **dangling** record from being trusted — `origin/HEAD` still pointing at a
+branch a `git fetch --prune` removed, which `git symbolic-ref` alone happily prints as if
+it were current. When that happens git says `warning: ignoring dangling symref
+refs/remotes/origin/HEAD` on stderr and the branch list runs instead: that fall-through is
+the intended path, not a failure. `<main>` below stands for the resolved name, `origin/`
 prefix dropped. Nothing printed, or two names: don't guess — report what you saw and
 stop; `git remote set-head origin -a` is the fix. Then run the check, `<main>` spelled
 out, and with the `refs/heads/` prefix so a tag of the same name can't shadow the branch:
@@ -92,10 +101,17 @@ git show refs/heads/<main>:scripts/preseal | bash
 
 No `2>/dev/null`: stderr is what tells "no script" apart from "no such branch". The pipe
 exits with `bash`'s status either way, so read the stderr line, not just the exit code.
+That exact command is pre-approved only for `main` and `master`; if `<main>` resolved to
+any other name the `| bash` half will ask for permission — expected, not a failure, and
+not something to route around by dropping `| bash` or piping somewhere else.
 
-- Not a git repo: the repo has no freshness check — silently carry on to the claim.
 - `fatal: path 'scripts/preseal' does not exist in 'refs/heads/<main>'` (empty pipe,
-  exit 0): same — the repo has no freshness check; carry on.
+  exit 0): the repo has no freshness check; carry on.
+- `fatal: path 'scripts/preseal' exists on disk, but not in 'refs/heads/<main>'` (also an
+  empty pipe, exit 0): the same verdict — `<main>` carries no check. Git prints this
+  variant instead when a copy of the script is sitting in the worktree but isn't on
+  `<main>` yet: the checkout is on a branch that adds it, or it's still uncommitted.
+  Carry on.
 - `fatal: invalid object name 'refs/heads/<main>'`: the branch isn't there, so the guard
   did not run. Report it verbatim and stop — a guard that could not run is not a guard
   that passed.

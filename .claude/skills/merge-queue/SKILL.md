@@ -52,14 +52,17 @@ isn't tracked in beads — there is no queue. Say so and stop. **Do not run `bd 
 **Repository.** The merger must be standing where it can land work:
 
 ```bash
-git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || git branch --list main master
+git rev-parse --verify --quiet refs/remotes/origin/HEAD >/dev/null && git symbolic-ref --short refs/remotes/origin/HEAD || git branch --list main master
 git rev-parse --abbrev-ref HEAD
 git status --porcelain
 ```
 
 The first line names this repo's main branch: `origin/<name>` when the clone has recorded
-the remote's default branch (`git remote set-head origin -a` records it), else whichever
-of `main` / `master` exists locally. Never assume `master`; every `<main>` below is that
+the remote's default branch and that record still resolves (`git remote set-head origin -a`
+records it), else whichever of `main` / `master` exists locally — the `rev-parse` is what
+stops a dangling `origin/HEAD`, left pointing at a branch `git fetch --prune` removed, from
+being trusted; `warning: ignoring dangling symref` on stderr means the fallback ran, which
+is the intended path. Never assume `master`; every `<main>` below is that
 name, `origin/` prefix dropped. Nothing printed, or two names: report what you saw
 **verbatim** and stop rather than guess.
 

@@ -198,7 +198,7 @@ calls it); if it isn't in hand, resolve it again rather than guessing — `git c
 master` on a `main` repo fails with `fatal: 'master' is not a commit`:
 
 ```bash
-git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null || git branch --list main master
+git rev-parse --verify --quiet refs/remotes/origin/HEAD >/dev/null && git symbolic-ref --short refs/remotes/origin/HEAD || git branch --list main master
 ```
 
 ```bash
