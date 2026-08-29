@@ -27,6 +27,11 @@ Two of conveyor's closing habits read differently inside a shift:
   it tells the user whether something needs their decision before the next shift.
 - Its rule that a retrospective is a separate, deliberate call the user makes is not
   breached by step 2: `/shift` **is** that deliberate call.
+- Its review gate (conveyor step 5) stops the pass for the user's look when the project
+  defines one. Then the shift stops there too — the retrospective belongs *after* the
+  handoff, not in the middle of it. When the user's OK lands and the pass finishes, carry
+  on to step 2 as if nothing had paused; if the user instead walks away, the note-taking
+  is theirs to ask for, and the next `/shift`'s guard trip is how the gate resurfaces.
 
 ## 2. The wrap-up
 

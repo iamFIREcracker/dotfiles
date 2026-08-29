@@ -14,7 +14,7 @@ line: it claims, implements, commits **on a work branch**, and hands the bead ov
 mutating the bead itself.
 
 Every invocation is **one pass over at most one bead**: preconditions, claim, branch,
-implement, flip, commit, reset the checkout, report, stop. It is written to be run under
+implement, review gate, flip, commit, reset the checkout, report, stop. It is written to be run under
 `/loop`, which supplies the cadence — so when the ready queue is empty it says so and stops
 having mutated nothing at all. That is the common case on an interval, and it should be
 cheap and quiet. Never go round again inside one invocation.
@@ -22,13 +22,16 @@ cheap and quiet. Never go round again inside one invocation.
 The actual work is done by two other skills — `/claim` and `/implement` — which you run by
 **invoking them by name with the Skill tool**. Their instructions govern their steps; do not
 inline, copy, or paraphrase what they say, and don't second-guess them. When one of them
-changes, this pipeline follows for free. Conveyor's own contribution is the three things
-they don't know about: the branch discipline, the branch commit, and the review flip.
+changes, this pipeline follows for free. Conveyor's own contribution is the four things
+they don't know about: the branch discipline, the review gate, the branch commit, and the
+review flip.
 
 **Don't re-ask.** Invoking `/conveyor` *is* the user's opt-in to the whole pass, including
 the `/implement` multi-agent run inside it. Run the pass through to its end without pausing
 for permission part-way. Running `/conveyor` under `/loop` is likewise the opt-in to the
-stream of passes that follows.
+stream of passes that follows. The one place a pass stops for the user on purpose is the
+review gate (step 5), and only when the project has defined one — that is the user asking
+to look, not the pass asking permission.
 
 `$ARGUMENTS`, if present, is a bead id (e.g. `bd-42`): process **exactly that bead** — pass
 the id straight through to claim instead of letting it take the head of the queue. The
@@ -131,7 +134,7 @@ outcome:
   enclosing loop must be stopped.
 
 Otherwise, take two things out of claim's primer before moving on: the **bead id**, and the
-**assignee it wrote** — that is this worker's actor name, and step 5 records it as `worker=`
+**assignee it wrote** — that is this worker's actor name, and step 6 records it as `worker=`
 and passes it as `--actor`. If you want it straight from the record rather than the primer
 prose:
 
@@ -189,7 +192,7 @@ What the pass does instead:
    out-of-workspace case included, are its step 5's to define and are not restated here.
    This is a deliberate exception to "workers never close beads": there is nothing for
    the merger to merge, so the review handoff has no object.
-4. **Report the deviation** in step 7's pass report: that the bead was out-of-tree, the
+4. **Report the deviation** in step 8's pass report: that the bead was out-of-tree, the
    review that ran and what it found, and what the seal committed and where — or that it
    committed nothing.
 
@@ -231,6 +234,8 @@ criteria and design notes are already in the text, which is exactly why claim ru
 The run's outcome decides whether this pass reaches the handoff:
 
 - **`done`, `clean`, or `all-refuted`** — a completed run. Carry on to step 5.
+  A `clean` or `all-refuted` run left the tree as the implementer wrote it — that is still
+  work to gate and hand off, not a no-change.
 - **`blocked`, `failed`, or `no-change`** — the pass ends here. Leave the bead `in_progress`
   and assigned to this worker, report what implement reported (including where it left its
   spec file), and **clean up nothing silently**: don't delete the branch, don't revert the
@@ -238,12 +243,48 @@ The run's outcome decides whether this pass reaches the handoff:
   the next pass would trip the already-working guard on this very bead anyway, and the user
   is the right place for the thread to be picked back up.
 
-## 5. Flip, then commit
+## 5. Review gate
+
+The merger reviews code against the bead; some work also needs the **user's eyes** before
+it is worth the merger's — a rendered scene, a page, an animation, anything whose "done"
+is a look rather than a test. Conveyor does not know which beads those are or how the
+project shows them: the **project's own instructions** (its CLAUDE.md or equivalent)
+define the gate — a trigger (which beads or paths count) and a review skill to run
+(`/showcase`, a screenshot script, a served page). Read them; if they define no gate,
+this step is a no-op and you carry on to step 6.
+
+When the gate applies to this bead:
+
+1. **Look first yourself.** Produce whatever the project's instructions say the check is
+   (typically one headless screenshot) and judge it. Wrong → that is a failed implement
+   in all but name: re-run the fix through review rather than patching unreviewed, and
+   if it can't be made right, end the pass exactly as step 4's `failed` case does.
+2. **Commit on the work branch before showing.** Run step 6's commit now — the tree is
+   then clean and the work is safe whatever happens next, and the review skill may itself
+   start servers or write pages. The tracker flip still comes *after* the user's OK, so if
+   this project git-tracks bd's `.beads/` export (see step 6), that export lands in a
+   small follow-up commit after the flip instead of riding in this one.
+3. **Run the review skill** the project names, in the same turn, without asking first —
+   then **stop the pass here**. Report that it is waiting at the review gate, with the
+   branch and commit. Leave the bead `in_progress` and assigned to this worker: that is
+   deliberate. A pass fired meanwhile (a `/loop` tick, the next `/shift`) trips claim's
+   already-working guard on this very bead, which is the right outcome — a review nobody
+   has looked at must not be skipped past into the merge queue.
+4. **On the user's OK**, in this conversation, resume at step 6: the flip, then the
+   follow-up commit if any, then steps 7 and 8. If the user asks for changes, make them
+   through review on the same branch and come back to this gate. If the conversation is
+   gone by the time the user answers, the next pass's guard trip is the handle: the user
+   says resume, and the rework rule for bounces (step 3) applies — carry on on the
+   existing branch, don't cut a new one.
+
+## 6. Flip, then commit
 
 The flip goes first, mirroring seal's reason for the same ordering: bd exports its state to
 a git-tracked file under `.beads/`, so flipping before committing puts the tracker's "this
 is waiting for review" in the same commit as the work that is waiting. The branch the merger
-picks up is then self-contained.
+picks up is then self-contained. (When step 5 already committed the work, only the `.beads/`
+export — if the project tracks it — is left to commit here; if it is gitignored, the flip
+is the whole step.)
 
 One `bd update` performs the whole handoff:
 
@@ -267,7 +308,7 @@ git status
 
 Stage the files implement reported as changed, plus whatever changed under `.beads/`.
 Unrelated dirt — anything you don't recognize as this bead's work — stays in the tree
-untouched and gets mentioned in step 7 instead. When in doubt about a file, leave it out.
+untouched and gets mentioned in step 8 instead. When in doubt about a file, leave it out.
 
 Commit on the work branch, bead id leading the message:
 
@@ -280,7 +321,7 @@ the merger; a worker that lands its own work makes the review queue a fiction. I
 fails, report the error **verbatim**, end the pass and say the enclosing loop must be
 stopped.
 
-## 6. Reset the checkout
+## 7. Reset the checkout
 
 Put the checkout back where step 3 of the **next** pass expects to find it:
 
@@ -296,16 +337,18 @@ it here would throw the work away.
 That is the end of the pass. Do **not** go back to step 1 for another bead: the next bead is
 the next invocation's business, and `/loop` is what supplies it.
 
-## 7. Close the pass
+## 8. Close the pass
 
 Report this one pass — not a run of beads:
 
 - **The bead handled**: id and title, its branch, and its outcome — handed to the merge
-  queue, nothing to do, or stopped mid-way and why (the already-working guard naming the bead
-  it named, a failed implement run, a failing command reported verbatim, a dirty tree).
+  queue, waiting at the review gate (what to look at, and that an OK resumes the pass),
+  nothing to do, or stopped mid-way and why (the already-working guard naming the bead it
+  named, a failed implement run, a failing command reported verbatim, a dirty tree).
 - **Whether an enclosing loop should keep going**: an empty ready queue is a normal quiet
-  tick and the loop carries on; a guard trip, a failed implement run, or any failing command
-  means the `/loop` must be stopped and the user has a decision to make.
+  tick and the loop carries on; a guard trip, a failed implement run, a stop at the review
+  gate, or any failing command means the `/loop` must be stopped and the user has a decision
+  to make.
 - Any unrelated dirt left in the tree, and where the checkout is sitting now.
 
 Then stop. Conveyor **never commits to the main branch, never merges, never pushes** — the merger does
