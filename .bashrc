@@ -321,7 +321,7 @@ complete -c ew -w which
 function cw() { cat $(which "$1"); }
 complete -c cw -w which
 
-function ..() {    cd ..; pwd; ll; }
+function ..() {    cd ..; pwd; ls; }
 
 function banner() { figlet -w9999 "$@" | cowsay -W 9999 -n -p | lolcat; }
 function brewski() { brew update && brew upgrade && brew upgrade --cask --greedy && brew cleanup && brew doctor; }
