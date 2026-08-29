@@ -136,8 +136,11 @@ and passes it as `--actor`. If you want it straight from the record rather than 
 prose:
 
 ```bash
-bd show <id> --json
+bd show <id> --json | jq '.[0] | {id, assignee}'
 ```
+
+The `.[0]` is load-bearing: `bd show <id> --json` returns a **one-element array** even
+for a single id, so `jq '.assignee'` on the raw output fails.
 
 ## Out-of-tree beads: the carve-out
 

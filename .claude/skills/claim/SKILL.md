@@ -204,6 +204,10 @@ Fetch the full record of the claimed bead:
 bd show <id> --json --include-comments --include-dependents
 ```
 
+Mind the shape: unlike step 4's `--children --json` (an object keyed by bead id), this
+comes back as a **one-element array** even for a single id — index first when piping
+through jq: `bd show <id> --json | jq '.[0] | {id, title, status, assignee}'`.
+
 `bd show <id>` (human-readable) and `bd show <id> --long` (extended metadata) are there
 if you want them.
 
