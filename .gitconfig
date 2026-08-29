@@ -3,8 +3,8 @@
   email = matteo@matteolandi.net
 
 [core]
-  pager = cat
   editor = vim
+  attributesfile = ~/.config/git/.gitattributes
 
 [color]
   branch = auto
@@ -17,18 +17,18 @@
   remote = green
 
 [color "diff"]
-  meta = yellow
-  frag = magenta
-  old = red
-  new = green
+  meta = reverse
+  frag = reverse
+  old = brightwhite red
+  new = brightwhite green
+
+[color "interactive"]
+  prompt = reverse
 
 [color "status"]
   added = yellow
   changed = green
   untracked = cyan
-
-[push]
-    default = current
 
 [alias]
     tags = tag -l
@@ -45,6 +45,8 @@
     cm = commit -v -m
     cmm = commit --no-edit
 
+    sw = switch
+    show1p = show --first-parent
     co = checkout
     cob = checkout -b
     com = !git checkout $(git-default-branch)
@@ -55,56 +57,24 @@
     mr = "!f() { git com && git up && git mo \"${@}\" && git push && git bd \"${@}\"; }; f"
 
     pretty-log = "!f() { \
-        git log \"${@}\" --color=always --date=\"$(git-log-date-format)\" --topo-order --pretty='tformat:%C(white bold)%h%Creset %s (%ad by %an)%C(white bold)%d%Creset'; \
+        git log \"${@}\" --color=always --date=\"$(git-log-date-format)\" --pretty='tformat:%h%Creset %s (%ad by %an)%d%Creset'; \
     }; f"
-    l0 = "!f() { \
-        git pretty-log ..$(git-default-remote)/$(git-default-branch); \
-    }; f"
-    l9 = "!f() { \
-        git pretty-log $(git-default-remote)/$(git-default-branch)..; \
-    }; f"
-    l8 = pretty-log
+    ll = pretty-log
+    ll10 = pretty-log -n 10
 
-    lv   = "!f() { \
-        cmd=\"Shell git p$1\"; \
-        vim -c \"execute '$cmd' | bdelete 1\"; \
-    }; f"
 
     graph-log = "!f() { \
-        git log \"${@}\" --color=always --graph --date=\"$(git-log-date-format)\" --topo-order --pretty='tformat:%C(white bold)%h%Creset %s (%ad by %an)%C(white bold)%d%Creset'; \
+        git log \"${@}\" --color=always --graph --date=\"$(git-log-date-format)\" --topo-order --pretty='tformat:%h%Creset %s (%ad by %an)%d%Creset'; \
     }; f"
     gl = graph-log
 
-    ack = log --color=always --all --topo-order --pretty='tformat:%Cgreen%h%Creset %s%Cred%d%Creset %C(black bold)(by %an)%Creset' --full-history -S
-
     up = !git pull --rebase --prune $@ && git submodule update --init --recursive
-    pu = pull --ff-only
-    pur = pull --rebase
 
-    p = push
-    pf = push --force-with-lease
+    pushf = push --force-with-lease
     root = rev-parse --show-toplevel
     currentbranch = !git rev-parse --abbrev-ref HEAD 2>/dev/null
 
     d  = "!f() { cd ${GIT_PREFIX:-.}; git diff \"${@}\" | vim -c 'set ft=diff' -R -; }; f"
-
-    in = gl ..@{u}
-    ind = d ..@{u}
-    out = gl @{u}..
-    outd = d @{u}..
-
-    shelve = "!f() { cd ${GIT_PREFIX:-.}; git add . ; git stash; }; f"
-    unshelve = "!f() { cd ${GIT_PREFIX:-.}; git stash pop; }; f"
-
-    r = "!f() { \
-        git add -p -- $@; \
-    }; f"
-    R = "!f() { \
-        cd ${GIT_PREFIX:-.}; \
-        git add -p -- $@; \
-    }; f"
-
-    unfuck-merge = reset --hard HEAD
 
     zip = archive -o latest.zip HEAD
 
@@ -121,17 +91,38 @@
     find-merge = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
     show-merge = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
 
-    br-summary = "!f() { git log ${1-$(git-default-remote)/$(git-default-branch)}.. --reverse --pretty='format:## %s%n%n%b' | vipe | cb; }; f"
-    br-stat = "!f() { git diff --stat ${1-$(git-default-remote)/$(git-default-branch)}; }; f"
-    br-files = "!f() { git diff --name-only ${1-$(git-default-remote)/$(git-default-branch)}; }; f"
+    br-summary = "!f() { git log --reverse --pretty='format:### %s%n%n%b' \"${@}\" | vipe | cb; }; f"
+    br-stat = "!f() { git diff --stat \"${@}\"; }; f"
+    br-files = "!f() { git diff --name-only \"${@}\"; }; f"
 
-[pull]
-    ff = only
+    work      = !sh -c 'git fetch && git checkout @{upstream} --track=direct  -b \"$@\"' _
+    work-stag = !sh -c '             git checkout             --track=inherit -b \"$@\"' _
+
+[browser "br"]
+    cmd = br
+
+[commit]
+    verbose = true
+
+[diff]
+    ; context = 10
+    ; algorith = historgram ; https://jvns.ca/blog/2024/02/16/popular-git-config-options/
+
+[difftool]
+    prompt = false
+    trustExitCode = true
+
+[fetch]
+    prune = true
+    prunetags = true
+
+[init]
+    defaultBranch = main
 
 [merge]
     tool = fugitive
-    ; conflictstyle = diff3
-    ff = false
+    conflictstyle = diff3
+    ff = only
 
 [mergetool]
     trustExitCode = true
@@ -141,16 +132,36 @@
     ; https://github.com/tpope/vim-fugitive/issues/1306#issuecomment-1025124663
     cmd = vim -f -c \"Gvdiffsplit!\" \"$MERGED\"
 
-[difftool]
-    prompt = false
-    trustExitCode = true
+[pull]
+    rebase = true
 
-[web]
-    browser = br
-
-[browser "br"]
-    cmd = br
+[push]
+    default = current
 
 [rebase]
     autosquash = true
     autoStash = true
+    instructionFormat = "%s (%ad by %an)"
+    updateRefs = true
+    rebaseMerges = true
+
+; (re)use (re)corded (re)solution
+; https://git-scm.com/book/en/v2/Git-Tools-Rerere
+[rerere]
+    enabled = true
+
+[web]
+    browser = br
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+
+; [pager]
+; 	diff = diff-highlight | less -RFX
+; 	show = diff-highlight | less -RFX
+; 	log = diff-highlight | less -RFX
+;
+; [interactive]
+; 	diffFilter = diff-highlight
