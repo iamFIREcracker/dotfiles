@@ -62,6 +62,7 @@ function create_dir {
 
 test -n "$OS_MAC" && ensure_link ".config/karabiner"      ".config/karabiner"
                      ensure_link ".config/home-manager"   ".config/home-manager"
+                     ensure_link ".config/git"            ".config/git"
 
                      ensure_dir  ".config/opencode"
                      ensure_link ".config/opencode/opencode.json" ".config/opencode/opencode.json"
