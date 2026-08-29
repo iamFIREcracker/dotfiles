@@ -69,7 +69,6 @@ test -n "$OS_MAC" && ensure_link ".config/karabiner"      ".config/karabiner"
                      ensure_link ".config/opencode/tui.json"      ".config/opencode/tui.json"
 
                      ensure_link ".config/nix"            ".config/nix"
-                     ensure_link ".config/nixpkgs"        ".config/nixpkgs"
                      ensure_link ".config/nvim"           ".config/nvim"
                      ensure_link ".config/tridactyl"      ".config/tridactyl"
                      ensure_link ".cgrc"                  ".cgrc"
