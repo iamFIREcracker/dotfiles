@@ -80,11 +80,24 @@ target: if the tree carries unrelated uncommitted changes, keep `targetFiles` an
 ## 4. Run the workflow
 
 The workflow script ships with this skill as `challenge.js`, in this skill's base
-directory. Do not re-type it into the Workflow call — invoke it by path:
+directory. Do not re-type it into the Workflow call — invoke it by path. The Workflow
+tool only accepts a `scriptPath` it can already read — the working directory or a
+directory added to the session — and a project session's cwd is normally a repo that
+does not contain this skill's directory, so a launch by `<skill base dir>/challenge.js`
+is rejected from any such checkout. Copy the script into the session scratchpad first,
+and launch by that path:
+
+```bash
+cp "<skill base dir>/challenge.js" "<scratchpad>/challenge.js"
+```
+
+If the session has no scratchpad directory, copy to `.claude/tmp/challenge.js` instead —
+it is under the working directory, so the Workflow tool can read it — and pass that
+path as the `scriptPath` below.
 
 ```
 Workflow({
-  scriptPath: "<skill base dir>/challenge.js",
+  scriptPath: "<scratchpad>/challenge.js",
   args: { specPath, targetFiles, diffCmd }
 })
 ```
@@ -93,8 +106,9 @@ Workflow({
 - `targetFiles` (required): the explicit list of files under challenge (step 3).
 - `diffCmd`: the exact diff command for a code target, or `null` for a document.
 
-If the launch is rejected because `scriptPath` lies outside the project, copy
-`challenge.js` into the session scratchpad and pass that path instead.
+Launching by `<skill base dir>/challenge.js` directly, skipping the copy, works only when
+the skill directory is inside the project or has been added to the session — rare here,
+and not worth a failed tool call to find out.
 
 Notes on the shape, for when a target forces you to adapt the script: three phases, no
 Implement. The only barrier is between Review and Arbitrate — the arbiter genuinely

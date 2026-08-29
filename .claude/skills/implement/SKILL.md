@@ -81,11 +81,24 @@ If the tree is dirty, either:
 ## 4. Run the workflow
 
 The workflow script ships with this skill as `implement.js`, in this skill's base
-directory. Do not re-type it into the Workflow call — invoke it by path:
+directory. Do not re-type it into the Workflow call — invoke it by path. The Workflow
+tool only accepts a `scriptPath` it can already read — the working directory or a
+directory added to the session — and a project session's cwd is normally a repo that
+does not contain this skill's directory, so a launch by `<skill base dir>/implement.js`
+is rejected from any such checkout. Copy the script into the session scratchpad first,
+and launch by that path:
+
+```bash
+cp "<skill base dir>/implement.js" "<scratchpad>/implement.js"
+```
+
+If the session has no scratchpad directory, copy to `.claude/tmp/implement.js` instead —
+it is under the working directory, so the Workflow tool can read it — and pass that
+path as the `scriptPath` below.
 
 ```
 Workflow({
-  scriptPath: "<skill base dir>/implement.js",
+  scriptPath: "<scratchpad>/implement.js",
   args: { specPath, preexistingChanges, treeClean, lenses, implModel }
 })
 ```
@@ -104,8 +117,9 @@ Workflow({
   implementer and fixer on the session model and compare stage minutes and confirmed
   findings against the Opus baseline.
 
-If the launch is rejected because `scriptPath` lies outside the project, copy
-`implement.js` into the session scratchpad and pass that path instead.
+Launching by `<skill base dir>/implement.js` directly, skipping the copy, works only when
+the skill directory is inside the project or has been added to the session — rare here,
+and not worth a failed tool call to find out.
 
 Notes on the shape, for when a task forces you to adapt the script: writers are
 strictly sequential, so there is **no worktree isolation**. The only barrier is between
