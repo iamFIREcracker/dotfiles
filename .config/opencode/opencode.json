@@ -1,0 +1,197 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "catai/Qwen/Qwen3-32B",
+  "small_model": "catai/Qwen/Qwen3-32B:nothink",
+  "share": "disabled",
+  "provider": {
+    "lmstudio": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "LM Studio (Local)",
+      "options": {
+        "baseURL": "http://localhost:1234/v1",
+        "apiKey": "lm-studio"
+      },
+      "models": {
+        "zai-org_glm-4.7-flash": {
+          "name": "GLM-4.7-Flash (Local)",
+          "limit": {
+            "context": 32768,
+            "output": 8192
+          }
+        }
+      }
+    },
+    "catai": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "CAT AI (Qwen)",
+      "options": {
+        "baseURL": "https://catai-apisix.ikd.1808.aws.iongroup.net/qwen3-32b/v1",
+        "apiKey": "{env:CATAI_API_KEY}"
+      },
+      "models": {
+        "Qwen/Qwen3-32B": {
+          "name": "Qwen 3 32B",
+          "limit": {
+            "context": 112000,
+            "output": 16000
+          },
+          "variants": {
+            "nothink": {
+              "extra_body": {
+                "chat_template_kwargs": {
+                  "enable_thinking": false
+                }
+              }
+            },
+            "low": {
+              "extra_body": {
+                "chat_template_kwargs": {
+                  "enable_thinking": true,
+                  "thinking_budget": 4000
+                }
+              }
+            },
+            "high": {
+              "extra_body": {
+                "chat_template_kwargs": {
+                  "enable_thinking": true,
+                  "thinking_budget": 12000
+                }
+              }
+            },
+            "unlimited": {
+              "extra_body": {
+                "chat_template_kwargs": {
+                  "enable_thinking": true,
+                  "thinking_budget": 16000
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "catai/litellm-cedacri": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "CAT AI (Litellm/Cedacri)",
+      "options": {
+        "baseURL": "https://catai-apisix.ikd.1808.aws.iongroup.net/litellm-cedacri",
+        "apiKey": "{env:CATAI_SEALS_API_KEY}"
+      },
+      "models": {
+        "hosted_vllm/glm-4.7-fp8": {
+          "name": "glm",
+          "limit": {
+            "context": 200000,
+            "output": 8192
+          },
+          "variants": {
+            "nothink": {
+              "extra_body": {
+                "chat_template_kwargs": {
+                  "enable_thinking": false,
+                  "thinking_budget": 0
+                }
+              }
+            },
+            "low": {
+              "extra_body": {
+                "chat_template_kwargs": {
+                  "enable_thinking": true,
+                  "thinking_budget": 4000
+                }
+              }
+            },
+            "high": {
+              "extra_body": {
+                "chat_template_kwargs": {
+                  "enable_thinking": true,
+                  "thinking_budget": 12000
+                }
+              }
+            },
+            "unlimited": {
+              "extra_body": {
+                "chat_template_kwargs": {
+                  "enable_thinking": true,
+                  "thinking_budget": 16000
+                }
+              }
+            }
+          }
+        },
+        "qwen-coder": {
+          "name": "hosted_vllm/qwen3-coder-next",
+          "limit": {
+            "context": 256000,
+            "output": 8192
+          },
+          "variants": {
+            "nothink": {
+              "extra_body": {
+                "chat_template_kwargs": {
+                  "enable_thinking": false
+                }
+              }
+            },
+            "low": {
+              "extra_body": {
+                "chat_template_kwargs": {
+                  "enable_thinking": true,
+                  "thinking_budget": 4000
+                }
+              }
+            },
+            "high": {
+              "extra_body": {
+                "chat_template_kwargs": {
+                  "enable_thinking": true,
+                  "thinking_budget": 12000
+                }
+              }
+            },
+            "unlimited": {
+              "extra_body": {
+                "chat_template_kwargs": {
+                  "enable_thinking": true,
+                  "thinking_budget": 16000
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "catai/litellm": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "CAT AI (Litellm)",
+      "options": {
+        "baseURL": "https://catai-apisix.ikd.1808.aws.iongroup.net/litellm",
+        "apiKey": "{env:CATAI_SEALS_API_KEY}"
+      },
+      "models": {
+        "claude-opus-4-6": {
+          "name": "claude-opus-4-6",
+          "limit": {
+            "context": 200000,
+            "output": 32000
+          }
+        },
+        "claude-sonnet-4-6": {
+          "name": "claude-sonnet-4-6",
+          "limit": {
+            "context": 200000,
+            "output": 16000
+          }
+        },
+        "claude-haiku-4-5": {
+          "name": "claude-haiku-4-5",
+          "limit": {
+            "context": 200000,
+            "output": 8192
+          }
+        }
+      }
+    }
+  }
+}
