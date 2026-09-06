@@ -139,12 +139,15 @@ same routine dirt, now inside the file — `git add <file>` commits them under t
 id. Stage by hunk instead, non-interactively (`git add -p` is not available to an agent):
 a patch holding the file's diff header lines plus only the bead's hunks — picked by what
 their `@@` headers name or the lines they touch, never by position — applied with
-`git -C <owning-repo> apply --cached <patch>`. `git apply` locates each hunk by its
-context, so line numbers drifted by an unrelated hunk above it are fine. If an unrelated
-edit sits close enough that the diff's default context folds it into the *same* `@@` hunk
-as the bead's, re-diff narrower (`git diff -U1 -- <file>`) so the two split before you cut
-— that hunk touches the bead's lines, so taken whole it stages the stranger's too. Under
-`/conveyor` that patch already exists: its carve-out review was scoped with it,
+`git -C <owning-repo> apply --cached <patch>`. `git-hunks` (dotfiles `bin/`) builds that
+patch from a marker the bead's hunks carry: `git -C <owning-repo> diff -U1 -- <file> |
+git-hunks -e '<regex>' > <patch>`. `git apply` locates each hunk by its context, so line
+numbers drifted by an unrelated hunk above it are fine. The `-U1` is what keeps a nearby
+unrelated edit out of the bead's hunk: at the diff's default three lines of context git
+folds the two into the *same* `@@` hunk, and that hunk touches the bead's lines, so taken
+whole it stages the stranger's too. When fewer than three unchanged lines separate them
+not even `-U1` splits them, and the hunk has to be cut by hand — conveyor step 2's case.
+Under `/conveyor` that patch already exists: its carve-out review was scoped with it,
 regenerated after the review's Fix phase. Then look before committing: `git diff --cached
 -- <file>` must show the bead's hunks and nothing else, and `git diff -- <file>` the
 unrelated ones, still in the tree. This workspace gets a commit of its own whenever the

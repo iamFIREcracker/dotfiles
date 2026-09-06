@@ -215,41 +215,54 @@ What the pass does instead:
    uncommitted hunks beside the bead's own — skill files in dotfiles collect exactly
    that. Then a plain `git diff -- <file>` reviews the stranger's hunks under this bead's
    name, and a stage-by-path seal would commit them under it too. Cut the bead's hunks
-   out instead: read `git -C <owning-repo> diff -- <file>`, and write a patch into the
-   scratchpad holding that file's header lines (`diff --git`, `index`, `---`, `+++`) plus
-   only the hunks this bead made — picked by what their `@@` header names or the lines
-   they touch, **never by position**: a "first hunk" selector (`awk '/^@@/{n++} n<2'`)
-   holds only until the unrelated hunk lands above the bead's, or the bead's change
-   splits in two, and then reviews and stages the wrong content under the bead's id.
-   One trap in that pick: `git diff`'s three lines of context fold two nearby edits into a
-   *single* `@@` hunk, so a stranger's line a few above the bead's arrives inside a hunk
-   that does touch the bead's lines — taken whole, it hands the stranger's over anyway.
-   Re-diff narrower (`git diff -U1 -- <file>`) to split them apart; the thinner hunk still
-   applies, `git apply` matching on whatever context it is given. If even that won't
-   separate them, write the hunk out by hand: the stranger's `-`/`+` pair back to one
-   context line, and the `@@` counts fixed to match. Hand that patch to the review as
-   `diffCmd: cat <patch>`, and the same patch to the seal, which stages it with
-   `git apply --cached` (step 3). One wrinkle: the Fix phase edits the file, so after a run
-   that applied anything the patch is stale — regenerate it from the fresh diff, picked the
-   same way but counting whatever the fixer landed as the bead's too: its edits can fall
-   outside the original hunks, as hunks of their own, and left out of the patch they look
-   like unrelated dirt and never get committed. Verify against that regenerated patch. The
-   review is not optional: the implement workflow's out-of-tree rule and the direct seal
-   below step around *both* of this pipeline's review mechanisms, so skipping it would land
-   the change with zero review. Don't expect to apply the surviving findings yourself:
-   whenever a finding survives arbitration, `/challenge` ends with a Fix phase — an Opus
-   agent applies every confirmed finding itself, keeping a per-finding veto — and because
-   step 1 has typically already put this pass in manual permission mode, nothing stops
-   that fixer's edits to these out-of-tree files. (The auto-mode classifier is what
-   enforces the audit policy, and only in auto mode — ta-et7 verified it denies these
-   edits even from the main session there; in manual mode the subagent's edit goes
-   through.) So the main session's job after the run is to **verify**, not apply: re-read
-   the diff of the touched files, check each `applied` outcome actually matches its
-   finding, and re-run whatever verification the review used, before sealing. A run that
-   reports `clean` or `all-refuted` never reached the Fix phase — nothing was applied and
-   there is nothing to verify. Only a finding the fixer could not land — a permission
-   denial mid-run, or a `rejected-at-apply` you judge wrong — falls back to you to apply
-   by hand here.
+   out instead with `git-hunks` (dotfiles `bin/`), which keeps only the hunks of a diff
+   that match a pattern, each under its file's header lines (`diff --git`, `index`,
+   `---`, `+++`), and exits non-zero when nothing matched:
+
+   ```bash
+   git -C <owning-repo> diff -U1 -- <file> | git-hunks -e '<regex>' > <scratchpad>/<id>.patch
+   ```
+
+   `-e` is a regex matched against the `@@` header and every line of the hunk, `+`/`-`
+   prefix included; repeat it for each distinct marker the bead's edits carry — a phrase
+   only the bead's added lines hold, anchored on the prefix (`-e '^\+.*<phrase>'`) so a
+   stranger's unchanged context line carrying the same word can't drag its hunk in. Not the
+   heading the hunk sits under: with no diff driver set, git's funcname takes the nearest
+   preceding line starting with a letter, `_` or `$`, so a `## Heading` never reaches the
+   `@@` header of a `.md` diff. Then read the result: every `@@` in it must be the bead's.
+   That picks by content, what the `@@` header names or the lines the hunk touches, **never
+   by position**: a "first hunk" selector (`awk '/^@@/{n++} n<2'`) holds only until the
+   unrelated hunk lands above the bead's, or the bead's change splits in two, and then
+   reviews and stages the wrong content under the bead's id. The `-U1` is load-bearing:
+   `git diff`'s three lines of context fold two nearby edits into a *single* `@@` hunk, so
+   a stranger's line a few above the bead's arrives inside a hunk that does touch the
+   bead's lines — `git-hunks` never splits a hunk, so taken whole it hands the stranger's
+   over anyway. At `-U1` edits with at least three unchanged lines between them come out as
+   separate hunks; the thinner hunk still applies, `git apply` matching on whatever context
+   it is given. If even that won't separate them, write the hunk out by hand: the
+   stranger's `-`/`+` pair back to one context line, and the `@@` counts fixed to match.
+   Hand that patch to the review as `diffCmd: cat <patch>`, and the same patch to the seal,
+   which stages it with `git apply --cached` (step 3). One wrinkle: the Fix phase edits the
+   file, so after a run that applied anything the patch is stale — regenerate it with the
+   same command, adding `-e` markers for whatever the fixer landed, so its edits count as
+   the bead's too: they can fall outside the original hunks, as hunks of their own, and
+   left out of the patch they look like unrelated dirt and never get committed. Verify
+   against that regenerated patch. The review is not optional: the implement workflow's
+   out-of-tree rule and the direct seal below step around *both* of this pipeline's review
+   mechanisms, so skipping it would land the change with zero review. Don't expect to apply
+   the surviving findings yourself: whenever a finding survives arbitration, `/challenge`
+   ends with a Fix phase — an Opus agent applies every confirmed finding itself, keeping a
+   per-finding veto — and because step 1 has typically already put this pass in manual
+   permission mode, nothing stops that fixer's edits to these out-of-tree files. (The
+   auto-mode classifier is what enforces the audit policy, and only in auto mode — ta-et7
+   verified it denies these edits even from the main session there; in manual mode the
+   subagent's edit goes through.) So the main session's job after the run is to **verify**,
+   not apply: re-read the diff of the touched files, check each `applied` outcome actually
+   matches its finding, and re-run whatever verification the review used, before sealing. A
+   run that reports `clean` or `all-refuted` never reached the Fix phase — nothing was
+   applied and there is nothing to verify. Only a finding the fixer could not land — a
+   permission denial mid-run, or a `rejected-at-apply` you judge wrong — falls back to you
+   to apply by hand here.
 3. **Seal the bead directly** — invoke the `seal` skill. The commit mechanics, the
    out-of-workspace case included, are its step 5's to define and are not restated here.
    This is a deliberate exception to "workers never close beads": there is nothing for

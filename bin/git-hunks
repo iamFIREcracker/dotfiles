@@ -1,0 +1,109 @@
+#!/usr/bin/env python3
+"""Keep only the hunks of a unified diff that match a pattern.
+
+    git diff -U1 -- <file> | git-hunks -e <regex> [-e <regex> ...] > <patch>
+
+Reads a git-style unified diff on stdin and writes the same diff back with every
+hunk that matches none of the patterns removed. A hunk matches when any pattern
+matches any of its lines: the `@@` header (whose trailing text names the
+enclosing function or section) or a body line, prefix included, so `^\\+foo`
+targets an added line and `^-foo` a removed one. Each surviving hunk is emitted
+under its file's header lines (`diff --git`, `index`, `---`, `+++`, and whatever
+else git put between them); a file none of whose hunks match is dropped whole.
+The output is a valid patch for `git apply`, `git apply --cached`, and
+`diffCmd: cat <patch>`.
+
+The script filters the diff it is fed and nothing more. It never splits a hunk,
+so an unrelated edit that the diff's context folded into the same hunk as the
+one you want comes along with it. Diff with `-U1`, which keeps edits apart when
+at least three unchanged lines separate them; `-U0` keeps any two apart that
+don't touch, at the price of `git apply --unidiff-zero` when staging; edits on
+adjacent lines are one hunk at any context and have to be cut by hand.
+
+Exit status: 0 when at least one hunk was emitted, 1 when nothing matched, 2 on
+a usage error (no pattern, invalid regex, input that isn't a git diff).
+"""
+
+import argparse
+import re
+import sys
+
+
+def die(message, status):
+    print(f"git-hunks: {message}", file=sys.stderr)
+    sys.exit(status)
+
+FILE_START = re.compile(r"(?m)^(?=diff --git )")
+HUNK_START = re.compile(r"(?m)^(?=@@ )")
+
+
+def parse_args(argv):
+    parser = argparse.ArgumentParser(
+        prog="git-hunks",
+        description="Keep only the hunks of a unified diff (stdin) that match a pattern.",
+        epilog="A hunk is kept when any REGEX matches any of its lines, the @@ header "
+        "included; body lines carry their +/-/space prefix. Exit status is 0 when a "
+        "hunk was emitted, 1 when nothing matched, 2 on a usage error.",
+    )
+    parser.add_argument(
+        "-e",
+        "--regexp",
+        action="append",
+        dest="patterns",
+        metavar="REGEX",
+        required=True,
+        help="pattern to keep hunks by (Python re syntax); repeatable, any match keeps the hunk",
+    )
+    return parser.parse_args(argv)
+
+
+def compile_patterns(patterns):
+    compiled = []
+    for pattern in patterns:
+        try:
+            compiled.append(re.compile(pattern))
+        except re.error as exc:
+            die(f"invalid regex {pattern!r}: {exc}", 2)
+    return compiled
+
+
+def hunk_matches(hunk, patterns):
+    return any(p.search(line) for line in hunk.split("\n") for p in patterns)
+
+
+def filter_diff(diff, patterns):
+    """Return (filtered_diff, matched_count)."""
+    sections = FILE_START.split(diff)
+    preamble, files = sections[0], sections[1:]
+    if HUNK_START.search(preamble):
+        die(
+            "found hunks before any 'diff --git' line; "
+            "only git-style unified diffs are supported",
+            2,
+        )
+    out = []
+    matched = 0
+    for section in files:
+        pieces = HUNK_START.split(section)
+        header, hunks = pieces[0], pieces[1:]
+        kept = [h for h in hunks if hunk_matches(h, patterns)]
+        if kept:
+            out.append(header)
+            out.extend(kept)
+            matched += len(kept)
+    return "".join(out), matched
+
+
+def main(argv=None):
+    args = parse_args(argv)
+    patterns = compile_patterns(args.patterns)
+    diff = sys.stdin.buffer.read().decode("utf-8", "surrogateescape")
+    filtered, matched = filter_diff(diff, patterns)
+    if matched == 0:
+        die("no hunk matched", 1)
+    sys.stdout.buffer.write(filtered.encode("utf-8", "surrogateescape"))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
