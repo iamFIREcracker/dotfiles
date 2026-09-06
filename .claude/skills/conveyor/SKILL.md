@@ -152,12 +152,30 @@ skill file under `~/.config/claude/skills/` that resolves into the dotfiles repo
 them at claim time: the primer names the artifact, and it isn't a path in this repo.
 For these, steps 3–6 are wrong by construction, and the pass **skips them**:
 
-- The work branch would be empty — the artifact isn't in this repo, and in a Dolt-backed
-  workspace the tracker flip leaves no `.beads/` dirt to carry either.
+- The work branch would carry nothing for the merger — the artifact isn't in this repo,
+  and in a Dolt-backed workspace the tracker flip leaves no `.beads/` dirt to carry
+  either. The one thing that could land on it, an in-tree side touch, is what the
+  mixed-bead rule below keeps off the pass.
 - The `/implement` workflow can't make the edit: its own spec-writing rule routes
   out-of-tree edits to the main session, because the auto-mode permission classifier
   denies them to workflow subagents.
 - The merge queue can't merge an out-of-tree change from a branch in this repo.
+
+**Mixed beads.** Some out-of-tree beads also reach into this repo — an acceptance
+criterion like "optionally, a README line mentioning the skill", or a docs page beside
+the skill. That in-tree side touch does **not** ride along in this pass. A worker may not
+commit it to the main branch (step 6's rule holds here as everywhere), and it cannot go
+to the merge queue on a branch either: the seal below closes the bead, and a closed bead
+is no handoff — the merger enumerates by assignee, so a branch whose bead is closed is a
+branch nobody picks up. The pass does the out-of-tree part only. An in-tree touch the
+bead marks optional is left undone, and the seal reason and step 8's report say so. One
+the bead requires is filed as its own bead **before** the seal — `bd create --actor
+<worker-actor-name> --deps discovered-from:<this-bead-id> --title "…" --description "…"`,
+naming this bead as its origin in the description too — so a later pass lands it through
+the ordinary branch-and-merge path; name the new bead in the seal reason and the report.
+`discovered-from` is non-blocking, so the new bead is ready the moment it's filed, and the
+link is one `bd dep tree` away instead of buried in prose. This is a split, not a scope
+cut: the in-tree half still gets done, on a branch a merger can merge.
 
 What the pass does instead:
 

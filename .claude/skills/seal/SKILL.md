@@ -58,9 +58,10 @@ Dolt-backed workspace the flip doesn't even dirty `.beads/`), so its verdict gua
 nothing and a STALE result is a spurious stop. Skip straight to step 4 and say in step 6's
 report that the check was skipped and why.
 
-The one out-of-tree case that still runs the gate: if this workspace's `bd close` exports
-to a git-tracked `.beads/` file, step 5 commits that flip *here*, on the very HEAD this
-check judges — so run it as usual. In-repo seals run the gate unchanged.
+Two out-of-tree cases still run the gate: this workspace's `bd close` exports to a
+git-tracked `.beads/` file, or the bead touched files in this workspace alongside its
+out-of-tree artifact (step 5's side-touch case). Either way step 5 commits *here*, on the
+very HEAD this check judges — so run it as usual. In-repo seals run the gate unchanged.
 
 Otherwise, if the workspace is a git repository, run the **main branch's** copy of the
 repo's preseal check now — before the flip, while the tree holds nothing but the session's
@@ -132,8 +133,15 @@ into, so the seal is tracker-only. Say so.
 artifact — dotfiles, not this workspace — so that repo is the one this step commits into.
 Everything below applies there (`git -C <owning-repo> …`), with one extra care: an owning
 repo like dotfiles is routinely dirty with unrelated user work, so stage this bead's files
-by path and never `git add -A`. This workspace gets a commit only if the flip left
-`.beads/` dirt here — if it did, commit that here too, by the normal path below.
+by path and never `git add -A`. This workspace gets a commit of its own whenever the seal
+has something to commit here: `.beads/` dirt the flip left (a git-tracked export), or
+files the bead touched in this workspace alongside its out-of-tree artifact — a README
+line mentioning the skill, a docs page beside it. Commit either here by the normal path
+below, staged by path: one commit per repo, each led by the bead id. The in-tree side
+touch is a hand-run seal's case. Under `/conveyor` this workspace's commit carries
+`.beads/` dirt only — the carve-out keeps the side touch off the pass, and a worker has no
+branch it may commit one to — so if an in-tree change is sitting here anyway, treat it as
+unrelated dirt: leave it in the tree and name it in step 6's report.
 
 In the repo that gets the commit, look before staging:
 
