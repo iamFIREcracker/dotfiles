@@ -210,10 +210,33 @@ What the pass does instead:
    repo: the diff of the files this bead touched, not that repo's whole tree. The
    clean-tree precondition guards *this* repo only, and an out-of-tree repo like dotfiles
    is routinely dirty — scope the diff by hand, or that precondition's rationale bites
-   here instead, with unrelated dirt reviewed as if this bead wrote it. The review is not
-   optional: the implement workflow's out-of-tree rule and the direct seal below step
-   around *both* of this pipeline's review mechanisms, so skipping it would land the
-   change with zero review. Don't expect to apply the surviving findings yourself:
+   here instead, with unrelated dirt reviewed as if this bead wrote it. Scoping by path
+   is not always enough: the dirt can sit *inside* a target file, as unrelated
+   uncommitted hunks beside the bead's own — skill files in dotfiles collect exactly
+   that. Then a plain `git diff -- <file>` reviews the stranger's hunks under this bead's
+   name, and a stage-by-path seal would commit them under it too. Cut the bead's hunks
+   out instead: read `git -C <owning-repo> diff -- <file>`, and write a patch into the
+   scratchpad holding that file's header lines (`diff --git`, `index`, `---`, `+++`) plus
+   only the hunks this bead made — picked by what their `@@` header names or the lines
+   they touch, **never by position**: a "first hunk" selector (`awk '/^@@/{n++} n<2'`)
+   holds only until the unrelated hunk lands above the bead's, or the bead's change
+   splits in two, and then reviews and stages the wrong content under the bead's id.
+   One trap in that pick: `git diff`'s three lines of context fold two nearby edits into a
+   *single* `@@` hunk, so a stranger's line a few above the bead's arrives inside a hunk
+   that does touch the bead's lines — taken whole, it hands the stranger's over anyway.
+   Re-diff narrower (`git diff -U1 -- <file>`) to split them apart; the thinner hunk still
+   applies, `git apply` matching on whatever context it is given. If even that won't
+   separate them, write the hunk out by hand: the stranger's `-`/`+` pair back to one
+   context line, and the `@@` counts fixed to match. Hand that patch to the review as
+   `diffCmd: cat <patch>`, and the same patch to the seal, which stages it with
+   `git apply --cached` (step 3). One wrinkle: the Fix phase edits the file, so after a run
+   that applied anything the patch is stale — regenerate it from the fresh diff, picked the
+   same way but counting whatever the fixer landed as the bead's too: its edits can fall
+   outside the original hunks, as hunks of their own, and left out of the patch they look
+   like unrelated dirt and never get committed. Verify against that regenerated patch. The
+   review is not optional: the implement workflow's out-of-tree rule and the direct seal
+   below step around *both* of this pipeline's review mechanisms, so skipping it would land
+   the change with zero review. Don't expect to apply the surviving findings yourself:
    whenever a finding survives arbitration, `/challenge` ends with a Fix phase — an Opus
    agent applies every confirmed finding itself, keeping a per-finding veto — and because
    step 1 has typically already put this pass in manual permission mode, nothing stops

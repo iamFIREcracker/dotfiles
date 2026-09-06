@@ -133,9 +133,23 @@ into, so the seal is tracker-only. Say so.
 artifact — dotfiles, not this workspace — so that repo is the one this step commits into.
 Everything below applies there (`git -C <owning-repo> …`), with one extra care: an owning
 repo like dotfiles is routinely dirty with unrelated user work, so stage this bead's files
-by path and never `git add -A`. This workspace gets a commit of its own whenever the seal
-has something to commit here: `.beads/` dirt the flip left (a git-tracked export), or
-files the bead touched in this workspace alongside its out-of-tree artifact — a README
+by path and never `git add -A`. Path is the right unit only while every hunk in the bead's
+files is the bead's. When a target file also carries unrelated uncommitted hunks — the
+same routine dirt, now inside the file — `git add <file>` commits them under this bead's
+id. Stage by hunk instead, non-interactively (`git add -p` is not available to an agent):
+a patch holding the file's diff header lines plus only the bead's hunks — picked by what
+their `@@` headers name or the lines they touch, never by position — applied with
+`git -C <owning-repo> apply --cached <patch>`. `git apply` locates each hunk by its
+context, so line numbers drifted by an unrelated hunk above it are fine. If an unrelated
+edit sits close enough that the diff's default context folds it into the *same* `@@` hunk
+as the bead's, re-diff narrower (`git diff -U1 -- <file>`) so the two split before you cut
+— that hunk touches the bead's lines, so taken whole it stages the stranger's too. Under
+`/conveyor` that patch already exists: its carve-out review was scoped with it,
+regenerated after the review's Fix phase. Then look before committing: `git diff --cached
+-- <file>` must show the bead's hunks and nothing else, and `git diff -- <file>` the
+unrelated ones, still in the tree. This workspace gets a commit of its own whenever the
+seal has something to commit here: `.beads/` dirt the flip left (a git-tracked export),
+or files the bead touched in this workspace alongside its out-of-tree artifact — a README
 line mentioning the skill, a docs page beside it. Commit either here by the normal path
 below, staged by path: one commit per repo, each led by the bead id. The in-tree side
 touch is a hand-run seal's case. Under `/conveyor` this workspace's commit carries
