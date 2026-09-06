@@ -294,6 +294,15 @@ bd update <id> -a merge-queue --add-label needs-review \
   --actor <worker-actor-name>
 ```
 
+That command **is** the handoff — nothing else is sent. Don't follow it with a
+`SendMessage` to the merger (or to any session at all) announcing the branch, the bead, or
+that it is ready for review: the merger enumerates the queue by the assignee this command
+just set and reads the coordinates from the metadata it just wrote, so a message carries
+nothing the tracker doesn't already, and lands as noise a sweep has to set aside. If you
+feel the urge to tell the merger something, carry it on that same `bd update` as
+`--append-notes "…"` — the bead's notes ride on the record the sweep fetches, where a
+message does not.
+
 Don't pass `-s/--status`: the bead stays `in_progress` through the handoff. `<worker-actor-name>`
 is the name from step 2 — the agent name this checkout was given by the SessionStart hook,
 which is also the assignee the claim wrote. If the flip fails, report the error **verbatim**,
@@ -339,7 +348,9 @@ the next invocation's business, and `/loop` is what supplies it.
 
 ## 8. Close the pass
 
-Report this one pass — not a run of beads:
+Report this one pass — not a run of beads — **to the user, in this conversation, and to
+nobody else**: the report is response text, not a `SendMessage`. The merger in particular
+hears about the handoff from the tracker (step 6), never from you.
 
 - **The bead handled**: id and title, its branch, and its outcome — handed to the merge
   queue, waiting at the review gate (what to look at, and that an OK resumes the pass),
@@ -353,5 +364,6 @@ Report this one pass — not a run of beads:
 
 Then stop. Conveyor **never commits to the main branch, never merges, never pushes** — the merger does
 that, and `/merge-queue` is the skill that runs it. Don't review the branch you produced,
-don't chase the bead you handed over, and don't run a retrospective; those are separate,
+don't chase the bead you handed over — no message to the merger asking whether it has been
+picked up, no nudge that it is waiting — and don't run a retrospective; those are separate,
 deliberate calls the user makes.
