@@ -24,6 +24,12 @@ function create_link {
     ln -s "$1" "$2"
 }
 
+# Like ensure_link, but the source is an absolute path outside this repo.
+function ensure_link_abs {
+    test $FORCE -eq 1 && remove "$HOME/$2"
+    test -L "$HOME/$2" || create_link "$1" "$HOME/$2"
+}
+
 function ensure_dir {
     test $FORCE -eq 1 && remove "$HOME/$1"
     test -d "$HOME/$1" || create_dir "$HOME/$1"
@@ -52,13 +58,13 @@ function create_dir {
                      ensure_link ".claude/settings.json"	".config/claude/settings.json"       
                      ensure_link ".claude/statusline.sh"	".config/claude/statusline.sh"       
                      ensure_link ".claude/hooks"		".config/claude/hooks"               
-                     ensure_link ".claude/skills"		".config/claude/skills"              
+                     ensure_link_abs "$HOME/Workspace/claude-code-scripts/skills"	".config/claude/skills"
                      ensure_dir  ".config/claude-work"
                      ensure_link ".claude/CLAUDE.md"		".config/claude-work/CLAUDE.md"      
                      ensure_link ".claude/settings.json"	".config/claude-work/settings.json"  
                      ensure_link ".claude/statusline.sh"	".config/claude-work/statusline.sh"  
                      ensure_link ".claude/hooks"		".config/claude-work/hooks"          
-                     ensure_link ".claude/skills"		".config/claude-work/skills"         
+                     ensure_link_abs "$HOME/Workspace/claude-code-scripts/skills"	".config/claude-work/skills"
 
 test -n "$OS_MAC" && ensure_link ".config/karabiner"      ".config/karabiner"
                      ensure_link ".config/home-manager"   ".config/home-manager"
