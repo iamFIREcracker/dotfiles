@@ -69,7 +69,13 @@ reviewers — **you pin the scope yourself, before the run**:
 - `targetFiles` — the explicit list of files under challenge. Never leave this to be
   inferred; an unscoped reviewer will wander into unrelated code and report on it.
 - `diffCmd` — for a code target, the exact diff command (e.g.
-  `git diff -- path/one path/two`). For a document target, pass `null`.
+  `git diff -- path/one path/two`). For a document target, pass `null`. A file that is
+  brand new and untracked produces no diff, and needs nothing extra in `diffCmd` for it —
+  no `cat`, no `git diff --no-index`: list it in `targetFiles` and keep `diffCmd` a plain
+  `git diff -- <the target paths>`, new ones included. That holds even when every target is
+  new and the command prints nothing at all: the empty output *is* the signal, because the
+  workflow already tells the reviewers that a listed file with no diff output is newly
+  created and is to be read in full.
 
 Note the difference from `/implement`: there, a dirty tree is a hazard, because
 pre-existing changes get reviewed as if the implementer wrote them. Here a dirty tree that
