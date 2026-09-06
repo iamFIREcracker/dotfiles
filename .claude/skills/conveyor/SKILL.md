@@ -180,7 +180,28 @@ cut: the in-tree half still gets done, on a branch a merger can merge.
 What the pass does instead:
 
 1. **Edit in the main session** — do the bead's work directly in this conversation, on
-   the real files. Note the auto-mode classifier can deny these out-of-tree edits **even
+   the real files. Before the first edit, look at what the owning repo already holds for
+   the artifact:
+
+   ```bash
+   git -C <owning-repo> status --porcelain -- <artifact>
+   ```
+
+   `status`, not `diff`: a prior pass that *created* the artifact leaves it untracked, and
+   `git diff -- <path>` prints nothing for an untracked file — silence a resumed pass would
+   read as a blank page. Nothing printed here means genuinely clean. ` M` means a tracked
+   file carrying uncommitted edits: read them with `git -C <owning-repo> diff -- <artifact>`.
+   `??` means the artifact is a file a prior pass created and never committed: read the
+   file itself, and treat the whole of it as that pass's draft.
+
+   Then sort what you found, because not all of it is yours. The parts that are this
+   bead's — on a resume, which claim's primer flags, a prior pass's half-done work,
+   typically cut off before its review — you read, judge how far they got, and continue
+   from rather than re-derive. The parts that are not this bead's are unrelated dirt in
+   the owning repo — the target file can carry both at once — and that is the case step
+   2's scoping note covers: leave them untouched and mention them in step 8's report.
+
+   Note the auto-mode classifier can deny these out-of-tree edits **even
    from the main session**: this step may need manual permission mode. That is deliberate
    policy, not an accident — the user wants every skill edit audited, and has explicitly
    declined a settings rule allowing these paths (ta-et7) — so if the denial fires, ask

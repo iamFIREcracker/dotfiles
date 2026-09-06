@@ -174,17 +174,35 @@ If the ready list is non-empty but nothing in it is actionable, claim nothing. S
 that everything "ready" is a parent still waiting on children, name those parents with how
 many children are still not closed, point at those children as the actual work, and stop.
 
-**Argument given** — claim that bead by id (atomic, and idempotent if you already hold
-it):
+**Argument given** — first look at what the claim is about to do. The explicit-id path
+skipped step 2's guard, and `--claim` is idempotent: re-claiming a bead this actor already
+holds prints the same `✓ Updated issue` line as a fresh claim and changes nothing on the
+record, so the success line alone cannot tell a start from a resume:
+
+```bash
+bd show <id> --json | jq '.[0] | {status, assignee, started_at}'
+```
+
+`status` already `in_progress` with `assignee` this actor means the claim below
+**resumes** a bead this worker already held — work a cut-off pass left half-done, or a
+bounce back from a merger. Keep the `started_at`: step 5 reports it. Any other state is
+an ordinary start — but only when the probe actually printed a state. This pipe carries
+steps 1 and 2's hazard: jq exits 0 on empty stdin, so a `bd` failure comes back as
+silence, which reads exactly like "not a resume" and loses the fact this step exists to
+surface. If the probe prints anything but that three-field object — a bd error on stderr,
+a jq parse error, nothing at all — report it **verbatim** and stop, the same as a failed
+claim.
+
+Then claim it (atomic, and idempotent if you already hold it):
 
 ```bash
 bd update <id> --claim
 ```
 
 An explicit id is the user overriding the selection logic on purpose, so claim it even if
-it's a parent. If the id doesn't exist or the claim fails — a lost claim race included —
-report the error **verbatim** and stop. Never fall back to claiming something else; the
-user asked for that bead.
+it's a parent, or already yours. If the id doesn't exist or the claim fails — a lost
+claim race included — report the error **verbatim** and stop. Never fall back to claiming
+something else; the user asked for that bead.
 
 Then check its children:
 
@@ -216,6 +234,11 @@ summary. Cover, where the bead has them:
 
 - id, title, type, priority
 - status and assignee **after** the claim (in_progress, and to whom)
+- **whether the claim resumed the bead rather than started it** — step 4's probe found it
+  already in_progress and assigned to this actor. Say so prominently, with its
+  `started_at`: a resumed bead has usually left half-done work somewhere — uncommitted
+  edits to its artifact, a work branch, a spec file — and whatever runs next has to go
+  looking for that before starting from a blank page.
 - description, acceptance criteria, design notes, notes
 - labels
 - dependencies: what blocked it, what depends on it, parent/epic
@@ -227,9 +250,10 @@ repetitive comment threads can be condensed, but never at the cost of a requirem
 
 ## 6. Close the loop
 
-Finish with one plain line: which bead you claimed, that it is now in_progress and
-assigned to the user, and that the session is primed — they can ask you to implement it
-now, or run their implementation skill of choice.
+Finish with one plain line: which bead you claimed — or, when step 4's probe said so,
+resumed, held since its `started_at` — that it is now in_progress and assigned to the
+user, and that the session is primed: they can ask you to implement it now, or run their
+implementation skill of choice.
 
 Then stop. Don't start implementing, don't edit files, and don't touch the bead further
 — no comments, no notes, no status changes, no closing. The single claim is the only
