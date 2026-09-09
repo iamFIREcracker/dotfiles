@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+exec env -i /Applications/Alacritty.app/Contents/MacOS/alacritty "$@"
+
