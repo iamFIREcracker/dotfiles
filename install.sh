@@ -53,18 +53,10 @@ function create_dir {
                      ensure_link ".bunfig.toml"           ".bunfig.toml"
                      ensure_dir  ".config"
 
-                     ensure_dir  ".config/claude"
-                     ensure_link ".claude/CLAUDE.md"		".config/claude/CLAUDE.md"           
-                     ensure_link ".claude/settings.json"	".config/claude/settings.json"       
-                     ensure_link ".claude/statusline.sh"	".config/claude/statusline.sh"       
-                     ensure_link ".claude/hooks"		".config/claude/hooks"               
-                     ensure_link_abs "$HOME/Workspace/claude-code-scripts/skills"	".config/claude/skills"
-                     ensure_dir  ".config/claude-work"
-                     ensure_link ".claude/CLAUDE.md"		".config/claude-work/CLAUDE.md"      
-                     ensure_link ".claude/settings.json"	".config/claude-work/settings.json"  
-                     ensure_link ".claude/statusline.sh"	".config/claude-work/statusline.sh"  
-                     ensure_link ".claude/hooks"		".config/claude-work/hooks"          
-                     ensure_link_abs "$HOME/Workspace/claude-code-scripts/skills"	".config/claude-work/skills"
+# ~/.config/claude and ~/.config/claude-<profile> are prepared by
+# ~/Workspace/claude-code-scripts/bin/prepare-config-dir.sh, which bin/claudew
+# (a symlink into that checkout) runs before every launch: CLAUDE.md,
+# settings.json and skills are linked from there, not from this repo.
 
 test -n "$OS_MAC" && ensure_link ".config/karabiner"      ".config/karabiner"
                      ensure_link ".config/home-manager"   ".config/home-manager"

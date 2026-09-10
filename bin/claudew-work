@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+
+export TMUX_LOOP_CLAUDE="${TMUX_LOOP_CLAUDE:-$(cd "$(dirname "$0")" && pwd -P)/$(basename "$0")}"
+unset ANTHROPIC_API_KEY
+
+export CLAUDE_PROFILE=work
+export CLAUDE_CODE_DISABLE_1M_CONTEXT=1
+exec claudew "$@"
