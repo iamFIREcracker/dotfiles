@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-
-export TMUX_LOOP_CLAUDE="${TMUX_LOOP_CLAUDE:-$(cd "$(dirname "$0")" && pwd -P)/$(basename "$0")}"
-export CLAUDE_PROFILE=zoe
-exec claudew "$@"
