@@ -338,7 +338,7 @@ function fucking-restart-bluetooth() {
 }
 
 function fucking-restart-network() {
-    local probe iface gw target_ip
+    local probe iface gw target_ip cidr subnet
 
     probe="${1:-git.iontrading.com}"
 
@@ -390,6 +390,41 @@ function fucking-restart-network() {
 
     sudo ip route replace default via "$gw" dev "$iface" 2>/dev/null ||
         sudo ip route replace default via "$gw" dev "$iface" onlink
+
+    # Suspend/resume sometimes drops the link-local subnet route too, which
+    # leaves the gateway itself unreachable. Recompute it from the interface
+    # address and put it back.
+    cidr="$(
+        ip -o -4 addr show dev "$iface" scope global 2>/dev/null |
+            awk '{print $4; exit}'
+    )"
+
+    if [[ -n "$cidr" ]]; then
+        subnet="$(
+            awk -v cidr="$cidr" 'BEGIN {
+                split(cidr, a, "/"); split(a[1], o, ".")
+                ip = o[1]*16777216 + o[2]*65536 + o[3]*256 + o[4]
+                mask = a[2] == 0 ? 0 : 4294967295 - (2 ^ (32 - a[2]) - 1)
+                net = int(ip / 1) ; net = and_net(ip, mask)
+                printf "%d.%d.%d.%d/%d", \
+                    int(net/16777216)%256, int(net/65536)%256, \
+                    int(net/256)%256, net%256, a[2]
+            }
+            function and_net(x, m,   i, r, b) {
+                r = 0; b = 1
+                for (i = 0; i < 32; i++) {
+                    if (int(x/b)%2 && int(m/b)%2) r += b
+                    b *= 2
+                }
+                return r
+            }'
+        )"
+
+        echo "Subnet:    $subnet"
+        sudo ip route replace "$subnet" dev "$iface" proto kernel scope link \
+            src "${cidr%/*}" 2>/dev/null ||
+            sudo ip route replace "$subnet" via "$gw" dev "$iface"
+    fi
 
     sudo ip neigh flush all 2>/dev/null || true
     sudo ip route flush cache 2>/dev/null || true
