@@ -4,6 +4,7 @@ set -e
 
 unisonw-config "$@"
 # unisonw-cache "$@"
+unisonw-homebrew-cache "$@"
 unisonw-me "$@"
 unisonw-plan "$@"
 unisonw-downloads "$@"

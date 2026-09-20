@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+#
+# Synchronizes Homebrew's download cache, so that a bottle or a cask installer
+# fetched on one box does not have to be fetched again on the others.
+#
+# Only `downloads/` is synchronized: `brew` looks cached files up by the
+# SHA-256 of their URL in there, and recreates the top-level symlinks itself.
+#
+# -times: `brew` discards a cached file whose modification time is older than
+# the server's Last-Modified header, so modification times must be preserved.
+#
+# -ignorenot '*.dmg': unisonw ignores disk images, but most cask installers
+# are disk images.
+
+set -e
+
+exec 2>&1 | tee -a ~/unison-homebrew-cache.log
+date
+
+case $HOSTNAME in
+    beast.local)
+        unisonw \
+            "$HOME/Library/Caches/Homebrew" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/Library/Caches/Homebrew" \
+            -path "downloads" \
+            -times \
+            -ignorenot "Name *.dmg" \
+            -ignore "Name *.incomplete" \
+            "$@"
+        ;;
+    EU-C3GB434-L)
+        unisonw \
+            "$HOME/Library/Caches/Homebrew" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/Library/Caches/Homebrew" \
+            -path "downloads" \
+            -times \
+            -ignorenot "Name *.dmg" \
+            -ignore "Name *.incomplete" \
+            "$@"
+        ;;
+    *)
+        unisonw \
+            "$HOME/Library/Caches/Homebrew" \
+            "ssh://beast.tailscale.internal//Users/matteolandi/Library/Caches/Homebrew" \
+            -path "downloads" \
+            -times \
+            -ignorenot "Name *.dmg" \
+            -ignore "Name *.incomplete" \
+            "$@"
+        ;;
+esac
