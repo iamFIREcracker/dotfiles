@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+#
+# Copy files from the current worktree to every other registered worktree of
+# the same repository, at the same path relative to the worktree root.
+#
+#     git worktree-sync [-y] <path>...
+#
+# Each path is resolved against the current worktree and must lie inside it.
+# Directories are copied recursively, replacing the destination directory
+# whole.  Before every copy the script shows the source, the destination
+# worktree and whether the destination is missing or differs, then asks for
+# confirmation; a destination identical to the source is reported and
+# skipped.  Answers: y (copy), n (skip, the default), a (copy this and every
+# remaining one without asking), q (stop).  -y answers yes to everything up
+# front.
+#
+# Exit status: 0 when every requested copy succeeded or was skipped, 1 when a
+# copy failed, 2 on a usage error.
+
+set -eu
+
+die() {
+    echo "git-worktree-sync: $*" >&2
+    exit 2
+}
+
+assume_yes=0
+while [ $# -gt 0 ]; do
+    case $1 in
+        -y|--yes) assume_yes=1; shift ;;
+        -h|--help) sed -n '2,/^$/{s/^# \{0,1\}//p;}' "$0"; exit 0 ;;
+        --) shift; break ;;
+        -*) die "unknown option: $1" ;;
+        *) break ;;
+    esac
+done
+[ $# -gt 0 ] || die "need at least one path (see --help)"
+
+root=$(git rev-parse --show-toplevel 2>/dev/null) || die "not inside a git worktree"
+root=$(cd "$root" && pwd -P)
+
+# Every registered worktree except the current one, one per line.
+targets=()
+while IFS= read -r line; do
+    case $line in
+        "worktree "*)
+            path=${line#worktree }
+            [ -d "$path" ] || continue
+            path=$(cd "$path" && pwd -P)
+            [ "$path" != "$root" ] && targets+=("$path")
+            ;;
+    esac
+done < <(git worktree list --porcelain)
+[ ${#targets[@]} -gt 0 ] || die "no other worktree is registered for this repository"
+
+# Relative paths of the sources, validated to lie inside the current worktree.
+sources=()
+for arg in "$@"; do
+    [ -e "$arg" ] || die "no such file or directory: $arg"
+    if [ -d "$arg" ]; then
+        abs=$(cd "$arg" && pwd -P)
+    else
+        abs=$(cd "$(dirname "$arg")" && pwd -P)/$(basename "$arg")
+    fi
+    case $abs in
+        "$root"/*) sources+=("${abs#"$root"/}") ;;
+        *) die "not inside the current worktree ($root): $arg" ;;
+    esac
+done
+
+# Compares two paths of the same kind; prints "missing", "identical" or
+# "differs".
+compare() {
+    if [ ! -e "$2" ]; then
+        echo missing
+    elif diff -rq "$1" "$2" >/dev/null 2>&1; then
+        echo identical
+    else
+        echo differs
+    fi
+}
+
+# Asks the question in $1 on the terminal and returns 0 to copy, 1 to skip;
+# exits on q.  Honours -y and a previous "a" answer.
+confirm() {
+    [ $assume_yes -eq 1 ] && return 0
+    while true; do
+        printf '%s [y/N/a/q] ' "$1" >/dev/tty
+        read -r answer </dev/tty || answer=q
+        case $answer in
+            y|Y) return 0 ;;
+            n|N|"") return 1 ;;
+            a|A) assume_yes=1; return 0 ;;
+            q|Q) echo "stopped" >&2; exit 0 ;;
+        esac
+    done
+}
+
+status=0
+for rel in "${sources[@]}"; do
+    src=$root/$rel
+    for target in "${targets[@]}"; do
+        dst=$target/$rel
+        state=$(compare "$src" "$dst")
+        if [ "$state" = identical ]; then
+            echo "$rel -> $target: identical, skipped"
+            continue
+        fi
+        if confirm "copy $rel -> $target ($state)?"; then
+            if mkdir -p "$(dirname "$dst")" \
+                && { [ ! -d "$dst" ] || rm -rf "$dst"; } \
+                && cp -R "$src" "$dst"; then
+                echo "$rel -> $target: copied"
+            else
+                echo "$rel -> $target: copy failed" >&2
+                status=1
+            fi
+        else
+            echo "$rel -> $target: skipped"
+        fi
+    done
+done
+exit $status
