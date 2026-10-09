@@ -101,13 +101,14 @@ BOLD=$'\e[1m'
 ITALIC=$'\e[3m'
 UNDERLINE=$'\e[4m'
 REVERSE=$'\e[7m'
+RED=$'\e[0;31m'
 GREEN=$'\e[0;32m'
 ORANGE=$'\e[0;33m'
 BLUE=$'\e[0;34m'
 PINK=$'\e[0;35m'
 CYAN=$'\e[0;36m'
-RED=$'\e[0;31m'
 WHITE=$'\e[0;97m'
+STATUS=$'\e[0;1;30;47m'
 
 eval "$(gdircolors ~/.vim/pack/bundle/start/vim-bruin/contrib/bruin.dircolors)"
 
@@ -823,17 +824,17 @@ prompt_command() {
     PS1=
     PS1="$PS1\n"                                  # gracious new line
     PS1="$PS1\n"                                  # gracious new line 2x
+    PS1="$PS1\[${STATUS}\]"
     PS1="$PS1$HOSTNAME"                           # hostname
     PS1="$PS1 · $(compact_cwd)"                   # cwd
     PS1="$PS1$(rcs_ps1)"                          # git/mercurial/svn
     PS1="$PS1 · $(date +'%e - %I:%M %p')"         # Now
+    PS1="$PS1\[$D\]"                              # reset status styling
     PS1="$PS1\n"
     PS1="$PS1$(pyenv_ps1)"                        # pyenv
     PS1="$PS1$(venv_ps1)"                         # virtualenv
     # PS1="$PS1$(nodenv_ps1)"                       # nodenv
-    PS1="$PS1\[${REVERSE}\]"
     PS1="$PS1${actual}"                           # the actual prompt
-    PS1="$PS1\[$D\]"                              # reset
     PS1="$PS1 "                                   # gratuitus space
     PS1="$PS1\[$(cursor_style)\]"                 # cursor style
     export PS1
