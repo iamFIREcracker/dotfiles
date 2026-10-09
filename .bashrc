@@ -828,7 +828,7 @@ prompt_command() {
     PS1="$PS1$HOSTNAME"                           # hostname
     PS1="$PS1 · $(compact_cwd)"                   # cwd
     PS1="$PS1$(rcs_ps1)"                          # git/mercurial/svn
-    PS1="$PS1 · $(date +'%e - %I:%M %p')"         # Now
+    PS1="$PS1 · $(date +'%-d - %I:%M %p')"        # Now
     PS1="$PS1\[$D\]"                              # reset status styling
     PS1="$PS1\n"
     PS1="$PS1$(pyenv_ps1)"                        # pyenv
