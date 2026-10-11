@@ -813,60 +813,6 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "Terminal: ctrl+enter to ◊ (Option + Shift + v on Mac OS)",
-                                "from": {
-                                    "key_code": "return_or_enter",
-                                    "modifiers": { "mandatory": ["left_control"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "v",
-                                        "modifiers": ["left_option", "left_shift"]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.apple\\.Terminal$",
-                                            "^org\\.alacritty$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "description": "Terminal: shift+enter to Ø (Option + Shift + o on Mac OS)",
-                                "from": {
-                                    "key_code": "return_or_enter",
-                                    "modifiers": { "mandatory": ["left_shift"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "o",
-                                        "modifiers": ["left_option", "left_shift"]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.apple\\.Terminal$",
-                                            "^org\\.alacritty$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
                                 "description": "Terminal: ctrl+slash to ÷ (Option + slash on Mac OS)",
                                 "from": {
                                     "key_code": "slash",
