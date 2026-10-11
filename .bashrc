@@ -107,8 +107,8 @@ ORANGE=$'\e[0;33m'
 BLUE=$'\e[0;34m'
 PINK=$'\e[0;35m'
 CYAN=$'\e[0;36m'
+GREY=$'\e[0;90m'
 WHITE=$'\e[0;97m'
-STATUS=$'\e[0;1;30;47m'
 
 eval "$(gdircolors ~/.vim/pack/bundle/start/vim-bruin/contrib/bruin.dircolors)"
 
@@ -824,7 +824,7 @@ prompt_command() {
     PS1=
     PS1="$PS1\n"                                  # gracious new line
     PS1="$PS1\n"                                  # gracious new line 2x
-    PS1="$PS1\[${STATUS}\]"
+    PS1="$PS1\[${GREY}\]"
     PS1="$PS1$HOSTNAME"                           # hostname
     PS1="$PS1 · $(compact_cwd)"                   # cwd
     PS1="$PS1$(rcs_ps1)"                          # git/mercurial/svn
