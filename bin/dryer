@@ -1,0 +1,3 @@
+#!/bin/sh
+# Run dryer from its checkout against the current directory.
+exec "$HOME/Workspace/dryer/dryer" "$@"

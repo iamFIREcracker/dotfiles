@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# I tried the RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/config approach
+# with the file containing --ignore-file=~/.ignore.  However, it's not
+# neither $HOME nor ~ so I guess a wrapper will have to do...
+exec ${HOMEBREW_PREFIX}/bin/rg \
+    --hidden \
+    --smart-case \
+    --ignore-file "$HOME/.ignore" \
+    "$@"
