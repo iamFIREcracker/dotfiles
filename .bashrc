@@ -843,5 +843,10 @@ prompt_command() {
 
 export PROMPT_COMMAND="prompt_command $PROMPT_COMMAND"
 
-# Use full path here.. ~/bin will be added to PATH only later
-~/bin/clear-screen-and-position-cursor-at-the-bottom
+if [ -n "$TMUX" ]; then
+    if [ -n "$LC_TA_GROUP" ] && [ "$LC_TA_GROUP" != "off" ]; then
+        ta .
+    fi
+else
+    ~/bin/clear-screen-and-position-cursor-at-the-bottom
+fi
