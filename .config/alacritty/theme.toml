@@ -1,7 +1,7 @@
 # On Windows, **copy** this to /mnt/c/Users/mlandi/AppData/Roaming/alacritty/theme.toml
 
 [colors.selection]
-text = "CellBackground"
+text = "0xf4f4f4"
 background = "0x008a8a"
 
 [colors.cursor]

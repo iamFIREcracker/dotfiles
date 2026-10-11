@@ -7,11 +7,12 @@ import = [
 
 
 # On Windows run:
-# setx WSLENV "TERM/u:CB_OSC52/u:LC_TERMINAL_TYPE/u"
+# setx WSLENV "TERM/u:CB_OSC52/u:LC_TERMINAL_TYPE/u:COLORTERM/u:LC_TA_GROUP/u"
 [env]
 TERM = "alacritty"
 CB_OSC52 = "1"
 LC_TERMINAL_TYPE = "TERMINAL"
+COLORTERM = "truecolor"
 
 [window]
 title = "TERMINAL"

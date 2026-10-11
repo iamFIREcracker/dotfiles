@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+# Rewrite an Alacritty *-override.toml from stdin to stdout with the "light"
+# variant of every `# dark` / `# light` line selected.  alacritty-sync-theme
+# toggles those lines in place whenever the system theme changes, so the file
+# on disk flips between two states; this script maps both states to one so
+# that git (via the clean filter configured by install.sh) never sees the
+# toggle as a change.
+
+exec sed -E '/# dark/s/^([[:space:]]*)([^#])/\1## \2/; /# light/s/^([[:space:]]*)##[[:space:]]*(.*)/\1\2/'

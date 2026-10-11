@@ -19,19 +19,19 @@ chars = "¶"
 
 [font.normal]
 family = "TX-02"
-style = "Regular"
+style = "SemiBold"
 
 [font.bold]
 family = "TX-02"
-style = "Bold"
+style = "ExtraBold"
 
 [font.italic]
 family = "TX-02"
-style = "Oblique"
+style = "SemiBold Oblique"
 
 [font.bold_italic]
 family = "TX-02"
-style = "Bold Oblique"
+style = "ExtraBold Oblique"
 
 [colors.primary]
 ## foreground = "0xf4f4f4" # dark

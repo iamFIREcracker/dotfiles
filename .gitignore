@@ -22,3 +22,6 @@ __pycache__
 .w3m/w3mtmp*
 
 tags*
+
+# Machine-specific symlink to one of the *-override.toml files
+.config/alacritty/local-override.toml

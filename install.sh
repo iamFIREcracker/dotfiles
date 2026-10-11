@@ -59,6 +59,7 @@ function create_dir {
 # settings.json and skills are linked from there, not from this repo.
 
 test -n "$OS_MAC" && ensure_link ".config/karabiner"      ".config/karabiner"
+                     ensure_link ".config/alacritty"      ".config/alacritty"
                      ensure_link ".config/home-manager"   ".config/home-manager"
                      ensure_link ".config/git"            ".config/git"
 
@@ -98,5 +99,10 @@ test -n "$OS_WIN" && ensure_link ".minttyrc"              ".minttyrc"
                      ensure_link ".w3m"                   ".w3m"
                      ensure_link ".gnupg/gpg.conf"        ".gnupg/gpg.conf"
                      ensure_link "ccl-init.lisp"          "ccl-init.lisp"
+
+# alacritty-sync-theme toggles the `# dark` / `# light` lines of
+# .config/alacritty/*-override.toml in place; the clean filter normalizes them
+# so the toggle never shows up as a change (see .gitattributes).
+git config filter.alacritty-override.clean "$WORKDIR/bin/alacritty-normalize-override"
 
 vim -c 'helptags ALL | quit'
