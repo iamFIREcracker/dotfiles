@@ -81,9 +81,11 @@ fi
 # the default umask is set in /etc/login.defs
 umask 022
 
-if [ -z "$JAVA_HOME" ]; then
-    if [ -f /usr/libexec/java_home ]; then
-        export JAVA_HOME=$(/usr/libexec/java_home)
+# /usr/libexec/java_home exists even when no JDK is installed, and in that
+# case prints an error; only export JAVA_HOME when it actually found one.
+if [ -z "$JAVA_HOME" ] && [ -x /usr/libexec/java_home ]; then
+    if JAVA_HOME=$(/usr/libexec/java_home 2>/dev/null); then
+        export JAVA_HOME
     fi
 fi
 
