@@ -44,15 +44,21 @@ thickness = 0.3
 [hints]
 enabled = [ ]
 
+# Shift/Control/Control+Shift-Return are sent as CSI u (kitty keyboard
+# protocol) sequences, which is what Claude Code, opencode and pi understand
+# natively, inside and outside of tmux (where `extended-keys on` forwards them
+# untouched to panes that asked for modified keys).  The previous ESC+LF /
+# ESC+CR encodings were rewritten by tmux into Ctrl+Alt+j / Alt+Enter once
+# extended-keys got enabled, and opencode/pi never understood them anyway.
 [[keyboard.bindings]]
 key = "Return"
 mods = "Shift"
-chars = "\u001b\u000a"
+chars = "\u001b[13;2u"
 
 [[keyboard.bindings]]
 key = "Return"
 mods = "Control"
-chars = "\u001b\u000d"
+chars = "\u001b[13;5u"
 
 [[keyboard.bindings]]
 key = "Return"
