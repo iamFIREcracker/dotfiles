@@ -63,9 +63,9 @@ test -n "$OS_MAC" && ensure_link ".config/karabiner"      ".config/karabiner"
                      ensure_link ".config/home-manager"   ".config/home-manager"
                      ensure_link ".config/git"            ".config/git"
 
-                     ensure_dir  ".config/opencode"
-                     ensure_link ".config/opencode/opencode.json" ".config/opencode/opencode.json"
-                     ensure_link ".config/opencode/tui.json"      ".config/opencode/tui.json"
+# ~/.config/opencode/*.json and ~/.pi/agent/*.json are linked from
+# ~/Workspace/claude-code-scripts/user-settings by that checkout's
+# bin/install-opencode-pi-links.sh, not from this repo.
 
                      ensure_link ".config/nix"            ".config/nix"
                      ensure_link ".config/nvim"           ".config/nvim"
