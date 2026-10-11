@@ -4,23 +4,74 @@
 
 CONFIG=$(readlink -f "$HOME/.config/alacritty/local-override.toml")
 
-get_theme() {
-  if [[ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" == "Dark" ]]; then
-    echo "dark"
-  else
-    echo "light"
-  fi
+case "$(uname -s)" in
+  Darwin)
+    get_theme() {
+      if [[ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" == "Dark" ]]; then
+        echo "dark"
+      else
+        echo "light"
+      fi
+    }
+    # macOS Alacritty watches the override directly; nothing more to do.
+    notify_reload() { :; }
+    ;;
+  Linux)
+    if [[ -z "$WSL_DISTRO_NAME" ]] && ! grep -qi microsoft /proc/version; then
+      echo "Unsupported platform: Linux outside WSL" >&2
+      exit 1
+    fi
+    # Windows stores the app theme preference in the registry:
+    # AppsUseLightTheme is 1 for light and 0 for dark.  reg.exe is reachable
+    # from WSL through interop and starts quickly enough to be polled.
+    get_theme() {
+      local value
+      value=$(reg.exe query 'HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' /v AppsUseLightTheme 2>/dev/null \
+        | tr -d '\r' | awk '/AppsUseLightTheme/ {print $3}')
+      if [[ "$value" == "0x0" ]]; then
+        echo "dark"
+      else
+        echo "light"
+      fi
+    }
+    # Alacritty on Windows does not receive change notifications for files
+    # served through the \\wsl$ share, so after rewriting the override we
+    # touch the main config on the NTFS side: a change to any file in the
+    # import chain makes Alacritty re-read the whole chain from disk.
+    # cmd.exe warns about UNC working directories on stderr; the value is
+    # still printed.
+    WINDOWS_CONFIG="$(wslpath "$(cmd.exe /c 'echo %APPDATA%' 2>/dev/null | tr -d '\r')")/alacritty/alacritty.toml"
+    if [[ ! -f "$WINDOWS_CONFIG" ]]; then
+      echo "Windows Alacritty config not found: $WINDOWS_CONFIG" >&2
+      exit 1
+    fi
+    notify_reload() {
+      touch "$WINDOWS_CONFIG"
+    }
+    ;;
+  *)
+    echo "Unsupported platform: $(uname -s)" >&2
+    exit 1
+    ;;
+esac
+
+# Rewrite the config in place without relying on the platform-specific
+# `sed -i` syntax (BSD sed wants `-i ''`, GNU sed wants `-i`).
+rewrite() {
+  local script="$1" tmp
+  tmp=$(mktemp "$CONFIG.XXXXXX")
+  sed -E "$script" "$CONFIG" > "$tmp" && mv "$tmp" "$CONFIG"
 }
 
 apply_theme() {
   if [[ "$1" == "dark" ]]; then
     # Comment out light: Add ## right before the text, preserving indentation
     # Uncomment dark: Strip ## and keep the alignment
-    sed -i '' -E '/# light/s/^([[:space:]]*)([^#])/\1## \2/; /# dark/s/^([[:space:]]*)##[[:space:]]*(.*)/\1\2/' "$CONFIG"
+    rewrite '/# light/s/^([[:space:]]*)([^#])/\1## \2/; /# dark/s/^([[:space:]]*)##[[:space:]]*(.*)/\1\2/'
   else
     # Comment out dark: Add ## right before the text, preserving indentation
     # Uncomment light: Strip ## and keep the alignment
-    sed -i '' -E '/# dark/s/^([[:space:]]*)([^#])/\1## \2/; /# light/s/^([[:space:]]*)##[[:space:]]*(.*)/\1\2/' "$CONFIG"
+    rewrite '/# dark/s/^([[:space:]]*)([^#])/\1## \2/; /# light/s/^([[:space:]]*)##[[:space:]]*(.*)/\1\2/'
   fi
 }
 
@@ -30,6 +81,7 @@ while true; do
   if [[ "$current_mode" != "$last_mode" ]]; then
     echo "# $(date) theme switch: $current_mode"
     apply_theme "$current_mode"
+    notify_reload
     last_mode="$current_mode"
   fi
   sleep 1
