@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#
+# On MacOS, .unison can be found at: ~/Library/Application Support/Unison
 
 set -u
 
@@ -6,31 +8,42 @@ ROOT1=${1?Need a value for ROOT1}
 ROOT2=${2?Need a value for ROOT2}
 
 unison "$ROOT1" "$ROOT2" \
+    -servercmd /opt/homebrew/bin/unison \
+    -auto \
     -confirmbigdel \
     -confirmmerge \
     -prefer newer \
     -links false \
-    -ignore 'Name *.db' \
+    -ui text \
+    -color false \
     -ignore 'Name *.dmg' \
     -ignore 'Name *.egg-info' \
     -ignore 'Name *.lock' \
     -ignore 'Name *.log' \
     -ignore 'Name *.o' \
     -ignore 'Name *.pyc' \
+    -ignore 'Name *.tsbuildinfo' \
     -ignore 'Name *.vdi' \
     -ignore 'Name .DS_Store' \
+    -ignore 'Name .aider.tags.cache.v4' \
+    -ignore 'Name .common-lisp' \
+    -ignore 'Name .data' \
     -ignore 'Name .dependenciesSources' \
-    -ignore 'Name .git' \
-    -ignore 'Name .hg' \
+    -ignore 'Name .logs' \
+    -ignore 'Name .mypy_cache' \
+    -ignore 'Name .next' \
+    -ignore 'Name .nix-cache-proxy' \
+    -ignore 'Name .quicklisp' \
     -ignore 'Name .ropeproject' \
     -ignore 'Name .vagrant' \
+    -ignore 'Name .venv' \
     -ignore 'Name __pycache__' \
+    -ignore 'Name dist' \
     -ignore 'Name lcov-report' \
     -ignore 'Name node_modules' \
     -ignore 'Name tags*' \
     -ignore 'Name target' \
     -ignore 'Name venv' \
-    -ignore 'Name .next' \
     -ignore 'Name w3mcache*' \
     -ignore 'Name w3mcookie*' \
     -ignore 'Name w3msrc*' \
