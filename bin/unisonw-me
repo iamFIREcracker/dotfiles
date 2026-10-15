@@ -2,7 +2,7 @@
 
 set -e
 
-exec 2>&1 | tee -a ~/unison-me.log
+exec > >(tee -a ~/unison-me.log) 2>&1
 date
 
 

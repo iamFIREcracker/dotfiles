@@ -2,7 +2,7 @@
 
 set -e
 
-exec 2>&1 | tee -a ~/unison-downloads.log
+exec > >(tee -a ~/unison-downloads.log) 2>&1
 date
 
 case $HOSTNAME in

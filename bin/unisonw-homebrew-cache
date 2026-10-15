@@ -14,7 +14,7 @@
 
 set -e
 
-exec 2>&1 | tee -a ~/unison-homebrew-cache.log
+exec > >(tee -a ~/unison-homebrew-cache.log) 2>&1
 date
 
 case $HOSTNAME in
