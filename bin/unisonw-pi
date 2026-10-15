@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#
+# Synchronizes pi's state directory: sessions, input history, credentials.
+#
+# `agent/bin` is ignored: pi downloads fd/rg there per-OS (and shadows its
+# PATH fallback just because the file exists), so an fd from the other box
+# silently breaks @ file completion with zero error text. Deleting the
+# binary lets pi re-download the right one. To sync it deliberately anyway,
+# pass -ignorenot 'Path agent/bin' as an extra argument.
+#
+# Settings, keybindings, themes, and extensions are symlinks into
+# claude-code-scripts; unisonw skips links, and that repository's install
+# scripts recreate them on each box.
+
+set -e
+
+exec > >(tee -a ~/unison-pi.log) 2>&1
+date
+
+case $HOSTNAME in
+    beast.local)
+        unisonw \
+            "$HOME/.pi" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/.pi" \
+            -ignore 'Path agent/bin' \
+            "$@"
+        ;;
+    EU-C3GB434-L)
+        unisonw \
+            "$HOME/.pi" \
+            "ssh://skinny.tailscale.internal//Users/matteolandi/.pi" \
+            -ignore 'Path agent/bin' \
+            "$@"
+        ;;
+    *)
+        unisonw \
+            "$HOME/.pi" \
+            "ssh://beast.tailscale.internal//Users/matteolandi/.pi" \
+            -ignore 'Path agent/bin' \
+            "$@"
+        ;;
+esac
