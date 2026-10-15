@@ -40,7 +40,7 @@ case $HOSTNAME in
         ;;
     *)
         unisonw \
-            "$HOME/Library/Caches/Homebrew" \
+            "$(brew --cache)" \
             "ssh://beast.tailscale.internal//Users/matteolandi/Library/Caches/Homebrew" \
             -path "downloads" \
             -times \
