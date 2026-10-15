@@ -10,21 +10,18 @@ case $HOSTNAME in
         unisonw \
             "$HOME/.config" \
             "ssh://skinny.tailscale.internal//Users/matteolandi/.config" \
-            -ignorenot "Name io.datasette.llm/logs.db" \
             "$@"
         ;;
     EU-C3GB434-L)
         unisonw \
             "$HOME/.config" \
             "ssh://skinny.tailscale.internal//Users/matteolandi/.config" \
-            -ignorenot "Name io.datasette.llm/logs.db" \
             "$@"
         ;;
     *)
         unisonw \
             "$HOME/.config" \
             "ssh://beast.tailscale.internal//Users/matteolandi/.config" \
-            -ignorenot "Name io.datasette.llm/logs.db" \
             "$@"
         ;;
 esac
