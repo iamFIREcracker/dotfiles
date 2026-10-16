@@ -6,21 +6,10 @@ exec > >(tee -a ~/unison-me.log) 2>&1
 date
 
 
+# Elsewhere than beast, UNISONW_PEER=skinny selects skinny as the peer (e.g. when
+# beast is down).
 case $HOSTNAME in
     beast.local)
-        unisonw \
-            "$HOME/my-env" \
-            "ssh://skinny.tailscale.internal//Users/matteolandi/my-env" \
-            -ignore 'Name dotfiles/.vim/pack/bundle/opt/fzf/bin/fzf' \
-            -ignore 'Regex .*/\.mutt/cache' \
-            -ignore 'Regex .*/\.mutt/temp' \
-            -ignore 'Regex .*/\.vim/spell' \
-            -ignore 'Regex .*/\.vim/tmp' \
-            -ignore 'Regex .*/\.vim/.netrwbook' \
-            -ignore 'Regex .*/\.vim/.netrwhist' \
-            "$@"
-        ;;
-    EU-C3GB434-L)
         unisonw \
             "$HOME/my-env" \
             "ssh://skinny.tailscale.internal//Users/matteolandi/my-env" \
@@ -36,7 +25,7 @@ case $HOSTNAME in
     *)
         unisonw \
             "$HOME/my-env" \
-            "ssh://beast.tailscale.internal//Users/matteolandi/my-env" \
+            "ssh://${UNISONW_PEER:-beast}.tailscale.internal//Users/matteolandi/my-env" \
             -ignore 'Name dotfiles/.vim/pack/bundle/opt/fzf/bin/fzf' \
             -ignore 'Regex .*/\.mutt/cache' \
             -ignore 'Regex .*/\.mutt/temp' \

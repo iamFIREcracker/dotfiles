@@ -17,18 +17,10 @@ set -e
 exec > >(tee -a ~/unison-homebrew-cache.log) 2>&1
 date
 
+# Elsewhere than beast, UNISONW_PEER=skinny selects skinny as the peer (e.g. when
+# beast is down).
 case $HOSTNAME in
     beast.local)
-        unisonw \
-            "$HOME/Library/Caches/Homebrew" \
-            "ssh://skinny.tailscale.internal//Users/matteolandi/Library/Caches/Homebrew" \
-            -path "downloads" \
-            -times \
-            -ignorenot "Name *.dmg" \
-            -ignore "Name *.incomplete" \
-            "$@"
-        ;;
-    EU-C3GB434-L)
         unisonw \
             "$HOME/Library/Caches/Homebrew" \
             "ssh://skinny.tailscale.internal//Users/matteolandi/Library/Caches/Homebrew" \
@@ -41,7 +33,7 @@ case $HOSTNAME in
     *)
         unisonw \
             "$(brew --cache)" \
-            "ssh://beast.tailscale.internal//Users/matteolandi/Library/Caches/Homebrew" \
+            "ssh://${UNISONW_PEER:-beast}.tailscale.internal//Users/matteolandi/Library/Caches/Homebrew" \
             -path "downloads" \
             -times \
             -ignorenot "Name *.dmg" \

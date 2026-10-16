@@ -5,19 +5,10 @@ set -e
 exec > >(tee -a ~/unison-cache.log) 2>&1
 date
 
+# Elsewhere than beast, UNISONW_PEER=skinny selects skinny as the peer (e.g. when
+# beast is down).
 case $HOSTNAME in
     beast.local)
-        unisonw \
-            "$HOME/.cache" \
-            "ssh://skinny.tailscale.internal//Users/matteolandi/.cache" \
-            -path "huggingface" \
-            -path "ollama" \
-            -path "llama.cpp" \
-            -path "quicklisp" \
-            -path "qmd" \
-            "$@"
-        ;;
-    EU-C3GB434-L)
         unisonw \
             "$HOME/.cache" \
             "ssh://skinny.tailscale.internal//Users/matteolandi/.cache" \
@@ -31,7 +22,7 @@ case $HOSTNAME in
     *)
         unisonw \
             "$HOME/.cache" \
-            "ssh://beast.tailscale.internal//Users/matteolandi/.cache" \
+            "ssh://${UNISONW_PEER:-beast}.tailscale.internal//Users/matteolandi/.cache" \
             -path "huggingface" \
             -path "ollama" \
             -path "llama.cpp" \

@@ -5,6 +5,8 @@ set -e
 exec > >(tee -a ~/unison-plan.log) 2>&1
 date
 
+# Elsewhere than beast, UNISONW_PEER=skinny selects skinny as the peer (e.g. when
+# beast is down).
 case $HOSTNAME in
     beast.local)
         unisonw \
@@ -16,24 +18,14 @@ case $HOSTNAME in
             "$HOME/Dropbox/plan" \
             "$@"
         ;;
-    EU-C3GB434-L)
-        unisonw \
-            "$HOME/plan" \
-            "ssh://skinny.tailscale.internal//Users/matteolandi/plan" \
-            "$@"
-        unisonw \
-            "$HOME/plan" \
-            "ssh://skinny.tailscale.internal//Users/matteolandi/Dropbox/plan" \
-            "$@"
-        ;;
     *)
         unisonw \
             "$HOME/plan" \
-            "ssh://beast.tailscale.internal//Users/matteolandi/plan" \
+            "ssh://${UNISONW_PEER:-beast}.tailscale.internal//Users/matteolandi/plan" \
             "$@"
         unisonw \
             "$HOME/plan" \
-            "ssh://beast.tailscale.internal//Users/matteolandi/Dropbox/plan" \
+            "ssh://${UNISONW_PEER:-beast}.tailscale.internal//Users/matteolandi/Dropbox/plan" \
             "$@"
         ;;
 esac

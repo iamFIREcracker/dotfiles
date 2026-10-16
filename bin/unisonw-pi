@@ -17,15 +17,10 @@ set -e
 exec > >(tee -a ~/unison-pi.log) 2>&1
 date
 
+# Elsewhere than beast, UNISONW_PEER=skinny selects skinny as the peer (e.g. when
+# beast is down).
 case $HOSTNAME in
     beast.local)
-        unisonw \
-            "$HOME/.pi" \
-            "ssh://skinny.tailscale.internal//Users/matteolandi/.pi" \
-            -ignore 'Path agent/bin' \
-            "$@"
-        ;;
-    EU-C3GB434-L)
         unisonw \
             "$HOME/.pi" \
             "ssh://skinny.tailscale.internal//Users/matteolandi/.pi" \
@@ -35,7 +30,7 @@ case $HOSTNAME in
     *)
         unisonw \
             "$HOME/.pi" \
-            "ssh://beast.tailscale.internal//Users/matteolandi/.pi" \
+            "ssh://${UNISONW_PEER:-beast}.tailscale.internal//Users/matteolandi/.pi" \
             -ignore 'Path agent/bin' \
             "$@"
         ;;
