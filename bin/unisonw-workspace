@@ -8,22 +8,35 @@ date
 # Elsewhere than beast, UNISONW_PEER=skinny selects skinny as the peer (e.g. when
 # beast is down).
 case $HOSTNAME in
-    beast.local)
-        unisonw \
-            "$HOME/Workspace" \
-            "ssh://skinny.tailscale.internal//Users/matteolandi/Workspace" \
-            -ignore "Name job" \
-            -ignore "Name reallythebestgrocerylistappever.com/data/app.db" \
-            -ignore "Name fzf/bin/fzf" \
-            "$@"
-        ;;
-    *)
-        unisonw \
-            "$HOME/Workspace" \
-            "ssh://${UNISONW_PEER:-beast}.tailscale.internal//Users/matteolandi/Workspace" \
-            -ignore "Name job" \
-            -ignore "Name reallythebestgrocerylistappever.com/data/app.db" \
-            -ignore "Name fzf/bin/fzf" \
-            "$@"
-        ;;
+    beast.local) peer=skinny ;;
+    *) peer=${UNISONW_PEER:-beast} ;;
 esac
+remote="ssh://${peer}.tailscale.internal//Users/matteolandi/Workspace"
+
+unisonw \
+    "$HOME/Workspace" \
+    "$remote" \
+    -ignore "Name job" \
+    -ignore "Name reallythebestgrocerylistappever.com/data/app.db" \
+    -ignore "Name fzf/bin/fzf" \
+    "$@"
+
+# unisonw skips symbolic links (-links false), because some projects hold
+# absolute links that would dangle on the peer.  The claude-code-scripts
+# checkouts track relative links (pi/extensions, portable-skills,
+# opencode/plugins) that must arrive as links, so synchronize those checkouts
+# a second time with links enabled.  Only checkouts present locally are listed.
+paths=()
+for d in "$HOME"/Workspace/claude-code-scripts*/; do
+    [ -d "$d" ] || continue
+    d=${d%/}
+    paths+=(-path "${d##*/}")
+done
+if [ ${#paths[@]} -gt 0 ]; then
+    unisonw \
+        "$HOME/Workspace" \
+        "$remote" \
+        -links true \
+        "${paths[@]}" \
+        "$@"
+fi
