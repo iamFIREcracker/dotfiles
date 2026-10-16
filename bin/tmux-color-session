@@ -1,0 +1,19 @@
+#!/bin/bash
+# Color a tmux session's status line after the agent name of the worktree
+# its start directory belongs to, so every worktree keeps one color.  Called
+# by the session-created hook in .tmux.conf, with the session id.
+set -u
+session=${1?Need a session}
+dir=$(tmux display-message -p -t "$session" '#{session_path}') || exit 0
+name=$("$HOME/Workspace/claude-code-scripts/bin/agent-name.sh" --name-only "$dir") || exit 0
+case $name in
+  altair)    exit 0 ;;            # main checkout, and any non-git directory
+  bellatrix) color=color1 ;;
+  capella)   color=color10 ;;
+  deneb)     color=color11 ;;
+  electra)   color=color4 ;;
+  fomalhaut) color=color5 ;;
+  gienah)    color=color6 ;;
+  *)         color=color15 ;;
+esac
+tmux set-option -t "$session" status-style "bg=$color"
