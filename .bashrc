@@ -95,6 +95,46 @@ export HISTIGNORE="&:exit:ls:bg:fg:history:hs:clear"
 # %T equivalent to %H:%M:%S (24-hours format)
 HISTTIMEFORMAT='%F %T '
 
+# Per-directory history: one history file per git root (or per directory,
+# outside of git), named after the path the way Claude names its projects --
+# `/` and `.` become `-` -- with $HOME kept as a literal `~`, so the same
+# checkout maps to the same file on every machine, whatever the user name.
+# Kept under ~/.config so that unisonw-config synchronizes it across machines.
+#   ~/my-env/dotfiles/.vim  ->  ~/.config/bash/history/~-my-env-dotfiles
+HISTORY_DIRECTORY=~/.config/bash/history
+HISTORY_HOME=$(cd ~ && pwd -P)
+mkdir -p "$HISTORY_DIRECTORY"
+
+per_directory_history_file() {
+    local root
+    root=$(git rev-parse --show-toplevel 2>/dev/null) || root=$(pwd -P)
+    case $root in
+        "$HISTORY_HOME")   root='~' ;;
+        "$HISTORY_HOME"/*) root="~/${root#"$HISTORY_HOME"/}" ;;
+    esac
+    root=${root//\//-}
+    echo "$HISTORY_DIRECTORY/${root//./-}"
+}
+
+# Called from prompt_command, right after `history -a` has flushed the
+# commands issued in the previous directory to the previous file.  Not
+# exported, so that nested shells compute their own.
+HISTORY_LAST_DIR=$PWD
+per_directory_history() {
+    [ "$HISTORY_LAST_DIR" = "$PWD" ] && return
+    HISTORY_LAST_DIR=$PWD
+
+    local file=$(per_directory_history_file)
+    [ "$file" = "$HISTFILE" ] && return
+    history -c
+    HISTFILE=$file
+    history -r
+}
+
+# Bash loads $HISTFILE only after this file has been sourced, so for the
+# starting directory it is enough to point it at the right file.
+HISTFILE=$(per_directory_history_file)
+
 # Colors
 D=$'\e[0m'
 BOLD=$'\e[1m'
@@ -796,6 +836,9 @@ prompt_command() {
 
     # Record each line as it gets issued
     history -a
+
+    # ...then switch history file, if the directory changed
+    per_directory_history
 
     # OSC 133 -- prompt marker
     printf '\e]133;A\e'

@@ -5,6 +5,15 @@ set -e
 exec > >(tee -a ~/unison-config.log) 2>&1
 date
 
+# Per-directory bash histories (see .bashrc) get appended to on both machines
+# between two synchronizations; rather than letting -prefer newer drop one
+# side's commands, merge the two files.  -confirmmerge=false, overriding
+# unisonw's -confirmmerge, spares one confirmation per merged file.
+history_merge=(
+    -merge "Path bash/history/* -> $HOME/bin/merge-bash-history CURRENT1 CURRENT2 NEW"
+    -confirmmerge=false
+)
+
 # Elsewhere than beast, UNISONW_PEER=skinny selects skinny as the peer (e.g. when
 # beast is down).
 case $HOSTNAME in
@@ -12,12 +21,14 @@ case $HOSTNAME in
         unisonw \
             "$HOME/.config" \
             "ssh://skinny.tailscale.internal//Users/matteolandi/.config" \
+            "${history_merge[@]}" \
             "$@"
         ;;
     *)
         unisonw \
             "$HOME/.config" \
             "ssh://${UNISONW_PEER:-beast}.tailscale.internal//Users/matteolandi/.config" \
+            "${history_merge[@]}" \
             "$@"
         ;;
 esac
