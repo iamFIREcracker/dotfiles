@@ -48,6 +48,12 @@ unison "$ROOT1" "$ROOT2" \
     -ignore 'Name w3mcookie*' \
     -ignore 'Name w3msrc*' \
     -ignore 'Name w3mtmp*' \
-    "${@:3}"
+    "${@:3}" \
+    2> >(cat >&2)
+# ssh, which unison spawns with its own stderr, switches that descriptor to
+# O_NONBLOCK when it is not a terminal.  The unisonw-* wrappers send stdout
+# and stderr into one tee pipe, so stdout turned non-blocking too, and unison
+# died with Sys_blocked_io as soon as that pipe filled.  The process
+# substitution above gives unison (and ssh) a stderr pipe of their own.
 
 test $? -le 1 # exit code: 1 means something was skipped but rest went fine
