@@ -25,6 +25,7 @@ function interesting() {
     dirs_inside $HOME/Workspace/job/Tracker
     dirs_inside $HOME/Workspace/job/CAT
     dirs_inside $HOME/opt
+    dirs_inside $HOME/Projects
     echo        $HOME/Workspace/job/ConnectION/cnxt/infrastructure/gitlab-runner
     echo        $HOME/my-env
     dirs_inside $HOME/my-env
