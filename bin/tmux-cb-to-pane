@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Paste the OS clipboard into a tmux pane through `cb`, images included.
+#
+# With CB_IMAGE set, `cb --paste` prints the clipboard text (if any) and, on
+# its own line, the path of a file it saved the clipboard image to (if any):
+# the pane receives text either way, and a program that takes file paths
+# (Claude Code, vim, a shell) gets to the image through the path.  Over ssh
+# the same call asks the clipboard daemon on the ssh client for the bytes and
+# saves them here, next to the pane, so the path is valid where it is pasted.
+#
+# Usage: tmux-cb-to-pane [TARGET-PANE]   (defaults to $TMUX_PANE)
+
+set -u
+
+target=${1:-${TMUX_PANE:-}}
+
+# $(...) drops the trailing newline, so pasting a single line does not also
+# press Return in a shell.
+content=$(CB_IMAGE=1 cb --paste)
+
+if [ -z "$content" ]; then
+    tmux display-message -d 2000 "cb: the clipboard is empty"
+    exit 0
+fi
+
+# -p wraps the text in bracketed-paste markers when the program in the pane
+# asked for them (vim, bash, Claude Code), so it is pasted and not typed.
+printf '%s' "$content" | tmux load-buffer -b cb-paste - \
+    && tmux paste-buffer -d -p -b cb-paste ${target:+-t "$target"}
