@@ -886,7 +886,7 @@ prompt_command() {
 
 export PROMPT_COMMAND="prompt_command $PROMPT_COMMAND"
 
-if [ -n "$TMUX" ]; then
+if [ -z "$TMUX" ]; then
     if [ -n "$LC_TA_GROUP" ] && [ "$LC_TA_GROUP" != "off" ]; then
         ta .
     fi
