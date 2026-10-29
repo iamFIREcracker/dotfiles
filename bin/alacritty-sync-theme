@@ -26,13 +26,15 @@ case "$(uname -s)" in
     # Windows stores the app theme preference in the registry:
     # AppsUseLightTheme is 1 for light and 0 for dark.  reg.exe is reachable
     # from WSL through interop and starts quickly enough to be polled.
+    # Interop calls fail in bursts; an unreadable registry must not read as
+    # "light", so echo nothing and let the poll loop keep the last theme.
     get_theme() {
       local value
       value=$(reg.exe query 'HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' /v AppsUseLightTheme 2>/dev/null \
         | tr -d '\r' | awk '/AppsUseLightTheme/ {print $3}')
       if [[ "$value" == "0x0" ]]; then
         echo "dark"
-      else
+      elif [[ "$value" == "0x1" ]]; then
         echo "light"
       fi
     }
@@ -44,6 +46,7 @@ case "$(uname -s)" in
     # still printed.
     notify_reload() {
       local app_data=$(wslpath "$(cmd.exe /c 'echo %APPDATA%' 2>/dev/null | tr -d '\r')")
+      [[ -n "$app_data" ]] || return 1
       touch "$app_data/alacritty/alacritty.toml"
       touch "$app_data/alacritty/editor.toml"
       touch "$app_data/alacritty/llm.toml"
@@ -80,7 +83,9 @@ apply_theme() {
 last_mode=""
 while true; do
   current_mode=$(get_theme)
-  if [[ "$current_mode" != "$last_mode" ]]; then
+  # An empty read means the registry was unreadable this cycle: keep the
+  # last applied theme and skip both the rewrite and the reload.
+  if [[ -n "$current_mode" && "$current_mode" != "$last_mode" ]]; then
     echo "# $(date) theme switch: $current_mode"
     apply_theme "$current_mode"
     notify_reload
