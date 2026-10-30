@@ -50,7 +50,7 @@ Error response from daemon: Conflict. The container name "/cnxt-console" is alre
     ;; characters before it, so we cannot use `^' inside the pattern.
     ("Successfully rebased and updated refs/heads/(.*)\\." (updated-ref))
   (format NIL "git push --force-with-lease ~a ~a"
-          (format NIL "$(git config 'branch.~a.remote' | git-remotes-fzf 'push ')" updated-ref)
+          (format NIL "$(git config 'branch.~a.remote' || git remote | fzf --select-1)" updated-ref)
           updated-ref))
 
 (cg:define-guesser cb-rebased-branch
@@ -72,7 +72,7 @@ Error response from daemon: Conflict. The container name "/cnxt-console" is alre
 (cg:define-guesser git-push-updated-refs
     ("^\\s+refs/heads/(.*)" (updated-ref))
   (format NIL "git push --force-with-lease ~a ~a"
-          (format NIL "$(git config 'branch.~a.remote' | git-remotes-fzf push)" updated-ref)
+          (format NIL "$(git config 'branch.~a.remote' || git remote | fzf --select-1)" updated-ref)
           updated-ref))
 
 (cg:define-guesser cb-updated-refs
