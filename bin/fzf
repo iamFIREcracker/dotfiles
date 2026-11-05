@@ -10,9 +10,13 @@
 #
 # List colors: the terminal's foreground and background, swapped, so the list
 # stands out in light and dark themes alike.  They are read from the terminal
-# (OSC 10/11) on every launch, so they follow theme changes.  When the
-# terminal does not report them, the list uses the reverse attribute instead,
-# which covers the text of each item but not the rest of the line.
+# (OSC 10/11) on every launch, so they follow theme changes.  tmux answers
+# these queries for its panes but not for its popups; inside tmux, an
+# unanswered query is therefore repeated in a detached window of the current
+# session, which shows in the status line while it runs (tens of
+# milliseconds).  When no colors can be obtained, the list uses the reverse
+# attribute instead, which covers the text of each item but not the rest of
+# the line.
 
 repo=~/Workspace/fzf
 local_build="$repo/bin/fzf"
@@ -87,17 +91,70 @@ query_terminal_colors() {
     done
 }
 
+# Probe mode, entered when query_colors_through_tmux_window starts this script
+# in its detached window: write the colors (or nothing) to the file named by
+# FZF_COLOR_PROBE_OUTPUT, then wait to be killed with the window.  Waiting
+# rather than exiting keeps the pane from dying, which would fire pane-died
+# hooks.  The sleep only bounds the wait should the launching wrapper fail.
+if [ -n "${FZF_COLOR_PROBE_OUTPUT:-}" ]; then
+    if query_terminal_colors; then
+        printf '%s %s\n' "$terminal_foreground" "$terminal_background" >"$FZF_COLOR_PROBE_OUTPUT.partial"
+    else
+        : >"$FZF_COLOR_PROBE_OUTPUT.partial"
+    fi
+    mv "$FZF_COLOR_PROBE_OUTPUT.partial" "$FZF_COLOR_PROBE_OUTPUT"
+    exec sleep 10
+fi
+
+# Run query_terminal_colors in a detached window of the current tmux session,
+# whose pane tmux answers the color queries for, and store the colors it
+# reports in terminal_foreground and terminal_background.  Fails outside
+# tmux, and when the window reports no colors within one second.
+query_colors_through_tmux_window() {
+    local script_path probe_directory output window_id attempt
+    terminal_foreground=''
+    terminal_background=''
+    [ -n "${TMUX:-}" ] || return 1
+
+    script_path=${BASH_SOURCE[0]}
+    case $script_path in
+        /*) ;;
+        */*) script_path=$PWD/$script_path ;;
+        *) script_path=$(command -v -- "$script_path") || return 1 ;;
+    esac
+
+    probe_directory=$(mktemp -d "${TMPDIR:-/tmp}/fzf-color-probe.XXXXXX") || return 1
+    output=$probe_directory/colors
+    if ! window_id=$(tmux new-window -d -P -F '#{window_id}' \
+            "FZF_USE_LOCAL_BUILD=0 FZF_COLOR_PROBE_OUTPUT=$(printf %q "$output") exec $(printf %q "$script_path")"); then
+        rm -rf "$probe_directory"
+        return 1
+    fi
+    for (( attempt = 0; attempt < 100; attempt++ )); do
+        [ -e "$output" ] && break
+        sleep 0.01
+    done
+    tmux kill-window -t "$window_id" 2>/dev/null
+    [ -s "$output" ] && read -r terminal_foreground terminal_background <"$output"
+    rm -rf "$probe_directory"
+    [ -n "$terminal_background" ]
+}
+
 list_colors='
     list-fg:reverse
     list-bg:reverse
     hl:reverse'
-if interface_requested "$@" && query_terminal_colors; then
-    # hl: the reverse attribute swaps it with list-bg, so matched characters
-    # show in the terminal's ordinary colors.
+if interface_requested "$@" && { query_terminal_colors || query_colors_through_tmux_window; }; then
+    # hl: the list's own colors, so matched characters look like the rest of
+    # the item, as with the reverse attribute below.
+    # query, info: without an input border fzf draws the prompt row on
+    # list-bg but keeps the default foreground there, so set it explicitly.
     list_colors="
     list-fg:$terminal_background
     list-bg:$terminal_foreground
-    hl:$terminal_background:reverse"
+    hl:$terminal_background
+    query:$terminal_background
+    info:$terminal_background"
 fi
 
 if [ -z "${FZF_DEFAULT_COMMAND:-}" ]; then
@@ -114,7 +171,7 @@ export FZF_DEFAULT_OPTS="
   --marker=
   --scrollbar=
   --info=inline-right
-  --input-border=bottom
+  --no-separator
   --color=\"
     bw
     $list_colors
