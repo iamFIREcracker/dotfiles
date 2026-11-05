@@ -1,0 +1,1 @@
+/opt/homebrew/opt/fzf/plugin/fzf.vim

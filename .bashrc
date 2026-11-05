@@ -157,35 +157,9 @@ BLOCK=$'\e[2 q'
 BEAM=$'\e[5 q'
 
 # FZF
+# fzf's own settings (FZF_DEFAULT_COMMAND, FZF_DEFAULT_OPTS, colors) are
+# supplied by the ~/bin/fzf wrapper; only shell integration settings stay here.
 export FZF_TMUX=1
-export FZF_DEFAULT_COMMAND='rg --files --hidden --smart-case --glob "!.git/*"'
-# removed --exact to test emac-ivy mode
-export FZF_DEFAULT_OPTS='
-  --sort
-  --reverse
-  --highlight-line
-  --height=~13
-  --pointer=
-  --marker=
-  --scrollbar=
-  --info=inline-right
-  --input-border=bottom
-  --color="
-    bw
-    list-fg:reverse
-    list-bg:reverse
-    current-fg:regular:bright-white
-    current-bg:regular:bright-magenta
-    current-hl:regular:bright-white
-    selected-fg:regular:bright-white
-    selected-bg:regular:cyan
-    hl:reverse
-    prompt:magenta
-    input-bg:regular
-    query:regular
-  "
-  --bind="end:accept,ctrl-k:kill-line,ctrl-n:down,ctrl-p:up,ctrl-r:previous-history,alt-r:next-history,alt-a:toggle-all,ctrl-g:become(printf \"%s\n\" {} | vipe)"
-'
 
 
 # Bash history search integration -- CTRL-R

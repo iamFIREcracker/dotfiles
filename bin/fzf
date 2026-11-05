@@ -1,14 +1,133 @@
 #!/usr/bin/env bash
+# Launch fzf with personal default settings.
+#
+# Binary: Homebrew's, or the local build in ~/Workspace/fzf when
+# FZF_USE_LOCAL_BUILD=1 (built on demand; Homebrew's if the build fails).
+#
+# Settings: placed in FZF_DEFAULT_OPTS ahead of whatever the caller already
+# put there, so the caller's settings take precedence over these, and
+# command-line arguments take precedence over both.
+#
+# List colors: the terminal's foreground and background, swapped, so the list
+# stands out in light and dark themes alike.  They are read from the terminal
+# (OSC 10/11) on every launch, so they follow theme changes.  When the
+# terminal does not report them, the list uses the reverse attribute instead,
+# which covers the text of each item but not the rest of the line.
 
 repo=~/Workspace/fzf
 local_build="$repo/bin/fzf"
 
-if [ "${FZF_USE_BREW:-0}" != "1" ]; then
+fzf_binary="${HOMEBREW_PREFIX:-/opt/homebrew}/bin/fzf"
+if [ "${FZF_USE_LOCAL_BUILD:-0}" = "1" ]; then
     if [ ! -x "$local_build" ]; then
         mise exec -- make -C "$repo" bin/fzf 1>&2
     fi
     if [ -x "$local_build" ]; then
-        exec "$local_build" "$@"
+        fzf_binary=$local_build
     fi
 fi
-exec "${HOMEBREW_PREFIX:-/opt/homebrew}"/bin/fzf "$@"
+
+# Succeed when the arguments ask fzf to draw its interface, as opposed to
+# filtering, printing its version, help or shell integration scripts.
+interface_requested() {
+    local argument
+    for argument in "$@"; do
+        case $argument in
+            -f* | --filter | --filter=* | --version | -h | --help | --man | --bash | --zsh | --fish)
+                return 1 ;;
+        esac
+    done
+    return 0
+}
+
+# Convert one component of an X11 rgb: color specification (1 to 4 hex
+# digits) to two hex digits.
+color_component_to_byte() {
+    local component=${1,,}
+    [ ${#component} -eq 1 ] && component=$component$component
+    printf '%s' "${component:0:2}"
+}
+
+# Ask the terminal for its foreground and background colors and store them,
+# as #rrggbb, in terminal_foreground and terminal_background.  Fails when
+# there is no terminal or it does not report both colors.
+query_terminal_colors() {
+    local saved_settings reply='' character code pattern color
+    terminal_foreground=''
+    terminal_background=''
+
+    ( : <>/dev/tty ) 2>/dev/null || return 1
+    exec 3<>/dev/tty
+    saved_settings=$(stty -g <&3) || { exec 3<&-; return 1; }
+    trap 'stty "$saved_settings" <&3; exit 129' HUP TERM
+    stty raw -echo <&3
+
+    # Every terminal answers the device attributes query (ESC [ c), and it
+    # answers after the color queries, so its reply marks the end of the
+    # response even when the color queries go unanswered.
+    printf '\e]10;?\e\\\e]11;?\e\\\e[c' >&3
+    while IFS= read -r -s -n 1 -t 0.5 -u 3 character; do
+        reply+=$character
+        [[ $reply == *$'\e[?'*c ]] && break
+    done
+
+    stty "$saved_settings" <&3
+    trap - HUP TERM
+    exec 3<&-
+
+    for code in 10 11; do
+        pattern="]$code;rgb:([0-9A-Fa-f]+)/([0-9A-Fa-f]+)/([0-9A-Fa-f]+)"
+        [[ $reply =~ $pattern ]] || return 1
+        color="#$(color_component_to_byte "${BASH_REMATCH[1]}")$(color_component_to_byte "${BASH_REMATCH[2]}")$(color_component_to_byte "${BASH_REMATCH[3]}")"
+        if [ "$code" = 10 ]; then
+            terminal_foreground=$color
+        else
+            terminal_background=$color
+        fi
+    done
+}
+
+list_colors='
+    list-fg:reverse
+    list-bg:reverse
+    hl:reverse'
+if interface_requested "$@" && query_terminal_colors; then
+    # hl: the reverse attribute swaps it with list-bg, so matched characters
+    # show in the terminal's ordinary colors.
+    list_colors="
+    list-fg:$terminal_background
+    list-bg:$terminal_foreground
+    hl:$terminal_background:reverse"
+fi
+
+if [ -z "${FZF_DEFAULT_COMMAND:-}" ]; then
+    export FZF_DEFAULT_COMMAND='rg --files --hidden --smart-case --glob "!.git/*"'
+fi
+
+# --exact removed to try the emacs-ivy style of matching.
+export FZF_DEFAULT_OPTS="
+  --sort
+  --reverse
+  --highlight-line
+  --height=~13
+  --pointer=
+  --marker=
+  --scrollbar=
+  --info=inline-right
+  --input-border=bottom
+  --color=\"
+    bw
+    $list_colors
+    current-fg:regular:bright-white
+    current-bg:regular:bright-magenta
+    current-hl:regular:bright-white
+    selected-fg:regular:bright-white
+    selected-bg:regular:cyan
+    prompt:magenta
+    input-bg:regular
+    query:regular
+  \"
+  --bind=\"end:accept,ctrl-k:kill-line,ctrl-n:down,ctrl-p:up,ctrl-r:previous-history,alt-r:next-history,alt-a:toggle-all,ctrl-g:become(printf \\\"%s\\n\\\" {} | vipe)\"
+${FZF_DEFAULT_OPTS:-}"
+
+exec "$fzf_binary" "$@"

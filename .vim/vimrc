@@ -1149,7 +1149,10 @@ augroup END " }}}
 " }}}
 " FZF {{{
 
-set rtp+=$HOMEBREW_PREFIX/opt/fzf
+" Homebrew's fzf plugin, loaded through ~/.vim/fzf-runtime: the plugin runs
+" the bin/fzf next to it, which there is the ~/bin/fzf wrapper instead of
+" Homebrew's binary, so vim gets the same settings as the shell.
+set rtp+=~/.vim/fzf-runtime
 let g:fzf_layout = { 'down': '40%' }
 " Enable per-command history
 " - History files will be stored in the specified directory
@@ -1173,20 +1176,18 @@ let g:fzf_action = {
 
 command! F call fzf#run(extendnew(g:fzf_layout, { 'source': 'find', 'sink': 'e', }))
 
+" Without a count, list files with the default command (set by ~/bin/fzf).
+" With a count, also list files that .gitignore and similar rules exclude.
 function! FZFW() abort
   if v:count == 0
     execute 'FZF'
   else
-    " Save current FZF_DEFAULT_COMMAND value
-    let l:old_fzf_command = $FZF_DEFAULT_COMMAND
+    let l:saved_command = $FZF_DEFAULT_COMMAND
     try
-      " Set new FZF_DEFAULT_COMMAND with --all-text
-      let $FZF_DEFAULT_COMMAND = l:old_fzf_command . ' --all-text'
-      " Call FZF
+      let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --no-ignore --glob "!.git/*"'
       execute 'FZF'
     finally
-      " Restore original FZF_DEFAULT_COMMAND (always executes)
-      let $FZF_DEFAULT_COMMAND = l:old_fzf_command
+      let $FZF_DEFAULT_COMMAND = l:saved_command
     endtry
   endif
 endfunction
