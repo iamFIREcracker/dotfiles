@@ -140,6 +140,7 @@ query_colors_through_tmux_window() {
     [ -n "$terminal_background" ]
 }
 
+input_border_option=''
 list_colors='
     list-fg:reverse
     list-bg:reverse
@@ -147,14 +148,15 @@ list_colors='
 if interface_requested "$@" && { query_terminal_colors || query_colors_through_tmux_window; }; then
     # hl: the list's own colors, so matched characters look like the rest of
     # the item, as with the reverse attribute below.
-    # query, info: without an input border fzf draws the prompt row on
-    # list-bg but keeps the default foreground there, so set it explicitly.
+    # input-border: without an input border fzf draws the prompt row on
+    # list-bg, so give the input a left border, drawn in the terminal's
+    # background color, to keep the prompt on the terminal's own colors.
     list_colors="
     list-fg:$terminal_background
     list-bg:$terminal_foreground
     hl:$terminal_background
-    query:$terminal_background
-    info:$terminal_background"
+    input-border:$terminal_background"
+    input_border_option='--input-border=left'
 fi
 
 if [ -z "${FZF_DEFAULT_COMMAND:-}" ]; then
@@ -172,6 +174,7 @@ export FZF_DEFAULT_OPTS="
   --scrollbar=
   --info=inline-right
   --no-separator
+  $input_border_option
   --color=\"
     bw
     $list_colors
