@@ -45,9 +45,9 @@ interface_requested() {
 }
 
 # Convert one component of an X11 rgb: color specification (1 to 4 hex
-# digits) to two hex digits.
+# digits) to two hex digits.  Case is kept: fzf accepts either.
 color_component_to_byte() {
-    local component=${1,,}
+    local component=$1
     [ ${#component} -eq 1 ] && component=$component$component
     printf '%s' "${component:0:2}"
 }
@@ -70,7 +70,7 @@ query_terminal_colors() {
     # answers after the color queries, so its reply marks the end of the
     # response even when the color queries go unanswered.
     printf '\e]10;?\e\\\e]11;?\e\\\e[c' >&3
-    while IFS= read -r -s -n 1 -t 0.5 -u 3 character; do
+    while IFS= read -r -s -n 1 -t 1 -u 3 character; do
         reply+=$character
         [[ $reply == *$'\e[?'*c ]] && break
     done
